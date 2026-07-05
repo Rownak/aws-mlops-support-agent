@@ -84,3 +84,39 @@ def build_graph(cfg: Config, retriever=None, answerer=None):
 
     serde = JsonPlusSerializer(allowed_msgpack_modules=STATE_TYPES_ALLOWLIST)
     return builder.compile(checkpointer=InMemorySaver(serde=serde))
+
+
+if __name__ == "__main__":
+    # Visualize the graph:  uv run python -m src.agent.graph
+    #
+    # Prints a Mermaid diagram of the compiled graph — paste it into
+    # https://mermaid.live, a GitHub markdown block, or the README to see
+    # nodes and conditional edges rendered. Kept out of build_graph() so
+    # tests and src.app don't dump it on every run.
+    #
+    # No-op fakes are injected so this needs NO API keys and never opens a
+    # Pinecone/OpenAI connection — the placeholder Config is never read.
+    stub_cfg = Config(
+        openai_api_key="unused",
+        openai_chat_model="unused",
+        openai_embedding_model="unused",
+        pinecone_api_key="unused",
+        pinecone_index_name="unused",
+        aws_region="unused",
+        jira_base_url=None,
+        jira_email=None,
+        jira_api_token=None,
+        jira_project_key=None,
+        dry_run=True,
+    )
+    graph = build_graph(stub_cfg, retriever=lambda q, k=4: [], answerer=lambda q, c: "")
+    drawable = graph.get_graph()
+
+    print("Mermaid diagram (paste into https://mermaid.live or a ```mermaid block):\n")
+    print(drawable.draw_mermaid())
+
+    # ASCII rendering needs the optional `grandalf` package; skip gracefully.
+    try:
+        drawable.print_ascii()
+    except ImportError:
+        print("(For an ASCII rendering in the terminal: uv add --dev grandalf)")
