@@ -8,9 +8,9 @@ even if the model mis-cites.
 
 from langchain_openai import ChatOpenAI
 
-from src.agent.prompts import ANSWER_SYSTEM_PROMPT, ANSWER_USER_TEMPLATE
-from src.agent.retriever import RetrievedChunk
 from src.config import Config
+from src.rag.prompts import ANSWER_SYSTEM_PROMPT, ANSWER_USER_TEMPLATE
+from src.rag.retriever import RetrievedChunk
 
 
 def format_context(chunks: list[RetrievedChunk]) -> str:

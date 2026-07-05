@@ -1,8 +1,8 @@
 """Phase 2 sanity CLI — run the full retrieve -> confidence -> answer path.
 
 Usage:
-  uv run python -m src.agent.ask "How do I set environment variables in CodeBuild?"
-  uv run python -m src.agent.ask "..." -k 4
+  uv run python -m src.rag.ask "How do I set environment variables in CodeBuild?"
+  uv run python -m src.rag.ask "..." -k 4
 
 This is the eyeball-it tool for Phase 2, like src.ingest.sanity_check was for
 Phase 1. Phase 3 wires these same three functions into LangGraph nodes.
@@ -10,10 +10,10 @@ Phase 1. Phase 3 wires these same three functions into LangGraph nodes.
 
 import argparse
 
-from src.agent.answer import generate_answer
-from src.agent.confidence import assess_confidence
-from src.agent.retriever import make_retriever
 from src.config import load_config
+from src.rag.answer import generate_answer
+from src.rag.confidence import assess_confidence
+from src.rag.retriever import make_retriever
 
 
 def main() -> None:

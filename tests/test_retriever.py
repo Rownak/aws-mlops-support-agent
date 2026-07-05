@@ -2,7 +2,7 @@
 
 from langchain_core.documents import Document
 
-from src.agent.retriever import RetrievedChunk, retrieve
+from src.rag.retriever import RetrievedChunk, retrieve
 
 
 class FakeStore:

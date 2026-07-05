@@ -2,8 +2,8 @@
 
 import pytest
 
-from src.agent.confidence import MIN_TOP_SCORE, assess_confidence
-from src.agent.retriever import RetrievedChunk
+from src.rag.confidence import MIN_TOP_SCORE, assess_confidence
+from src.rag.retriever import RetrievedChunk
 
 
 def _chunk(score):

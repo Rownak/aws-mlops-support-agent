@@ -21,7 +21,7 @@ text-embedding-3-small; tune it in Phase 5.
 
 from dataclasses import dataclass
 
-from src.agent.retriever import RetrievedChunk
+from src.rag.retriever import RetrievedChunk
 
 # On-corpus questions scored ~0.4-0.6 top-1 in sanity checks; clearly
 # off-corpus ones landed below ~0.3. 0.35 splits those with a little margin.

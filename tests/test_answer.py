@@ -1,8 +1,8 @@
 """Tests for task 2.2 — pure formatting only; the LLM call is checked
-manually via `python -m src.agent.ask` (small evals over mocked-API tests)."""
+manually via `python -m src.rag.ask` (small evals over mocked-API tests)."""
 
-from src.agent.answer import format_context, format_sources
-from src.agent.retriever import RetrievedChunk
+from src.rag.answer import format_context, format_sources
+from src.rag.retriever import RetrievedChunk
 
 
 def _chunk(n):
