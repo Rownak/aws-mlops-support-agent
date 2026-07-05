@@ -1,79 +1,44 @@
 # CLAUDE.md — AWS MLOps Support Agent
 
-Standing rules for this project. Read `project_summary.md` for full context and
-`tasks.md` for the task list. Keep this file lean; update it when a rule changes.
+Agentic RAG assistant: answers AWS CI/CD questions from AWS docs, escalates unresolved
+issues via Jira ticket draft. Goal = learning (RAG, LangGraph, MLOps), not just shipping.
+Context: `project_summary.md`. Tasks: `tasks.md` — do ONE task at a time.
 
-## What this project is (one line)
-An agentic RAG assistant that answers AWS MLOps and CI/CD questions from AWS docs and
-escalates unresolved issues by drafting a Jira ticket. Built to learn
-RAG + agents + MLOps on AWS. Learning is a goal, not just a working repo.
+## Rules
+- Do only the current task. No refactoring unrelated code. Done → stop, summarize.
+- Plan first: explain approach + key concepts, WAIT for approval before coding.
+- Simple, readable code. Short "why it works" note after; comment non-obvious
+  AWS/LangChain/LangGraph calls. If ambiguous, ask — don't guess.
+- Never `git commit`/`push`. Stage + draft commit message only; I commit.
+- No new dependencies without asking.
 
-## Working style (most important)
-- **Do only the current task.** Do not start the next task or refactor unrelated
-  code. When the task is done, stop and summarize.
-- **Plan before code.** For any non-trivial task, first explain your approach and
-  the key concepts (RAG / LangGraph / AWS) involved, then WAIT for my approval
-  before writing code. Use plan mode.
-- **Explain as you go.** After writing code, give a short "why it works" note and
-  comment any non-obvious AWS / LangChain / LangGraph call. Favor
-  clarity over cleverness.
-- **Prefer simple, readable code.** Small functions, clear names, minimal
-  abstraction. If a simpler version exists, use it. If I can't understand it, it's
-  too complex — simplify.
-- **Ask, don't assume.** If a task is ambiguous or a design choice matters, ask me
-  rather than guessing.
-- **I commit, not you.** Do not run `git commit` or `git push`. You may stage and
-  draft a commit message for me to edit; I review every diff before committing.
-
-## Tech stack
-- Python 3.11+
-- LangGraph (agent state machine) + LangChain (RAG plumbing)
-- Pinecone (vector DB, serverless on AWS)
-- OpenAi Models via `langchain_openai` for LLM + embeddings
-- Jira Cloud REST API (ticket creation, as a tool)
-- AWS deploy target: ECS Fargate (container); CI/CD via GitHub Actions + ECR
-- Observability: CloudWatch + LangSmith (tracing/evals)
+## Stack
+Python 3.11+ · LangGraph + LangChain · Pinecone serverless · OpenAI via
+`langchain_openai` (LLM + embeddings) · Jira Cloud REST API · ECS Fargate ·
+GitHub Actions + ECR · CloudWatch + LangSmith
 
 ## Commands
-(Fill in as they get created — this section is high value, keep it current.)
 - Install: `uv sync`
-- Run ingestion: `uv run python -m src.ingest`
-- Run agent locally: `uv run python -m src.app`
-- Run tests: `uv run pytest`
-- Lint/format: `uv run ruff check .` and `uv run ruff format .`
+- Ingest: `uv run python -m src.ingest`
+- Agent: `uv run python -m src.app`
+- Tests: `uv run pytest`
+- Lint: `uv run ruff check .` / `uv run ruff format .`
 
-## Project layout
-(Update as structure grows.)
-- `src/ingest/` — clone AWS docs, chunk, embed, upsert to Pinecone
-- `src/agent/` — LangGraph graph, nodes, state
-- `src/tools/` — Jira tool and other tool calls
-- `src/evals/` — retrieval + agent eval scripts
-- `tests/` — pytest tests
+## Data source (non-obvious)
+`awsdocs` repos are archived with content stripped from the default branch. Clone
+full history, check out the commit BEFORE the "delete content directory" commit to
+get `doc_source/*.md`. Corpus: `aws-codebuild-user-guide`, `aws-codepipeline-user-guide`.
+CC BY-SA 4.0: attribute AWS, never commit raw doc text.
 
-## Data source (important — non-obvious)
-AWS retired the `awsdocs` GitHub repos and stripped the doc content from the
-default (`archived`) branch. The markdown still exists in git history in the
-commit **before** the "delete content directory" archival commit. Ingestion must
-clone full history and check out that pre-archival commit to get `doc_source/*.md`.
-Starting corpus: `aws-codebuild-user-guide`, `aws-codepipeline-user-guide`.
-Content is CC BY-SA 4.0 — attribute AWS; do not commit raw doc text to this repo.
-
-## Safety / secrets (never violate)
-- No secrets in code. All keys (Pinecone, Jira, AWS, LangSmith) come from env vars.
-- `.env` is gitignored. Never print or commit key values.
-- **Jira ticket creation is a real side effect.** Always gate it behind a
-  `DRY_RUN` env flag that defaults to true. In dry-run, log "would create ticket…"
-  instead of calling the Jira API. Never wire it to auto-create without a
-  confirmation step in the graph.
-- Do not add new dependencies without telling me what and why.
+## Safety
+- Secrets only from env vars; `.env` gitignored; never print/commit key values.
+- Jira creation gated by `DRY_RUN` (default true) — log payload instead of calling.
+  Never auto-create without a confirmation step in the graph.
 
 ## Testing
-- Every piece should have a simple way to run/verify it.
-- For RAG/agent behavior, prefer small eval scripts (does retrieval return
-  relevant chunks? does the graph escalate when confidence is low?) over abstract
-  unit tests where that's more meaningful.
+Everything runnable/verifiable in isolation. Prefer small eval scripts over
+abstract unit tests for RAG/agent behavior.
 
-## Progress log
-- After each completed task, append 1–2 lines to `progress.md`: what was built,
-  what I changed in review, and why. Read `progress.md` at the start of a session
-  to catch up on prior context.
+## Progress
+After each task, append 1–2 lines to `progress.md` (built / changed in review / why).
+Read `progress.md` at session start.
