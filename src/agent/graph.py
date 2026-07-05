@@ -59,8 +59,8 @@ def route_after_confirm(state: AgentState) -> str:
     return "retrieve" if state["attempts"] < MAX_ATTEMPTS else "escalate"
 
 
-def build_graph(cfg: Config, retriever=None, answerer=None):
-    """Compile the agent graph; pass fakes for retriever/answerer in tests.
+def build_graph(cfg: Config, retriever=None, answerer=None, jira_creator=None):
+    """Compile the agent graph; pass fakes for retriever/answerer/jira_creator in tests.
 
     The checkpointer is REQUIRED for the interrupt in confirm_resolution:
     it's what saves state when the graph pauses and reloads it on
@@ -68,7 +68,7 @@ def build_graph(cfg: Config, retriever=None, answerer=None):
     fine for a CLI session; a server deployment would swap in a persistent
     saver (SQLite/Postgres) without touching the graph.
     """
-    nodes = build_nodes(cfg, retriever=retriever, answerer=answerer)
+    nodes = build_nodes(cfg, retriever=retriever, answerer=answerer, jira_creator=jira_creator)
 
     builder = StateGraph(AgentState)
     for name, fn in nodes.items():

@@ -37,6 +37,10 @@ class AgentState(TypedDict):
     user_action: Literal["resolved", "retry", "ticket"] | None
     # Populated only by the escalate node; Phase 4 sends this to Jira.
     ticket_draft: TicketDraft | None
+    # What the Jira wrapper returned: the dry-run echo (payload logged, not
+    # sent), or the real Jira response with the created issue key. None if
+    # escalation didn't happen, was cancelled, or Jira isn't configured.
+    ticket_result: dict | None
 
 
 def initial_state(question: str) -> AgentState:
@@ -50,4 +54,5 @@ def initial_state(question: str) -> AgentState:
         resolved=False,
         user_action=None,
         ticket_draft=None,
+        ticket_result=None,
     )

@@ -13,8 +13,8 @@ from src.config import Config
 from src.rag.retriever import RetrievedChunk
 
 
-def _cfg():
-    """Config stub — nodes never touch it when fakes are injected."""
+def _cfg(dry_run=True):
+    """Config stub — nodes only read dry_run when fakes are injected."""
     return Config(
         openai_api_key="fake",
         openai_chat_model="fake-model",
@@ -26,7 +26,7 @@ def _cfg():
         jira_email=None,
         jira_api_token=None,
         jira_project_key=None,
-        dry_run=True,
+        dry_run=dry_run,
     )
 
 
@@ -55,9 +55,28 @@ def fake_answerer(question, chunks):
     return f"Fake answer to: {question}"
 
 
-def _build(score=0.6):
+class FakeJiraCreator:
+    """Records calls; returns what the dry-run wrapper would."""
+
+    def __init__(self, error=None):
+        self.drafts = []
+        self.error = error
+
+    def __call__(self, draft):
+        if self.error:
+            raise self.error
+        self.drafts.append(draft)
+        return {"dry_run": True, "payload": {"fields": {"summary": draft.summary}}}
+
+
+def _build(score=0.6, dry_run=True, jira_creator=None):
     retriever = FakeRetriever(score)
-    graph = build_graph(_cfg(), retriever=retriever, answerer=fake_answerer)
+    graph = build_graph(
+        _cfg(dry_run=dry_run),
+        retriever=retriever,
+        answerer=fake_answerer,
+        jira_creator=jira_creator,
+    )
     thread = {"configurable": {"thread_id": "test-thread"}}
     return graph, retriever, thread
 
@@ -121,3 +140,58 @@ def test_bad_resume_value_is_rejected():
     graph.invoke(initial_state("q"), thread)
     with pytest.raises(ValueError, match="Unexpected resume value"):
         graph.invoke(Command(resume="yolo"), thread)
+
+
+# --- Task 4.2: escalate is wired to the Jira wrapper ---
+
+
+def test_dry_run_escalate_calls_jira_creator_without_extra_pause():
+    creator = FakeJiraCreator()
+    graph, _, thread = _build(score=0.6, dry_run=True, jira_creator=creator)
+    graph.invoke(initial_state("Why does my build fail?"), thread)
+
+    final = graph.invoke(Command(resume="ticket"), thread)
+    assert "__interrupt__" not in final  # dry-run: no confirm_ticket pause
+    assert len(creator.drafts) == 1
+    assert creator.drafts[0] is final["ticket_draft"]
+    assert final["ticket_result"]["dry_run"] is True
+
+
+def test_live_mode_pauses_then_creates_on_confirm():
+    creator = FakeJiraCreator()
+    graph, _, thread = _build(score=0.6, dry_run=False, jira_creator=creator)
+    graph.invoke(initial_state("q"), thread)
+
+    # First pause: confirm_resolution. Choosing "ticket" routes to escalate,
+    # which (live mode) pauses AGAIN before anything is created.
+    paused = graph.invoke(Command(resume="ticket"), thread)
+    assert creator.drafts == []  # nothing created yet
+    payload = paused["__interrupt__"][0].value
+    assert payload["type"] == "confirm_ticket"
+    assert "q" in payload["draft"]  # human sees the rendered draft
+
+    final = graph.invoke(Command(resume="create"), thread)
+    assert len(creator.drafts) == 1
+    assert final["ticket_result"] is not None
+
+
+def test_live_mode_cancel_never_calls_jira():
+    creator = FakeJiraCreator()
+    graph, _, thread = _build(score=0.6, dry_run=False, jira_creator=creator)
+    graph.invoke(initial_state("q"), thread)
+    graph.invoke(Command(resume="ticket"), thread)  # pause at confirm_ticket
+
+    final = graph.invoke(Command(resume="cancel"), thread)
+    assert creator.drafts == []  # cancelled -> no Jira call
+    assert final["ticket_result"] is None
+    assert final["ticket_draft"] is not None  # draft still recorded
+
+
+def test_unconfigured_jira_degrades_to_draft_only():
+    # No injected creator + stub config with Jira vars unset: the REAL
+    # create_issue raises RuntimeError, which escalate must absorb.
+    graph, _, thread = _build(score=0.2, dry_run=True, jira_creator=None)
+
+    final = graph.invoke(initial_state("Kubernetes ingress?"), thread)
+    assert final["ticket_draft"] is not None
+    assert final["ticket_result"] is None
