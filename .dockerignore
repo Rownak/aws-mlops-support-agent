@@ -1,0 +1,25 @@
+# Secrets — must NEVER enter the build context: anything COPY'd into an image
+# is recoverable from its layers, even if a later layer "deletes" it.
+.env
+.env.*
+
+# Local corpus clones (ingestion runs outside the container; corpus lives in Pinecone)
+data/
+
+# Local virtualenv — the image builds its own from uv.lock
+.venv/
+
+# Version control / editor / tool caches
+.git/
+.gitignore
+.vscode/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Not needed to serve: tests, evals docs, project notes
+tests/
+claude/
+*.md
+graph.png
