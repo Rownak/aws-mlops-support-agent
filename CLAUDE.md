@@ -1,10 +1,10 @@
-# CLAUDE.md — AWS Support Agent
+# CLAUDE.md — AWS MLOps Support Agent
 
 Standing rules for this project. Read `project_summary.md` for full context and
 `tasks.md` for the task list. Keep this file lean; update it when a rule changes.
 
 ## What this project is (one line)
-An agentic RAG assistant that answers AWS CI/CD questions from AWS docs and
+An agentic RAG assistant that answers AWS MLOps and CI/CD questions from AWS docs and
 escalates unresolved issues by drafting a Jira ticket. Built to learn
 RAG + agents + MLOps on AWS. Learning is a goal, not just a working repo.
 
@@ -15,7 +15,7 @@ RAG + agents + MLOps on AWS. Learning is a goal, not just a working repo.
   the key concepts (RAG / LangGraph / AWS) involved, then WAIT for my approval
   before writing code. Use plan mode.
 - **Explain as you go.** After writing code, give a short "why it works" note and
-  comment any non-obvious AWS / LangChain / LangGraph call. I am learning — favor
+  comment any non-obvious AWS / LangChain / LangGraph call. Favor
   clarity over cleverness.
 - **Prefer simple, readable code.** Small functions, clear names, minimal
   abstraction. If a simpler version exists, use it. If I can't understand it, it's
@@ -29,18 +29,18 @@ RAG + agents + MLOps on AWS. Learning is a goal, not just a working repo.
 - Python 3.11+
 - LangGraph (agent state machine) + LangChain (RAG plumbing)
 - Pinecone (vector DB, serverless on AWS)
-- Amazon Bedrock (Claude models) via `langchain-aws` for LLM + embeddings
+- OpenAi Models via `langchain_openai` for LLM + embeddings
 - Jira Cloud REST API (ticket creation, as a tool)
 - AWS deploy target: ECS Fargate (container); CI/CD via GitHub Actions + ECR
 - Observability: CloudWatch + LangSmith (tracing/evals)
 
 ## Commands
 (Fill in as they get created — this section is high value, keep it current.)
-- Install: `pip install -r requirements.txt`
-- Run ingestion: `python -m src.ingest`
-- Run agent locally: `python -m src.app`
-- Run tests: `pytest`
-- Lint/format: `ruff check .` and `ruff format .`
+- Install: `uv sync`
+- Run ingestion: `uv run python -m src.ingest`
+- Run agent locally: `uv run python -m src.app`
+- Run tests: `uv run pytest`
+- Lint/format: `uv run ruff check .` and `uv run ruff format .`
 
 ## Project layout
 (Update as structure grows.)
@@ -72,3 +72,8 @@ Content is CC BY-SA 4.0 — attribute AWS; do not commit raw doc text to this re
 - For RAG/agent behavior, prefer small eval scripts (does retrieval return
   relevant chunks? does the graph escalate when confidence is low?) over abstract
   unit tests where that's more meaningful.
+
+## Progress log
+- After each completed task, append 1–2 lines to `progress.md`: what was built,
+  what I changed in review, and why. Read `progress.md` at the start of a session
+  to catch up on prior context.
