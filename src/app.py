@@ -22,6 +22,7 @@ from langgraph.types import Command
 from src.agent.graph import build_graph
 from src.agent.state import initial_state
 from src.config import load_config
+from src.observability import log_event, setup_json_logging
 
 # Map single keypresses to the resume values confirm_resolution expects.
 CHOICES = {"r": "resolved", "t": "ticket", "a": "retry"}
@@ -62,7 +63,11 @@ def _handle_interrupt(result) -> str:
 
 
 def run_question(graph, question: str, cfg) -> None:
-    thread = {"configurable": {"thread_id": str(uuid.uuid4())}}
+    thread_id = str(uuid.uuid4())
+    thread = {"configurable": {"thread_id": thread_id}}
+    # thread_id correlates this line with the node events of the same run
+    # (and with the LangSmith trace, which records the same config).
+    log_event("question_received", thread_id=thread_id, question=question)
     result = graph.invoke(initial_state(question), thread)
 
     # Loop while the graph keeps pausing (resolution and/or ticket confirm).
@@ -78,7 +83,8 @@ def run_question(graph, question: str, cfg) -> None:
 
 
 def main() -> None:
-    cfg = load_config()
+    cfg = load_config()  # also loads .env — incl. LANGSMITH_* vars if set
+    setup_json_logging()
     graph = build_graph(cfg)
     print("AWS CI/CD support agent — CodeBuild & CodePipeline docs.")
     print("Empty question quits.")

@@ -13,6 +13,8 @@ retrieval silently degrades.
 
 from dataclasses import dataclass
 
+from langsmith import traceable
+
 from src.config import Config
 
 
@@ -64,6 +66,10 @@ def make_retriever(cfg: Config):
 
     store = get_vector_store(cfg)
 
+    # Task 5.2 — traced HERE (not on `retrieve`) so the span's inputs are the
+    # clean (question, k) pair; `retrieve`'s `store` argument would get
+    # serialized into the trace otherwise. No-op unless LANGSMITH_TRACING is on.
+    @traceable(name="retrieve")
     def _retrieve(question: str, k: int = 4) -> list[RetrievedChunk]:
         return retrieve(question, store, k=k)
 

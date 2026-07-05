@@ -31,6 +31,7 @@ from langgraph.types import interrupt
 from src.agent.jira_tool import create_issue
 from src.agent.ticket import build_ticket_draft
 from src.config import Config
+from src.observability import log_event
 from src.rag.confidence import assess_confidence
 
 # The choices offered at the confirm_resolution interrupt. app.py shows
@@ -75,9 +76,18 @@ def build_nodes(
         # same top-4 search, so a second attempt can actually differ.
         k = 4 + 2 * state["attempts"]
         chunks = retriever(state["question"], k=k)
+        confidence = assess_confidence(chunks)
+        log_event(
+            "retrieve_done",
+            attempt=state["attempts"] + 1,
+            k=k,
+            top_score=round(confidence.top_score, 4),
+            score_gap=round(confidence.score_gap, 4),
+            is_confident=confidence.is_confident,
+        )
         return {
             "chunks": chunks,
-            "confidence": assess_confidence(chunks),
+            "confidence": confidence,
             "attempts": state["attempts"] + 1,
         }
 
@@ -101,6 +111,7 @@ def build_nodes(
         if action not in USER_ACTIONS:
             # A bad resume value must not silently count as "resolved".
             raise ValueError(f"Unexpected resume value {action!r}; expected one of {USER_ACTIONS}")
+        log_event("user_action", action=action)
         return {"user_action": action, "resolved": action == "resolved"}
 
     def escalate(state) -> dict:
@@ -135,6 +146,7 @@ def build_nodes(
                     f"Unexpected resume value {decision!r}; expected one of {TICKET_ACTIONS}"
                 )
             if decision == "cancel":
+                log_event("ticket_cancelled")
                 print("\n=== Jira ticket draft (cancelled — not sent) ===")
                 print(draft.render())
                 return {"ticket_draft": draft, "ticket_result": None}
@@ -147,9 +159,12 @@ def build_nodes(
         except RuntimeError as exc:
             # Jira env vars not set — the demo must still work without
             # them, so show the draft instead of crashing the graph.
+            log_event("jira_not_configured", error=str(exc))
             print(f"(Jira not configured: {exc} Draft shown below, not sent.)")
             print(draft.render())
             return {"ticket_draft": draft, "ticket_result": None}
+        # Dry-run results carry no "key"; real Jira responses do.
+        log_event("escalated", dry_run=cfg.dry_run, jira_key=result.get("key"))
         return {"ticket_draft": draft, "ticket_result": result}
 
     return {

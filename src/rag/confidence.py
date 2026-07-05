@@ -21,6 +21,8 @@ text-embedding-3-small; tune it in Phase 5.
 
 from dataclasses import dataclass
 
+from langsmith import traceable
+
 from src.rag.retriever import RetrievedChunk
 
 # On-corpus questions scored ~0.4-0.6 top-1 in sanity checks; clearly
@@ -36,6 +38,9 @@ class RetrievalConfidence:
     reason: str  # human-readable; reused later in logs and the Jira draft
 
 
+# Task 5.2 — traced so the confidence verdict that drives escalation routing
+# shows up as its own span. No-op unless LANGSMITH_TRACING is on.
+@traceable
 def assess_confidence(chunks: list[RetrievedChunk]) -> RetrievalConfidence:
     """Judge whether retrieval found docs worth answering from."""
     if not chunks:

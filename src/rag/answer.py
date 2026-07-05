@@ -7,6 +7,7 @@ even if the model mis-cites.
 """
 
 from langchain_openai import ChatOpenAI
+from langsmith import traceable
 
 from src.config import Config
 from src.rag.prompts import ANSWER_SYSTEM_PROMPT, ANSWER_USER_TEMPLATE
@@ -35,6 +36,14 @@ def format_sources(chunks: list[RetrievedChunk]) -> str:
     return "Sources:\n" + "\n".join(lines)
 
 
+def _drop_cfg(inputs: dict) -> dict:
+    """Config carries API keys — it must never be serialized into a trace."""
+    return {k: v for k, v in inputs.items() if k != "cfg"}
+
+
+# Task 5.2 — traced so the final cited answer is the span's output, with the
+# ChatOpenAI call nested inside it. No-op unless LANGSMITH_TRACING is on.
+@traceable(process_inputs=_drop_cfg)
 def generate_answer(question: str, chunks: list[RetrievedChunk], cfg: Config) -> str:
     """One chat completion: system prompt + question + numbered excerpts."""
     # temperature=0 -> as deterministic as the API allows; for doc-grounded

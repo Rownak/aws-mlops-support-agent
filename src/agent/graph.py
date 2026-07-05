@@ -21,6 +21,7 @@ Escalation triggers (task 3.4), each visible in exactly one place:
 from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
 from langgraph.graph import END, START, StateGraph
+from langsmith import traceable
 
 from src.agent.nodes import build_nodes
 from src.agent.state import AgentState
@@ -41,6 +42,10 @@ STATE_TYPES_ALLOWLIST = [
 ]
 
 
+# Task 5.2 — LangGraph auto-traces NODES when LANGSMITH_TRACING is on, but
+# conditional-edge functions run inside the graph machinery without their own
+# span; @traceable gives each routing decision one (output = chosen node).
+@traceable
 def route_after_retrieve(state: AgentState) -> str:
     """Weak retrieval -> don't bluff an answer, go straight to escalation."""
     if state["confidence"] is not None and state["confidence"].is_confident:
@@ -48,6 +53,7 @@ def route_after_retrieve(state: AgentState) -> str:
     return "escalate"
 
 
+@traceable
 def route_after_confirm(state: AgentState) -> str:
     """Turn the human's interrupt choice into the next hop."""
     action = state["user_action"]
