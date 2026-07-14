@@ -1,0 +1,64 @@
+# Task 6.3 — build the Docker image and push it to Amazon ECR.
+#
+# Auth is GitHub OIDC federation: the job exchanges a short-lived GitHub
+# token for temporary AWS credentials by assuming an IAM role — no AWS keys
+# are stored in GitHub. One-time AWS/IAM setup: see deploy/aws_ecr_setup.md.
+#
+# Repo variables required (Settings > Secrets and variables > Actions > Variables):
+#   AWS_ROLE_ARN     arn of the IAM role GitHub assumes
+#   AWS_REGION       e.g. us-east-1
+#   ECR_REPOSITORY   e.g. aws-mlops-support-agent
+
+name: Build and push to ECR
+
+on:
+  push:
+    branches: [master]
+    # Docs-only commits don't change the image (.dockerignore excludes *.md).
+    paths-ignore:
+      - "**.md"
+  workflow_dispatch: # manual "Run workflow" button — first run, re-pushes
+
+permissions:
+  id-token: write # allow the job to mint an OIDC token for AWS
+  contents: read # checkout
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Log in to Amazon ECR
+        id: ecr-login
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, tag, and push image
+        env:
+          REGISTRY: ${{ steps.ecr-login.outputs.registry }}
+          REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+          IMAGE_TAG: ${{ github.sha }}
+        # Two tags per build: the commit SHA (immutable — what ECS will pin
+        # to in 6.4) and latest (moving convenience pointer).
+        run: |
+          docker build \
+            -t "$REGISTRY/$REPOSITORY:$IMAGE_TAG" \
+            -t "$REGISTRY/$REPOSITORY:latest" \
+            .
+          docker push "$REGISTRY/$REPOSITORY:$IMAGE_TAG"
+          docker push "$REGISTRY/$REPOSITORY:latest"
+
+      - name: Write image URI to run summary
+        env:
+          REGISTRY: ${{ steps.ecr-login.outputs.registry }}
+          REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          echo "Pushed \`$REGISTRY/$REPOSITORY:$IMAGE_TAG\` (also tagged \`latest\`)" >> "$GITHUB_STEP_SUMMARY"
