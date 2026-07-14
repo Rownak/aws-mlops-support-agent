@@ -23,8 +23,9 @@ HTTPS, so it gets **no task role at all**. A compromised container has zero
 AWS permissions.
 
 Prereq: 6.3 completed (image in ECR). All commands assume PowerShell, region
-`us-east-1`, account `327573816970`, and are run from `deploy\aws_setup\`
-(gitignored working dir for files with real values).
+`us-east-1`, and are run from `deploy\aws_setup\` (gitignored working dir for
+files with real values). Replace `<ACCOUNT_ID>` below with your 12-digit AWS
+account ID (e.g. from `aws sts get-caller-identity --query Account --output text`).
 
 ## Step 1 — Store the API keys in Secrets Manager
 

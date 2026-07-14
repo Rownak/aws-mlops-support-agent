@@ -8,11 +8,11 @@
     "operatingSystemFamily": "LINUX",
     "cpuArchitecture": "X86_64"
   },
-  "executionRoleArn": "arn:aws:iam::327573816970:role/ecsTaskExecutionRole-mlops-agent",
+  "executionRoleArn": "arn:aws:iam::<ACCOUNT_ID>:role/ecsTaskExecutionRole-mlops-agent",
   "containerDefinitions": [
     {
       "name": "agent",
-      "image": "327573816970.dkr.ecr.us-east-1.amazonaws.com/aws-mlops-support-agent:latest",
+      "image": "<ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/aws-mlops-support-agent:latest",
       "essential": true,
       "portMappings": [
         {
