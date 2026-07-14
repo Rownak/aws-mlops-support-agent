@@ -213,6 +213,46 @@ balancer; fine for a demo).
    aws ecs describe-tasks --cluster mlops-demo --tasks $task --query "tasks[0].healthStatus"
    ```
 
+## Updating the deploy (new image and/or new task definition)
+
+Two things can change after the initial deploy, and ECS needs different
+nudges for each:
+
+- **New image, same task definition** (e.g. 6.3's workflow pushed a new
+  `:latest` after a code change). The task definition still says `:latest`,
+  so re-registering isn't needed — but ECS won't re-pull a tag it thinks it
+  already has. Force it:
+
+  ```powershell
+  aws ecs update-service --cluster mlops-demo --service agent --force-new-deployment
+  ```
+
+- **New task definition** (e.g. an env var changed, like adding
+  `PINECONE_INDEX_NAME`). Re-register from `deploy\aws_setup\` (with your
+  real `<SECRET_ARN>` already substituted) to create a new revision, then
+  point the service at it — bare `--force-new-deployment` alone does **not**
+  pick up a new revision, since the service otherwise keeps running whatever
+  revision it was already pinned to:
+
+  ```powershell
+  aws ecs register-task-definition --cli-input-json file://task-definition.json
+
+  aws ecs update-service --cluster mlops-demo --service agent `
+    --task-definition aws-mlops-support-agent --force-new-deployment
+  ```
+
+  (`--task-definition aws-mlops-support-agent`, the bare family name with no
+  `:revision` suffix, always resolves to the newest registered revision.)
+
+Either way, ECS starts a fresh task (new public IP — re-run the step 6 IP
+chase) and drains the old one once the new one passes its health check.
+Watch the rollout:
+
+```powershell
+aws ecs describe-services --cluster mlops-demo --services agent `
+  --query "services[0].deployments[].{status:status,desired:desiredCount,running:runningCount}"
+```
+
 ## Cost control — scale to zero when not demoing
 
 Running: ~$0.025/hour (0.5 vCPU + 1 GB, us-east-1) ≈ $18/month if left on.
