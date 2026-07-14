@@ -8,7 +8,7 @@ Usage:
 import argparse
 
 from src.config import load_config
-from src.ingest.index import get_vector_store
+from src.ingest.index import get_vector_store_for_query
 
 
 def main() -> None:
@@ -17,7 +17,7 @@ def main() -> None:
     parser.add_argument("-k", type=int, default=5, help="Number of chunks to return")
     args = parser.parse_args()
 
-    store = get_vector_store(load_config())
+    store = get_vector_store_for_query(load_config())
     # Returns (Document, score) pairs; cosine similarity, higher = closer.
     results = store.similarity_search_with_score(args.query, k=args.k)
 

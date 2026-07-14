@@ -22,18 +22,30 @@ EMBEDDING_DIMENSIONS = {
 }
 
 
-def get_vector_store(cfg: Config) -> PineconeVectorStore:
-    """Ensure the index exists (right dimension) and return a LangChain wrapper.
-
-    Also used by the sanity-check CLI and, later, the Phase 2 retriever.
-    """
+def _embedding_dimension(cfg: Config) -> int:
     dimension = EMBEDDING_DIMENSIONS.get(cfg.openai_embedding_model)
     if dimension is None:
         raise RuntimeError(
             f"Unknown embedding model '{cfg.openai_embedding_model}': add its "
             "dimension to EMBEDDING_DIMENSIONS in src/ingest/index.py"
         )
+    return dimension
 
+
+def _wrap_store(cfg: Config, pc: Pinecone) -> PineconeVectorStore:
+    embeddings = OpenAIEmbeddings(model=cfg.openai_embedding_model, api_key=cfg.openai_api_key)
+    return PineconeVectorStore(index=pc.Index(cfg.pinecone_index_name), embedding=embeddings)
+
+
+def get_vector_store(cfg: Config) -> PineconeVectorStore:
+    """Ensure the index exists (right dimension) and return a LangChain wrapper.
+
+    Ingestion-only: creating an index on demand is correct here (it's the
+    step that's supposed to set the corpus up). Query-time callers must use
+    `get_vector_store_for_query` instead — auto-create there would silently
+    paper over a wrong PINECONE_INDEX_NAME with a brand-new empty index.
+    """
+    dimension = _embedding_dimension(cfg)
     pc = Pinecone(api_key=cfg.pinecone_api_key)
 
     if not pc.has_index(cfg.pinecone_index_name):
@@ -56,8 +68,34 @@ def get_vector_store(cfg: Config) -> PineconeVectorStore:
             "index or change PINECONE_INDEX_NAME / OPENAI_EMBEDDING_MODEL."
         )
 
-    embeddings = OpenAIEmbeddings(model=cfg.openai_embedding_model, api_key=cfg.openai_api_key)
-    return PineconeVectorStore(index=pc.Index(cfg.pinecone_index_name), embedding=embeddings)
+    return _wrap_store(cfg, pc)
+
+
+def get_vector_store_for_query(cfg: Config) -> PineconeVectorStore:
+    """Query-time lookup: fail loudly if the index doesn't exist, never create it.
+
+    A missing index at query time means misconfiguration (wrong
+    PINECONE_INDEX_NAME, or ingestion never ran) — surfacing that as a
+    startup error is much better than silently querying a fresh empty index.
+    """
+    dimension = _embedding_dimension(cfg)
+    pc = Pinecone(api_key=cfg.pinecone_api_key)
+
+    if not pc.has_index(cfg.pinecone_index_name):
+        raise RuntimeError(
+            f"Pinecone index '{cfg.pinecone_index_name}' does not exist. Check "
+            "PINECONE_INDEX_NAME, or run ingestion first: uv run python -m src.ingest"
+        )
+
+    existing = pc.describe_index(cfg.pinecone_index_name)
+    if existing.dimension != dimension:
+        raise RuntimeError(
+            f"Index '{cfg.pinecone_index_name}' has dimension {existing.dimension} but "
+            f"model '{cfg.openai_embedding_model}' produces {dimension}. Check "
+            "PINECONE_INDEX_NAME / OPENAI_EMBEDDING_MODEL."
+        )
+
+    return _wrap_store(cfg, pc)
 
 
 def upsert_chunks(cfg: Config, docs: list[Document]) -> None:

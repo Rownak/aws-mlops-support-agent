@@ -6,9 +6,10 @@ rest of the agent: everything downstream (answering, confidence, the Jira
 
 The store is passed in as a parameter so unit tests can use a fake with a
 canned `similarity_search_with_score`. Real callers get it from
-`src.ingest.index.get_vector_store(cfg)`, which pins the query-time embedding
-model to the same config value used at ingestion — the two must match or
-retrieval silently degrades.
+`src.ingest.index.get_vector_store_for_query(cfg)`, which pins the query-time
+embedding model to the same config value used at ingestion (the two must
+match or retrieval silently degrades) and fails loudly if the index doesn't
+exist rather than creating an empty one.
 """
 
 from dataclasses import dataclass
@@ -62,9 +63,9 @@ def make_retriever(cfg: Config):
     Returns a `retrieve(question, k=...)`-shaped callable. Imported lazily so
     unit tests of this module never touch Pinecone/OpenAI clients.
     """
-    from src.ingest.index import get_vector_store
+    from src.ingest.index import get_vector_store_for_query
 
-    store = get_vector_store(cfg)
+    store = get_vector_store_for_query(cfg)
 
     # Task 5.2 — traced HERE (not on `retrieve`) so the span's inputs are the
     # clean (question, k) pair; `retrieve`'s `store` argument would get

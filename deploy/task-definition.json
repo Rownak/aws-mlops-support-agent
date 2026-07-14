@@ -22,7 +22,8 @@
       ],
       "environment": [
         { "name": "AWS_REGION", "value": "us-east-1" },
-        { "name": "DRY_RUN", "value": "true" }
+        { "name": "DRY_RUN", "value": "true" },
+        { "name": "PINECONE_INDEX_NAME", "value": "aws-support-agent-idx" }
       ],
       "secrets": [
         {
