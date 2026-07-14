@@ -225,3 +225,6 @@ claude/
 
 # Data files
 data/
+
+# AWS credentials
+deploy/aws_setup/
