@@ -20,8 +20,8 @@ asks whether that resolved your issue. If it didn't — or if the docs clearly d
 the agent drafts a **Jira support ticket** (summarizing the problem, which docs it already checked, and
 suggested next steps) and hands it off to a developer team.
 
-It's a portfolio project built to practice **RAG**, **agentic workflows (LangGraph state machines)**, and
-**MLOps on AWS** end to end — from document ingestion to a deployed, observable service.
+It's a portfolio project showcasing end-to-end implementation of **RAG**, **agentic workflows (LangGraph state machines)**, and
+**MLOps on AWS** covering document ingestion to a deployed, observable service.
 
 **Key features**
 
@@ -187,8 +187,6 @@ tests/                   # 60+ offline tests (no network — fakes injected for 
 deploy/                  # ECR + ECS Fargate setup runbooks and task definition
 ```
 
-Design notes and placement rules live in [`claude/docs/architecture.md`](claude/docs/architecture.md).
-
 ---
 
 ## Evaluation results
@@ -293,10 +291,11 @@ Fine for a demo; not a substitute for current AWS documentation.
 ## License & attribution
 
 - **Code:** [MIT](LICENSE) — free to use, modify, and learn from.
+- **Use of AI for development:** the architecture and task plan were designed by the developer, drafted with Claude, then reviewed and edited by the developer. Tasks are executed with Claude Code (Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>) in plan mode — the developer reviews and edits each plan before execution.
 - **AWS documentation content:** the ingested docs (AWS CodeBuild & CodePipeline user guides) are
   © Amazon Web Services, licensed under **[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)**.
   This repository **does not redistribute** the raw doc text — it is fetched at build time by
   `src.ingest` from the public `awsdocs` GitHub repositories (https://github.com/awsdocs). Attribution: *"AWS Documentation,"
   © Amazon Web Services, Inc., used under CC BY-SA 4.0.*
 
-Built as a learning project — RAG, agentic AI, and MLOps on AWS.
+Built as a demo project — RAG, agentic AI, and MLOps on AWS.
