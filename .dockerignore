@@ -11,6 +11,7 @@ data/
 
 # Version control / editor / tool caches
 .git/
+.github/
 .gitignore
 .vscode/
 __pycache__/
@@ -18,8 +19,15 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 
-# Not needed to serve: tests, evals docs, project notes
-tests/
+# Not needed to serve. Note the leading **/ on tests: under the workspace
+# layout the suites live at packages/*/tests/, not a single top-level tests/.
+**/tests/
 claude/
+deploy/
 *.md
 graph.png
+
+# ...but each package's config.yml IS needed at runtime (it carries the index
+# name, models and retrieval settings), and it sits inside the package dir, so
+# nothing above may exclude it. Kept explicit as a reminder.
+!packages/*/src/*/config.yml

@@ -1,8 +1,11 @@
-# Task 6.3 — build the Docker image and push it to Amazon ECR.
+# Build the Docker image and push it to Amazon ECR.
 #
 # Auth is GitHub OIDC federation: the job exchanges a short-lived GitHub
 # token for temporary AWS credentials by assuming an IAM role — no AWS keys
 # are stored in GitHub. One-time AWS/IAM setup: see deploy/aws_ecr_setup.md.
+#
+# The build is layout-independent: the Dockerfile at the repo root builds the
+# whole uv workspace (both packages), so this workflow needs no package paths.
 #
 # Repo variables required (Settings > Secrets and variables > Actions > Variables):
 #   AWS_ROLE_ARN     arn of the IAM role GitHub assumes
@@ -29,6 +32,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      # Don't ship an image that fails its own tests. Runs the same offline
+      # suite as ci.yml (no keys needed), including the rag_core boundary
+      # check, before anything is pushed to ECR.
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Test before publishing
+        run: |
+          uv sync --frozen
+          uv run ruff check .
+          uv run pytest -q
 
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4

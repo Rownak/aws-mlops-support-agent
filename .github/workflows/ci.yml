@@ -1,0 +1,76 @@
+# Task 6.1 — lint, tests, and the workspace's structural invariants.
+#
+# Runs on every push and PR. Nothing here needs API keys or network access:
+# the whole suite is offline (fakes for the retriever, LLM, Pinecone and Jira),
+# which is what makes it safe to run on untrusted PRs.
+
+name: CI
+
+on:
+  push:
+    branches: [master, "v2-*"]
+    paths-ignore:
+      - "**.md"
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Lint + tests (workspace)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      # --frozen: fail if uv.lock disagrees with the pyprojects, rather than
+      # silently resolving something different from what runs locally.
+      - name: Sync workspace
+        run: uv sync --frozen
+
+      - name: Ruff (lint + format check)
+        run: |
+          uv run ruff check .
+          uv run ruff format --check .
+
+      # Includes test_boundary.py, which fails if rag_core ever imports a
+      # project package (design.md §6).
+      - name: Tests
+        run: uv run pytest -q
+
+  rag-core-standalone:
+    name: rag-core installs and tests alone
+    runs-on: ubuntu-latest
+    # The real proof of independent installability (design.md §1, req. 2):
+    # rag_core's own tests must pass with NO project package present. Running
+    # it as a separate job means a stray project import can't be masked by the
+    # workspace venv, where both packages are always installed together.
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Create a clean environment with ONLY rag-core
+        run: |
+          uv venv --python 3.13 /tmp/isolated
+          VIRTUAL_ENV=/tmp/isolated uv pip install ./packages/rag_core pytest
+
+      - name: Fail if a project package leaked in
+        run: |
+          VIRTUAL_ENV=/tmp/isolated uv run --no-project python - <<'PY'
+          import importlib.util as u
+          leaked = [m for m in ("aws_mlops_support_agent", "scifact_rag") if u.find_spec(m)]
+          assert not leaked, f"project package(s) installed alongside rag-core: {leaked}"
+          print("clean: no project package present")
+          PY
+
+      - name: Run rag_core's tests in isolation
+        run: |
+          VIRTUAL_ENV=/tmp/isolated uv run --no-project \
+            python -m pytest packages/rag_core/tests -q

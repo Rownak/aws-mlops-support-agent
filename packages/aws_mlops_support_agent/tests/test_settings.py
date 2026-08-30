@@ -104,7 +104,7 @@ def test_empty_jira_var_becomes_none(monkeypatch):
 def test_rag_config_loaded_from_project_config_yml():
     rag = settings.load_settings().rag
     assert rag.project == "aws-mlops-support-agent"
-    assert rag.pinecone_index_name == "aws-mlops-docs"
+    assert rag.pinecone_index_name == "aws-support-agent-idx"
     assert rag.retrieval.min_top_score == 0.35
     assert {s.id for s in rag.sources} == {"codebuild", "codepipeline"}
 

@@ -111,28 +111,29 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done
 
 ## Phase 6 — Boundary enforcement & deploy
 
-- [ ] **6.1 Add the dependency-direction check**
+- [x] **6.1 Add the dependency-direction check**
   CI check that `rag_core` never imports a project package (design §6). Also verify
   `rag_core`'s tests pass with only `rag-core` installed.
   *Done when:* the check fails on a deliberately added bad import, then passes once reverted.
 
-- [ ] **6.2 Update Dockerfile + `.dockerignore`**
+- [x] **6.2 Update Dockerfile + `.dockerignore`**
   Build the workspace, install both packages, run the demo entrypoint.
   *Done when:* `docker build` succeeds and the container serves on 8501.
 
-- [ ] **6.3 Update GitHub Actions + ECS task definition**
+- [x] **6.3 Update GitHub Actions + ECS task definition**
   New paths, new entrypoint commands.
   *Done when:* CI is green and the ECS task definition references the new command.
 
 ## Phase 7 — Docs
 
-- [ ] **7.1 Rewrite `README.md` for the workspace**
+- [x] **7.1 Rewrite `README.md` for the workspace**
   New project structure, new commands, a short "how to add a new RAG project" section.
   *Done when:* every command in the README has been run and works as written.
 
-- [ ] **7.2 Update `CLAUDE.md`**
-  New layout, new commands, the one-way dependency rule.
-  *Done when:* no stale `src.*` references remain anywhere in the repo.
+- [x] **7.2 Write `README.md` for each packages**
+  Package structure, commands
+  *Done when:* every command in the README has been run and works as written.
+
 
 ## Phase 8 — Prove the seam
 

@@ -133,6 +133,18 @@ plain env, the two API keys injected from Secrets Manager at container start
 (never visible in console/logs), health check on `/_stcore/health` (ECS
 ignores the Dockerfile HEALTHCHECK), logs to the group from step 3.
 
+**Where the non-secret settings come from.** Since the v2 workspace refactor,
+the index name, models, chunking and retrieval settings live in the committed
+`config.yml` that ships *inside* the image (in
+`packages/aws_mlops_support_agent/src/aws_mlops_support_agent/`). The task
+definition therefore no longer sets `PINECONE_INDEX_NAME` — the image already
+knows it, and duplicating it here was how the deployed index name and the
+committed one drifted apart in the first place. Precedence is
+**env var > config.yml > default**, so an env entry is still the escape hatch
+when you deliberately want a different index (a staging corpus, say); adding
+one back overrides the file without rebuilding. Secrets stay env-only and are
+never read from `config.yml`.
+
 ```powershell
 aws ecs register-task-definition --cli-input-json file://task-definition.json
 ```

@@ -9,7 +9,10 @@
 project: aws-mlops-support-agent
 
 index:
-  name: aws-mlops-docs
+  # The live Pinecone index. Committed here so a fresh clone with no .env
+  # still points at the right corpus; PINECONE_INDEX_NAME can override it
+  # (e.g. to build a staging index) without editing this file.
+  name: aws-support-agent-idx
   metric: cosine
   region: us-east-1
 
