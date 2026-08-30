@@ -1,0 +1,43 @@
+# Corpus + index + model settings for THIS project (design.md §5).
+#
+# Non-secret and committed on purpose: it makes the corpus reproducible and
+# diffable. Secrets (OPENAI_API_KEY, PINECONE_API_KEY, the Jira credentials)
+# come only from the environment and never appear here.
+#
+# Any value below can be overridden by an environment variable, so ECS/CI can
+# change e.g. the index name without editing this file.
+project: aws-mlops-support-agent
+
+index:
+  name: aws-mlops-docs
+  metric: cosine
+  region: us-east-1
+
+models:
+  embedding: text-embedding-3-small
+  chat: gpt-4o-mini
+
+chunking:
+  size_tokens: 800
+  overlap_tokens: 100
+  # awsdocs markdown embeds an HTML anchor in every heading, e.g.
+  # `# Build environments<a name="build-env"></a>`. Stripping them keeps
+  # citations clean and removes noise from the embeddings.
+  strip_patterns: ['<a name="[^"]*"></a>']
+
+retrieval:
+  top_k: 4
+  # Eyeballed on this corpus with text-embedding-3-small: on-corpus questions
+  # score ~0.4-0.6 top-1. See evals/results.md for the known weakness — some
+  # off-corpus questions also clear this bar.
+  min_top_score: 0.35
+
+sources:
+  - id: codebuild
+    loader: awsdocs_git
+    git_url: https://github.com/awsdocs/aws-codebuild-user-guide.git
+    docs_base_url: https://docs.aws.amazon.com/codebuild/latest/userguide/
+  - id: codepipeline
+    loader: awsdocs_git
+    git_url: https://github.com/awsdocs/aws-codepipeline-user-guide.git
+    docs_base_url: https://docs.aws.amazon.com/codepipeline/latest/userguide/
