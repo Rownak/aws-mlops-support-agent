@@ -22,7 +22,15 @@ from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
 from langgraph.graph import END, START, StateGraph
 from langsmith import traceable
-from rag_core.config import ChunkingConfig, RagConfig, RetrievalConfig
+from rag_core.config import (
+    EmbeddingConfig,
+    GenerationConfig,
+    LLMConfig,
+    RagConfig,
+    RetrieverConfig,
+    SplitterConfig,
+    VectorStoreConfig,
+)
 
 from aws_mlops_support_agent.agent.nodes import build_nodes
 from aws_mlops_support_agent.agent.state import AgentState
@@ -36,9 +44,11 @@ MAX_ATTEMPTS = 2
 # allowlisted or deserialization warns now and will be BLOCKED in a future
 # langgraph release (arbitrary-class deserialization is a code-exec risk if
 # an attacker can write to the checkpoint store). New state types go here.
+# langchain_core.documents.Document (in `chunks`) needs no entry: LangGraph's
+# serializer revives LangChain "core" Serializable objects separately from
+# this msgpack allowlist.
 STATE_TYPES_ALLOWLIST = [
-    ("rag_core.retrieval.retriever", "RetrievedChunk"),
-    ("rag_core.retrieval.confidence", "RetrievalConfidence"),
+    ("rag_core.retriever.confidence", "RetrievalConfidence"),
     ("aws_mlops_support_agent.agent.ticket", "TicketDraft"),
 ]
 
@@ -103,19 +113,19 @@ if __name__ == "__main__":
     #
     # No-op fakes are injected so this needs NO API keys and never opens a
     # Pinecone/OpenAI connection — the placeholder Config is never read.
+    # embeddings/llm default to provider="ollama" (needs no key); vectorstore
+    # must set `host` or RagConfig._validate() demands PINECONE_API_KEY even
+    # though nothing here ever calls Pinecone.
     stub_cfg = AgentConfig(
         rag=RagConfig(
-            openai_api_key="unused",
-            openai_chat_model="unused",
-            openai_embedding_model="unused",
-            pinecone_api_key="unused",
-            pinecone_index_name="unused",
-            pinecone_index_metric="cosine",
-            aws_region="unused",
-            project="unused",
-            chunking=ChunkingConfig(),
-            retrieval=RetrievalConfig(),
+            embeddings=EmbeddingConfig(),
+            llm=LLMConfig(),
+            vectorstore=VectorStoreConfig(host="http://localhost:5080"),
+            splitter=SplitterConfig(),
+            retriever=RetrieverConfig(),
+            generation=GenerationConfig(),
             sources=(),
+            loader_extensions=(),
         ),
         jira_base_url=None,
         jira_email=None,

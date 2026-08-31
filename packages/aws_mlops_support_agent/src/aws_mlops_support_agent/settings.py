@@ -1,9 +1,10 @@
 """This project's settings: the generic RagConfig plus what only we need.
 
 `rag_core.config.RagConfig` covers everything the RAG engine cares about
-(models, index, chunking, retrieval, sources). The two things it must NOT
-know about are the Jira credentials and the `DRY_RUN` safety gate — those are
-specific to this project's escalation workflow, so they live here.
+(embeddings, llm, vectorstore, splitter, retriever, generation, sources).
+The two things it must NOT know about are the Jira credentials and the
+`DRY_RUN` safety gate — those are specific to this project's escalation
+workflow, so they live here.
 
 `AgentConfig` wraps rather than subclasses RagConfig: the engine keeps its own
 frozen type, and `cfg.rag` is what gets handed to every rag_core function.

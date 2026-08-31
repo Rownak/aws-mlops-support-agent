@@ -4,31 +4,38 @@
 # diffable. Secrets (OPENAI_API_KEY, PINECONE_API_KEY, the Jira credentials)
 # come only from the environment and never appear here.
 #
-# Any value below can be overridden by an environment variable, so ECS/CI can
-# change e.g. the index name without editing this file.
-project: aws-mlops-support-agent
+# Schema is rag_core's generic config (see packages/rag_core/config.example.yaml).
+# rag_core knows nothing about git or awsdocs: the `sources` below are plain
+# `type: local` folders, plus an `id` key rag_core ignores (SourceSpec is a
+# passthrough dict) but aws_mlops_support_agent.sources.fetch reads to know
+# which repo populates that path. A separate fetch step
+# (aws_mlops_support_agent-specific, not rag_core) clones each awsdocs repo,
+# recovers the pre-archival markdown, and writes it to these paths before
+# ingestion runs.
+embeddings:
+  provider: openai
+  model: text-embedding-3-small
 
-index:
+llm:
+  provider: openai
+  model: gpt-4o-mini
+
+vectorstore:
+  provider: pinecone
   # The live Pinecone index. Committed here so a fresh clone with no .env
   # still points at the right corpus; PINECONE_INDEX_NAME can override it
   # (e.g. to build a staging index) without editing this file.
-  name: aws-support-agent-idx
-  metric: cosine
+  collection_name: aws-support-agent-idx
+  cloud: aws
   region: us-east-1
 
-models:
-  embedding: text-embedding-3-small
-  chat: gpt-4o-mini
+splitter:
+  chunk_size: 800
+  chunk_overlap: 100
+  strategy: markdown
 
-chunking:
-  size_tokens: 800
-  overlap_tokens: 100
-  # awsdocs markdown embeds an HTML anchor in every heading, e.g.
-  # `# Build environments<a name="build-env"></a>`. Stripping them keeps
-  # citations clean and removes noise from the embeddings.
-  strip_patterns: ['<a name="[^"]*"></a>']
-
-retrieval:
+retriever:
+  search_type: similarity
   top_k: 4
   # Eyeballed on this corpus with text-embedding-3-small: on-corpus questions
   # score ~0.4-0.6 top-1. See evals/results.md for the known weakness — some
@@ -36,11 +43,11 @@ retrieval:
   min_top_score: 0.35
 
 sources:
-  - id: codebuild
-    loader: awsdocs_git
-    git_url: https://github.com/awsdocs/aws-codebuild-user-guide.git
-    docs_base_url: https://docs.aws.amazon.com/codebuild/latest/userguide/
-  - id: codepipeline
-    loader: awsdocs_git
-    git_url: https://github.com/awsdocs/aws-codepipeline-user-guide.git
-    docs_base_url: https://docs.aws.amazon.com/codepipeline/latest/userguide/
+  - type: local
+    id: codebuild
+    path: data/aws_docs/codebuild/doc_source
+    extensions: [".md"]
+  - type: local
+    id: codepipeline
+    path: data/aws_docs/codepipeline/doc_source
+    extensions: [".md"]

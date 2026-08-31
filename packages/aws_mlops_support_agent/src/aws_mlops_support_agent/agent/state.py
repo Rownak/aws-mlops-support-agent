@@ -10,8 +10,8 @@ resuming, and replaying a run possible.
 
 from typing import Literal, TypedDict
 
-from rag_core.retrieval.confidence import RetrievalConfidence
-from rag_core.retrieval.retriever import RetrievedChunk
+from langchain_core.documents import Document
+from rag_core.retriever.confidence import RetrievalConfidence
 
 from aws_mlops_support_agent.agent.ticket import TicketDraft
 
@@ -19,9 +19,12 @@ from aws_mlops_support_agent.agent.ticket import TicketDraft
 class AgentState(TypedDict):
     # The user's question. Written once at graph start, never changed.
     question: str
-    # Docs from the LATEST retrieve attempt (each retry overwrites, not
-    # appends — the answer should be grounded in one coherent set).
-    chunks: list[RetrievedChunk]
+    # (document, relevance score) pairs from the LATEST retrieve attempt,
+    # best first (each retry overwrites, not appends — the answer should be
+    # grounded in one coherent set). This is rag_core.retriever.retrieve_scored's
+    # return shape, kept as-is rather than unwrapped so assess_confidence and
+    # the ticket draft's docs-checked list both still have the score.
+    chunks: list[tuple[Document, float]]
     # Latest generated answer; None until the answer node has run.
     answer: str | None
     # Completed retrieve→answer cycles. The graph has a loop (retry goes

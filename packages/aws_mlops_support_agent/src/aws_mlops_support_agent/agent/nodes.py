@@ -28,12 +28,12 @@ from collections.abc import Callable
 
 from langgraph.types import interrupt
 from rag_core.observability import log_event
-from rag_core.retrieval.confidence import assess_confidence
+from rag_core.retriever.confidence import assess_confidence
 
 from aws_mlops_support_agent.agent.jira_tool import create_issue
-from aws_mlops_support_agent.agent.prompts import AWS_PROMPTS
+from aws_mlops_support_agent.agent.prompts import ANSWER_SYSTEM_PROMPT
 from aws_mlops_support_agent.agent.ticket import build_ticket_draft
-from aws_mlops_support_agent.settings import AgentConfig
+from aws_mlops_support_agent.settings import CONFIG_PATH, AgentConfig
 
 # The choices offered at the confirm_resolution interrupt. app.py shows
 # them to the human; tests pass them via Command(resume=...).
@@ -51,17 +51,29 @@ def build_nodes(
     jira_creator: Callable | None = None,
 ) -> dict[str, Callable]:
     """Return {node_name: node_fn}, with real RAG functions unless injected."""
-    if retriever is None:
-        # Imported lazily: building the real retriever opens a Pinecone
-        # connection, which tests (that always inject) must never do.
-        from rag_core.retrieval.retriever import make_retriever
+    if retriever is None or answerer is None:
+        # Imported lazily: building the real RagCore opens a Pinecone
+        # connection, which tests (that always inject both) must never do.
+        from rag_core import RagCore
+        from rag_core.generation.generator import AnswerGenerator
 
-        retriever = make_retriever(cfg.rag)
-    if answerer is None:
-        from rag_core.generation.answer import generate_answer
-
-        def answerer(question, chunks):  # noqa: F811 - deliberate rebind
-            return generate_answer(question, chunks, cfg.rag, prompts=AWS_PROMPTS)
+        rag = RagCore(str(CONFIG_PATH))
+        if retriever is None:
+            retriever = rag.retrieve_scored
+        if answerer is None:
+            # rag.generator already exists, but built with config.yml's
+            # generic (unset -> rag_core default) system prompt. This
+            # project wants its own wording, so build a second generator
+            # sharing the same llm/context-budget rather than mutating
+            # rag.generator's prompt after construction.
+            answer_generator = AnswerGenerator(
+                llm=rag.llm,
+                max_context_chars=rag.config.generation.max_context_chars,
+                system_prompt=ANSWER_SYSTEM_PROMPT,
+            )
+            answerer = lambda question, chunks: answer_generator.generate(  # noqa: E731
+                question, [document for document, _score in chunks]
+            )
 
     if jira_creator is None:
         # The real wrapper from task 4.1. Safe as a default even in tests
@@ -75,9 +87,9 @@ def build_nodes(
         """Task 3.2 — fetch docs, judge them, count the attempt."""
         # Retries widen the net (k grows) instead of re-running the exact
         # same search, so a second attempt can actually differ.
-        k = cfg.rag.retrieval.top_k + 2 * state["attempts"]
+        k = cfg.rag.retriever.top_k + 2 * state["attempts"]
         chunks = retriever(state["question"], k=k)
-        confidence = assess_confidence(chunks, min_top_score=cfg.rag.retrieval.min_top_score)
+        confidence = assess_confidence(chunks, min_top_score=cfg.rag.retriever.min_top_score)
         log_event(
             "retrieve_done",
             attempt=state["attempts"] + 1,
@@ -94,7 +106,11 @@ def build_nodes(
 
     def answer(state) -> dict:
         """Task 3.2 — generate the cited answer from the latest chunks."""
-        return {"answer": answerer(state["question"], state["chunks"])}
+        result = answerer(state["question"], state["chunks"])
+        # answerer returns rag_core's Answer object; state carries plain text
+        # (it's printed/interrupted-on as a string everywhere downstream).
+        text = result.text if hasattr(result, "text") else result
+        return {"answer": text}
 
     def confirm_resolution(state) -> dict:
         """Task 3.3 — pause and ask the human whether we're done."""

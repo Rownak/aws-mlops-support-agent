@@ -1,11 +1,12 @@
 """Task 3.5 — Build a Jira ticket DRAFT from the agent state.
 
-Pure and deterministic: no LLM, no network, fully unit-testable. The draft
-is assembled from facts the graph already collected — the question, the last
-answer, the confidence verdict, and the docs-checked list from chunk metadata
-(the reason task 1.3 attached heading/url to every chunk). Phase 4 turns this
-into a real Jira payload; an LLM-polished description is a possible later
-enhancement.
+Pure and deterministic: no LLM, no network, fully unit-testable (save for
+`_docs_checked`'s manifest lookup, which only touches the local filesystem).
+The draft is assembled from facts the graph already collected — the
+question, the last answer, the confidence verdict, and the docs-checked list
+built from each retrieved chunk's `metadata["source"]` plus the AWS docs URL
+`sources.fetch.doc_url_for` resolves for it. Phase 4 turns this into a real
+Jira payload; an LLM-polished description is a possible later enhancement.
 
 Note: this module takes the state as a plain mapping instead of importing
 `AgentState`, because state.py imports `TicketDraft` from here — typing it
@@ -15,7 +16,9 @@ as AgentState would create a circular import.
 from collections.abc import Mapping
 from dataclasses import dataclass, field
 
-from rag_core.retrieval.retriever import RetrievedChunk
+from langchain_core.documents import Document
+
+from aws_mlops_support_agent.sources.fetch import doc_url_for
 
 # Generic but actionable defaults for a support engineer picking up the
 # ticket. Static on purpose — deterministic drafts are easy to test and
@@ -46,11 +49,18 @@ class TicketDraft:
         )
 
 
-def _docs_checked(chunks: list[RetrievedChunk]) -> list[str]:
-    """Deduped 'heading — url' lines, preserving retrieval-rank order."""
+def _docs_checked(chunks: list[tuple[Document, float]]) -> list[str]:
+    """Deduped 'file_name — url' lines, preserving retrieval-rank order.
+
+    Falls back to just the file path when no manifest entry exists (e.g. a
+    non-awsdocs local file, or a test fixture with no _manifest.json) — a
+    missing citation URL should not break the draft.
+    """
     seen: dict[str, None] = {}  # dict as an ordered set
-    for chunk in chunks:
-        line = f"{chunk.heading} — {chunk.url}"
+    for document, _score in chunks:
+        source = document.metadata.get("source", "unknown")
+        url = doc_url_for(source)
+        line = f"{document.metadata.get('file_name', source)} — {url}" if url else source
         seen.setdefault(line, None)
     return list(seen)
 
