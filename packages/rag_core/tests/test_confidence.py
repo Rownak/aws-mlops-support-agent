@@ -13,6 +13,18 @@ def _scored(score):
     return (_FakeDoc(), score)
 
 
+def test_none_threshold_disables_the_check():
+    # A score far below any sane threshold is still confident when disabled.
+    result = assess_confidence([_scored(0.01)], min_top_score=None)
+    assert result.is_confident
+    assert "disabled" in result.reason
+
+
+def test_none_threshold_still_reports_no_chunks():
+    # Disabling the threshold must not turn "retrieved nothing" into confident.
+    assert not assess_confidence([], min_top_score=None).is_confident
+
+
 def test_empty_retrieval_is_not_confident():
     result = assess_confidence([])
     assert not result.is_confident
@@ -29,9 +41,11 @@ def test_weak_top_score_is_not_confident():
 
 
 def test_healthy_scores_are_confident():
-    result = assess_confidence([_scored(0.55), _scored(0.40)])
+    # Values are on the normalized [0, 1] relevance scale, so a "healthy"
+    # score has to clear DEFAULT_MIN_TOP_SCORE (0.675), not the old raw 0.35.
+    result = assess_confidence([_scored(0.85), _scored(0.70)])
     assert result.is_confident
-    assert result.top_score == 0.55
+    assert result.top_score == 0.85
     assert result.score_gap == pytest.approx(0.15)
 
 
@@ -41,7 +55,7 @@ def test_exactly_at_threshold_is_confident():
 
 
 def test_single_chunk_has_zero_gap():
-    result = assess_confidence([_scored(0.5)])
+    result = assess_confidence([_scored(0.8)])
     assert result.score_gap == 0.0
     assert result.is_confident
 

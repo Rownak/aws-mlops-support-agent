@@ -5,9 +5,15 @@ they are plain tuning values, so they need no provider map and no
 `missing_secrets()`.
 """
 
+import os
 from dataclasses import dataclass, field
 
 from .env import _env_or
+
+#: Kept here rather than imported from `retriever.confidence` (which defines
+#: the same default) because `retriever` imports this module — importing back
+#: would be a cycle. The two must stay in step; see that module for the scale.
+DEFAULT_MIN_TOP_SCORE = 0.675
 
 
 @dataclass(frozen=True)
@@ -32,7 +38,9 @@ class SplitterConfig:
 class RetrieverConfig:
     search_type: str = "similarity"
     top_k: int = 5
-    min_top_score: float = 0.35
+    #: On the normalized [0, 1] relevance scale (see retriever.confidence).
+    #: None disables the confidence check.
+    min_top_score: float | None = DEFAULT_MIN_TOP_SCORE
     # The retriever.rerank sub-block, kept as a plain dict — its shape is
     # provider-defined (cross_encoder vs cohere take different keys) and
     # get_reranker()/resolve_fetch_k() already accept a dict or None.
@@ -44,11 +52,25 @@ class RetrieverConfig:
         return cls(
             search_type=raw.get("search_type") or cls.search_type,
             top_k=int(_env_or("RAG_TOP_K", raw.get("top_k"), cls.top_k)),
-            min_top_score=float(
-                _env_or("RAG_MIN_TOP_SCORE", raw.get("min_top_score"), cls.min_top_score)
-            ),
+            min_top_score=cls._parse_min_top_score(raw),
             rerank=raw.get("rerank"),
         )
+
+    @staticmethod
+    def _parse_min_top_score(raw: dict) -> float | None:
+        """Resolve min_top_score, keeping an explicit YAML `null` as None.
+
+        Not via `_env_or`: it coalesces falsy values, so an explicit `null`
+        (meaning "disable the check") would silently fall back to the default
+        instead. `key in raw` is what distinguishes "set to null" from "absent".
+        """
+        env = os.environ.get("RAG_MIN_TOP_SCORE")
+        if env:
+            return None if env.lower() in ("none", "null") else float(env)
+        if "min_top_score" in raw:
+            value = raw["min_top_score"]
+            return None if value is None else float(value)
+        return DEFAULT_MIN_TOP_SCORE
 
 
 @dataclass(frozen=True)

@@ -9,7 +9,7 @@ from .rerank import (
     get_reranker,
     resolve_fetch_k,
 )
-from .retrieve import retrieve
+from .retrieve import retrieve, retrieve_scored
 
 __all__ = [
     "get_retriever",
@@ -24,4 +24,5 @@ __all__ = [
     "RetrievalConfidence",
     "assess_confidence",
     "retrieve",
+    "retrieve_scored",
 ]

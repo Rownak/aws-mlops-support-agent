@@ -22,7 +22,7 @@ class _FakeVectorStore:
     def __init__(self, scored_results):
         self.scored_results = scored_results
 
-    def similarity_search_with_score(self, query, k):
+    def similarity_search_with_relevance_scores(self, query, k, **kwargs):
         return self.scored_results[:k]
 
 
@@ -71,13 +71,22 @@ def _scored(scores):
     return [(_FakeDoc(f"text {i}", f"doc{i}.md"), score) for i, score in enumerate(scores)]
 
 
-def test_retrieve_returns_scored_pairs_best_first():
+def test_retrieve_returns_plain_documents_best_first():
     rag = _rag_core(_scored([0.9, 0.7, 0.5]))
 
     results = rag.retrieve("question")
 
+    assert [doc.metadata["source"] for doc in results] == ["doc0.md", "doc1.md", "doc2.md"]
+    # Scores survive as metadata, not as the return type.
+    assert results[0].metadata["score"] == 0.9
+
+
+def test_retrieve_scored_returns_pairs_best_first():
+    rag = _rag_core(_scored([0.9, 0.7, 0.5]))
+
+    results = rag.retrieve_scored("question")
+
     assert [score for _, score in results] == [0.9, 0.7, 0.5]
-    # The scores are the point: retrieve_with_confidence discards them.
     assert results[0][0].metadata["source"] == "doc0.md"
 
 
@@ -85,6 +94,7 @@ def test_retrieve_respects_k_override():
     rag = _rag_core(_scored([0.9, 0.8, 0.7]))
 
     assert len(rag.retrieve("question", k=2)) == 2
+    assert len(rag.retrieve_scored("question", k=2)) == 2
 
 
 def test_retrieve_with_confidence_returns_documents_and_verdict():

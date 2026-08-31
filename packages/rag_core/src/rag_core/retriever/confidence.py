@@ -13,37 +13,50 @@ decision — it is surfaced so it can be watched on real queries (a big gap
 suggests one clearly-best doc; a flat top-k can mean the query matched
 everything a little and nothing well).
 
-Cosine similarity is not a probability: a usable threshold depends on the
-embedding model AND the corpus, which is why `min_top_score` is a caller-
-supplied parameter rather than a constant here.
+Scores are expected on the normalized [0, 1] relevance scale that
+`retriever.retrieve_scored` returns (0 = dissimilar, 1 = most similar), which
+is what lets one threshold hold across backends with different native metrics.
+A relevance score is still not a probability — a usable threshold depends on
+the embedding model AND the corpus — which is why `min_top_score` is a
+caller-supplied parameter rather than a constant here, and why passing None
+turns the check off for corpora where no threshold has been established yet.
 """
 
 from dataclasses import dataclass
 from typing import Any
 
-DEFAULT_MIN_TOP_SCORE = 0.35
+from langsmith import traceable
+
+#: On the normalized [0, 1] relevance scale. The pre-normalization default was
+#: 0.35 against a raw Pinecone cosine score; cosine maps as (raw + 1) / 2, so
+#: the equivalent bar is 0.675. Re-baseline against your own corpus.
+DEFAULT_MIN_TOP_SCORE = 0.675
 
 
 @dataclass(frozen=True)
 class RetrievalConfidence:
-    top_score: float  # best similarity score, 0.0 if nothing retrieved
+    top_score: float  # best relevance score, 0.0 if nothing retrieved
     score_gap: float  # top1 - top2, 0.0 if fewer than 2 chunks
     is_confident: bool
     reason: str  # human-readable; reused in logs and ticket drafts
 
 
+# @traceable(name="rag_core.assess_confidence")
 def assess_confidence(
     scored_documents: list[tuple[Any, float]],
-    min_top_score: float = DEFAULT_MIN_TOP_SCORE,
+    min_top_score: float | None = DEFAULT_MIN_TOP_SCORE,
 ) -> RetrievalConfidence:
     """
     Judge whether retrieval found docs worth answering from.
 
     Args:
         scored_documents: (document, score) pairs, best first — the shape
-            returned by a vector store's ``similarity_search_with_score``.
+            returned by :func:`rag_core.retriever.retrieve_scored`, on the
+            normalized [0, 1] relevance scale.
         min_top_score: Below this, the best match is treated as too weak to
-            answer from.
+            answer from. Pass None to disable the check entirely — retrieval
+            is then confident whenever it returned anything, which is the
+            setting for a corpus with no established threshold yet.
 
     Returns:
         A RetrievalConfidence describing the verdict and why.
@@ -58,6 +71,14 @@ def assess_confidence(
 
     top_score = scored_documents[0][1]
     score_gap = top_score - scored_documents[1][1] if len(scored_documents) > 1 else 0.0
+
+    if min_top_score is None:
+        return RetrievalConfidence(
+            top_score=top_score,
+            score_gap=score_gap,
+            is_confident=True,
+            reason="confidence check disabled (min_top_score is null)",
+        )
 
     if top_score < min_top_score:
         return RetrievalConfidence(

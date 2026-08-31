@@ -34,7 +34,7 @@ from rag_core.loaders.markitdown_loader import MarkItDownLoader
 from rag_core.processing.hashing import sha256_chunk, sha256_file_from_path, sha256_text
 from rag_core.processing.splitter import get_markdown_splitter, get_splitter
 from rag_core.retriever.confidence import RetrievalConfidence, assess_confidence
-from rag_core.retriever.retrieve import retrieve
+from rag_core.retriever.retrieve import retrieve, retrieve_scored
 from rag_core.sources import build_sources
 from rag_core.vectorstores.pinecone_store import PineconeStore
 
@@ -398,32 +398,59 @@ class RagCore:
         logger.info(f"Sync: {len(file_paths)} file(s) listed by {len(sources)} source(s)")
         return self.ingest_documents(file_paths)
 
-    def retrieve(self, question: str, k: int | None = None) -> list[tuple[Document, float]]:
+    def _vectorstore(self):
+        return self.store.get_store(use_sparse=self.config.vectorstore.use_sparse)
+
+    def retrieve(
+        self, question: str, k: int | None = None, filters: dict | None = None
+    ) -> list[Document]:
         """
-        Retrieve chunks for a question, with their scores.
+        Retrieve chunks for a question, best first.
 
         The rawest view of the query path: no confidence verdict, no LLM call.
         Use it to see what retrieval actually returns — which chunks, in what
-        order, at what scores — when tuning `top_k`, `min_top_score`, chunking,
-        or a reranker.
+        order — when tuning `top_k`, chunking, or a reranker. Each document
+        carries its score in `metadata["score"]` when the search type produced
+        one; call `retrieve_scored()` when you need the score as a value.
 
         Args:
             question: The question to retrieve chunks for
             k: Override the configured `retriever.top_k`
+            filters: Backend-native metadata filter, passed through untouched
 
         Returns:
-            (document, score) pairs, best first. With a reranker configured
-            the score is its relevance score; otherwise it is the vector
-            store's similarity score.
+            Documents, best first.
 
         Example:
-            >>> for doc, score in rag.retrieve("how do I cache?"):  # doctest: +SKIP
-            ...     print(f"{score:.3f}  {doc.metadata['source']}")
-            ...     print(doc.page_content[:120])
+            >>> for doc in rag.retrieve("how do I cache?"):  # doctest: +SKIP
+            ...     print(doc.metadata["source"], doc.page_content[:120])
         """
-        use_sparse = self.config.vectorstore.use_sparse
-        vectorstore = self.store.get_store(use_sparse=use_sparse)
-        return retrieve(question, vectorstore, self.config.retriever, top_k=k)
+        return retrieve(
+            question, self._vectorstore(), self.config.retriever, top_k=k, filters=filters
+        )
+
+    def retrieve_scored(
+        self, question: str, k: int | None = None, filters: dict | None = None
+    ) -> list[tuple[Document, float]]:
+        """
+        Retrieve chunks with their normalized [0, 1] relevance scores.
+
+        For the callers that need the number itself — confidence scoring,
+        eval tables, threshold tuning. See
+        :func:`rag_core.retriever.retrieve.retrieve_scored` for the reranker
+        caveat and the MMR restriction.
+
+        Args:
+            question: The question to retrieve chunks for
+            k: Override the configured `retriever.top_k`
+            filters: Backend-native metadata filter, passed through untouched
+
+        Returns:
+            (document, score) pairs, best first.
+        """
+        return retrieve_scored(
+            question, self._vectorstore(), self.config.retriever, top_k=k, filters=filters
+        )
 
     def retrieve_with_confidence(
         self, question: str, k: int | None = None
@@ -443,9 +470,9 @@ class RagCore:
         Returns:
             (documents, confidence): plain documents (best first, ready to
             pass to `AnswerGenerator.generate`) and the confidence verdict.
-            Call `retrieve()` instead when you want the scores too.
+            Call `retrieve_scored()` instead when you want the scores too.
         """
-        scored = self.retrieve(question, k=k)
+        scored = self.retrieve_scored(question, k=k)
         confidence = assess_confidence(scored, min_top_score=self.config.retriever.min_top_score)
         documents = [doc for doc, _ in scored]
         return documents, confidence

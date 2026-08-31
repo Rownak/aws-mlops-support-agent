@@ -39,7 +39,7 @@ def test_defaults_apply_when_config_is_minimal(tmp_path, monkeypatch):
     assert cfg.splitter.chunk_size == 800
     assert cfg.splitter.strategy == "markdown"
     assert cfg.retriever.top_k == 5
-    assert cfg.retriever.min_top_score == 0.35
+    assert cfg.retriever.min_top_score == 0.675
     assert cfg.generation.max_context_chars == 12000
     assert cfg.sources == ()
 
@@ -69,6 +69,26 @@ def test_env_var_applies_with_no_yaml_value_present(tmp_path, monkeypatch):
 
     cfg = load_config(path)
     assert cfg.retriever.min_top_score == 0.5
+
+
+def test_explicit_null_min_top_score_disables_the_check(tmp_path, monkeypatch):
+    # `null` must survive as None, not be coalesced back to the default the
+    # way _env_or would do with any falsy value.
+    monkeypatch.delenv("RAG_MIN_TOP_SCORE", raising=False)
+    monkeypatch.delenv("PINECONE_API_KEY", raising=False)
+    path = _write(
+        tmp_path,
+        "vectorstore:\n  host: \"http://localhost:5080\"\nretriever:\n  min_top_score: null\n",
+    )
+
+    assert load_config(path).retriever.min_top_score is None
+
+
+def test_min_top_score_env_var_accepts_none(tmp_path, monkeypatch):
+    monkeypatch.setenv("RAG_MIN_TOP_SCORE", "none")
+    path = _write(tmp_path, "vectorstore:\n  host: \"http://localhost:5080\"\n")
+
+    assert load_config(path).retriever.min_top_score is None
 
 
 # --- secrets: env-only, never read from yaml as a value the user set there ---
