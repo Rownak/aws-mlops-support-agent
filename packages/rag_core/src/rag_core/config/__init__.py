@@ -26,6 +26,7 @@ Module layout, lowest layer first:
     base.py            DictLike mixin (dict rendering + secret masking)
     loader.py          Config: raw YAML + ${VAR} substitution
     providers.py       EmbeddingConfig, LLMConfig, VectorStoreConfig
+    readiness.py       check_readiness: live reachability checks (Ollama, Pinecone Local)
     pipeline_parts.py  SplitterConfig, RetrieverConfig, GenerationConfig, SourceSpec
     root.py            RagConfig, load_config, describe
 
@@ -41,6 +42,7 @@ from .pipeline_parts import (
     SplitterConfig,
 )
 from .providers import EmbeddingConfig, LLMConfig, VectorStoreConfig
+from .readiness import check_readiness
 from .root import RagConfig, describe, load_config
 
 __all__ = [
@@ -48,6 +50,7 @@ __all__ = [
     "RagConfig",
     "load_config",
     "describe",
+    "check_readiness",
     "EmbeddingConfig",
     "LLMConfig",
     "VectorStoreConfig",

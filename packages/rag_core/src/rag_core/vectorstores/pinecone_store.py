@@ -107,6 +107,23 @@ class PineconeStore:
         self.collection_name = collection_name
         self.config = config
 
+    def _index(self, name: Optional[str] = None):
+        """Get an Index handle, forcing http:// against Pinecone Local.
+
+        `describe_index` returns a scheme-less host (e.g. "localhost:5081"),
+        and the SDK defaults a scheme-less host to https:// — which Pinecone
+        Local doesn't speak, causing an SSL error. Managed Pinecone hosts
+        already come back with https:// and are unaffected.
+        """
+        name = name or self.collection_name
+        if not self.is_local:
+            return self.client.Index(name)
+
+        host = self.client.describe_index(name).host
+        if not host.startswith(("http://", "https://")):
+            host = f"http://{host}"
+        return self.client.Index(host=host)
+
     def set_collection(self, name: str) -> None:
         """
         Set the index name for operations.
@@ -157,7 +174,7 @@ class PineconeStore:
                 )
 
         return PineconeVectorStore(
-            index=self.client.Index(self.collection_name),
+            index=self._index(),
             embedding=self.embedding,
         )
 
@@ -184,22 +201,18 @@ class PineconeStore:
         vector_size = len(test_embedding)
         metric = "dotproduct" if use_sparse else "cosine"
 
-        if self.is_local:
-            # Pinecone Local provisions indexes without a cloud/region spec.
-            self.client.create_index(
-                name=name, dimension=vector_size, metric=metric,
-            )
-        else:
-            from pinecone import ServerlessSpec
+        # The SDK requires `spec` even against Pinecone Local, which ignores
+        # its cloud/region values but still validates the object shape.
+        from pinecone import ServerlessSpec
 
-            cloud = self.config.get("cloud", "aws")
-            region = self.config.get("region", "us-east-1")
-            self.client.create_index(
-                name=name,
-                dimension=vector_size,
-                metric=metric,
-                spec=ServerlessSpec(cloud=cloud, region=region),
-            )
+        cloud = self.config.get("cloud", "aws")
+        region = self.config.get("region", "us-east-1")
+        self.client.create_index(
+            name=name,
+            dimension=vector_size,
+            metric=metric,
+            spec=ServerlessSpec(cloud=cloud, region=region),
+        )
 
         logger.info(f"Created index '{name}' (metric={metric}, dim={vector_size})")
 
@@ -271,7 +284,7 @@ class PineconeStore:
         if not self.collection_name or not self.collection_exists():
             return 0
 
-        index = self.client.Index(self.collection_name)
+        index = self._index()
         dimension = self.get_vector_size() or len(self.embedding.embed_query("test"))
         result = index.query(
             vector=[0.0] * dimension,
@@ -302,7 +315,7 @@ class PineconeStore:
         if not self.collection_name or not self.collection_exists():
             return ("absent", 0, None)
 
-        index = self.client.Index(self.collection_name)
+        index = self._index()
         dimension = self.get_vector_size() or len(self.embedding.embed_query("test"))
         result = index.query(
             vector=[0.0] * dimension,
@@ -343,7 +356,7 @@ class PineconeStore:
         if count == 0:
             return 0
 
-        index = self.client.Index(self.collection_name)
+        index = self._index()
         index.delete(filter=self._file_hash_filter(file_hash))
         logger.info(f"Deleted {count} chunk(s) for file_hash {file_hash[:12]}…")
         return count
@@ -369,7 +382,7 @@ class PineconeStore:
         if not self.collection_name or not self.collection_exists():
             return 0
 
-        index = self.client.Index(self.collection_name)
+        index = self._index()
         dimension = self.get_vector_size() or len(self.embedding.embed_query("test"))
         filter_ = {"source": {"$eq": source}}
         result = index.query(
@@ -407,7 +420,7 @@ class PineconeStore:
         if not self.collection_name or not self.collection_exists():
             return []
 
-        index = self.client.Index(self.collection_name)
+        index = self._index()
         sources: List[str] = []
         seen = set()
 

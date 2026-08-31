@@ -10,6 +10,7 @@ from dataclasses import dataclass
 
 from .base import DictLike
 from .env import _EMBEDDING_PROVIDER_KEY_ENV, _LLM_PROVIDER_KEY_ENV, _env_or
+from .readiness import check_ollama_ready, check_pinecone_local_ready
 
 
 @dataclass(frozen=True)
@@ -43,6 +44,12 @@ class EmbeddingConfig(DictLike):
             return [f"{env} (required by embeddings.provider: {self.provider})"]
         return []
 
+    def missing_readiness(self) -> list[str]:
+        """Only ollama has a local server/model to verify reachability for."""
+        if self.provider == "ollama":
+            return check_ollama_ready(self.base_url, self.model)
+        return []
+
 
 @dataclass(frozen=True)
 class LLMConfig(DictLike):
@@ -72,6 +79,12 @@ class LLMConfig(DictLike):
         env = _LLM_PROVIDER_KEY_ENV.get(self.provider)
         if env and not self.api_key:
             return [f"{env} (required by llm.provider: {self.provider})"]
+        return []
+
+    def missing_readiness(self) -> list[str]:
+        """Only ollama has a local server/model to verify reachability for."""
+        if self.provider == "ollama":
+            return check_ollama_ready(self.base_url, self.model)
         return []
 
 
@@ -119,4 +132,14 @@ class VectorStoreConfig(DictLike):
                 "PINECONE_API_KEY (required by vectorstore.provider: pinecone, unless "
                 "vectorstore.host is set to use a local/self-hosted instance)"
             ]
+        return []
+
+    def missing_readiness(self) -> list[str]:
+        """Only Pinecone Local (host set) has something to verify is up.
+
+        Managed Pinecone Cloud is assumed reachable — its credentials are
+        checked by `missing_secrets()` instead.
+        """
+        if self.provider == "pinecone" and self.host:
+            return check_pinecone_local_ready(self.host)
         return []

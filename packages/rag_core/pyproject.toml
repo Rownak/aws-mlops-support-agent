@@ -11,7 +11,7 @@ dependencies = [
     "langchain-text-splitters>=1.1.2",
     "langchain-pinecone>=0.2.13",
     "pinecone>=5.0",
-    "markitdown>=0.0.1a3",
+    "markitdown[pdf]>=0.0.1a3",
     "python-dotenv>=1.2.2",
     "pyyaml>=6.0",
 ]

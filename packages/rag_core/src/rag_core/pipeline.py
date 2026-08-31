@@ -25,7 +25,7 @@ from typing import TypedDict
 
 from langchain_core.documents import Document
 
-from rag_core.config import RagConfig, load_config
+from rag_core.config import RagConfig, check_readiness, load_config
 from rag_core.embeddings.factory import get_embedding
 from rag_core.generation.answer import Answer
 from rag_core.generation.generator import AnswerGenerator
@@ -89,6 +89,7 @@ class RagCore:
 
     def __init__(self, config_path: str):
         self.config: RagConfig = load_config(config_path)
+        check_readiness(self.config)
 
         self.embedding = get_embedding(self.config.embeddings.as_dict())
         self.store = PineconeStore(
@@ -397,6 +398,33 @@ class RagCore:
         logger.info(f"Sync: {len(file_paths)} file(s) listed by {len(sources)} source(s)")
         return self.ingest_documents(file_paths)
 
+    def retrieve(self, question: str, k: int | None = None) -> list[tuple[Document, float]]:
+        """
+        Retrieve chunks for a question, with their scores.
+
+        The rawest view of the query path: no confidence verdict, no LLM call.
+        Use it to see what retrieval actually returns — which chunks, in what
+        order, at what scores — when tuning `top_k`, `min_top_score`, chunking,
+        or a reranker.
+
+        Args:
+            question: The question to retrieve chunks for
+            k: Override the configured `retriever.top_k`
+
+        Returns:
+            (document, score) pairs, best first. With a reranker configured
+            the score is its relevance score; otherwise it is the vector
+            store's similarity score.
+
+        Example:
+            >>> for doc, score in rag.retrieve("how do I cache?"):  # doctest: +SKIP
+            ...     print(f"{score:.3f}  {doc.metadata['source']}")
+            ...     print(doc.page_content[:120])
+        """
+        use_sparse = self.config.vectorstore.use_sparse
+        vectorstore = self.store.get_store(use_sparse=use_sparse)
+        return retrieve(question, vectorstore, self.config.retriever, top_k=k)
+
     def retrieve_with_confidence(
         self, question: str, k: int | None = None
     ) -> tuple[list, RetrievalConfidence]:
@@ -415,11 +443,9 @@ class RagCore:
         Returns:
             (documents, confidence): plain documents (best first, ready to
             pass to `AnswerGenerator.generate`) and the confidence verdict.
+            Call `retrieve()` instead when you want the scores too.
         """
-        use_sparse = self.config.vectorstore.use_sparse
-        vectorstore = self.store.get_store(use_sparse=use_sparse)
-
-        scored = retrieve(question, vectorstore, self.config.retriever, top_k=k)
+        scored = self.retrieve(question, k=k)
         confidence = assess_confidence(scored, min_top_score=self.config.retriever.min_top_score)
         documents = [doc for doc, _ in scored]
         return documents, confidence

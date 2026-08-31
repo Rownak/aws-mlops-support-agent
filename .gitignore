@@ -221,7 +221,7 @@ __marimo__/
 progress.md
 CLAUDE.example.md
 claude/
-references/ragwire/
+references/
 packages/rag_core/refactoring_tasks.md
 
 # Data files
@@ -229,3 +229,6 @@ data/
 
 # AWS credentials
 deploy/aws_setup/
+
+# Testing
+packages/finance_report_rag/
