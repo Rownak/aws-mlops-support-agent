@@ -1,11 +1,15 @@
 # rag-core
 
-**A corpus-agnostic retrieval-augmented-generation engine.** Point it at a corpus with a `config.yml`
-and one adapter, and it handles the rest: chunking, embedding, indexing, retrieval, confidence scoring,
-grounded answer generation, and evaluation.
+**A corpus-agnostic retrieval-augmented-generation engine.** Point it at a corpus with a `config.yaml`
+and it handles the rest: loading, chunking, embedding, indexing, retrieval, reranking, confidence
+scoring, grounded answer generation, and evaluation.
 
 It knows nothing about AWS, Jira, LangGraph, or Streamlit. That is enforced, not merely intended — see
 [The boundary](#the-boundary) below.
+
+Architecture is adopted from a reference project (`references/ragwire/`); Pinecone is the vector-store
+backend, and `retriever/confidence.py` plus the typed `RagConfig` layer are rag-core-specific additions
+on top of it.
 
 ---
 
@@ -17,83 +21,101 @@ Inside this workspace it's already installed by `uv sync` at the repo root. On i
 pip install ./packages/rag_core
 ```
 
-Installing it alone pulls no agent framework, no web UI and no Jira client — that independence is the
-whole reason the package exists. (On Windows also install `pyreadline3`: the Pinecone SDK imports the
-POSIX-only `readline` module.)
+Provider-specific pieces are optional extras, so a minimal install stays light:
 
-**Requires:** Python 3.13+, an OpenAI API key and a Pinecone API key (both read from the environment).
+```bash
+pip install "rag-core[ollama]"        # local LLM + embeddings
+pip install "rag-core[openai]"        # cloud LLM + embeddings
+pip install "rag-core[s3]"            # S3 document source
+pip install "rag-core[rerank]"        # local cross-encoder reranking
+pip install "rag-core[cohere]"        # hosted Cohere reranking
+pip install "rag-core[hybrid]"        # dense + sparse retrieval
+```
+
+**Requires:** Python 3.13+. A `PINECONE_API_KEY` for the managed service, or `vectorstore.host` pointed
+at Pinecone Local (Docker) for local dev with no key at all.
 
 ---
 
-## The two things a new corpus provides
+## Configuration
 
-Everything else is already written.
-
-### 1. A `config.yml`
-
-Non-secret, corpus-shaped settings. Secrets are never read from this file.
+Everything is declared in one YAML file — see `config.example.yaml` for the annotated reference:
 
 ```yaml
-project: my-corpus
-index:
-  name: my-corpus-idx
-  metric: cosine
-  region: us-east-1
-models:
-  embedding: text-embedding-3-small   # must match between ingest and query
-  chat: gpt-4o-mini
-chunking:
-  size_tokens: 800
-  overlap_tokens: 100
-  strip_patterns: ['<a name="[^"]*"></a>']   # regexes removed before splitting
-retrieval:
-  top_k: 4
-  min_top_score: 0.35                 # below this, the caller should escalate
+embeddings:
+  provider: "ollama"                  # or "openai" | "huggingface" | "google" | "fastembed"
+  model: "nomic-embed-text"
+  base_url: "http://localhost:11434"
+
+llm:
+  provider: "ollama"                  # or "openai" | "google"
+  model: "llama3.1:8b"
+
+vectorstore:
+  provider: "pinecone"
+  collection_name: "my-project-docs"
+  # host: "http://localhost:5080"     # set to use Pinecone Local instead of the managed service
+
+retriever:
+  search_type: "similarity"           # "similarity" | "mmr" | "hybrid"
+  top_k: 5
+  min_top_score: 0.35                 # below this, treat retrieval as low-confidence
+
 sources:
-  - id: handbook
-    loader: my_loader                 # names an adapter in YOUR registry
-    # ...any other keys your adapter needs; they arrive in spec.options
+  - type: local
+    path: "./documents"
+    recursive: true
 ```
 
-### 2. A `DocSource` adapter
+**Precedence is env var > `config.yaml` > built-in default**, per field. Secrets are read *only* from
+the environment (`PINECONE_API_KEY`, `OPENAI_API_KEY`, `GOOGLE_API_KEY`, `COHERE_API_KEY`) — never from
+a value written in the YAML. `${VAR}` placeholders inside the file are resolved from the environment at
+load time. Tuning values can also be overridden by env var: `RAG_TOP_K`, `RAG_MIN_TOP_SCORE`,
+`RAG_CHUNK_SIZE`, `RAG_CHUNK_OVERLAP`, `AWS_REGION`.
 
-A class with a `spec` attribute and a `fetch()` yielding `LoadedDoc`s. This is the only code that knows
-how your corpus is obtained — HTTP, git, S3, a local folder:
+Missing secrets fail fast, and **all** of them are reported in one error rather than one per run. Only
+what the configured provider actually needs is required: Ollama needs no key, and neither does a
+Pinecone reached via `host`.
 
-```python
-from rag_core.sources import LoadedDoc
+Because the LLM, embedding model, and vector store are all provider-switchable from config alone,
+moving between local development (Ollama + Pinecone Local) and a managed deployment, or between corpora
+(financial docs, medical docs, AWS docs), needs no code change.
 
-class MySource:
-    def __init__(self, spec):
-        self.spec = spec
+---
 
-    def fetch(self):
-        for name, text in my_documents():
-            yield LoadedDoc(
-                source_id=self.spec.id,
-                source_file=name,
-                text=text,
-                url=f"https://example.com/{name}",   # used for citations
-            )
-
-LOADERS = {"my_loader": MySource}   # maps config.yml's `loader:` to the class
-```
-
-Then ingest and query:
+## Usage
 
 ```python
-from rag_core.config import load_config
-from rag_core.sources import build_sources
-from rag_core.pipeline import run_ingest
+from rag_core import RagCore
 
-cfg = load_config("path/to/config.yml")
-report = run_ingest(cfg, build_sources(cfg.sources, LOADERS))
-print(report.summary())
+rag = RagCore("config.yaml")
+rag.sync()                                    # reconcile the index against configured sources
+answer = rag.query("How do I cache dependencies?")
+print(answer.formatted())                     # answer text + numbered "Sources:" list
 ```
 
 ```bash
-uv run rag-ask "your question" --config path/to/config.yml
+uv run rag-ask "your question" --config path/to/config.yaml
 ```
+
+`RagCore` is a convenience facade. Every step it composes is also usable standalone —
+`retriever.retrieve`, `retriever.confidence.assess_confidence`, and
+`generation.generator.AnswerGenerator.generate`/`agenerate` — which is what lets an agent interleave
+its own control flow. `rag.retrieve_with_confidence(question)` returns `(documents, confidence)` so a
+caller can escalate on a weak match instead of generating an answer at all.
+
+### Ingestion
+
+| Method | What it does |
+|---|---|
+| `rag.ingest_documents([...])` | Ingest a specific list of files |
+| `rag.ingest_directory(path, recursive=, extensions=)` | Ingest everything matching in a directory |
+| `rag.sync()` | Ingest whatever the configured `sources` currently list |
+
+All three share one code path and return the same `IngestStats` (`total`, `processed`, `skipped`,
+`failed`, `chunks_created`, `replaced`, `errors`). Files are identified by **content hash**, so
+re-running is free for unchanged files, a changed file replaces its older version, and a run that died
+mid-write is cleared and retried rather than left truncated.
 
 ---
 
@@ -101,11 +123,8 @@ uv run rag-ask "your question" --config path/to/config.yml
 
 | Command | What it does |
 |---|---|
-| `uv run rag-ask "…" --config <path>` | Retrieve → score confidence → generate a cited answer. Add `-k N` to override `top_k`. |
-| `uv run pytest packages/rag_core/tests` | The engine's own suite (101 tests, fully offline). |
-
-`rag-ask` is the engine's only console script; ingestion is driven by the project that owns the corpus,
-since only it knows how to fetch the documents.
+| `uv run rag-ask "…" --config <path>` | Retrieve → generate a cited `Answer`. `-k N` overrides `top_k`. |
+| `uv run pytest packages/rag_core/tests` | The engine's own suite (142 tests, fully offline). |
 
 ---
 
@@ -113,39 +132,49 @@ since only it knows how to fetch the documents.
 
 ```text
 src/rag_core/
-├── config.py          # RagConfig + nested Chunking/Retrieval configs; YAML + env precedence
-├── sources.py         # LoadedDoc, the DocSource protocol, build_sources() — the extension seam
-├── pipeline.py        # run_ingest(): source → chunk → embed → upsert, returns an IngestReport
-├── chunking/          # markdown header split + token-based sizing, config-driven
-├── vectorstore/       # Pinecone create/verify/upsert; dimension guard; create-vs-query split
-├── retrieval/         # retriever.py (RetrievedChunk), confidence.py (explainable heuristic)
-├── generation/        # answer.py, prompts.py (neutral default), ask.py (the rag-ask CLI)
-├── evals/             # EvalCase + hit@k and escalation-accuracy runner, markdown table
-└── observability.py   # log_event(): one JSON object per line, CloudWatch-parsable
+├── config/              # loader.py (raw YAML + ${VAR}), providers.py, pipeline_parts.py,
+│                        #   env.py (precedence), base.py, root.py (RagConfig, load_config, describe)
+├── pipeline.py          # RagCore facade: ingest_documents / ingest_directory / sync / query / aquery
+├── sources/             # Source ABC + lazy REGISTRY; local.py, s3.py — "which files exist now?"
+├── loaders/             # bytes -> markdown text (MarkItDown: PDF/DOCX/XLSX/PPTX/...)
+├── processing/          # hashing.py (content identity for ingest dedup), splitter.py (chunking)
+├── embeddings/          # factory.py: provider string -> Embeddings
+├── llm/                 # factory.py: provider string -> chat model
+├── vectorstores/        # pinecone_store.py: index lifecycle + hash-based ingest-state tracking
+├── retriever/           # retrieve.py, hybrid.py, rerank.py, confidence.py
+├── generation/          # answer.py (Answer/Citation), generator.py (context budget, citations), ask.py
+├── evals/               # EvalCase + hit@k and escalation-accuracy runner, markdown table
+└── observability.py     # log_event(): one JSON object per line, CloudWatch-parsable
 ```
 
 ---
 
 ## Design notes
 
-- **Configuration precedence is env var > `config.yml` > built-in default.** Secrets come only from the
-  environment; the YAML is committed so each corpus is reproducible. Missing required variables are
-  collected and reported in a single error, and a `config.yml` path that was given but doesn't exist (or
-  isn't a mapping) is a hard failure — silently falling back to defaults would build the wrong index.
-- **`RetrievedChunk` is the boundary type.** Nothing downstream of retrieval sees a LangChain `Document`,
-  so callers aren't coupled to the vector store's types.
-- **The index is created at ingest time, never at query time.** A missing index during a query means
-  misconfiguration; auto-creating one would silently return zero results forever.
-- **Corpus quirks are configuration, not code.** The `strip_patterns` list exists so a corpus's cleanup
-  rules (like awsdocs' `<a name>` heading anchors) live in YAML rather than in the engine.
-- **Thresholds are per-project.** Cosine similarity isn't a probability — a usable `min_top_score`
-  depends on both the embedding model and the corpus, so it's config, not a constant.
-- **Prompts are overridable.** `AnswerPrompts` ships a corpus-neutral default; pass your own to
-  `generate_answer` for a domain-specific voice.
-- **The evals runner takes the router as a parameter.** It measures whatever escalation logic the caller
+- **Config is a typed tree over a raw YAML loader.** `Config` reads the file; `RagConfig` is a frozen
+  dataclass tree built on top of it, with per-field env>yaml>default precedence and fail-fast
+  validation. Each block owns its own `from_raw()` and, where it carries a secret, `missing_secrets()`
+  — so **adding a provider is a one-file edit** (`config/providers.py`), not four scattered ones.
+- **Content hash is the unit of ingest identity**, not path or mtime. Each chunk carries a stamped
+  `total_chunks`, giving a tri-state ingest status (absent / partial / complete). A failed write is
+  rolled back, so a half-written file retries cleanly instead of looking done forever.
+- **A registry with lazy imports.** `sources.base.REGISTRY` populates on first access and exposes
+  `.register()`, so an optional dependency (boto3) never sits on the import path for a project that
+  doesn't use it.
+- **Retrieval is two-stage by construction.** `resolve_fetch_k` widens the candidate pool before an
+  optional reranker narrows it back to `top_k`.
+- **Refusal is a protocol, not a phrase.** `REFUSAL_SENTINEL` is detected by containment plus a length
+  guard, so prompt wording can change without breaking refusal detection.
+- **The answer is an object, not a string.** `Answer` carries text, `Citation`s, the retrieved set, and
+  a `confidence` — citation coverage, which measures traceability, not correctness (see its docstring).
+- **A context character budget is enforced by the library**, so the provider never silently truncates
+  and drops the best-ranked chunk last.
+- **`assess_confidence`** is an explainable score-threshold heuristic (`is_confident`, `score_gap`) an
+  agent uses to decide whether to escalate instead of answering.
+- **The evals runner takes the router as a parameter**, measuring whatever escalation logic the caller
   actually ships, without importing an agent.
-- **Seams are injectable for testing** — the Pinecone client, the LLM, the vector store and the upsert
-  function can all be replaced, which is why the suite runs fully offline.
+- **Seams are injectable for testing** — the LLM, vector store, loader, and every provider factory can
+  be replaced with a fake, which is why the suite runs fully offline.
 
 ---
 
@@ -158,5 +187,6 @@ src/rag_core/
 - CI installs `rag-core` **alone** into a clean environment and runs this suite there, so a stray import
   can't be masked by the workspace venv where both packages are always present.
 
-If the engine seems to need something project-specific, invert the dependency: have the project pass it
-in, as `DocSource`, `AnswerPrompts` and the evals router all do.
+If the engine seems to need something project-specific, invert the dependency: have the project supply
+its own source (`sources.base.REGISTRY.register(...)`), prompt
+(`generation.AnswerGenerator(system_prompt=...)`), or router (passed into the evals runner).

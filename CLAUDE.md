@@ -20,7 +20,3 @@ Context: `project_summary.md`. Tasks: `tasks.md` — do ONE task at a time.
 ## Testing
 Everything runnable/verifiable in isolation. Prefer small eval scripts over
 abstract unit tests for RAG/agent behavior.
-
-## Progress
-After each task, append 1–2 lines to `progress.md` (built / changed in review / why).
-Read `progress.md` at session start.

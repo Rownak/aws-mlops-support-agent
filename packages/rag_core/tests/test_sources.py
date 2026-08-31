@@ -1,69 +1,61 @@
-"""Tests for the DocSource seam.
-
-The point of these tests: prove a corpus adapter needs nothing from rag_core
-beyond the protocol — an in-memory fake with no I/O at all satisfies it.
-"""
+"""Tests for the local-directory document source."""
 
 import pytest
-from rag_core.config import SourceSpec
-from rag_core.sources import DocSource, LoadedDoc, build_sources
+
+from rag_core.sources.base import build_source, build_sources
+from rag_core.sources.local import LocalSource
 
 
-class FakeSource:
-    """A DocSource that serves documents from a dict. No network, no disk."""
-
-    def __init__(self, spec: SourceSpec, docs: dict[str, str] | None = None):
-        self.spec = spec
-        self._docs = docs or {"intro.md": "# Intro\n\nhello"}
-
-    def fetch(self):
-        for name, text in self._docs.items():
-            yield LoadedDoc(
-                source_id=self.spec.id,
-                source_file=name,
-                text=text,
-                url=f"https://docs.example.invalid/{name.removesuffix('.md')}.html",
-            )
+def test_missing_path_raises(tmp_path):
+    source = LocalSource(path=str(tmp_path / "nope"))
+    with pytest.raises(FileNotFoundError):
+        source.list_files()
 
 
-SPEC = SourceSpec(id="fake", loader="fake_loader", options={"anything": "goes"})
+def test_lists_matching_files_sorted(tmp_path):
+    (tmp_path / "b.md").write_text("b")
+    (tmp_path / "a.md").write_text("a")
+    (tmp_path / "skip.png").write_text("x")
+
+    source = LocalSource(path=str(tmp_path), extensions=[".md"])
+    files = source.list_files()
+
+    assert [f.split("\\")[-1].split("/")[-1] for f in files] == ["a.md", "b.md"]
 
 
-def test_fake_source_satisfies_the_protocol():
-    assert isinstance(FakeSource(SPEC), DocSource)
+def test_recursive_flag_controls_descent(tmp_path):
+    (tmp_path / "top.md").write_text("t")
+    nested = tmp_path / "nested"
+    nested.mkdir()
+    (nested / "deep.md").write_text("d")
+
+    shallow = LocalSource(path=str(tmp_path), recursive=False, extensions=[".md"])
+    assert len(shallow.list_files()) == 1
+
+    deep = LocalSource(path=str(tmp_path), recursive=True, extensions=[".md"])
+    assert len(deep.list_files()) == 2
 
 
-def test_object_without_fetch_does_not_satisfy_the_protocol():
-    class NotASource:
-        spec = SPEC
-
-    assert not isinstance(NotASource(), DocSource)
+def test_build_source_from_config(tmp_path):
+    source = build_source({"type": "local", "path": str(tmp_path)})
+    assert isinstance(source, LocalSource)
 
 
-def test_fetch_yields_loaded_docs_with_provenance():
-    (doc,) = list(FakeSource(SPEC).fetch())
-    assert doc.source_id == "fake"
-    assert doc.source_file == "intro.md"
-    assert doc.text.startswith("# Intro")
-    assert doc.url.endswith("/intro.html")
-    assert doc.extra == {}
+def test_build_source_rejects_unknown_type():
+    with pytest.raises(ValueError, match="Unknown source type"):
+        build_source({"type": "nonexistent"})
 
 
-def test_build_sources_uses_the_projects_registry():
-    specs = [SPEC, SourceSpec(id="other", loader="fake_loader")]
-    registry = {"fake_loader": FakeSource}
-    sources = list(build_sources(specs, registry))
-    assert [s.spec.id for s in sources] == ["fake", "other"]
-    assert all(isinstance(s, DocSource) for s in sources)
+def test_build_source_requires_type_key():
+    with pytest.raises(ValueError, match="missing a 'type' key"):
+        build_source({"path": "./docs"})
 
 
-def test_unknown_loader_fails_with_the_known_names():
-    spec = SourceSpec(id="x", loader="typo_loader")
-    with pytest.raises(RuntimeError, match="typo_loader.*Known loaders: fake_loader"):
-        list(build_sources([spec], {"fake_loader": FakeSource}))
+def test_build_sources_returns_empty_list_for_none():
+    assert build_sources(None) == []
 
 
-def test_unknown_loader_message_handles_an_empty_registry():
-    spec = SourceSpec(id="x", loader="anything")
-    with pytest.raises(RuntimeError, match="none registered"):
-        list(build_sources([spec], {}))
+def test_build_sources_builds_every_entry(tmp_path):
+    sources = build_sources([{"type": "local", "path": str(tmp_path)}])
+    assert len(sources) == 1
+    assert isinstance(sources[0], LocalSource)

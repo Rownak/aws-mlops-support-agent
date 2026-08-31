@@ -1,20 +1,18 @@
-"""Single-question CLI: run the full retrieve -> confidence -> answer path.
+"""Single-question CLI: run the full retrieve -> generate path.
 
-Generic on purpose — any project points it at its own config.yml:
+Generic on purpose — any project points it at its own config.yaml:
 
-  uv run rag-ask "How do I cache dependencies?" --config path/to/config.yml
-  uv run rag-ask "..." --config path/to/config.yml -k 6
+  uv run rag-ask "How do I cache dependencies?" --config path/to/config.yaml
+  uv run rag-ask "..." --config path/to/config.yaml -k 6
 
-This is the eyeball-it tool for the query path. An agent wires these same
-three functions into its own control flow.
+This is the eyeball-it tool for the query path. An agent wires the same
+underlying functions (`sources`, `retriever`, `confidence`, `generation`)
+into its own control flow instead of going through the RagCore facade.
 """
 
 import argparse
 
-from rag_core.config import load_config
-from rag_core.generation.answer import generate_answer
-from rag_core.retrieval.confidence import assess_confidence
-from rag_core.retrieval.retriever import make_retriever
+from rag_core.pipeline import RagCore
 
 
 def main() -> None:
@@ -22,8 +20,8 @@ def main() -> None:
     parser.add_argument("question", help="The question to answer from the corpus")
     parser.add_argument(
         "--config",
-        default=None,
-        help="Path to the project's config.yml (defaults to env vars only)",
+        required=True,
+        help="Path to the project's config.yaml",
     )
     parser.add_argument(
         "-k",
@@ -33,24 +31,11 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    cfg = load_config(args.config)
-    retriever = make_retriever(cfg)
+    rag = RagCore(args.config)
+    answer = rag.query(args.question, k=args.k)
 
-    chunks = retriever(args.question, k=args.k)
-    print(f"\n=== Retrieved {len(chunks)} chunks ===")
-    for i, chunk in enumerate(chunks, start=1):
-        print(f"[{i}] score={chunk.score:.4f}  [{chunk.source_id}] {chunk.heading}")
-
-    confidence = assess_confidence(chunks, min_top_score=cfg.retrieval.min_top_score)
-    verdict = "CONFIDENT" if confidence.is_confident else "LOW CONFIDENCE"
-    print(f"\n=== Confidence: {verdict} ===")
-    print(f"    {confidence.reason} (gap={confidence.score_gap:.3f})")
-
-    # Still answer even on low confidence — the system prompt makes the model
-    # admit gaps, and seeing that output is useful for tuning. An agent is
-    # where low confidence starts routing to escalation instead.
-    print("\n=== Answer ===")
-    print(generate_answer(args.question, chunks, cfg))
+    print(f"\n=== {'REFUSED' if answer.refused else 'ANSWER'} (confidence={answer.confidence:.2f}) ===")
+    print(answer.formatted())
 
 
 if __name__ == "__main__":

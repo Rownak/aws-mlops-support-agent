@@ -20,9 +20,9 @@ the `EvalCase` type and this runner are generic.
 
 from collections.abc import Callable
 from dataclasses import dataclass
+from typing import Any
 
-from rag_core.retrieval.confidence import assess_confidence
-from rag_core.retrieval.retriever import RetrievedChunk
+from rag_core.retriever.confidence import assess_confidence
 
 
 @dataclass(frozen=True)
@@ -63,13 +63,14 @@ class Summary:
     escalation_correct: int
 
 
-def chunk_label(chunk: RetrievedChunk) -> str:
+def chunk_label(scored_document: tuple[Any, float]) -> str:
     """How a retrieved chunk is matched against a case's expected files.
 
     File-level, not chunk-level: chunk labels would break every time chunking
     parameters change, while filenames survive re-ingestion.
     """
-    return f"{chunk.source_id}/{chunk.source_file}"
+    document, _ = scored_document
+    return document.metadata.get("source", "")
 
 
 def evaluate_case(
@@ -79,14 +80,18 @@ def evaluate_case(
     min_top_score: float,
     should_escalate: Callable[[object], bool],
 ) -> CaseResult:
-    """Run one question through real retrieval + the caller's real routing."""
-    chunks = retriever(case.question, k=k)
-    confidence = assess_confidence(chunks, min_top_score=min_top_score)
+    """Run one question through real retrieval + the caller's real routing.
+
+    `retriever(question, k=k)` must return `(document, score)` pairs, best
+    first — the shape a vector store's `similarity_search_with_score` returns.
+    """
+    scored_documents = retriever(case.question, k=k)
+    confidence = assess_confidence(scored_documents, min_top_score=min_top_score)
     escalated = should_escalate(confidence)
 
     # dict.fromkeys = order-preserving dedup (several chunks often come from
     # the same file).
-    retrieved = tuple(dict.fromkeys(chunk_label(c) for c in chunks))
+    retrieved = tuple(dict.fromkeys(chunk_label(c) for c in scored_documents))
     hit = any(f in case.expected_files for f in retrieved) if case.expected_files else None
 
     return CaseResult(

@@ -1,0 +1,101 @@
+# rag_core configuration
+# Copy to config.yaml and customize per project/corpus. Secrets (API keys) are
+# never read from this file — set them as environment variables (see .env.example).
+
+# =================================================================
+# Document Loader
+# =================================================================
+loader:
+  # Extensions to process when scanning a directory
+  extensions: [".pdf", ".docx", ".xlsx", ".pptx", ".txt", ".md"]
+
+# =================================================================
+# Text Splitter
+# =================================================================
+splitter:
+  chunk_size: 800
+  chunk_overlap: 100
+  strategy: "markdown"   # "markdown" | "recursive"
+
+# =================================================================
+# Embedding Model
+# =================================================================
+# Local dev (Ollama, no API key needed):
+embeddings:
+  provider: "ollama"
+  model: "nomic-embed-text"
+  base_url: "http://localhost:11434"
+
+# Cloud alternative:
+# embeddings:
+#   provider: "openai"
+#   model: "text-embedding-3-small"    # api_key read from OPENAI_API_KEY
+
+# =================================================================
+# LLM (answer generation, and optional metadata extraction at ingest)
+# =================================================================
+llm:
+  provider: "ollama"
+  model: "llama3.1:8b"
+  base_url: "http://localhost:11434"
+  num_ctx: 8192          # Context window. Must fit your largest chunk.
+
+# llm:
+#   provider: "openai"
+#   model: "gpt-4o-mini"               # api_key read from OPENAI_API_KEY
+
+# =================================================================
+# Vector Store (Pinecone)
+# =================================================================
+vectorstore:
+  provider: "pinecone"
+  collection_name: "my-project-docs"
+  use_sparse: false      # true enables hybrid dense+sparse search (needs a dotproduct index)
+  # api_key read from PINECONE_API_KEY for the managed service.
+  # host: "http://localhost:5080"      # set this instead to use Pinecone Local (Docker) for dev
+  cloud: "aws"
+  region: "us-east-1"
+
+# =================================================================
+# Retriever
+# =================================================================
+retriever:
+  search_type: "similarity"   # "similarity" | "mmr" | "hybrid" (hybrid requires use_sparse: true)
+  top_k: 5
+  min_top_score: 0.35         # below this, the caller should treat retrieval as low-confidence
+
+# =================================================================
+# Sources
+# =================================================================
+sources:
+  - type: local
+    path: "./documents"
+    recursive: true
+    extensions: [".pdf", ".docx", ".xlsx", ".pptx", ".txt", ".md"]   # defaults to loader.extensions
+  # - type: s3                        # needs: pip install rag-core[s3]
+  #   bucket: "my-bucket"
+  #   prefix: "2026/"
+  #   cache_dir: ".rag_core_cache"    # objects are downloaded here first
+  #   region: "us-east-1"
+  #   aws_access_key_id: "${AWS_ACCESS_KEY_ID}"      # omit to use the
+  #   aws_secret_access_key: "${AWS_SECRET_ACCESS_KEY}"  # normal boto3 chain
+
+# =================================================================
+# Answer generation
+# =================================================================
+# Entirely optional. Omit the block and these defaults apply.
+generation:
+  max_context_chars: 12000   # Total budget for the source block sent to the LLM.
+                              # Chunks past the budget are dropped rather than
+                              # silently truncated by the provider.
+  # system_prompt: |          # Override the grounding instructions. Use {sentinel}
+  #   ...                     # where the model should be told to refuse.
+
+# =================================================================
+# Logging
+# =================================================================
+logging:
+  level: "INFO"
+  console_output: true
+  colored: false
+  # log_file: "logs/rag.log"

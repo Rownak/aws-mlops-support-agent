@@ -5,7 +5,7 @@ so (or offer a human hand-off) instead of bluffing an answer.
 
 The heuristic (deliberately simple):
   1. No chunks retrieved                 -> not confident.
-  2. Best cosine score < min_top_score   -> not confident ("best match is weak").
+  2. Best score < min_top_score          -> not confident ("best match is weak").
   3. Otherwise                           -> confident.
 
 `score_gap` (top1 - top2) is computed and reported but does NOT affect the
@@ -14,35 +14,41 @@ suggests one clearly-best doc; a flat top-k can mean the query matched
 everything a little and nothing well).
 
 Cosine similarity is not a probability: a usable threshold depends on the
-embedding model AND the corpus, which is why `min_top_score` is per-project
-configuration (`retrieval.min_top_score`) rather than a constant here.
+embedding model AND the corpus, which is why `min_top_score` is a caller-
+supplied parameter rather than a constant here.
 """
 
 from dataclasses import dataclass
+from typing import Any
 
-from langsmith import traceable
-
-from rag_core.config import DEFAULT_MIN_TOP_SCORE
-from rag_core.retrieval.retriever import RetrievedChunk
+DEFAULT_MIN_TOP_SCORE = 0.35
 
 
 @dataclass(frozen=True)
 class RetrievalConfidence:
-    top_score: float  # best cosine score, 0.0 if nothing retrieved
+    top_score: float  # best similarity score, 0.0 if nothing retrieved
     score_gap: float  # top1 - top2, 0.0 if fewer than 2 chunks
     is_confident: bool
     reason: str  # human-readable; reused in logs and ticket drafts
 
 
-# Traced so the confidence verdict that drives escalation routing shows up as
-# its own span. No-op unless LANGSMITH_TRACING is on.
-@traceable
 def assess_confidence(
-    chunks: list[RetrievedChunk],
+    scored_documents: list[tuple[Any, float]],
     min_top_score: float = DEFAULT_MIN_TOP_SCORE,
 ) -> RetrievalConfidence:
-    """Judge whether retrieval found docs worth answering from."""
-    if not chunks:
+    """
+    Judge whether retrieval found docs worth answering from.
+
+    Args:
+        scored_documents: (document, score) pairs, best first — the shape
+            returned by a vector store's ``similarity_search_with_score``.
+        min_top_score: Below this, the best match is treated as too weak to
+            answer from.
+
+    Returns:
+        A RetrievalConfidence describing the verdict and why.
+    """
+    if not scored_documents:
         return RetrievalConfidence(
             top_score=0.0,
             score_gap=0.0,
@@ -50,8 +56,8 @@ def assess_confidence(
             reason="no chunks retrieved",
         )
 
-    top_score = chunks[0].score
-    score_gap = chunks[0].score - chunks[1].score if len(chunks) > 1 else 0.0
+    top_score = scored_documents[0][1]
+    score_gap = top_score - scored_documents[1][1] if len(scored_documents) > 1 else 0.0
 
     if top_score < min_top_score:
         return RetrievalConfidence(
