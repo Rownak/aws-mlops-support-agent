@@ -27,6 +27,11 @@ Adding your own takes one class and one line:
         def list_files(self):
             return download_everything_to_a_local_cache()
 
+        # Optional: extra metadata for every chunk of each file, e.g. a
+        # canonical URL for citations or a field to filter retrieval on.
+        def metadata_for(self, file_path):
+            return {"url": self._web_url(file_path)}
+
     REGISTRY.register(SharePointSource)
 """
 

@@ -10,6 +10,7 @@ from pathlib import Path
 import pytest
 from rag_core.config import SplitterConfig, VectorStoreConfig
 from rag_core.pipeline import RagCore
+from rag_core.processing.chunking import RESERVED_METADATA_KEYS
 
 
 class _FakeSplitter:
@@ -148,6 +149,39 @@ def test_ingest_documents_stamps_provenance_metadata(docs):
     # total_chunks is what makes a partial ingest detectable later.
     assert meta["total_chunks"] == len(vs.added)
     assert meta["file_hash"] and meta["chunk_hash"] and meta["content_hash"]
+    # Nothing extra when no extra_metadata was passed.
+    assert set(meta) == RESERVED_METADATA_KEYS
+
+
+def test_ingest_documents_applies_extra_metadata_by_path(docs):
+    """extra_metadata is per-path: only the named file's chunks get it."""
+    a, b = docs
+    vs = _FakeVectorStore()
+    rag = _rag_core(_FakeStore(vs), _FakeLoader())
+
+    rag.ingest_documents([a, b], extra_metadata={a: {"url": "https://x/a"}})
+
+    for doc in vs.added:
+        if doc.metadata["source"] == a:
+            assert doc.metadata["url"] == "https://x/a"
+        else:
+            assert "url" not in doc.metadata
+
+
+def test_ingest_documents_reserved_key_collision_fails_only_that_file(docs):
+    """A source's bad metadata is one file's error, not a dead run."""
+    a, b = docs
+    vs = _FakeVectorStore()
+    rag = _rag_core(_FakeStore(vs), _FakeLoader())
+
+    stats = rag.ingest_documents([a, b], extra_metadata={a: {"chunk_index": 99}})
+
+    assert stats["failed"] == 1
+    assert stats["processed"] == 1
+    assert stats["errors"][0]["file"] == a
+    assert "reserved key" in stats["errors"][0]["error"]
+    # b still landed, and with its own chunk_index intact.
+    assert vs.added and all(d.metadata["source"] == b for d in vs.added)
 
 
 def test_empty_file_list_returns_zeroed_stats():
@@ -347,3 +381,36 @@ def test_sync_ingests_what_the_sources_list(tmp_path, monkeypatch):
     # Same IngestStats shape as ingest_documents — one shared code path.
     assert stats["total"] == 1 and stats["processed"] == 1
     assert vs.added
+    # This source predates metadata_for and never defines it; sync must not
+    # require it, and must add nothing to the chunks.
+    assert set(vs.added[0].metadata) == RESERVED_METADATA_KEYS
+
+
+def test_sync_applies_each_sources_metadata_for(tmp_path, monkeypatch):
+    a = tmp_path / "a.md"
+    a.write_text("one\n\ntwo", encoding="utf-8")
+    b = tmp_path / "b.md"
+    b.write_text("only one", encoding="utf-8")
+
+    class _UrlSource:
+        def __init__(self, path, url):
+            self.path, self.url = str(path), url
+
+        def list_files(self):
+            return [self.path]
+
+        def metadata_for(self, file_path):
+            return {"url": self.url}
+
+    monkeypatch.setattr(
+        "rag_core.pipeline.build_sources",
+        lambda specs: [_UrlSource(a, "https://x/a"), _UrlSource(b, "https://x/b")],
+    )
+    vs = _FakeVectorStore()
+    rag = _rag_core(_FakeStore(vs), _FakeLoader())
+
+    rag.sync()
+
+    # Each source's metadata follows its own files, not the other's.
+    by_url = {d.metadata["source"]: d.metadata["url"] for d in vs.added}
+    assert by_url == {str(a): "https://x/a", str(b): "https://x/b"}

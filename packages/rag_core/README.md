@@ -117,6 +117,12 @@ All three share one code path and return the same `IngestStats` (`total`, `proce
 re-running is free for unchanged files, a changed file replaces its older version, and a run that died
 mid-write is cleared and retried rather than left truncated.
 
+Every chunk carries provenance metadata (`source`, `file_name`, `file_hash`, `chunk_index`,
+`total_chunks`, …). A custom `Source` can attach **extra** per-file metadata — a canonical URL to cite,
+a field to filter retrieval on — by overriding `metadata_for(file_path)`; see the example in
+`sources/__init__.py`. Those keys must not collide with the reserved ones
+(`processing.chunking.RESERVED_METADATA_KEYS`), and a collision fails that one file rather than the run.
+
 ---
 
 ## Commands

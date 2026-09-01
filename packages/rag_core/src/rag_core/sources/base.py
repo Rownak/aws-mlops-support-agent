@@ -24,8 +24,10 @@ class Source:
     """
     Base class for document sources.
 
-    Subclasses implement :meth:`list_files`. Everything else, including
-    extension filtering, is provided here so every source filters the same way.
+    Subclasses implement :meth:`list_files`, and may optionally override
+    :meth:`metadata_for` to attach extra metadata to their files' chunks.
+    Everything else, including extension filtering, is provided here so every
+    source filters the same way.
 
     Attributes:
         name: Identifies this source in logs and sync results
@@ -54,6 +56,35 @@ class Source:
             NotImplementedError: On the base class
         """
         raise NotImplementedError
+
+    def metadata_for(self, file_path: str) -> Dict[str, Any]:
+        """
+        Extra metadata to attach to every chunk of one file.
+
+        Called once per path returned by :meth:`list_files`. Whatever is
+        returned is merged into that file's chunks' ``Document.metadata``, so
+        a source that knows something the file itself does not carry — a
+        canonical URL, an author, a ticket id — can surface it for citations
+        and metadata filtering instead of routing it through a sidecar file
+        read back after retrieval.
+
+        Returns an empty mapping by default, so a source with nothing extra
+        to add — including every source shipped here — needs no override.
+
+        Args:
+            file_path: One path this source returned from ``list_files()``
+
+        Returns:
+            Extra metadata for that file's chunks. Must not use any key in
+            ``processing.chunking.RESERVED_METADATA_KEYS``; ``build_chunks``
+            raises if it does.
+
+        Example:
+            >>> class DocsSource(Source):
+            ...     def metadata_for(self, file_path):
+            ...         return {"url": f"https://docs.example.com/{file_path}"}
+        """
+        return {}
 
     def matches_extension(self, path: str) -> bool:
         """

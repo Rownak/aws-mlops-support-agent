@@ -109,18 +109,24 @@ class RagCore:
 
     # ---------------------------------------------------------------- ingest
 
-    def _prepare_document(self, file_path: str, splitter) -> dict:
+    def _prepare_document(
+        self, file_path: str, splitter, *, extra_metadata: dict | None = None
+    ) -> dict:
         """
         Hash, dedup-check, load and split one file. Never writes.
 
         Read-only with respect to the vector store, so every mutation stays in
         `_write_prepared` and there is exactly one place partial state can be
         created. Failures are captured in the record rather than raised, so one
-        bad file cannot abort a whole run.
+        bad file cannot abort a whole run — a source's bad `extra_metadata`
+        included, which lands here as this file's error rather than killing
+        the run.
 
         Args:
             file_path: Path to the document
             splitter: The splitter to chunk its text with
+            extra_metadata: Extra metadata for this file's chunks (see
+                `Source.metadata_for`)
 
         Returns:
             A record whose ``action`` is "skip", "write" or "error".
@@ -156,6 +162,7 @@ class RagCore:
                 file_type=result["file_type"],
                 file_hash=file_hash,
                 splitter=splitter,
+                extra_metadata=extra_metadata,
             )
 
             if not record["chunks"]:
@@ -248,7 +255,12 @@ class RagCore:
                         f"{cleanup_error}"
                     )
 
-    def ingest_documents(self, file_paths: list[str]) -> IngestStats:
+    def ingest_documents(
+        self,
+        file_paths: list[str],
+        *,
+        extra_metadata: dict[str, dict] | None = None,
+    ) -> IngestStats:
         """
         Ingest a specific list of documents into the vector store.
 
@@ -259,6 +271,12 @@ class RagCore:
 
         Args:
             file_paths: Paths of the documents to ingest
+            extra_metadata: Optional per-path extra chunk metadata, keyed by
+                the same strings as `file_paths` — typically what each
+                `Source.metadata_for()` returned, which is how `sync()` uses
+                it. A path with no entry simply gets none. Keys must avoid
+                `processing.chunking.RESERVED_METADATA_KEYS`; a collision
+                fails that one file, not the run.
 
         Returns:
             IngestStats — counts plus a per-file error list.
@@ -278,8 +296,11 @@ class RagCore:
 
         logger.info(f"Starting ingestion of {len(file_paths)} document(s)")
         for file_path in file_paths:
+            extra = (extra_metadata or {}).get(file_path, {})
             self._write_prepared(
-                self._prepare_document(file_path, splitter), vectorstore, stats
+                self._prepare_document(file_path, splitter, extra_metadata=extra),
+                vectorstore,
+                stats,
             )
 
         logger.info(
@@ -341,17 +362,31 @@ class RagCore:
         Lists what the sources currently hold, then hands those paths to
         `ingest_documents`, so syncing and explicit ingestion share one code
         path (and one set of guarantees around partial writes and replacement).
+        Each source is also asked for any extra per-file metadata it wants on
+        its chunks (see `Source.metadata_for`).
 
         Returns:
             IngestStats, as `ingest_documents`
         """
         sources = build_sources([spec.as_dict() for spec in self.config.sources])
         file_paths: list[str] = []
+        extra_metadata: dict[str, dict] = {}
         for source in sources:
-            file_paths.extend(source.list_files())
+            paths = source.list_files()
+            file_paths.extend(paths)
+            # getattr, not a direct call: a source only has to provide
+            # list_files() to work here, so duck-typed sources (and tests'
+            # fakes) predating metadata_for keep working untouched.
+            metadata_for = getattr(source, "metadata_for", None)
+            if metadata_for is None:
+                continue
+            for path in paths:
+                metadata = metadata_for(path)
+                if metadata:
+                    extra_metadata[path] = metadata
 
         logger.info(f"Sync: {len(file_paths)} file(s) listed by {len(sources)} source(s)")
-        return self.ingest_documents(file_paths)
+        return self.ingest_documents(file_paths, extra_metadata=extra_metadata or None)
 
     def _vectorstore(self):
         return self.store.get_store(use_sparse=self.config.vectorstore.use_sparse)
