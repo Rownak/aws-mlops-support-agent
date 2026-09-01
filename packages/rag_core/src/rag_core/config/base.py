@@ -9,8 +9,9 @@ coupled to these types.
 
 The other three (``SplitterConfig``, ``RetrieverConfig``,
 ``GenerationConfig``) intentionally do NOT get ``as_dict()``. Their consumers
-take scalar keyword arguments instead (see ``pipeline.py``: ``_splitter()``
-reads ``.chunk_size``/``.chunk_overlap``, and ``assess_confidence`` takes
+take scalar keyword arguments instead (see
+``processing.chunking.splitter_from_config``, which reads
+``.chunk_size``/``.chunk_overlap``, and ``assess_confidence``, which takes
 ``min_top_score=``). Giving them an unused ``as_dict()`` would imply a
 dict-driven contract that does not exist.
 """

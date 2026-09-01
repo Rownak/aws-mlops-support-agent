@@ -9,7 +9,8 @@ recovery and stale-version replacement behave identically however you ingest.
 
 Kept intentionally thin — every module it composes (``sources``, ``processing``,
 ``embeddings``, ``vectorstores``, ``generation``, ``retriever``) also works
-standalone at the function level: ``retriever.retrieve``,
+standalone at the function level: ``processing.chunking.build_chunks``,
+``retriever.retrieve``,
 ``retriever.confidence.assess_confidence``, and
 ``generation.generator.AnswerGenerator.generate``/``agenerate`` are each
 independently callable, so an agent can run retrieval and confidence scoring
@@ -31,8 +32,8 @@ from rag_core.generation.answer import Answer
 from rag_core.generation.generator import AnswerGenerator
 from rag_core.llm.factory import get_llm
 from rag_core.loaders.markitdown_loader import MarkItDownLoader
-from rag_core.processing.hashing import sha256_chunk, sha256_file_from_path, sha256_text
-from rag_core.processing.splitter import get_markdown_splitter, get_splitter
+from rag_core.processing.chunking import build_chunks, splitter_from_config
+from rag_core.processing.hashing import sha256_file_from_path
 from rag_core.retriever.confidence import RetrievalConfidence, assess_confidence
 from rag_core.retriever.retrieve import retrieve, retrieve_scored
 from rag_core.sources import build_sources
@@ -106,12 +107,6 @@ class RagCore:
         )
         self.batch_size = DEFAULT_BATCH_SIZE
 
-    def _splitter(self):
-        splitter_cfg = self.config.splitter
-        if splitter_cfg.strategy == "markdown":
-            return get_markdown_splitter(splitter_cfg.chunk_size, splitter_cfg.chunk_overlap)
-        return get_splitter(splitter_cfg.chunk_size, splitter_cfg.chunk_overlap)
-
     # ---------------------------------------------------------------- ingest
 
     def _prepare_document(self, file_path: str, splitter) -> dict:
@@ -154,7 +149,7 @@ class RagCore:
                 record["error"] = result["error"]
                 return record
 
-            record["chunks"] = self._build_chunks(
+            record["chunks"] = build_chunks(
                 text=result["text_content"],
                 file_path=file_path,
                 file_name=result["file_name"],
@@ -178,46 +173,6 @@ class RagCore:
             logger.debug(f"Preparation failed for {file_path}: {e}", exc_info=True)
             record["error"] = str(e)
             return record
-
-    def _build_chunks(
-        self,
-        text: str,
-        file_path: str,
-        file_name: str,
-        file_type: str,
-        file_hash: str,
-        splitter,
-    ) -> list[Document]:
-        """Split one document's text into chunks carrying provenance metadata.
-
-        ``total_chunks`` is what makes a partial ingest detectable later: a run
-        that died mid-write leaves fewer stored chunks than each chunk claims.
-        """
-        pieces = splitter.split_text(text)
-        documents = []
-
-        for i, piece in enumerate(pieces):
-            chunk_id = f"{file_hash}_{i}"
-            documents.append(
-                Document(
-                    page_content=piece,
-                    metadata={
-                        "source": file_path,
-                        "file_name": file_name,
-                        "file_type": file_type,
-                        "file_hash": file_hash,
-                        "chunk_id": chunk_id,
-                        # Mixes in chunk_id, so identical text in two chunks
-                        # still hashes differently.
-                        "chunk_hash": sha256_chunk(chunk_id, piece),
-                        # Text alone — comparable across chunks and documents.
-                        "content_hash": sha256_text(piece),
-                        "chunk_index": i,
-                        "total_chunks": len(pieces),
-                    },
-                )
-            )
-        return documents
 
     def _write_chunks(self, chunks: list[Document], vectorstore) -> None:
         """Add chunks to the vector store in batches.
@@ -319,7 +274,7 @@ class RagCore:
         use_sparse = self.config.vectorstore.use_sparse
         self.store.create_collection(use_sparse=use_sparse)
         vectorstore = self.store.get_store(use_sparse=use_sparse)
-        splitter = self._splitter()
+        splitter = splitter_from_config(self.config.splitter)
 
         logger.info(f"Starting ingestion of {len(file_paths)} document(s)")
         for file_path in file_paths:

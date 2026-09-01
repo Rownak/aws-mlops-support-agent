@@ -95,8 +95,16 @@ def _rag_core(store, loader, batch_size=100, sources=()):
     rag.store = store
     rag.loader = loader
     rag.batch_size = batch_size
-    rag._splitter = lambda: _FakeSplitter()
     return rag
+
+
+@pytest.fixture(autouse=True)
+def _fake_splitter(monkeypatch):
+    """Chunking now lives in processing.chunking, so the splitter is injected
+    by patching what ingest_documents calls rather than a RagCore method."""
+    monkeypatch.setattr(
+        "rag_core.pipeline.splitter_from_config", lambda cfg: _FakeSplitter()
+    )
 
 
 @pytest.fixture
