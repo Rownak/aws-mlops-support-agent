@@ -45,6 +45,6 @@ sources:
   - type: awsdocs_git
     id: codebuild
     path: data/aws_docs
-  - type: awsdocs_git
-    id: codepipeline
-    path: data/aws_docs
+  # - type: awsdocs_git
+  #   id: codepipeline
+  #   path: data/aws_docs

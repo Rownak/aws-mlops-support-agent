@@ -50,10 +50,10 @@ AWSDOCS_REPOS = {
         "git_url": "https://github.com/awsdocs/aws-codebuild-user-guide.git",
         "docs_base_url": "https://docs.aws.amazon.com/codebuild/latest/userguide/",
     },
-    "codepipeline": {
-        "git_url": "https://github.com/awsdocs/aws-codepipeline-user-guide.git",
-        "docs_base_url": "https://docs.aws.amazon.com/codepipeline/latest/userguide/",
-    },
+    # "codepipeline": {
+    #     "git_url": "https://github.com/awsdocs/aws-codepipeline-user-guide.git",
+    #     "docs_base_url": "https://docs.aws.amazon.com/codepipeline/latest/userguide/",
+    # },
 }
 
 

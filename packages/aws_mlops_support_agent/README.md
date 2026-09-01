@@ -16,7 +16,7 @@ For the project overview, architecture diagram and deployment guide, see the
 
 | Concern | Where | Why it's here and not in the engine |
 |---|---|---|
-| awsdocs git-history recovery | `sources/fetch.py` | The archived-repo trick is specific to `awsdocs`. |
+| The `awsdocs_git` source type | `sources/fetch.py` | The archived-repo trick and the docs-URL mapping are specific to `awsdocs`. |
 | Corpus + index settings | `config.yml` | Per-project by definition. |
 | Jira credentials + `DRY_RUN` | `settings.py` | The engine has no notion of ticketing. |
 | The agent's control flow | `agent/` | LangGraph state machine, retries, human-in-the-loop pauses. |
@@ -33,9 +33,9 @@ For the project overview, architecture diagram and deployment guide, see the
 |---|---|
 | `uv run aws-agent-demo` | Streamlit chat UI on :8501, including the "resolved / open a ticket?" prompt. |
 | `uv run aws-agent` | The same graph in the terminal. |
-| `uv run aws-agent-ingest` | Fetch → chunk → embed → upsert the corpus. Idempotent (deterministic chunk IDs). |
+| `uv run aws-agent-ingest` | `RagCore.sync()`: clone → recover → chunk → embed → upsert. Idempotent (deterministic chunk IDs). |
 | `uv run aws-agent-evals` | Run the eval set against the live index; writes `evals/results.md`. |
-| `uv run pytest packages/aws_mlops_support_agent/tests` | This package's suite (56 tests, offline). |
+| `uv run pytest packages/aws_mlops_support_agent/tests` | This package's suite (offline — see [Testing](#testing)). |
 
 Ingestion runs separately from serving — the deployed container only serves; the corpus already lives in
 Pinecone.
@@ -46,12 +46,13 @@ Pinecone.
 
 ```text
 src/aws_mlops_support_agent/
-├── config.yml         # index, models, chunking, retrieval, and the two awsdocs sources
+├── config.yml         # embeddings, llm, vectorstore, splitter, retriever + the two awsdocs sources
 ├── settings.py        # AgentConfig: Jira vars + DRY_RUN wrapped around RagConfig (cfg.rag)
-├── ingest.py          # wires this project's sources into rag_core's pipeline
+├── ingest.py          # one call: RagCore.sync() — the source does the rest
 ├── app.py             # CLI entrypoint: the interrupt/resume loop
 ├── sources/
-│   └── fetch.py       # AwsDocsGitSource — implements rag_core's DocSource protocol
+│   ├── __init__.py    # importing this registers `awsdocs_git` with rag_core
+│   └── fetch.py       # AwsDocsGitSource — a rag_core Source subclass
 ├── agent/
 │   ├── state.py       # AgentState TypedDict; nodes return partial updates
 │   ├── nodes.py       # retrieve / answer / confirm_resolution / escalate
@@ -75,8 +76,21 @@ exists in git history. `AwsDocsGitSource` recovers it without relying on commit 
    the deletion commit — so its parent (`<sha>^`) is the last commit where the docs were present. Check
    that out (detached HEAD).
 
-Adding a third AWS guide is a `config.yml` entry, not a code change: `LOADERS` maps the `loader:` name
-`awsdocs_git` to this class, and `rag_core.sources.build_sources` does the wiring.
+It is a **`rag_core.sources.Source` subclass**, registered as `type: awsdocs_git`, so `RagCore.sync()`
+drives it like any built-in source — there is no separate fetch step. `list_files()` does the recovery
+above and strips AWS's `<a name="..."></a>` heading anchors in place; `metadata_for()` returns each
+file's canonical docs URL, which rag_core merges into **every chunk's `metadata["url"]`**. That is what
+lets `agent/ticket.py` cite a real docs link straight off a retrieved chunk.
+
+Adding a third AWS guide is one entry in `AWSDOCS_REPOS` (`sources/fetch.py`) plus one `sources:` entry
+in `config.yml`:
+
+```yaml
+sources:
+  - type: awsdocs_git
+    id: codebuild          # keys into AWSDOCS_REPOS
+    path: data/aws_docs    # clones live at <path>/<id>/
+```
 
 ---
 
@@ -84,7 +98,9 @@ Adding a third AWS guide is a `config.yml` entry, not a code change: `LOADERS` m
 
 Two layers, with **env var > `config.yml` > default** precedence:
 
-- `config.yml` (committed, ships inside the wheel) — index name, models, chunking, retrieval, sources.
+- `config.yml` (committed, ships inside the wheel) — `embeddings`, `llm`, `vectorstore`, `splitter`,
+  `retriever`, `sources`. This is rag_core's generic schema; see
+  [`config.example.yaml`](../rag_core/config.example.yaml).
 - Environment — secrets only (`OPENAI_API_KEY`, `PINECONE_API_KEY`, the four `JIRA_*` vars), plus optional
   overrides of any non-secret key.
 
@@ -130,7 +146,13 @@ uv run python -m aws_mlops_support_agent.agent.graph
 uv run pytest packages/aws_mlops_support_agent/tests -q
 ```
 
-Fully offline: `tests/conftest.py` provides a `make_config()` factory, and the graph accepts stub
+Fully offline by design: `tests/conftest.py` provides a `make_config()` factory, and the graph accepts stub
 retriever / answerer / Jira functions, so the whole interrupt-and-resume flow runs with no network and no
 keys. `tests/jira_live_check.py` is the deliberate exception — a manual script that creates a **real**
 ticket, named so pytest never collects it.
+
+> **Known breakage.** `tests/conftest.py` still builds a `RagConfig` from the pre-migration flat schema
+> (`ChunkingConfig`, `RetrievalConfig`, `openai_api_key`, …), all of which rag_core removed. It fails to
+> import, which blocks collection of `test_graph.py`, `test_jira_tool.py`, `test_routing.py` and
+> `test_ticket.py`. The other files (33 tests) pass with `--noconftest`. Porting the fixtures to the new
+> `embeddings` / `llm` / `vectorstore` / `splitter` / `retriever` blocks is outstanding work.
