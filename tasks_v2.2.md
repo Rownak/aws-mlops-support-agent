@@ -73,6 +73,22 @@ collection of four test files.
   again. `ingest.py` collapsed to a single `RagCore.sync()` call.
   Rewrote `test_fetch_source.py`, which targeted an API two rewrites old.
 
+- [x] **2.4 Move `AWSDOCS_REPOS` out of code into `config.yml`.** `git_url` and
+  `docs_base_url` were hardcoded in a module-level dict in `sources/fetch.py`,
+  so `config.yml` said *which* guide to ingest while Python said *what that
+  guide is*. Adding one meant editing two files in lockstep — and uncommenting
+  only the `sources:` entry failed at runtime with `Unknown awsdocs source id`.
+  `AWSDOCS_REPOS` is gone; `AwsDocsGitSource.__init__` now takes `git_url` and
+  `docs_base_url` directly, and CodePipeline is enabled in `config.yml`
+  alongside CodeBuild with both keys set. No rag_core change needed —
+  `build_source()` already forwards every unmatched config key as a kwarg.
+
+  Also dropped `test_unknown_id_fails_before_any_cloning`: `id` validation
+  against a hardcoded set no longer exists, since `id` is now just a label —
+  any string is valid as long as `git_url`/`docs_base_url` are supplied.
+  Touched `sources/fetch.py`, `config.yml` (both entries), `README.md`'s
+  "adding a guide" snippet, and `test_fetch_source.py`'s constructor calls.
+
 ---
 
 ## Phase 3 — Documentation
@@ -124,10 +140,12 @@ collection of four test files.
 
 ## Notes / open items
 
-- **CodePipeline is currently commented out** in `config.yml` and
-  `AWSDOCS_REPOS`, so the corpus is CodeBuild-only. If that is permanent, the
-  README's "two awsdocs sources" wording and the 5 CodePipeline eval cases in
-  `evals/dataset.py` both need updating.
+- **CodePipeline is now enabled** in `config.yml` alongside CodeBuild (2.4).
+  The plan (see the fresh-index note below) is to ingest CodeBuild first,
+  confirm it, then bring CodePipeline in — `sync()` already skips unchanged
+  files by content hash, so re-running after enabling a new source only
+  embeds what's new. Once both are live, revisit the README's "two awsdocs
+  sources" wording and the 5 CodePipeline eval cases in `evals/dataset.py`.
 - **The existing Pinecone index is stale after 4.1.** Every stored chunk was
   embedded under character-sized splitting. The *files* did not change, so
   `file_hash` is unchanged and `get_ingest_status` reports `complete` — a

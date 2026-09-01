@@ -14,7 +14,15 @@ from aws_mlops_support_agent.sources.fetch import AwsDocsGitSource, _strip_ancho
 from rag_core.processing.chunking import RESERVED_METADATA_KEYS
 from rag_core.sources import REGISTRY, Source, build_sources
 
-SPEC = {"type": "awsdocs_git", "id": "codebuild", "path": "data/aws_docs"}
+CODEBUILD_URLS = {
+    "git_url": "https://github.com/awsdocs/aws-codebuild-user-guide.git",
+    "docs_base_url": "https://docs.aws.amazon.com/codebuild/latest/userguide/",
+}
+CODEPIPELINE_URLS = {
+    "git_url": "https://github.com/awsdocs/aws-codepipeline-user-guide.git",
+    "docs_base_url": "https://docs.aws.amazon.com/codepipeline/latest/userguide/",
+}
+SPEC = {"type": "awsdocs_git", "id": "codebuild", "path": "data/aws_docs", **CODEBUILD_URLS}
 
 
 def test_source_is_registered_under_its_config_type():
@@ -34,14 +42,14 @@ def test_source_is_configured_from_the_config_entry():
 
 
 def test_doc_url_maps_md_to_html():
-    url = AwsDocsGitSource(id="codebuild").doc_url("build-env-ref-env-vars.md")
+    url = AwsDocsGitSource(id="codebuild", **CODEBUILD_URLS).doc_url("build-env-ref-env-vars.md")
     assert (
         url == "https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-env-vars.html"
     )
 
 
 def test_metadata_for_supplies_the_url_that_rides_on_every_chunk():
-    source = AwsDocsGitSource(id="codepipeline")
+    source = AwsDocsGitSource(id="codepipeline", **CODEPIPELINE_URLS)
     metadata = source.metadata_for("data/aws_docs/codepipeline/doc_source/concepts.md")
 
     assert metadata == {
@@ -51,11 +59,6 @@ def test_metadata_for_supplies_the_url_that_rides_on_every_chunk():
     assert not set(metadata) & RESERVED_METADATA_KEYS
 
 
-def test_unknown_id_fails_before_any_cloning():
-    with pytest.raises(ValueError, match="Unknown awsdocs source id"):
-        AwsDocsGitSource(id="not-a-real-guide")
-
-
 def test_strip_anchors_removes_aws_heading_anchors():
     cleaned = _strip_anchors('# Build environments<a name="build-env"></a>\n\ntext')
     assert cleaned == "# Build environments\n\ntext"
@@ -63,7 +66,7 @@ def test_strip_anchors_removes_aws_heading_anchors():
 
 def test_list_files_returns_markdown_and_strips_anchors_in_place(tmp_path, monkeypatch):
     """The clone/checkout half is stubbed; the file half is real."""
-    source = AwsDocsGitSource(id="codebuild", path=str(tmp_path))
+    source = AwsDocsGitSource(id="codebuild", path=str(tmp_path), **CODEBUILD_URLS)
     source.doc_dir.mkdir(parents=True)
     (source.doc_dir / "build-caching.md").write_text(
         '# Caching<a name="caching"></a>\n\ntext', encoding="utf-8"
@@ -84,7 +87,7 @@ def test_list_files_returns_markdown_and_strips_anchors_in_place(tmp_path, monke
 
 
 def test_list_files_fails_loudly_when_nothing_was_recovered(tmp_path, monkeypatch):
-    source = AwsDocsGitSource(id="codebuild", path=str(tmp_path))
+    source = AwsDocsGitSource(id="codebuild", path=str(tmp_path), **CODEBUILD_URLS)
     source.doc_dir.mkdir(parents=True)
     monkeypatch.setattr(source, "_clone_and_checkout", lambda: None)
 

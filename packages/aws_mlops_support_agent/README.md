@@ -82,14 +82,16 @@ above and strips AWS's `<a name="..."></a>` heading anchors in place; `metadata_
 file's canonical docs URL, which rag_core merges into **every chunk's `metadata["url"]`**. That is what
 lets `agent/ticket.py` cite a real docs link straight off a retrieved chunk.
 
-Adding a third AWS guide is one entry in `AWSDOCS_REPOS` (`sources/fetch.py`) plus one `sources:` entry
-in `config.yml`:
+Adding a third AWS guide is one `sources:` entry in `config.yml` — `git_url` and `docs_base_url` are
+config, not code:
 
 ```yaml
 sources:
   - type: awsdocs_git
-    id: codebuild          # keys into AWSDOCS_REPOS
+    id: codebuild
     path: data/aws_docs    # clones live at <path>/<id>/
+    git_url: https://github.com/awsdocs/aws-codebuild-user-guide.git
+    docs_base_url: https://docs.aws.amazon.com/codebuild/latest/userguide/
 ```
 
 ---

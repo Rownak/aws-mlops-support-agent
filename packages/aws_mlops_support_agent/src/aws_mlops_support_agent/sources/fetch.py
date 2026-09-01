@@ -42,20 +42,6 @@ DOC_DIR_NAME = "doc_source"
 #: citations clean and removes noise from the embeddings.
 STRIP_PATTERNS = [r'<a name="[^"]*"></a>']
 
-# Per-repo git/doc info. Not in config.yml: these are AWS-specific facts about
-# how to populate a corpus, and keying them here means adding a third guide is
-# one entry here plus one `sources` entry in config.yml.
-AWSDOCS_REPOS = {
-    "codebuild": {
-        "git_url": "https://github.com/awsdocs/aws-codebuild-user-guide.git",
-        "docs_base_url": "https://docs.aws.amazon.com/codebuild/latest/userguide/",
-    },
-    # "codepipeline": {
-    #     "git_url": "https://github.com/awsdocs/aws-codepipeline-user-guide.git",
-    #     "docs_base_url": "https://docs.aws.amazon.com/codepipeline/latest/userguide/",
-    # },
-}
-
 
 def _git(repo_dir: Path, *args: str) -> str:
     """Run a git command inside repo_dir and return stripped stdout."""
@@ -90,11 +76,13 @@ class AwsDocsGitSource(Source):
 
         sources:
           - type: awsdocs_git
-            id: codebuild            # keys into AWSDOCS_REPOS
+            id: codebuild
             path: data/aws_docs      # where clones live
+            git_url: https://github.com/awsdocs/aws-codebuild-user-guide.git
+            docs_base_url: https://docs.aws.amazon.com/codebuild/latest/userguide/
 
     Attributes:
-        id: The AWSDOCS_REPOS key naming which guide this is
+        id: Names this guide (used for the clone's directory name and in logs)
         repo_dir: The local clone
         doc_dir: The recovered markdown inside that clone
     """
@@ -104,21 +92,17 @@ class AwsDocsGitSource(Source):
     def __init__(
         self,
         id: str,
+        git_url: str,
+        docs_base_url: str,
         path: str = "data/aws_docs",
         extensions: list[str] | None = None,
         name: str = "",
         **_ignored,
     ):
         super().__init__(name=name or f"awsdocs:{id}", extensions=extensions or [".md"])
-        if id not in AWSDOCS_REPOS:
-            raise ValueError(
-                f"Unknown awsdocs source id '{id}'. "
-                f"Available: {', '.join(sorted(AWSDOCS_REPOS))}. "
-                "Add an entry to AWSDOCS_REPOS in sources/fetch.py."
-            )
         self.id = id
-        self.git_url = AWSDOCS_REPOS[id]["git_url"]
-        self.docs_base_url = AWSDOCS_REPOS[id]["docs_base_url"]
+        self.git_url = git_url
+        self.docs_base_url = docs_base_url
         self.repo_dir = Path(path) / id
         self.doc_dir = self.repo_dir / DOC_DIR_NAME
 
