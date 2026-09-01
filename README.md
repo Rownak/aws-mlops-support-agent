@@ -6,7 +6,6 @@
 ![LangGraph](https://img.shields.io/badge/orchestration-LangGraph-1c3d5a)
 ![Pinecone](https://img.shields.io/badge/vector%20db-Pinecone-6f42c1)
 ![Deploy](https://img.shields.io/badge/deploy-ECS%20Fargate-ff9900)
-![Tests](https://img.shields.io/badge/tests-157%20passing-brightgreen)
 ![Docs license](https://img.shields.io/badge/AWS%20docs-CC%20BY--SA%204.0-lightgrey)
 ![Code license](https://img.shields.io/badge/code-MIT-green)
 
@@ -30,7 +29,7 @@ It's a portfolio project showcasing end-to-end implementation of **RAG**, **agen
 - 🎫 **Jira ticket drafting** — turns an unresolved question into a structured ticket (safe: dry-run by default, so no ticket is created unless you explicitly opt in).
 - 🙋 **Human-in-the-loop** — the agent pauses mid-run to ask *"did this resolve it, or should I open a ticket?"*
 - 📊 **Built-in evals & tracing** — retrieval-quality eval set, LangSmith tracing, and CloudWatch-friendly JSON logging.
-- 🧩 **Reusable engine** — the RAG half is a separate, independently installable package (`rag-core`); this AWS agent is just its first consumer.
+- 🧩 **Reusable engine** — the RAG half is built as a **standalone, independently installable pipeline** (`rag-core`) you can drop into any new RAG app: provider-switchable (OpenAI / Ollama / Google / HuggingFace), hash-based incremental ingest, hybrid retrieval and reranking. This AWS agent is just its first consumer.
 - 🚀 **Real deployment path** — containerized, pushed to ECR via GitHub Actions, running on ECS Fargate with secrets in AWS Secrets Manager.
 
 > **Live demo note:** the hosted demo forces Jira into **dry-run mode**, so visitors can't create real tickets — the drafted payload is logged instead.
@@ -76,7 +75,8 @@ retries being exhausted — each decided in exactly one routing function
 
 **Tech stack:** Python 3.13 · [LangGraph](https://langchain-ai.github.io/langgraph/) (orchestration) ·
 [LangChain](https://python.langchain.com/) (RAG plumbing) · [Pinecone](https://www.pinecone.io/) serverless
-(vector DB) · OpenAI via `langchain_openai` (chat + embeddings) · Jira Cloud REST API · Docker · ECS Fargate ·
+(vector DB, swappable for Pinecone Local) · OpenAI via `langchain_openai` (chat + embeddings; Ollama /
+Google / HuggingFace selectable from config) · Jira Cloud REST API · Docker · ECS Fargate ·
 GitHub Actions + ECR · CloudWatch + [LangSmith](https://smith.langchain.com/) (logging & tracing).
 
 ---
@@ -114,15 +114,18 @@ uv run aws-agent
 
 Configuration comes in **two layers**, deliberately different in kind:
 
-- **`config.yml`** (committed, per project) — non-secret, corpus-shaped settings: index name, models,
-  chunk size, top-k, confidence threshold, and the document sources. Committing it makes each corpus
-  reproducible and diffable. It ships inside the package, so a fresh clone (or the container) already
-  knows how to build and query the right index:
-  [`config.yml`](packages/aws_mlops_support_agent/src/aws_mlops_support_agent/config.yml).
+- **`config.yml`** (committed, per project) — non-secret, corpus-shaped settings in `rag_core`'s generic
+  schema: `embeddings`, `llm`, `vectorstore`, `splitter`, `retriever`, and `sources`. Because the
+  providers are named in config, switching between local dev (Ollama + Pinecone Local, no keys) and a
+  managed deployment needs no code change. It ships inside the package, so a fresh clone (or the
+  container) already knows how to build and query the right index:
+  [`config.yml`](packages/aws_mlops_support_agent/src/aws_mlops_support_agent/config.yml) ·
+  annotated reference: [`config.example.yaml`](packages/rag_core/config.example.yaml).
 - **Environment variables** (never committed) — secrets, plus optional overrides for any non-secret key.
 
-**Precedence: environment variable > `config.yml` > built-in default.** That is what lets ECS or CI point
-at a different index without editing a file, while the committed default stays honest.
+**Precedence: environment variable > `config.yml` > built-in default**, per field. Secrets are read
+*only* from the environment — never from a value written in the YAML — and missing ones fail fast, all
+reported in a single error rather than one per run.
 
 Copy [`.env.example`](.env.example) to `.env` and fill in the two required keys — everything else has a
 sensible default.
@@ -131,24 +134,21 @@ sensible default.
 |----------|-----------|---------|-------------|
 | `OPENAI_API_KEY` | ✅ | — | OpenAI key for chat + embeddings. |
 | `PINECONE_API_KEY` | ✅ | — | Pinecone key for the vector index. |
-| `OPENAI_CHAT_MODEL` | | `gpt-4o-mini` | Chat model for answer generation. |
-| `OPENAI_EMBEDDING_MODEL` | | `text-embedding-3-small` | Embedding model — **must match** between ingest and query. |
-| `PINECONE_INDEX_NAME` | | `aws-support-agent-idx` | Serverless index name (auto-created on ingest). |
 | `AWS_REGION` | | `us-east-1` | AWS region for the serverless index. |
 | `DRY_RUN` | | `true` | Safety gate: Jira tickets are only *logged* unless explicitly set to `false`. |
 
 <details>
 <summary>Optional: tuning overrides, Jira ticket creation & LangSmith tracing</summary>
 
-Any `config.yml` value can be overridden by an environment variable, which is useful for experiments
-without editing (and committing) the file:
+Models, the index name and the providers live in `config.yml`. The tuning knobs below can also be set
+by environment variable, which is useful for experiments without editing (and committing) the file:
 
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `RAG_TOP_K` | `4` | Chunks retrieved per query. |
 | `RAG_MIN_TOP_SCORE` | `0.35` | Confidence threshold below which the agent escalates. |
-| `RAG_CHUNK_SIZE_TOKENS` | `800` | Chunk size at ingest time. |
-| `RAG_CHUNK_OVERLAP_TOKENS` | `100` | Overlap between adjacent chunks. |
+| `RAG_CHUNK_SIZE` | `800` | Chunk size at ingest time. |
+| `RAG_CHUNK_OVERLAP` | `100` | Overlap between adjacent chunks. |
 
 | Variable | Required? | Description |
 |----------|-----------|-------------|
@@ -188,32 +188,33 @@ uv run rag-ask "What phases can I define in a buildspec file?" \
 
 ## Project structure
 
-This is a **uv workspace** of two independently installable packages. The split is the point: the RAG
-engine knows nothing about AWS, Jira, or LangGraph, so a second corpus reuses it without a fork.
+This is a **uv workspace** of two independently installable packages. The split is the point: `rag_core`
+is a **complete RAG pipeline in its own right** — `pip install ./packages/rag_core`, hand it a
+`config.yaml`, and it loads, chunks, embeds, indexes, retrieves, reranks and answers. It knows nothing
+about AWS, Jira, or LangGraph, so any new RAG app reuses it without a fork; this agent is just its first
+consumer.
 
 ```text
 packages/
 ├── rag_core/                     # the generic RAG engine — installable on its own
 │   └── src/rag_core/
-│       ├── config.py             # RagConfig: config.yml + env overlay, secrets from env only
-│       ├── sources.py            # DocSource protocol — the extension seam for a new corpus
-│       ├── pipeline.py           # ingest orchestration: load → chunk → embed → upsert
-│       ├── chunking/             # markdown header + token splitting
-│       ├── vectorstore/          # Pinecone create/verify/upsert, dimension guard
-│       ├── retrieval/            # retriever (RetrievedChunk) + confidence heuristic
-│       ├── generation/           # answer generation, prompts, the `rag-ask` CLI
-│       ├── evals/                # EvalCase type + hit@k / escalation runner
-│       └── observability.py      # JSON-lines logging
+│       ├── config/               # typed config tree: YAML + ${VAR} + env precedence, fail-fast secrets
+│       ├── pipeline.py           # RagCore facade: ingest_documents / ingest_directory / sync / query
+│       ├── sources/              # Source ABC + lazy registry — the extension seam for a new corpus
+│       ├── loaders/ processing/  # bytes → markdown; content hashing + chunking
+│       ├── embeddings/ llm/      # provider factories (openai, ollama, google, huggingface, …)
+│       ├── vectorstores/         # Pinecone index lifecycle + hash-based ingest-state tracking
+│       ├── retriever/            # similarity / mmr / hybrid, reranking, confidence heuristic
+│       ├── generation/           # cited Answer objects, context budget, the `rag-ask` CLI
+│       └── evals/                # hit@k + escalation-accuracy runner
 └── aws_mlops_support_agent/      # THIS project: AWS docs corpus + support agent
     └── src/aws_mlops_support_agent/
-        ├── config.yml            # corpus, index, model and retrieval settings
-        ├── settings.py           # AgentConfig: Jira vars + DRY_RUN, wrapping RagConfig
-        ├── sources/              # awsdocs git-history recovery (implements DocSource)
+        ├── config.yml            # embeddings, llm, vectorstore, splitter, retriever + the awsdocs sources
+        ├── settings.py           # AgentConfig: Jira vars + DRY_RUN wrapped around RagConfig (cfg.rag)
+        ├── sources/              # AwsDocsGitSource — registers `awsdocs_git` with rag_core
         ├── agent/                # LangGraph state machine, Jira tool, ticket builder, AWS prompt
-        ├── demo/                 # Streamlit chat UI (Jira forced to dry-run)
-        ├── evals/                # this corpus's 15 questions + saved results table
-        ├── ingest.py             # wires this project's sources into rag_core's pipeline
-        └── app.py                # CLI entrypoint
+        ├── demo/ evals/          # Streamlit chat UI (dry-run forced) · this corpus's 15 questions
+        └── ingest.py, app.py     # `RagCore.sync()` · CLI entrypoint
 deploy/                           # ECR + ECS Fargate runbooks and task definition
 ```
 
@@ -229,23 +230,26 @@ Each package has its own README:
 
 ## Adding a new RAG project
 
-Because the engine is corpus-agnostic, a new corpus means **configuration plus one adapter** — no changes
-to `rag_core`:
+Because the engine is corpus-agnostic, most new corpora are **config only** — the built-in `local` and
+`s3` sources cover files on disk or in a bucket:
 
-1. **Create the package** under `packages/` (uv picks it up via `members = ["packages/*"]`) and depend on
-   `rag-core` as a workspace source.
-2. **Write its `config.yml`** — index name, models, chunk size, top-k, threshold, and a `sources:` list.
-   Each source entry names a `loader` and carries whatever keys that loader needs.
-3. **Implement one `DocSource`** — a class with a `spec` attribute and a `fetch()` yielding `LoadedDoc`s
-   (raw text + provenance). This is the only code that knows how your corpus is obtained; see
-   [`sources/fetch.py`](packages/aws_mlops_support_agent/src/aws_mlops_support_agent/sources/fetch.py)
-   for the awsdocs git-history version. Register it in a `LOADERS` dict mapping the `loader` name to the class.
-4. **Call the engine**: `build_sources(cfg.sources, LOADERS)` → `run_ingest(cfg, sources)` to ingest, and
-   `rag-ask --config <your config.yml>` to query.
+```python
+from rag_core import RagCore
 
-Optionally override the answer prompt (`AnswerPrompts`) for a domain-specific voice; the default is
-corpus-neutral. Anything beyond that — an agent, a UI, ticketing — is yours to add, exactly as this
-project does.
+rag = RagCore("config.yaml")
+rag.sync()                                  # reconcile the index against the configured sources
+print(rag.query("your question").formatted())
+```
+
+A corpus obtained some other way (this project's archived-git-history trick, an API, a crawler) needs
+**one adapter**: subclass `rag_core.sources.Source`, implement `list_files()` (and optionally
+`metadata_for()` to attach a citable URL to every chunk), and register it under a `type:` name —
+see [`sources/fetch.py`](packages/aws_mlops_support_agent/src/aws_mlops_support_agent/sources/fetch.py).
+`RagCore.sync()` then drives it like any built-in source; ingest is content-hash based, so re-runs are
+free for unchanged files.
+
+Optionally pass a domain-specific `system_prompt` to `AnswerGenerator`; the default is corpus-neutral.
+Anything beyond that — an agent, a UI, ticketing — is yours to add, exactly as this project does.
 
 ---
 
@@ -271,7 +275,7 @@ reranker is a deliberate next step, not a solved problem. Being upfront about th
 ## Testing
 
 ```bash
-uv run pytest            # 157 tests, fully offline (fakes injected for retriever, LLM, Pinecone, Jira)
+uv run pytest            # fully offline (fakes injected for retriever, LLM, Pinecone, Jira)
 uv run ruff check .      # lint
 uv run ruff format .     # format
 ```
@@ -279,6 +283,10 @@ uv run ruff format .     # format
 Tests favor small, injectable fakes over mocking the network — the graph accepts stub
 retriever/answerer/Jira functions, so the full interrupt-and-resume flow is tested with no API keys.
 The suites live with their packages (`packages/*/tests/`); one `uv run pytest` from the root runs both.
+
+> **Known gap:** the agent package's `tests/conftest.py` still builds a `RagConfig` from the pre-migration
+> flat schema, so four of its test modules don't collect until the fixtures are ported to the nested
+> `embeddings` / `llm` / `vectorstore` / `splitter` / `retriever` blocks. `rag_core`'s 142 tests pass.
 
 To reproduce CI's independence check — `rag_core`'s tests passing with **only** the engine installed:
 
@@ -318,11 +326,13 @@ the corpus already lives in Pinecone.
 
 ## Roadmap / status
 
-**Status:** feature-complete portfolio demo, refactored into a reusable workspace (v2 phases 0–7 done) —
-happy path works end to end and is deployed.
+**Status:** feature-complete portfolio demo. `rag_core` has since been rebuilt as a standalone,
+provider-switchable RAG pipeline (multi-provider LLM/embeddings, hash-based incremental ingest, hybrid
+retrieval + reranking) and this agent migrated onto it. Happy path works end to end and is deployed.
 
 Backlog / next steps:
 
+- Port the agent package's test fixtures to the new nested config schema (see Testing).
 - Prove the seam: add a second project (`scifact_rag`) using only `rag_core` + its own source adapter.
 - Tune the confidence threshold / add a reranker to fix off-corpus escalation (see caveat above).
 - Expand the corpus (Step Functions, Lambda, EventBridge, S3, CloudFormation, IAM).
@@ -344,9 +354,9 @@ make sure `git` is on your PATH and the clone completed. Re-running is safe — 
 <details>
 <summary>Answers come back with no source labels</summary>
 
-Chunk metadata uses `source_id`. An index ingested before the v2 refactor stored `service` instead, so
-its vectors won't match. Re-run `uv run aws-agent-ingest` to re-embed the corpus under the current
-metadata keys.
+Chunk metadata keys changed across refactors (`service` → `source_id` → rag_core's `source` / `url` /
+`file_hash`). An index built by an older version won't match. Re-run `uv run aws-agent-ingest` to
+re-embed the corpus under the current keys.
 </details>
 
 <details>
