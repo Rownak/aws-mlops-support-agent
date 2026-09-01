@@ -39,6 +39,38 @@ def get_graph():
     return build_graph(demo_config())
 
 
+def render_ingest_summary(stats) -> None:
+    """Render one IngestStats (rag_core.ingestion.IngestStats) in the sidebar."""
+    st.success(
+        f"{stats['processed']}/{stats['total']} documents processed "
+        f"({stats['skipped']} skipped, {stats['failed']} failed, "
+        f"{stats['replaced']} replaced, {stats['chunks_created']} chunks)"
+    )
+    if stats["errors"]:
+        with st.expander(f"{len(stats['errors'])} error(s)"):
+            for err in stats["errors"]:
+                st.text(f"{err['file']}: {err['error']}")
+
+
+def render_ingest_control() -> None:
+    """Sidebar button that runs RagCore.sync() against this project's config.yml."""
+    st.sidebar.subheader("Corpus")
+    if st.sidebar.button("Ingest / refresh docs"):
+        # Imported lazily, same reasoning as nodes.py: building RagCore opens
+        # a Pinecone connection, which should not happen on every page render.
+        from rag_core import RagCore
+
+        # Registers awsdocs_git with rag_core's REGISTRY (see ingest.py) —
+        # without this, sync() fails with "Unknown source type: awsdocs_git".
+        import aws_mlops_support_agent.sources  # noqa: F401
+        from aws_mlops_support_agent.settings import CONFIG_PATH
+
+        with st.sidebar:
+            with st.spinner("Ingesting (clone, chunk, embed)..."):
+                stats = RagCore(str(CONFIG_PATH)).sync()
+            render_ingest_summary(stats)
+
+
 def render_outcome(result) -> str:
     """Message for a finished run (graph reached END) — reads state only."""
     if result["resolved"]:
@@ -78,6 +110,7 @@ def main() -> None:
     graph = get_graph()
     st.session_state.setdefault("history", [])
     st.session_state.setdefault("pending", None)
+    render_ingest_control()
 
     for msg in st.session_state.history:
         with st.chat_message(msg["role"]):

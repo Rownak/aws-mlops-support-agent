@@ -101,9 +101,6 @@ collection of four test files.
   note for the `conftest.py` failure above, rather than quietly dropping the
   number.
 
-- [x] **3.2 Plan record.** `claude/docs/rag_core_metadata_for_plan.md` holds
-  the metadata-hook design and is marked done.
-
 ---
 
 ## Phase 4 — Fix chunk sizing, split ingestion out of the facade
@@ -135,6 +132,33 @@ collection of four test files.
   edits, not just a move: its monkeypatch targets named a namespace the
   symbols no longer resolve in, and the fixture had to build an `Ingestor`
   rather than only setting `.store`/`.loader`.
+
+---
+
+## Phase 5 — Streamlit demo: ingest from the UI
+
+- [x] **5.1 Add an ingest control to `demo/streamlit_app.py`.** The demo could
+  only query — nothing in it reached `RagCore.sync()`, so a fresh Pinecone
+  index (no prior `uv run aws-agent-ingest`) made every question fail inside
+  `retrieve_scored` with no explanation in the UI. Added a sidebar button
+  (`render_ingest_control`) that builds a `RagCore` from this project's
+  `config.yml` (same `CONFIG_PATH` `nodes.py` already uses), calls `.sync()`,
+  and renders the returned `IngestStats` via `render_ingest_summary`
+  (processed/skipped/failed/replaced/chunks_created, plus any per-file errors
+  in an expander) — mirroring what `ingest.py`'s CLI already prints, just in
+  the sidebar. Runs inside `st.spinner`, since `sync()` is slow (git clone,
+  chunk, embed) and blocking.
+
+  `RagCore` is imported lazily inside the click handler, matching
+  `nodes.py:60`'s reasoning: building it opens a Pinecone connection, which
+  should not happen just from importing or rendering the page. Both new
+  render functions are called from inside `with st.sidebar:`, since
+  `st.sidebar.button(...)` only scopes the button itself — a bare `st.success`
+  called afterward renders to the main area, not the sidebar.
+
+  Added `render_ingest_summary` to `test_demo.py`'s existing pure-function
+  coverage (Streamlit calls are no-ops in bare mode, so these just check the
+  function runs on a real `IngestStats` shape without raising).
 
 ---
 
