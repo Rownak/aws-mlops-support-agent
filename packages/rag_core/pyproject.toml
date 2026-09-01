@@ -15,6 +15,10 @@ dependencies = [
     "markitdown[pdf]>=0.0.1a3",
     "python-dotenv>=1.2.2",
     "pyyaml>=6.0",
+    # Chunk sizes are counted in tokens, not characters — the unit that
+    # actually constrains the embedding model. Declared explicitly because
+    # the splitters need it whether or not an OpenAI extra is installed.
+    "tiktoken>=0.8",
 ]
 
 [project.optional-dependencies]

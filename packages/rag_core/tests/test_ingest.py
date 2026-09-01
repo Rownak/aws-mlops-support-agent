@@ -9,6 +9,7 @@ from pathlib import Path
 
 import pytest
 from rag_core.config import SplitterConfig, VectorStoreConfig
+from rag_core.ingestion import Ingestor
 from rag_core.pipeline import RagCore
 from rag_core.processing.chunking import RESERVED_METADATA_KEYS
 
@@ -95,7 +96,9 @@ def _rag_core(store, loader, batch_size=100, sources=()):
     )()
     rag.store = store
     rag.loader = loader
-    rag.batch_size = batch_size
+    # The ingest verbs delegate here, so the fakes have to reach the
+    # Ingestor rather than only the facade.
+    rag.ingestor = Ingestor(rag.config, store, loader, batch_size=batch_size)
     return rag
 
 
@@ -104,7 +107,7 @@ def _fake_splitter(monkeypatch):
     """Chunking now lives in processing.chunking, so the splitter is injected
     by patching what ingest_documents calls rather than a RagCore method."""
     monkeypatch.setattr(
-        "rag_core.pipeline.splitter_from_config", lambda cfg: _FakeSplitter()
+        "rag_core.ingestion.ingestor.splitter_from_config", lambda cfg: _FakeSplitter()
     )
 
 
@@ -372,7 +375,7 @@ def test_sync_ingests_what_the_sources_list(tmp_path, monkeypatch):
         def list_files(self):
             return [str(a)]
 
-    monkeypatch.setattr("rag_core.pipeline.build_sources", lambda specs: [_FakeSource()])
+    monkeypatch.setattr("rag_core.ingestion.ingestor.build_sources", lambda specs: [_FakeSource()])
     vs = _FakeVectorStore()
     rag = _rag_core(_FakeStore(vs), _FakeLoader())
 
@@ -403,7 +406,7 @@ def test_sync_applies_each_sources_metadata_for(tmp_path, monkeypatch):
             return {"url": self.url}
 
     monkeypatch.setattr(
-        "rag_core.pipeline.build_sources",
+        "rag_core.ingestion.ingestor.build_sources",
         lambda specs: [_UrlSource(a, "https://x/a"), _UrlSource(b, "https://x/b")],
     )
     vs = _FakeVectorStore()

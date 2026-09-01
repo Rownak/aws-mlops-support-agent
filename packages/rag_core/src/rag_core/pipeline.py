@@ -3,9 +3,11 @@ The RagCore facade: wires config, sources, embeddings, vector store and
 generation into the ingest verbs (``ingest_documents``, ``ingest_directory``,
 ``sync``) and the query verbs (``query``, ``aquery``).
 
-All three ingest entry points share one path — ``_prepare_document`` (pure,
-never writes) feeding ``_write_prepared`` (the only mutator) — so partial-write
-recovery and stale-version replacement behave identically however you ingest.
+The ingest verbs are thin delegations to `ingestion.Ingestor`, which owns
+every write to the store — chunking, deduplication, partial-write recovery
+and replacement of stale versions. They stay on this class so
+``rag.sync()`` remains the obvious entry point; `rag.ingestor` is there for
+callers who want the ingest side on its own.
 
 Kept intentionally thin — every module it composes (``sources``, ``processing``,
 ``embeddings``, ``vectorstores``, ``generation``, ``retriever``) also works
@@ -21,8 +23,6 @@ default path.
 """
 
 import logging
-from pathlib import Path
-from typing import TypedDict
 
 from langchain_core.documents import Document
 
@@ -30,51 +30,14 @@ from rag_core.config import RagConfig, check_readiness, load_config
 from rag_core.embeddings.factory import get_embedding
 from rag_core.generation.answer import Answer
 from rag_core.generation.generator import AnswerGenerator
+from rag_core.ingestion import DEFAULT_BATCH_SIZE, IngestStats, Ingestor
 from rag_core.llm.factory import get_llm
 from rag_core.loaders.markitdown_loader import MarkItDownLoader
-from rag_core.processing.chunking import build_chunks, splitter_from_config
-from rag_core.processing.hashing import sha256_file_from_path
 from rag_core.retriever.confidence import RetrievalConfidence, assess_confidence
 from rag_core.retriever.retrieve import retrieve, retrieve_scored
-from rag_core.sources import build_sources
 from rag_core.vectorstores.pinecone_store import PineconeStore
 
 logger = logging.getLogger(__name__)
-
-#: Chunks per add_documents call. One call for a large document is a single
-#: oversized request that can exceed body limits or time out.
-DEFAULT_BATCH_SIZE = 100
-
-
-class IngestError(TypedDict):
-    file: str
-    error: str
-
-
-class IngestStats(TypedDict):
-    """What one ingestion run did."""
-
-    total: int
-    processed: int
-    skipped: int
-    failed: int
-    chunks_created: int
-    #: Documents whose content changed since a previous ingest, where the
-    #: older version's chunks were removed before writing the new one.
-    replaced: int
-    errors: list[IngestError]
-
-
-def _empty_stats(total: int = 0) -> IngestStats:
-    return {
-        "total": total,
-        "processed": 0,
-        "skipped": 0,
-        "failed": 0,
-        "chunks_created": 0,
-        "replaced": 0,
-        "errors": [],
-    }
 
 
 class RagCore:
@@ -105,155 +68,24 @@ class RagCore:
             max_context_chars=self.config.generation.max_context_chars,
             system_prompt=self.config.generation.system_prompt,
         )
-        self.batch_size = DEFAULT_BATCH_SIZE
+        self.ingestor = Ingestor(
+            self.config, self.store, self.loader, batch_size=DEFAULT_BATCH_SIZE
+        )
 
     # ---------------------------------------------------------------- ingest
+    #
+    # Thin delegations to `self.ingestor`, which owns every write to the
+    # store. They stay here so `rag.sync()` remains the obvious entry point;
+    # see `rag_core.ingestion.ingestor` for what actually happens.
 
-    def _prepare_document(
-        self, file_path: str, splitter, *, extra_metadata: dict | None = None
-    ) -> dict:
-        """
-        Hash, dedup-check, load and split one file. Never writes.
+    @property
+    def batch_size(self) -> int:
+        """Chunks per `add_documents` call, as used by the ingestor."""
+        return self.ingestor.batch_size
 
-        Read-only with respect to the vector store, so every mutation stays in
-        `_write_prepared` and there is exactly one place partial state can be
-        created. Failures are captured in the record rather than raised, so one
-        bad file cannot abort a whole run — a source's bad `extra_metadata`
-        included, which lands here as this file's error rather than killing
-        the run.
-
-        Args:
-            file_path: Path to the document
-            splitter: The splitter to chunk its text with
-            extra_metadata: Extra metadata for this file's chunks (see
-                `Source.metadata_for`)
-
-        Returns:
-            A record whose ``action`` is "skip", "write" or "error".
-        """
-        record = {
-            "file": file_path, "hash": None, "chunks": None, "error": None,
-            "action": "error", "stored": 0, "expected": None, "was_partial": False,
-        }
-
-        try:
-            file_hash = sha256_file_from_path(file_path)
-            record["hash"] = file_hash
-
-            # A previous run that died partway leaves chunks behind, and those
-            # must be cleared, not mistaken for a finished document.
-            status, stored, expected = self.store.get_ingest_status(file_hash)
-            record["stored"], record["expected"] = stored, expected
-
-            if status == "complete":
-                record["action"] = "skip"
-                return record
-            record["was_partial"] = status == "partial"
-
-            result = self.loader.load(file_path)
-            if not result["success"]:
-                record["error"] = result["error"]
-                return record
-
-            record["chunks"] = build_chunks(
-                text=result["text_content"],
-                file_path=file_path,
-                file_name=result["file_name"],
-                file_type=result["file_type"],
-                file_hash=file_hash,
-                splitter=splitter,
-                extra_metadata=extra_metadata,
-            )
-
-            if not record["chunks"]:
-                # Scanned/image-only PDFs and empty files land here. Counting
-                # them in neither processed nor failed would make them invisible.
-                record["error"] = (
-                    "no extractable text (possibly a scanned or image-only document)"
-                )
-                return record
-
-            record["action"] = "write"
-            return record
-
-        except Exception as e:
-            logger.debug(f"Preparation failed for {file_path}: {e}", exc_info=True)
-            record["error"] = str(e)
-            return record
-
-    def _write_chunks(self, chunks: list[Document], vectorstore) -> None:
-        """Add chunks to the vector store in batches.
-
-        A single call for a large document is one oversized request that can
-        exceed body limits or time out.
-        """
-        total_batches = (len(chunks) + self.batch_size - 1) // self.batch_size
-        for index in range(total_batches):
-            start = index * self.batch_size
-            vectorstore.add_documents(chunks[start : start + self.batch_size])
-
-    def _write_prepared(self, record: dict, vectorstore, stats: IngestStats) -> None:
-        """
-        Write one prepared document and update stats, both in place.
-
-        Sequential by design: it owns every mutation of the collection and of
-        the stats dict, so rollback has exactly one place to live.
-        """
-        file_path = record["file"]
-        file_hash = record["hash"]
-
-        if record["action"] == "skip":
-            logger.info(f"Skipping (already ingested): {file_path}")
-            stats["skipped"] += 1
-            return
-
-        if record["action"] == "error":
-            stats["failed"] += 1
-            stats["errors"].append({"file": file_path, "error": record["error"]})
-            logger.error(f"Failed to process {file_path}: {record['error']}")
-            return
-
-        chunks = record["chunks"]
-        try:
-            if record["was_partial"]:
-                logger.warning(
-                    f"Found incomplete ingest for {file_path} "
-                    f"({record['stored']}/{record['expected']} chunks); "
-                    "clearing and re-ingesting"
-                )
-                self.store.delete_by_file_hash(file_hash)
-
-            # The file's content changed, so its hash changed too. Without this
-            # the previous version stays in the collection alongside the new
-            # one and keeps surfacing in results.
-            stale = self.store.delete_by_source(file_path, except_file_hash=file_hash)
-            if stale:
-                stats["replaced"] += 1
-                logger.info(
-                    f"Replaced {stale} chunk(s) from a previous version of {file_path}"
-                )
-
-            self._write_chunks(chunks, vectorstore)
-
-            stats["chunks_created"] += len(chunks)
-            stats["processed"] += 1
-            logger.info(f"Processed {file_path}: {len(chunks)} chunks")
-
-        except Exception as e:
-            stats["failed"] += 1
-            stats["errors"].append({"file": file_path, "error": str(e)})
-            logger.error(f"Error writing {file_path}: {e}", exc_info=True)
-
-            # Roll back anything that landed before the failure, so the file is
-            # retried cleanly next run instead of being skipped as complete.
-            if file_hash:
-                try:
-                    self.store.delete_by_file_hash(file_hash)
-                except Exception as cleanup_error:
-                    logger.warning(
-                        f"Could not roll back partial ingest for {file_path}: "
-                        f"{cleanup_error}"
-                    )
+    @batch_size.setter
+    def batch_size(self, value: int) -> None:
+        self.ingestor.batch_size = value
 
     def ingest_documents(
         self,
@@ -264,51 +96,13 @@ class RagCore:
         """
         Ingest a specific list of documents into the vector store.
 
-        Files already fully ingested are skipped (matched on content hash, so
-        an unchanged file is free to re-run). A file whose content changed
-        replaces its older version; a previous run that died partway is
-        cleared and re-ingested rather than left truncated.
-
-        Args:
-            file_paths: Paths of the documents to ingest
-            extra_metadata: Optional per-path extra chunk metadata, keyed by
-                the same strings as `file_paths` — typically what each
-                `Source.metadata_for()` returned, which is how `sync()` uses
-                it. A path with no entry simply gets none. Keys must avoid
-                `processing.chunking.RESERVED_METADATA_KEYS`; a collision
-                fails that one file, not the run.
-
-        Returns:
-            IngestStats — counts plus a per-file error list.
+        See :meth:`rag_core.ingestion.Ingestor.ingest_documents`.
 
         Example:
             >>> stats = rag.ingest_documents(["a.pdf", "b.md"])  # doctest: +SKIP
             >>> print(f"Processed {stats['processed']} of {stats['total']}")
         """
-        stats = _empty_stats(len(file_paths))
-        if not file_paths:
-            return stats
-
-        use_sparse = self.config.vectorstore.use_sparse
-        self.store.create_collection(use_sparse=use_sparse)
-        vectorstore = self.store.get_store(use_sparse=use_sparse)
-        splitter = splitter_from_config(self.config.splitter)
-
-        logger.info(f"Starting ingestion of {len(file_paths)} document(s)")
-        for file_path in file_paths:
-            extra = (extra_metadata or {}).get(file_path, {})
-            self._write_prepared(
-                self._prepare_document(file_path, splitter, extra_metadata=extra),
-                vectorstore,
-                stats,
-            )
-
-        logger.info(
-            f"Ingestion complete: {stats['processed']}/{stats['total']} documents "
-            f"({stats['skipped']} skipped, {stats['failed']} failed, "
-            f"{stats['replaced']} replaced, {stats['chunks_created']} chunks)"
-        )
-        return stats
+        return self.ingestor.ingest_documents(file_paths, extra_metadata=extra_metadata)
 
     def ingest_directory(
         self,
@@ -319,74 +113,20 @@ class RagCore:
         """
         Ingest every supported document in a directory.
 
-        Args:
-            directory: Directory to scan
-            recursive: Whether to descend into subdirectories
-            extensions: Extensions to include; defaults to the config's
-                ``loader.extensions``
-
-        Returns:
-            IngestStats, as `ingest_documents`
-
-        Raises:
-            ValueError: If `directory` is not a directory. A missing path is an
-                error rather than an empty run, since the two are worth telling
-                apart.
+        See :meth:`rag_core.ingestion.Ingestor.ingest_directory`.
 
         Example:
             >>> stats = rag.ingest_directory("data/", recursive=True)  # doctest: +SKIP
         """
-        dir_path = Path(directory)
-        if not dir_path.is_dir():
-            raise ValueError(f"Not a directory: {directory}")
-
-        exts = [e.lower() for e in (extensions or self.config.loader_extensions)]
-        pattern = "**/*" if recursive else "*"
-        file_paths = sorted(
-            str(p)
-            for p in dir_path.glob(pattern)
-            if p.is_file() and p.suffix.lower() in exts
-        )
-
-        if not file_paths:
-            logger.warning(f"No supported files found in {directory} (extensions: {exts})")
-            return _empty_stats()
-
-        logger.info(f"Found {len(file_paths)} file(s) in {directory}")
-        return self.ingest_documents(file_paths)
+        return self.ingestor.ingest_directory(directory, recursive, extensions)
 
     def sync(self) -> IngestStats:
         """
         Reconcile the collection against every configured source.
 
-        Lists what the sources currently hold, then hands those paths to
-        `ingest_documents`, so syncing and explicit ingestion share one code
-        path (and one set of guarantees around partial writes and replacement).
-        Each source is also asked for any extra per-file metadata it wants on
-        its chunks (see `Source.metadata_for`).
-
-        Returns:
-            IngestStats, as `ingest_documents`
+        See :meth:`rag_core.ingestion.Ingestor.sync`.
         """
-        sources = build_sources([spec.as_dict() for spec in self.config.sources])
-        file_paths: list[str] = []
-        extra_metadata: dict[str, dict] = {}
-        for source in sources:
-            paths = source.list_files()
-            file_paths.extend(paths)
-            # getattr, not a direct call: a source only has to provide
-            # list_files() to work here, so duck-typed sources (and tests'
-            # fakes) predating metadata_for keep working untouched.
-            metadata_for = getattr(source, "metadata_for", None)
-            if metadata_for is None:
-                continue
-            for path in paths:
-                metadata = metadata_for(path)
-                if metadata:
-                    extra_metadata[path] = metadata
-
-        logger.info(f"Sync: {len(file_paths)} file(s) listed by {len(sources)} source(s)")
-        return self.ingest_documents(file_paths, extra_metadata=extra_metadata or None)
+        return self.ingestor.sync()
 
     def _vectorstore(self):
         return self.store.get_store(use_sparse=self.config.vectorstore.use_sparse)

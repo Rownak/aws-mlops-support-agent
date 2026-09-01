@@ -2607,6 +2607,7 @@ dependencies = [
     { name = "pinecone" },
     { name = "python-dotenv" },
     { name = "pyyaml" },
+    { name = "tiktoken" },
 ]
 
 [package.optional-dependencies]
@@ -2649,6 +2650,7 @@ requires-dist = [
     { name = "python-dotenv", specifier = ">=1.2.2" },
     { name = "pyyaml", specifier = ">=6.0" },
     { name = "sentence-transformers", marker = "extra == 'rerank'", specifier = ">=3.0" },
+    { name = "tiktoken", specifier = ">=0.8" },
 ]
 provides-extras = ["ollama", "openai", "google", "s3", "rerank", "cohere", "hybrid"]
 
