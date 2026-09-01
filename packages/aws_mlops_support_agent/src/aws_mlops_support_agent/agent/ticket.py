@@ -1,12 +1,12 @@
 """Task 3.5 — Build a Jira ticket DRAFT from the agent state.
 
-Pure and deterministic: no LLM, no network, fully unit-testable (save for
-`_docs_checked`'s manifest lookup, which only touches the local filesystem).
-The draft is assembled from facts the graph already collected — the
-question, the last answer, the confidence verdict, and the docs-checked list
-built from each retrieved chunk's `metadata["source"]` plus the AWS docs URL
-`sources.fetch.doc_url_for` resolves for it. Phase 4 turns this into a real
-Jira payload; an LLM-polished description is a possible later enhancement.
+Pure and deterministic: no LLM, no network, no filesystem — fully
+unit-testable. The draft is assembled from facts the graph already collected:
+the question, the last answer, the confidence verdict, and the docs-checked
+list, which reads each retrieved chunk's `metadata["url"]` — put there at
+ingest time by the `awsdocs_git` source's `metadata_for()`. Phase 4 turns this
+into a real Jira payload; an LLM-polished description is a possible later
+enhancement.
 
 Note: this module takes the state as a plain mapping instead of importing
 `AgentState`, because state.py imports `TicketDraft` from here — typing it
@@ -17,8 +17,6 @@ from collections.abc import Mapping
 from dataclasses import dataclass, field
 
 from langchain_core.documents import Document
-
-from aws_mlops_support_agent.sources.fetch import doc_url_for
 
 # Generic but actionable defaults for a support engineer picking up the
 # ticket. Static on purpose — deterministic drafts are easy to test and
@@ -52,14 +50,15 @@ class TicketDraft:
 def _docs_checked(chunks: list[tuple[Document, float]]) -> list[str]:
     """Deduped 'file_name — url' lines, preserving retrieval-rank order.
 
-    Falls back to just the file path when no manifest entry exists (e.g. a
-    non-awsdocs local file, or a test fixture with no _manifest.json) — a
-    missing citation URL should not break the draft.
+    The URL comes from the chunk itself (the `awsdocs_git` source attaches it
+    at ingest). Falls back to the file path for a chunk without one — a
+    corpus ingested from a plain folder, say — since a missing citation URL
+    should not break the draft.
     """
     seen: dict[str, None] = {}  # dict as an ordered set
     for document, _score in chunks:
         source = document.metadata.get("source", "unknown")
-        url = doc_url_for(source)
+        url = document.metadata.get("url")
         line = f"{document.metadata.get('file_name', source)} — {url}" if url else source
         seen.setdefault(line, None)
     return list(seen)

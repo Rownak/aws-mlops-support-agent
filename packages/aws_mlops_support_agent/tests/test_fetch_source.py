@@ -1,66 +1,92 @@
-"""Tests for the awsdocs DocSource adapter.
+"""Tests for the awsdocs_git rag_core source.
 
 The git-history recovery itself is verified by running the real ingestion (it
-needs actual repos); what is tested here is the seam: the adapter satisfies
-`DocSource`, is configured entirely from config.yml, and turns files into
-LoadedDocs with correct provenance.
+needs actual repos); what is tested here is the seam: the source registers
+under its config `type`, is configured entirely from config.yml, strips AWS's
+anchor noise, and hands each file the docs URL that ends up on every chunk.
 """
 
 import pytest
-from aws_mlops_support_agent.sources.fetch import LOADERS, AwsDocsGitSource
-from rag_core.config import SourceSpec
-from rag_core.sources import DocSource, build_sources
 
-SPEC = SourceSpec(
-    id="codebuild",
-    loader="awsdocs_git",
-    options={
-        "git_url": "https://github.com/awsdocs/aws-codebuild-user-guide.git",
-        "docs_base_url": "https://docs.aws.amazon.com/codebuild/latest/userguide/",
-    },
-)
+# Importing the package registers awsdocs_git with rag_core's REGISTRY.
+import aws_mlops_support_agent.sources  # noqa: F401
+from aws_mlops_support_agent.sources.fetch import AwsDocsGitSource, _strip_anchors
+from rag_core.processing.chunking import RESERVED_METADATA_KEYS
+from rag_core.sources import REGISTRY, Source, build_sources
+
+SPEC = {"type": "awsdocs_git", "id": "codebuild", "path": "data/aws_docs"}
 
 
-def test_adapter_satisfies_the_docsource_protocol():
-    assert isinstance(AwsDocsGitSource(SPEC), DocSource)
+def test_source_is_registered_under_its_config_type():
+    assert "awsdocs_git" in REGISTRY
+    (source,) = build_sources([SPEC])
+    assert isinstance(source, AwsDocsGitSource)
+    assert isinstance(source, Source)
 
 
-def test_adapter_is_configured_from_the_spec():
-    source = AwsDocsGitSource(SPEC)
-    assert source.spec.id == "codebuild"
+def test_source_is_configured_from_the_config_entry():
+    source = AwsDocsGitSource(**{k: v for k, v in SPEC.items() if k != "type"})
+    assert source.id == "codebuild"
     assert source.git_url.endswith("aws-codebuild-user-guide.git")
+    # The clone and the docs inside it both hang off the configured path.
+    assert source.repo_dir.parts[-2:] == ("aws_docs", "codebuild")
+    assert source.doc_dir.name == "doc_source"
 
 
 def test_doc_url_maps_md_to_html():
-    url = AwsDocsGitSource(SPEC).doc_url("build-env-ref-env-vars.md")
+    url = AwsDocsGitSource(id="codebuild").doc_url("build-env-ref-env-vars.md")
     assert (
         url == "https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-env-vars.html"
     )
 
 
-def test_missing_config_keys_fail_before_any_cloning():
-    spec = SourceSpec(id="broken", loader="awsdocs_git", options={"git_url": "x"})
-    with pytest.raises(RuntimeError, match="missing config.yml keys: docs_base_url"):
-        AwsDocsGitSource(spec)
+def test_metadata_for_supplies_the_url_that_rides_on_every_chunk():
+    source = AwsDocsGitSource(id="codepipeline")
+    metadata = source.metadata_for("data/aws_docs/codepipeline/doc_source/concepts.md")
+
+    assert metadata == {
+        "url": "https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts.html"
+    }
+    # rag_core refuses extra metadata that would clobber its own keys.
+    assert not set(metadata) & RESERVED_METADATA_KEYS
 
 
-def test_fetch_yields_one_loaded_doc_per_markdown_file(tmp_path, monkeypatch):
-    """clone_and_checkout is stubbed; fetch's own file-to-LoadedDoc half is real."""
-    doc_dir = tmp_path / "doc_source"
-    doc_dir.mkdir()
-    (doc_dir / "build-caching.md").write_text("# Caching\n\ntext", encoding="utf-8")
-    (doc_dir / "concepts.md").write_text("# Concepts\n\ntext", encoding="utf-8")
-
-    source = AwsDocsGitSource(SPEC)
-    monkeypatch.setattr(source, "clone_and_checkout", lambda: doc_dir)
-
-    docs = list(source.fetch())
-    assert [d.source_file for d in docs] == ["build-caching.md", "concepts.md"]
-    assert all(d.source_id == "codebuild" for d in docs)
-    assert docs[0].url.endswith("/build-caching.html")
-    assert docs[0].text.startswith("# Caching")
+def test_unknown_id_fails_before_any_cloning():
+    with pytest.raises(ValueError, match="Unknown awsdocs source id"):
+        AwsDocsGitSource(id="not-a-real-guide")
 
 
-def test_registry_wires_the_config_loader_name_to_this_adapter():
-    (source,) = build_sources([SPEC], LOADERS)
-    assert isinstance(source, AwsDocsGitSource)
+def test_strip_anchors_removes_aws_heading_anchors():
+    cleaned = _strip_anchors('# Build environments<a name="build-env"></a>\n\ntext')
+    assert cleaned == "# Build environments\n\ntext"
+
+
+def test_list_files_returns_markdown_and_strips_anchors_in_place(tmp_path, monkeypatch):
+    """The clone/checkout half is stubbed; the file half is real."""
+    source = AwsDocsGitSource(id="codebuild", path=str(tmp_path))
+    source.doc_dir.mkdir(parents=True)
+    (source.doc_dir / "build-caching.md").write_text(
+        '# Caching<a name="caching"></a>\n\ntext', encoding="utf-8"
+    )
+    (source.doc_dir / "concepts.md").write_text("# Concepts\n\ntext", encoding="utf-8")
+    # Must be ignored: only *.md is ingested.
+    (source.doc_dir / "notes.txt").write_text("ignore me", encoding="utf-8")
+
+    monkeypatch.setattr(source, "_clone_and_checkout", lambda: None)
+    files = source.list_files()
+
+    assert [f.split("\\")[-1].split("/")[-1] for f in files] == [
+        "build-caching.md",
+        "concepts.md",
+    ]
+    # Anchors are stripped in the clone itself, so ingestion reads clean text.
+    assert "<a name=" not in (source.doc_dir / "build-caching.md").read_text(encoding="utf-8")
+
+
+def test_list_files_fails_loudly_when_nothing_was_recovered(tmp_path, monkeypatch):
+    source = AwsDocsGitSource(id="codebuild", path=str(tmp_path))
+    source.doc_dir.mkdir(parents=True)
+    monkeypatch.setattr(source, "_clone_and_checkout", lambda: None)
+
+    with pytest.raises(RuntimeError, match="no \\*.md files"):
+        source.list_files()

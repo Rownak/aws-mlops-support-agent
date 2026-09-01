@@ -1,10 +1,9 @@
 """Ingestion entrypoint:  uv run aws-agent-ingest
 
-Two steps: first recover the AWS docs (clone, checkout pre-archival history,
-strip anchors) into the local folders config.yml's `sources` point at — that
-part is entirely AWS-specific and lives in `sources.fetch`. Then hand off to
-rag_core's `RagCore.sync()`, which is corpus-agnostic: it just walks those
-folders and does chunk/embed/upsert.
+One step: `RagCore.sync()`. The AWS-specific work — cloning each archived
+awsdocs repo, recovering its pre-archival markdown, stripping anchor noise,
+and tagging each file with its canonical docs URL — lives in this project's
+`awsdocs_git` source type, which rag_core drives like any other source.
 
 Safe to re-run: clones are reused and upserts use deterministic IDs.
 """
@@ -12,17 +11,14 @@ Safe to re-run: clones are reused and upserts use deterministic IDs.
 from rag_core import RagCore
 from rag_core.observability import setup_json_logging
 
-from aws_mlops_support_agent.settings import CONFIG_PATH, load_settings
-from aws_mlops_support_agent.sources.fetch import fetch_all
+# Importing the sources package registers `awsdocs_git` with rag_core's
+# REGISTRY, which is what makes config.yml's `type:` resolvable below.
+import aws_mlops_support_agent.sources  # noqa: F401
+from aws_mlops_support_agent.settings import CONFIG_PATH
 
 
 def main() -> None:
     setup_json_logging()
-    cfg = load_settings()
-
-    # AWS-specific: populate the local folders config.yml's `sources` point
-    # at. rag_core never learns what an awsdocs repo is.
-    fetch_all(cfg.rag.sources)
 
     rag = RagCore(str(CONFIG_PATH))
     stats = rag.sync()

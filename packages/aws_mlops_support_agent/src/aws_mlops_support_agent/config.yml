@@ -5,13 +5,11 @@
 # come only from the environment and never appear here.
 #
 # Schema is rag_core's generic config (see packages/rag_core/config.example.yaml).
-# rag_core knows nothing about git or awsdocs: the `sources` below are plain
-# `type: local` folders, plus an `id` key rag_core ignores (SourceSpec is a
-# passthrough dict) but aws_mlops_support_agent.sources.fetch reads to know
-# which repo populates that path. A separate fetch step
-# (aws_mlops_support_agent-specific, not rag_core) clones each awsdocs repo,
-# recovers the pre-archival markdown, and writes it to these paths before
-# ingestion runs.
+# `type: awsdocs_git` is this project's own source type, registered with
+# rag_core's REGISTRY by aws_mlops_support_agent.sources — it clones each
+# archived AWS user guide, recovers the pre-archival markdown from git
+# history, and tags every chunk with its canonical docs URL. rag_core itself
+# still knows nothing about git.
 embeddings:
   provider: openai
   model: text-embedding-3-small
@@ -43,11 +41,10 @@ retriever:
   min_top_score: 0.35
 
 sources:
-  - type: local
+  # `path` is where clones live; each guide lands in <path>/<id>/doc_source.
+  - type: awsdocs_git
     id: codebuild
-    path: data/aws_docs/codebuild/doc_source
-    extensions: [".md"]
-  - type: local
+    path: data/aws_docs
+  - type: awsdocs_git
     id: codepipeline
-    path: data/aws_docs/codepipeline/doc_source
-    extensions: [".md"]
+    path: data/aws_docs
