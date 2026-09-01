@@ -1,0 +1,151 @@
+# tasks v2.2 — aws_mlops_support_agent migration onto the rearchitected rag_core
+
+rag_core became a generic engine: a `RagCore` facade, `type`-dispatched
+`Source` subclasses, and a new config schema. This package depended on all of
+the old shapes, so every seam had to move. Two follow-on phases then pushed
+work that had been patched around in this package back down into the engine.
+
+---
+
+## Phase 1 — Migrate aws_mlops_support_agent onto the new rag_core
+
+- [x] **1.1 Config schema.** Rewrote `config.yml` from the old
+  `index`/`models`/`chunking`/`retrieval` blocks into rag_core's generic
+  schema (`embeddings`, `llm`, `vectorstore`, `splitter`, `retriever`,
+  `generation`, `sources`). Decided **one config file per project**, not two:
+  project-only settings (Jira, `DRY_RUN`) stay env vars read in
+  `settings.py`, matching the `finance_report_rag` precedent.
+
+- [x] **1.2 Ingestion path.** `DocSource`/`LoadedDoc` text-streaming and the
+  free `run_ingest()` were gone. Reworked the awsdocs git-history recovery to
+  write recovered markdown to local folders that `config.yml`'s sources point
+  at, with a `_manifest.json` sidecar carrying each file's docs URL (rag_core
+  had no field for it). `ingest.py` became fetch → `RagCore.sync()`.
+  Clone root derived from `config.yml` rather than hardcoded.
+
+- [x] **1.3 Agent/query path.** Replaced the removed `RetrievedChunk`,
+  `make_retriever`, `generate_answer` and `AnswerPrompts`: chunks are now
+  `(Document, score)` tuples from `RagCore.retrieve_scored()`; answers come
+  from `AnswerGenerator` built with this project's system prompt; citations
+  read chunk metadata instead of `.heading`/`.url`. Fixed the stale
+  `rag_core.retrieval.*` import paths and the checkpointer's msgpack
+  allowlist. Verified with real graph runs (retrieve → answer → interrupt →
+  resume, plus the escalation path) using injected fakes.
+
+- [x] **1.4 Evals.** Retrieval goes through `RagCore.retrieve_scored()`.
+  Found and fixed a real mismatch: chunk labels are now full OS-specific file
+  paths, so `expected_files` moved to plain filenames matched via a
+  basename-rewriting retriever wrapper — portable across Windows/CI.
+
+**Not in scope, still outstanding:** `packages/aws_mlops_support_agent/tests/`
+— `conftest.py` still builds a `RagConfig` from the pre-migration flat schema
+(`ChunkingConfig`, `RetrievalConfig`, `openai_api_key`, …), which blocks
+collection of four test files.
+
+---
+
+## Phase 2 — Push the workarounds back into rag_core
+
+- [x] **2.1 Move chunking out of the facade.** `_build_chunks` and
+  `_splitter` were `RagCore` methods that never used `self`, so chunking
+  couldn't be tested without a readiness check and a Pinecone connection.
+  Both moved to `processing/chunking.py` as free functions (`build_chunks`,
+  `splitter_from_config`). Kept the folder name `processing/` rather than
+  `chunking/`: `hashing.py` is file-level dedup hashing, which the narrower
+  name would mislabel.
+
+- [x] **2.2 Generic per-file chunk metadata.** Added
+  `Source.metadata_for(path) -> dict`, an optional override merged into every
+  chunk of that file. Chose a generic metadata dict over a URL-specific hook,
+  so any source can attach anything (URL, author, timestamps) — and it sets
+  up metadata-filtered retrieval later. `build_chunks` refuses keys colliding
+  with `RESERVED_METADATA_KEYS` rather than silently overwriting them (they
+  drive dedup and partial-ingest detection); a collision fails that one file,
+  not the run. `sync()` collects it per source; `ingest_documents` takes it
+  keyword-only, so `ingest_directory` and existing callers are untouched.
+
+- [x] **2.3 awsdocs as a real source type.** `AwsDocsGitSource` became a
+  registered `Source` (`type: awsdocs_git`) instead of a pre-ingest script:
+  `list_files()` owns clone → checkout pre-archival commit → strip anchors,
+  and `metadata_for()` supplies the docs URL. That removed the reason the
+  sidecar existed — the manifest, its cache and `doc_url_for()` are gone, and
+  `ticket.py` reads `metadata["url"]` straight off a chunk, making it pure
+  again. `ingest.py` collapsed to a single `RagCore.sync()` call.
+  Rewrote `test_fetch_source.py`, which targeted an API two rewrites old.
+
+---
+
+## Phase 3 — Documentation
+
+- [x] **3.1 Package README.** Corrected everything the migration invalidated:
+  the `LOADERS`/`loader:`/`DocSource` wiring, the old config schema names (in
+  two places), the layout tree, and the ingest command. Added the
+  `metadata_for` → chunk-URL flow and a config snippet for adding a guide.
+  Replaced the "56 tests, offline" claim with an explicit *Known breakage*
+  note for the `conftest.py` failure above, rather than quietly dropping the
+  number.
+
+- [x] **3.2 Plan record.** `claude/docs/rag_core_metadata_for_plan.md` holds
+  the metadata-hook design and is marked done.
+
+---
+
+## Phase 4 — Fix chunk sizing, split ingestion out of the facade
+
+- [x] **4.1 Size chunks in tokens, not characters.** The splitters counted with
+  `length_function=len`, so a configured `chunk_size: 800` meant 800
+  *characters* (~200 tokens) — roughly a 4x shrink against the intended budget,
+  which is what cut AWS procedure sections mid-step. All three factories now
+  share one `_token_splitter` built with `from_tiktoken_encoder`
+  (`cl100k_base`), so one configured number means the same thing whichever
+  strategy a config picks. Three related bugs went with it: `keep_separator`
+  was `False`, which deleted the heading text itself from each chunk (the
+  separator *is* the `### `); `\n\n# ` was missing, so h1 sections were never
+  break candidates; and `add_start_index` was computed then discarded, since
+  `build_chunks` calls `split_text()`. Declared `tiktoken` explicitly — it was
+  only present transitively via `langchain-openai`, so an ollama-only install
+  would have failed at import.
+
+- [x] **4.2 Extract `ingestion/` from the `RagCore` facade.** `pipeline.py`
+  496 → 235 lines. `ingestion/ingestor.py` (`Ingestor`) owns the prepare →
+  write path and the three ingest verbs; `ingestion/stats.py` holds
+  `IngestStats`/`IngestError`/`empty_stats`. Deliberately a **pure move, no
+  behavior change**, sequenced *before* the chunk-ID policy work: id format,
+  reserved metadata keys, dedup, partial-ingest detection and stale-version
+  deletion were spread across chunking, the store and the pipeline, so
+  changing the ID policy touched all of them. `RagCore` keeps the three verbs
+  as delegations (callers unchanged) and exposes `batch_size` as a property
+  backed by the ingestor so the two cannot drift. `test_ingest.py` needed real
+  edits, not just a move: its monkeypatch targets named a namespace the
+  symbols no longer resolve in, and the fixture had to build an `Ingestor`
+  rather than only setting `.store`/`.loader`.
+
+---
+
+## Notes / open items
+
+- **CodePipeline is currently commented out** in `config.yml` and
+  `AWSDOCS_REPOS`, so the corpus is CodeBuild-only. If that is permanent, the
+  README's "two awsdocs sources" wording and the 5 CodePipeline eval cases in
+  `evals/dataset.py` both need updating.
+- **The existing Pinecone index is stale after 4.1.** Every stored chunk was
+  embedded under character-sized splitting. The *files* did not change, so
+  `file_hash` is unchanged and `get_ingest_status` reports `complete` — a
+  re-ingest skips everything and will not fix it. The collection has to be
+  cleared, which is entangled with the delete/sync semantics below.
+- **Deferred, discussed but not started:** (a) chunk-ID policy and delete/sync
+  semantics — `f"{file_hash}_{i}"` is idempotent only for *unchanged* files,
+  since an edit re-ids every chunk; note `aws_mlops_support_agent/README.md`
+  still claims "Idempotent (deterministic chunk IDs)", left as-is pending that
+  decision. Switching to position-keyed ids (`source#index`) would break
+  `get_ingest_status`, which relies on `file_hash` to tell complete from
+  partial. (b) Restoring the real header-splitter stage — 4.1 makes headings
+  *preferred break points*, but the old two-stage `MarkdownHeaderTextSplitter`
+  also extracted `heading` metadata (`h1 > h2 > h3`), which nothing carries
+  now; that changes the `splitter_from_config` → `build_chunks` contract, so
+  it is cleanest after the identity work settles.
+- **Pydantic** was discussed and deliberately not adopted: worthwhile for the
+  *new* query-side metadata extraction (structured LLM output), a low-risk
+  mechanical swap for the config tree, but not itself a solution for
+  filterable chunk metadata — that needs a schema threaded through
+  `build_chunks`/`metadata_for` regardless of container type.
