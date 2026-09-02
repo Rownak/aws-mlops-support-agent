@@ -8,6 +8,8 @@ description = "Retrieval benchmark harness for rag-core, evaluated on BEIR/NFCor
 requires-python = ">=3.13, <4.0"
 dependencies = [
     "rag-core",
+    # NFCorpus (corpus, queries, qrels) is pulled from the Hugging Face Hub.
+    "datasets>=3.0",
 ]
 
 # rag-core comes from the workspace, not PyPI.

@@ -1,5 +1,6 @@
 """Retriever module for hybrid search, reranking, and confidence scoring."""
 
+from .base import Retriever, SearchResult
 from .confidence import DEFAULT_MIN_TOP_SCORE, RetrievalConfidence, assess_confidence
 from .hybrid import get_retriever, hybrid_search, mmr_search
 from .rerank import (
@@ -12,6 +13,8 @@ from .rerank import (
 from .retrieve import retrieve, retrieve_scored
 
 __all__ = [
+    "Retriever",
+    "SearchResult",
     "get_retriever",
     "hybrid_search",
     "mmr_search",
