@@ -1,7 +1,7 @@
 {
   "experiment": "bm25",
   "dataset": "nfcorpus",
-  "timestamp": "2026-09-02T22:13:55.115886+00:00",
+  "timestamp": "2026-09-02T22:44:29.487639+00:00",
   "config": {
     "type": "bm25",
     "k1": 0.9,
@@ -32,7 +32,7 @@
     {
       "query_id": "PLAIN-12",
       "ndcg@10": 0.0,
-      "latency_ms": 3,
+      "latency_ms": 4,
       "retrieved": [
         "MED-4711",
         "MED-4698",
@@ -134,7 +134,7 @@
     {
       "query_id": "PLAIN-78",
       "ndcg@10": 0.12741733550370724,
-      "latency_ms": 6,
+      "latency_ms": 5,
       "retrieved": [
         "MED-4318",
         "MED-1540",
@@ -168,7 +168,7 @@
     {
       "query_id": "PLAIN-102",
       "ndcg@10": 0.11538029521800254,
-      "latency_ms": 4,
+      "latency_ms": 3,
       "retrieved": [
         "MED-4247",
         "MED-4616",
@@ -185,7 +185,7 @@
     {
       "query_id": "PLAIN-112",
       "ndcg@10": 0.4222280166138916,
-      "latency_ms": 3,
+      "latency_ms": 2,
       "retrieved": [
         "MED-3380",
         "MED-2618",
@@ -202,7 +202,7 @@
     {
       "query_id": "PLAIN-123",
       "ndcg@10": 0.04019569404504287,
-      "latency_ms": 5,
+      "latency_ms": 4,
       "retrieved": [
         "MED-4256",
         "MED-4969",
@@ -389,7 +389,7 @@
     {
       "query_id": "PLAIN-238",
       "ndcg@10": 0.0,
-      "latency_ms": 3,
+      "latency_ms": 4,
       "retrieved": [
         "MED-4451",
         "MED-3880",
@@ -406,7 +406,7 @@
     {
       "query_id": "PLAIN-248",
       "ndcg@10": 0.2934556883974402,
-      "latency_ms": 4,
+      "latency_ms": 5,
       "retrieved": [
         "MED-4233",
         "MED-3790",
@@ -440,7 +440,7 @@
     {
       "query_id": "PLAIN-270",
       "ndcg@10": 0.22009176629808017,
-      "latency_ms": 3,
+      "latency_ms": 4,
       "retrieved": [
         "MED-4331",
         "MED-5247",
@@ -474,7 +474,7 @@
     {
       "query_id": "PLAIN-291",
       "ndcg@10": 0.3589542101716347,
-      "latency_ms": 3,
+      "latency_ms": 4,
       "retrieved": [
         "MED-4517",
         "MED-4639",
@@ -491,7 +491,7 @@
     {
       "query_id": "PLAIN-307",
       "ndcg@10": 0.46927872602275644,
-      "latency_ms": 5,
+      "latency_ms": 6,
       "retrieved": [
         "MED-714",
         "MED-4872",
@@ -542,7 +542,7 @@
     {
       "query_id": "PLAIN-344",
       "ndcg@10": 0.04754488915824037,
-      "latency_ms": 7,
+      "latency_ms": 6,
       "retrieved": [
         "MED-2495",
         "MED-2497",
@@ -593,7 +593,7 @@
     {
       "query_id": "PLAIN-383",
       "ndcg@10": 0.09803928583135704,
-      "latency_ms": 7,
+      "latency_ms": 6,
       "retrieved": [
         "MED-2763",
         "MED-3776",
@@ -610,7 +610,7 @@
     {
       "query_id": "PLAIN-395",
       "ndcg@10": 0.0,
-      "latency_ms": 5,
+      "latency_ms": 4,
       "retrieved": [
         "MED-3482",
         "MED-3511",
@@ -644,7 +644,7 @@
     {
       "query_id": "PLAIN-418",
       "ndcg@10": 0.7606220037494031,
-      "latency_ms": 5,
+      "latency_ms": 4,
       "retrieved": [
         "MED-917",
         "MED-2068",
@@ -712,7 +712,7 @@
     {
       "query_id": "PLAIN-468",
       "ndcg@10": 0.2406871186625798,
-      "latency_ms": 5,
+      "latency_ms": 4,
       "retrieved": [
         "MED-4573",
         "MED-3991",
@@ -729,7 +729,7 @@
     {
       "query_id": "PLAIN-478",
       "ndcg@10": 0.0,
-      "latency_ms": 1,
+      "latency_ms": 0,
       "retrieved": [
         "MED-2309",
         "MED-3636",
@@ -797,7 +797,7 @@
     {
       "query_id": "PLAIN-520",
       "ndcg@10": 0.0,
-      "latency_ms": 1,
+      "latency_ms": 0,
       "retrieved": [
         "MED-10",
         "MED-14",
@@ -899,7 +899,7 @@
     {
       "query_id": "PLAIN-583",
       "ndcg@10": 0.0,
-      "latency_ms": 1,
+      "latency_ms": 0,
       "retrieved": [
         "MED-10",
         "MED-14",
@@ -916,7 +916,7 @@
     {
       "query_id": "PLAIN-593",
       "ndcg@10": 0.46927872602275644,
-      "latency_ms": 1,
+      "latency_ms": 0,
       "retrieved": [
         "MED-4402",
         "MED-957",
@@ -933,7 +933,7 @@
     {
       "query_id": "PLAIN-603",
       "ndcg@10": 0.0,
-      "latency_ms": 1,
+      "latency_ms": 0,
       "retrieved": [
         "MED-1957",
         "MED-3769",
@@ -984,7 +984,7 @@
     {
       "query_id": "PLAIN-634",
       "ndcg@10": 0.13886244387355454,
-      "latency_ms": 1,
+      "latency_ms": 0,
       "retrieved": [
         "MED-1378",
         "MED-4619",
@@ -1035,7 +1035,7 @@
     {
       "query_id": "PLAIN-671",
       "ndcg@10": 1.0,
-      "latency_ms": 1,
+      "latency_ms": 0,
       "retrieved": [
         "MED-4857",
         "MED-2677",
@@ -1239,7 +1239,7 @@
     {
       "query_id": "PLAIN-792",
       "ndcg@10": 0.644824486427155,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-4546",
         "MED-4958",
@@ -1256,7 +1256,7 @@
     {
       "query_id": "PLAIN-806",
       "ndcg@10": 0.8512360941594272,
-      "latency_ms": 1,
+      "latency_ms": 2,
       "retrieved": [
         "MED-4996",
         "MED-2138",
@@ -1273,7 +1273,7 @@
     {
       "query_id": "PLAIN-817",
       "ndcg@10": 0.0,
-      "latency_ms": 1,
+      "latency_ms": 2,
       "retrieved": [
         "MED-10",
         "MED-14",
@@ -1290,7 +1290,7 @@
     {
       "query_id": "PLAIN-827",
       "ndcg@10": 0.5868720866710773,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-2106",
         "MED-4391",
@@ -1341,7 +1341,7 @@
     {
       "query_id": "PLAIN-872",
       "ndcg@10": 0.0,
-      "latency_ms": 1,
+      "latency_ms": 2,
       "retrieved": [
         "MED-3989",
         "MED-4098",
@@ -1358,7 +1358,7 @@
     {
       "query_id": "PLAIN-882",
       "ndcg@10": 0.3589542101716347,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-3622",
         "MED-3632",
@@ -1375,7 +1375,7 @@
     {
       "query_id": "PLAIN-892",
       "ndcg@10": 0.7273298443105218,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-3132",
         "MED-2010",
@@ -1392,7 +1392,7 @@
     {
       "query_id": "PLAIN-902",
       "ndcg@10": 0.6366824387328317,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-4195",
         "MED-4197",
@@ -1477,7 +1477,7 @@
     {
       "query_id": "PLAIN-956",
       "ndcg@10": 0.2980272981222516,
-      "latency_ms": 1,
+      "latency_ms": 2,
       "retrieved": [
         "MED-5191",
         "MED-884",
@@ -1511,7 +1511,7 @@
     {
       "query_id": "PLAIN-977",
       "ndcg@10": 0.0,
-      "latency_ms": 1,
+      "latency_ms": 2,
       "retrieved": [
         "MED-2598",
         "MED-4891",
@@ -1562,7 +1562,7 @@
     {
       "query_id": "PLAIN-1008",
       "ndcg@10": 0.0,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-10",
         "MED-14",
@@ -1579,7 +1579,7 @@
     {
       "query_id": "PLAIN-1018",
       "ndcg@10": 0.4826366372598628,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-5095",
         "MED-839",
@@ -1596,7 +1596,7 @@
     {
       "query_id": "PLAIN-1028",
       "ndcg@10": 0.0,
-      "latency_ms": 1,
+      "latency_ms": 2,
       "retrieved": [
         "MED-4178",
         "MED-3248",
@@ -1613,7 +1613,7 @@
     {
       "query_id": "PLAIN-1039",
       "ndcg@10": 1.0,
-      "latency_ms": 1,
+      "latency_ms": 2,
       "retrieved": [
         "MED-4380",
         "MED-4381",
@@ -1664,7 +1664,7 @@
     {
       "query_id": "PLAIN-1088",
       "ndcg@10": 0.5531464700081437,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-2109",
         "MED-2110",
@@ -1681,7 +1681,7 @@
     {
       "query_id": "PLAIN-1098",
       "ndcg@10": 0.0,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-10",
         "MED-14",
@@ -1715,7 +1715,7 @@
     {
       "query_id": "PLAIN-1119",
       "ndcg@10": 0.0,
-      "latency_ms": 1,
+      "latency_ms": 2,
       "retrieved": [
         "MED-4025",
         "MED-1708",
@@ -1732,7 +1732,7 @@
     {
       "query_id": "PLAIN-1130",
       "ndcg@10": 1.0,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-4165",
         "MED-10",
@@ -1749,7 +1749,7 @@
     {
       "query_id": "PLAIN-1141",
       "ndcg@10": 0.22009176629808017,
-      "latency_ms": 2,
+      "latency_ms": 3,
       "retrieved": [
         "MED-2112",
         "MED-2428",
@@ -1800,7 +1800,7 @@
     {
       "query_id": "PLAIN-1172",
       "ndcg@10": 0.22009176629808017,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-4150",
         "MED-10",
@@ -1851,7 +1851,7 @@
     {
       "query_id": "PLAIN-1203",
       "ndcg@10": 0.3589542101716347,
-      "latency_ms": 1,
+      "latency_ms": 2,
       "retrieved": [
         "MED-4771",
         "MED-1203",
@@ -1868,7 +1868,7 @@
     {
       "query_id": "PLAIN-1214",
       "ndcg@10": 0.0,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-10",
         "MED-14",
@@ -1885,7 +1885,7 @@
     {
       "query_id": "PLAIN-1225",
       "ndcg@10": 0.521098444712307,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-918",
         "MED-1669",
@@ -1902,7 +1902,7 @@
     {
       "query_id": "PLAIN-1236",
       "ndcg@10": 0.3391602052736161,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-1341",
         "MED-10",
@@ -1936,7 +1936,7 @@
     {
       "query_id": "PLAIN-1262",
       "ndcg@10": 0.37185395737611554,
-      "latency_ms": 3,
+      "latency_ms": 4,
       "retrieved": [
         "MED-5293",
         "MED-983",
@@ -1970,7 +1970,7 @@
     {
       "query_id": "PLAIN-1288",
       "ndcg@10": 0.7381919257729245,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-1538",
         "MED-1533",
@@ -2004,7 +2004,7 @@
     {
       "query_id": "PLAIN-1309",
       "ndcg@10": 0.0,
-      "latency_ms": 0,
+      "latency_ms": 2,
       "retrieved": [
         "MED-10",
         "MED-14",
@@ -2021,7 +2021,7 @@
     {
       "query_id": "PLAIN-1320",
       "ndcg@10": 0.45928466606630497,
-      "latency_ms": 3,
+      "latency_ms": 5,
       "retrieved": [
         "MED-4929",
         "MED-2760",
@@ -2038,7 +2038,7 @@
     {
       "query_id": "PLAIN-1331",
       "ndcg@10": 0.0,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-3381",
         "MED-1049",
@@ -2055,7 +2055,7 @@
     {
       "query_id": "PLAIN-1342",
       "ndcg@10": 0.3340514446642156,
-      "latency_ms": 1,
+      "latency_ms": 2,
       "retrieved": [
         "MED-2851",
         "MED-4317",
@@ -2072,7 +2072,7 @@
     {
       "query_id": "PLAIN-1353",
       "ndcg@10": 0.0,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-976",
         "MED-2110",
@@ -2089,7 +2089,7 @@
     {
       "query_id": "PLAIN-1363",
       "ndcg@10": 0.22009176629808017,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-3620",
         "MED-10",
@@ -2106,7 +2106,7 @@
     {
       "query_id": "PLAIN-1374",
       "ndcg@10": 0.29062463495158997,
-      "latency_ms": 1,
+      "latency_ms": 2,
       "retrieved": [
         "MED-820",
         "MED-4747",
@@ -2123,7 +2123,7 @@
     {
       "query_id": "PLAIN-1387",
       "ndcg@10": 0.6243301345792676,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-3380",
         "MED-1686",
@@ -2140,7 +2140,7 @@
     {
       "query_id": "PLAIN-1398",
       "ndcg@10": 1.0,
-      "latency_ms": 1,
+      "latency_ms": 2,
       "retrieved": [
         "MED-1715",
         "MED-4212",
@@ -2157,7 +2157,7 @@
     {
       "query_id": "PLAIN-1409",
       "ndcg@10": 0.06362078819895171,
-      "latency_ms": 1,
+      "latency_ms": 2,
       "retrieved": [
         "MED-1570",
         "MED-1675",
@@ -2174,7 +2174,7 @@
     {
       "query_id": "PLAIN-1419",
       "ndcg@10": 0.31488013066763093,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-4198",
         "MED-2327",
@@ -2191,7 +2191,7 @@
     {
       "query_id": "PLAIN-1429",
       "ndcg@10": 0.0,
-      "latency_ms": 3,
+      "latency_ms": 4,
       "retrieved": [
         "MED-1381",
         "MED-4057",
@@ -2225,7 +2225,7 @@
     {
       "query_id": "PLAIN-1453",
       "ndcg@10": 0.37850091886658266,
-      "latency_ms": 1,
+      "latency_ms": 2,
       "retrieved": [
         "MED-2221",
         "MED-1955",
@@ -2259,7 +2259,7 @@
     {
       "query_id": "PLAIN-1473",
       "ndcg@10": 1.0,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-4455",
         "MED-10",
@@ -2276,7 +2276,7 @@
     {
       "query_id": "PLAIN-1485",
       "ndcg@10": 0.09478836436955078,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-2099",
         "MED-10",
@@ -2378,7 +2378,7 @@
     {
       "query_id": "PLAIN-1547",
       "ndcg@10": 0.0,
-      "latency_ms": 1,
+      "latency_ms": 2,
       "retrieved": [
         "MED-2360",
         "MED-2361",
@@ -2429,7 +2429,7 @@
     {
       "query_id": "PLAIN-1579",
       "ndcg@10": 0.3391602052736161,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-4667",
         "MED-4801",
@@ -2463,7 +2463,7 @@
     {
       "query_id": "PLAIN-1601",
       "ndcg@10": 0.5806020001118017,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-1700",
         "MED-3537",
@@ -2582,7 +2582,7 @@
     {
       "query_id": "PLAIN-1679",
       "ndcg@10": 0.0,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-10",
         "MED-14",
@@ -2701,7 +2701,7 @@
     {
       "query_id": "PLAIN-1752",
       "ndcg@10": 0.0,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-10",
         "MED-14",
@@ -2718,7 +2718,7 @@
     {
       "query_id": "PLAIN-1762",
       "ndcg@10": 0.28606042850872493,
-      "latency_ms": 1,
+      "latency_ms": 2,
       "retrieved": [
         "MED-865",
         "MED-3721",
@@ -2888,7 +2888,7 @@
     {
       "query_id": "PLAIN-1867",
       "ndcg@10": 0.0,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-10",
         "MED-14",
@@ -2956,7 +2956,7 @@
     {
       "query_id": "PLAIN-1909",
       "ndcg@10": 0.9305687780632227,
-      "latency_ms": 1,
+      "latency_ms": 0,
       "retrieved": [
         "MED-2341",
         "MED-2352",
@@ -3007,7 +3007,7 @@
     {
       "query_id": "PLAIN-1940",
       "ndcg@10": 0.3589542101716347,
-      "latency_ms": 1,
+      "latency_ms": 0,
       "retrieved": [
         "MED-3792",
         "MED-3797",
@@ -3058,7 +3058,7 @@
     {
       "query_id": "PLAIN-1972",
       "ndcg@10": 0.0,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-1442",
         "MED-2143",
@@ -3075,7 +3075,7 @@
     {
       "query_id": "PLAIN-1983",
       "ndcg@10": 1.0,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-2137",
         "MED-2521",
@@ -3109,7 +3109,7 @@
     {
       "query_id": "PLAIN-2009",
       "ndcg@10": 0.15958907712489637,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-3951",
         "MED-4961",
@@ -3126,7 +3126,7 @@
     {
       "query_id": "PLAIN-2019",
       "ndcg@10": 0.46927872602275644,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-4573",
         "MED-10",
@@ -3143,7 +3143,7 @@
     {
       "query_id": "PLAIN-2030",
       "ndcg@10": 0.3026024134988135,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-4051",
         "MED-2816",
@@ -3194,7 +3194,7 @@
     {
       "query_id": "PLAIN-2061",
       "ndcg@10": 0.9305687780632227,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-3031",
         "MED-4736",
@@ -3211,7 +3211,7 @@
     {
       "query_id": "PLAIN-2071",
       "ndcg@10": 0.5579780239524,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-3532",
         "MED-4309",
@@ -3296,7 +3296,7 @@
     {
       "query_id": "PLAIN-2124",
       "ndcg@10": 0.3589542101716347,
-      "latency_ms": 1,
+      "latency_ms": 0,
       "retrieved": [
         "MED-1522",
         "MED-1525",
@@ -3313,7 +3313,7 @@
     {
       "query_id": "PLAIN-2134",
       "ndcg@10": 0.0,
-      "latency_ms": 1,
+      "latency_ms": 0,
       "retrieved": [
         "MED-10",
         "MED-14",
@@ -3347,7 +3347,7 @@
     {
       "query_id": "PLAIN-2156",
       "ndcg@10": 0.644824486427155,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-4868",
         "MED-5055",
@@ -3381,7 +3381,7 @@
     {
       "query_id": "PLAIN-2177",
       "ndcg@10": 0.29727159644205703,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-3282",
         "MED-1185",
@@ -3398,7 +3398,7 @@
     {
       "query_id": "PLAIN-2187",
       "ndcg@10": 0.3833427799846345,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-1248",
         "MED-1244",
@@ -3432,7 +3432,7 @@
     {
       "query_id": "PLAIN-2209",
       "ndcg@10": 0.0,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-10",
         "MED-14",
@@ -3449,7 +3449,7 @@
     {
       "query_id": "PLAIN-2220",
       "ndcg@10": 0.2350455494144854,
-      "latency_ms": 1,
+      "latency_ms": 0,
       "retrieved": [
         "MED-4976",
         "MED-10",
@@ -3466,7 +3466,7 @@
     {
       "query_id": "PLAIN-2230",
       "ndcg@10": 0.0,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-557",
         "MED-4872",
@@ -3551,7 +3551,7 @@
     {
       "query_id": "PLAIN-2281",
       "ndcg@10": 0.0,
-      "latency_ms": 1,
+      "latency_ms": 0,
       "retrieved": [
         "MED-10",
         "MED-14",
@@ -3602,7 +3602,7 @@
     {
       "query_id": "PLAIN-2311",
       "ndcg@10": 0.0,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-4801",
         "MED-1165",
@@ -3636,7 +3636,7 @@
     {
       "query_id": "PLAIN-2332",
       "ndcg@10": 0.5637884576902256,
-      "latency_ms": 2,
+      "latency_ms": 1,
       "retrieved": [
         "MED-4766",
         "MED-3312",
@@ -3704,7 +3704,7 @@
     {
       "query_id": "PLAIN-2375",
       "ndcg@10": 0.0,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "retrieved": [
         "MED-10",
         "MED-14",
@@ -3806,7 +3806,7 @@
     {
       "query_id": "PLAIN-2450",
       "ndcg@10": 0.2984900352767555,
-      "latency_ms": 2,
+      "latency_ms": 3,
       "retrieved": [
         "MED-1178",
         "MED-1140",
@@ -3857,7 +3857,7 @@
     {
       "query_id": "PLAIN-2480",
       "ndcg@10": 0.2449921395512954,
-      "latency_ms": 4,
+      "latency_ms": 3,
       "retrieved": [
         "MED-2811",
         "MED-3964",
@@ -3874,7 +3874,7 @@
     {
       "query_id": "PLAIN-2490",
       "ndcg@10": 0.5386485824602897,
-      "latency_ms": 5,
+      "latency_ms": 4,
       "retrieved": [
         "MED-1490",
         "MED-1488",
@@ -3908,7 +3908,7 @@
     {
       "query_id": "PLAIN-2510",
       "ndcg@10": 0.8415908474314974,
-      "latency_ms": 3,
+      "latency_ms": 2,
       "retrieved": [
         "MED-1648",
         "MED-1640",
@@ -3959,7 +3959,7 @@
     {
       "query_id": "PLAIN-2540",
       "ndcg@10": 0.26317921170974523,
-      "latency_ms": 3,
+      "latency_ms": 2,
       "retrieved": [
         "MED-1886",
         "MED-2098",
@@ -3976,7 +3976,7 @@
     {
       "query_id": "PLAIN-2550",
       "ndcg@10": 0.22436186661856958,
-      "latency_ms": 4,
+      "latency_ms": 3,
       "retrieved": [
         "MED-728",
         "MED-2301",
@@ -4061,7 +4061,7 @@
     {
       "query_id": "PLAIN-2600",
       "ndcg@10": 0.2301225349583886,
-      "latency_ms": 2,
+      "latency_ms": 3,
       "retrieved": [
         "MED-2939",
         "MED-967",
@@ -4248,7 +4248,7 @@
     {
       "query_id": "PLAIN-2710",
       "ndcg@10": 0.607436348375296,
-      "latency_ms": 4,
+      "latency_ms": 3,
       "retrieved": [
         "MED-3382",
         "MED-3380",
@@ -4265,7 +4265,7 @@
     {
       "query_id": "PLAIN-2720",
       "ndcg@10": 0.13961814555374907,
-      "latency_ms": 5,
+      "latency_ms": 4,
       "retrieved": [
         "MED-4429",
         "MED-4804",
@@ -4401,7 +4401,7 @@
     {
       "query_id": "PLAIN-2800",
       "ndcg@10": 0.2996484034259831,
-      "latency_ms": 3,
+      "latency_ms": 4,
       "retrieved": [
         "MED-4040",
         "MED-4456",
@@ -4571,7 +4571,7 @@
     {
       "query_id": "PLAIN-2900",
       "ndcg@10": 0.09382844813642036,
-      "latency_ms": 4,
+      "latency_ms": 5,
       "retrieved": [
         "MED-2105",
         "MED-3679",
@@ -4622,7 +4622,7 @@
     {
       "query_id": "PLAIN-2930",
       "ndcg@10": 0.36077903708155934,
-      "latency_ms": 3,
+      "latency_ms": 4,
       "retrieved": [
         "MED-4325",
         "MED-1008",
@@ -4656,7 +4656,7 @@
     {
       "query_id": "PLAIN-2950",
       "ndcg@10": 0.0,
-      "latency_ms": 2,
+      "latency_ms": 3,
       "retrieved": [
         "MED-1625",
         "MED-1957",
@@ -4707,7 +4707,7 @@
     {
       "query_id": "PLAIN-2981",
       "ndcg@10": 0.49923783028254765,
-      "latency_ms": 3,
+      "latency_ms": 2,
       "retrieved": [
         "MED-4403",
         "MED-3198",
@@ -4758,7 +4758,7 @@
     {
       "query_id": "PLAIN-3014",
       "ndcg@10": 0.0,
-      "latency_ms": 4,
+      "latency_ms": 5,
       "retrieved": [
         "MED-1378",
         "MED-4871",
@@ -4792,7 +4792,7 @@
     {
       "query_id": "PLAIN-3037",
       "ndcg@10": 0.0,
-      "latency_ms": 5,
+      "latency_ms": 4,
       "retrieved": [
         "MED-5069",
         "MED-5215",
@@ -4843,7 +4843,7 @@
     {
       "query_id": "PLAIN-3074",
       "ndcg@10": 1.0,
-      "latency_ms": 5,
+      "latency_ms": 4,
       "retrieved": [
         "MED-4555",
         "MED-4423",
@@ -4877,7 +4877,7 @@
     {
       "query_id": "PLAIN-3097",
       "ndcg@10": 0.4770382338730848,
-      "latency_ms": 2,
+      "latency_ms": 3,
       "retrieved": [
         "MED-4590",
         "MED-1792",
@@ -4894,7 +4894,7 @@
     {
       "query_id": "PLAIN-3116",
       "ndcg@10": 0.0,
-      "latency_ms": 5,
+      "latency_ms": 4,
       "retrieved": [
         "MED-2924",
         "MED-2665",
@@ -4911,7 +4911,7 @@
     {
       "query_id": "PLAIN-3131",
       "ndcg@10": 0.1584652550904766,
-      "latency_ms": 4,
+      "latency_ms": 3,
       "retrieved": [
         "MED-2291",
         "MED-3109",
@@ -4945,7 +4945,7 @@
     {
       "query_id": "PLAIN-3151",
       "ndcg@10": 0.0,
-      "latency_ms": 7,
+      "latency_ms": 6,
       "retrieved": [
         "MED-4595",
         "MED-4560",
@@ -4962,7 +4962,7 @@
     {
       "query_id": "PLAIN-3161",
       "ndcg@10": 0.5340859021512028,
-      "latency_ms": 5,
+      "latency_ms": 4,
       "retrieved": [
         "MED-4677",
         "MED-2063",
@@ -4979,7 +4979,7 @@
     {
       "query_id": "PLAIN-3171",
       "ndcg@10": 0.22002856107460725,
-      "latency_ms": 3,
+      "latency_ms": 2,
       "retrieved": [
         "MED-2333",
         "MED-1021",
@@ -5064,7 +5064,7 @@
     {
       "query_id": "PLAIN-3221",
       "ndcg@10": 0.0,
-      "latency_ms": 3,
+      "latency_ms": 4,
       "retrieved": [
         "MED-983",
         "MED-2212",
@@ -5149,7 +5149,7 @@
     {
       "query_id": "PLAIN-3271",
       "ndcg@10": 0.0,
-      "latency_ms": 3,
+      "latency_ms": 2,
       "retrieved": [
         "MED-4450",
         "MED-1781",
@@ -5183,7 +5183,7 @@
     {
       "query_id": "PLAIN-3292",
       "ndcg@10": 0.49030204025499524,
-      "latency_ms": 4,
+      "latency_ms": 3,
       "retrieved": [
         "MED-2291",
         "MED-2761",
@@ -5200,7 +5200,7 @@
     {
       "query_id": "PLAIN-3302",
       "ndcg@10": 0.2942026330205877,
-      "latency_ms": 2,
+      "latency_ms": 1,
       "retrieved": [
         "MED-2907",
         "MED-3029",
@@ -5217,7 +5217,7 @@
     {
       "query_id": "PLAIN-3312",
       "ndcg@10": 0.1171252546222487,
-      "latency_ms": 3,
+      "latency_ms": 2,
       "retrieved": [
         "MED-4360",
         "MED-3561",
@@ -5302,7 +5302,7 @@
     {
       "query_id": "PLAIN-3362",
       "ndcg@10": 0.5282800663700055,
-      "latency_ms": 2,
+      "latency_ms": 1,
       "retrieved": [
         "MED-2227",
         "MED-5042",
@@ -5370,7 +5370,7 @@
     {
       "query_id": "PLAIN-3402",
       "ndcg@10": 0.0,
-      "latency_ms": 3,
+      "latency_ms": 4,
       "retrieved": [
         "MED-2951",
         "MED-4689",

@@ -11,6 +11,7 @@ from typing import Any
 from rag_core.embeddings.factory import get_embedding
 
 _embeddings_cache: dict[str, Any] = {}
+_embeddings_model_names: dict[str, str] = {}
 
 
 def get_embeddings(name: str, cfg: dict) -> Any:
@@ -21,4 +22,11 @@ def get_embeddings(name: str, cfg: dict) -> Any:
     embeddings_cfg = cfg["embeddings"][name]
     instance = get_embedding(embeddings_cfg)
     _embeddings_cache[name] = instance
+    _embeddings_model_names[name] = embeddings_cfg["model"]
     return instance
+
+
+def get_embeddings_model_name(name: str, cfg: dict) -> str:
+    """The model string behind resource `name` — the disk embedding cache's key."""
+    get_embeddings(name, cfg)  # ensure it's resolved at least once
+    return _embeddings_model_names[name]

@@ -110,20 +110,20 @@ so it happens once, not once per experiment.
   the corpus once. Runtime only — never in `benchmark.yaml`.
   *Done when:* a two-experiment sweep logs one embedding pass, not two.
 
-- [ ] **2.6 Embedding persistence.** Cache vectors to disk under
+- [x] **2.6 Embedding persistence.** Cache vectors to disk under
   `data/beir/nfcorpus/.embeddings/<model>.npy` keyed by model + corpus hash,
   so a re-run costs nothing. Gitignored with the rest of `data/beir/`.
 
-- [ ] **2.7 `build_retriever`.** `rag_core/retriever/factory.py` — recursive
+- [x] **2.7 `build_retriever`.** `rag_core/retriever/factory.py` — recursive
   `if cfg["type"] == ...` dispatch over `(cfg, resources)`, returning bm25 or
   dense. Unknown type raises at load, naming the type and the valid set.
   *Done when:* a unit test builds both from dict configs.
 
-- [ ] **2.8 CLI sweep.** `run --experiment <name>` resolves from
+- [x] **2.8 CLI sweep.** `run --experiment <name>` resolves from
   `benchmark.yaml`; add `--all` to run the `sweep` list and `list` to print
   available pipelines. Drop the hardcoded `bm25`-only branch.
 
-- [ ] **2.9 Experiment 2.** Run dense over all 323 queries; write its run JSON.
+- [x] **2.9 Experiment 2.** Run dense over all 323 queries; write its run JSON.
   *Done when:* nDCG@10 is recorded and sits in a plausible band (~0.30–0.35
   for a strong model). Unlike phase 1 there is no published number to match —
   a wildly low score means a bug, not a finding. Note the model used.

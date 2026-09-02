@@ -12,34 +12,45 @@ from langchain_core.embeddings import Embeddings
 
 from rag_core.retriever.base import SearchResult
 
-
 _EMBED_BATCH_SIZE = 100
 
 
 class DenseRetriever:
-    """Cosine similarity over a fixed corpus, embedded once at construction."""
+    """Cosine similarity over a fixed corpus, embedded once at construction.
+
+    Pass `vectors` (aligned to `corpus`'s key order) to skip embedding —
+    the caller's own disk cache already has them (design_summary.md 2.6).
+    """
 
     def __init__(
         self,
         corpus: dict[str, str],
         embeddings: Embeddings,
         top_k: int = 10,
+        vectors: "np.ndarray | None" = None,
     ):
         self.top_k = top_k
         self._embeddings = embeddings
         self._doc_ids = list(corpus.keys())
 
-        texts = list(corpus.values())
-        embedded: list[list[float]] = []
-        # A single request over the whole corpus can overwhelm a local Ollama
-        # server (observed: connection reset partway through 3,633 docs) —
-        # batching keeps each request small regardless of provider.
-        for i in range(0, len(texts), _EMBED_BATCH_SIZE):
-            embedded.extend(embeddings.embed_documents(texts[i : i + _EMBED_BATCH_SIZE]))
-        vectors = np.array(embedded)
+        if vectors is None:
+            texts = list(corpus.values())
+            embedded: list[list[float]] = []
+            # A single request over the whole corpus can overwhelm a local Ollama
+            # server (observed: connection reset partway through 3,633 docs) —
+            # batching keeps each request small regardless of provider.
+            for i in range(0, len(texts), _EMBED_BATCH_SIZE):
+                embedded.extend(embeddings.embed_documents(texts[i : i + _EMBED_BATCH_SIZE]))
+            vectors = np.array(embedded)
+
         norms = np.linalg.norm(vectors, axis=1, keepdims=True)
         norms[norms == 0] = 1.0
         self._normalized = vectors / norms
+
+    @property
+    def vectors(self) -> "np.ndarray":
+        """The (normalized) corpus matrix, for callers that want to persist it to disk."""
+        return self._normalized
 
     def search(self, query: str, k: int | None = None) -> list[SearchResult]:
         k = k if k is not None else self.top_k

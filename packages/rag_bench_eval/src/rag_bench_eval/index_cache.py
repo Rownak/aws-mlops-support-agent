@@ -7,7 +7,8 @@ Runtime only: this cache never appears in benchmark.yaml and does not
 persist across processes (that's 2.6, disk-cached vectors).
 """
 
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 _index_cache: dict[tuple, Any] = {}
 
