@@ -1,0 +1,5508 @@
+{
+  "experiment": "dense",
+  "dataset": "nfcorpus",
+  "timestamp": "2026-09-02T22:22:38.101414+00:00",
+  "config": {
+    "type": "dense",
+    "embeddings": "default",
+    "metric": "cosine",
+    "top_k": 10
+  },
+  "metrics": {
+    "ndcg@10": 0.3408402742211839
+  },
+  "per_query": [
+    {
+      "query_id": "PLAIN-2",
+      "ndcg@10": 0.757753622272227,
+      "latency_ms": 115,
+      "retrieved": [
+        "MED-2429",
+        "MED-10",
+        "MED-2431",
+        "MED-14",
+        "MED-2439",
+        "MED-2434",
+        "MED-2440",
+        "MED-2122",
+        "MED-4827",
+        "MED-2251"
+      ]
+    },
+    {
+      "query_id": "PLAIN-12",
+      "ndcg@10": 0.0611130472053797,
+      "latency_ms": 100,
+      "retrieved": [
+        "MED-1924",
+        "MED-4711",
+        "MED-2514",
+        "MED-2512",
+        "MED-2509",
+        "MED-2510",
+        "MED-2328",
+        "MED-2502",
+        "MED-1724",
+        "MED-1432"
+      ]
+    },
+    {
+      "query_id": "PLAIN-23",
+      "ndcg@10": 0.31488013066763093,
+      "latency_ms": 107,
+      "retrieved": [
+        "MED-2658",
+        "MED-1961",
+        "MED-2651",
+        "MED-118",
+        "MED-4168",
+        "MED-1174",
+        "MED-1164",
+        "MED-2705",
+        "MED-1004",
+        "MED-4653"
+      ]
+    },
+    {
+      "query_id": "PLAIN-33",
+      "ndcg@10": 0.35609106284366937,
+      "latency_ms": 119,
+      "retrieved": [
+        "MED-5006",
+        "MED-2721",
+        "MED-1650",
+        "MED-2722",
+        "MED-2723",
+        "MED-1803",
+        "MED-2717",
+        "MED-4768",
+        "MED-1448",
+        "MED-1718"
+      ]
+    },
+    {
+      "query_id": "PLAIN-44",
+      "ndcg@10": 0.1616577702441989,
+      "latency_ms": 103,
+      "retrieved": [
+        "MED-2814",
+        "MED-2815",
+        "MED-2818",
+        "MED-1811",
+        "MED-2809",
+        "MED-2824",
+        "MED-2788",
+        "MED-2246",
+        "MED-2810",
+        "MED-2607"
+      ]
+    },
+    {
+      "query_id": "PLAIN-56",
+      "ndcg@10": 0.7820136469127789,
+      "latency_ms": 1496,
+      "retrieved": [
+        "MED-2900",
+        "MED-2896",
+        "MED-4384",
+        "MED-2894",
+        "MED-2901",
+        "MED-5247",
+        "MED-5218",
+        "MED-5246",
+        "MED-4385",
+        "MED-2895"
+      ]
+    },
+    {
+      "query_id": "PLAIN-68",
+      "ndcg@10": 0.41768559432146335,
+      "latency_ms": 1642,
+      "retrieved": [
+        "MED-2991",
+        "MED-1801",
+        "MED-1962",
+        "MED-2492",
+        "MED-2745",
+        "MED-4978",
+        "MED-1956",
+        "MED-3889",
+        "MED-4166",
+        "MED-4626"
+      ]
+    },
+    {
+      "query_id": "PLAIN-78",
+      "ndcg@10": 0.14410005584193936,
+      "latency_ms": 133,
+      "retrieved": [
+        "MED-4493",
+        "MED-5326",
+        "MED-4318",
+        "MED-4482",
+        "MED-3000",
+        "MED-4487",
+        "MED-4408",
+        "MED-5205",
+        "MED-3494",
+        "MED-5032"
+      ]
+    },
+    {
+      "query_id": "PLAIN-91",
+      "ndcg@10": 0.5890259340108837,
+      "latency_ms": 156,
+      "retrieved": [
+        "MED-3169",
+        "MED-4818",
+        "MED-3288",
+        "MED-3175",
+        "MED-3302",
+        "MED-3319",
+        "MED-3178",
+        "MED-4814",
+        "MED-3177",
+        "MED-3307"
+      ]
+    },
+    {
+      "query_id": "PLAIN-102",
+      "ndcg@10": 0.10218331334064328,
+      "latency_ms": 1351,
+      "retrieved": [
+        "MED-2590",
+        "MED-3255",
+        "MED-1996",
+        "MED-1194",
+        "MED-2111",
+        "MED-4173",
+        "MED-4616",
+        "MED-4247",
+        "MED-3954",
+        "MED-1398"
+      ]
+    },
+    {
+      "query_id": "PLAIN-112",
+      "ndcg@10": 0.6788674686238862,
+      "latency_ms": 121,
+      "retrieved": [
+        "MED-3380",
+        "MED-3382",
+        "MED-5063",
+        "MED-3381",
+        "MED-1153",
+        "MED-2618",
+        "MED-3173",
+        "MED-5062",
+        "MED-3054",
+        "MED-4655"
+      ]
+    },
+    {
+      "query_id": "PLAIN-123",
+      "ndcg@10": 0.1005405377091208,
+      "latency_ms": 137,
+      "retrieved": [
+        "MED-2707",
+        "MED-1686",
+        "MED-3483",
+        "MED-5321",
+        "MED-3161",
+        "MED-2083",
+        "MED-4392",
+        "MED-4804",
+        "MED-3210",
+        "MED-3473"
+      ]
+    },
+    {
+      "query_id": "PLAIN-133",
+      "ndcg@10": 0.0,
+      "latency_ms": 160,
+      "retrieved": [
+        "MED-2513",
+        "MED-2357",
+        "MED-4373",
+        "MED-4490",
+        "MED-2129",
+        "MED-4493",
+        "MED-4433",
+        "MED-3277",
+        "MED-2923",
+        "MED-1712"
+      ]
+    },
+    {
+      "query_id": "PLAIN-143",
+      "ndcg@10": 0.6348694639665462,
+      "latency_ms": 1704,
+      "retrieved": [
+        "MED-3618",
+        "MED-3619",
+        "MED-3621",
+        "MED-2093",
+        "MED-2090",
+        "MED-2940",
+        "MED-4036",
+        "MED-872",
+        "MED-4028",
+        "MED-3626"
+      ]
+    },
+    {
+      "query_id": "PLAIN-153",
+      "ndcg@10": 0.8308193383999448,
+      "latency_ms": 127,
+      "retrieved": [
+        "MED-3679",
+        "MED-3683",
+        "MED-3692",
+        "MED-3680",
+        "MED-3695",
+        "MED-3688",
+        "MED-4762",
+        "MED-4266",
+        "MED-3677",
+        "MED-2482"
+      ]
+    },
+    {
+      "query_id": "PLAIN-165",
+      "ndcg@10": 0.5574820681913422,
+      "latency_ms": 128,
+      "retrieved": [
+        "MED-3696",
+        "MED-4445",
+        "MED-3766",
+        "MED-3762",
+        "MED-3767",
+        "MED-3768",
+        "MED-2437",
+        "MED-3765",
+        "MED-3697",
+        "MED-4097"
+      ]
+    },
+    {
+      "query_id": "PLAIN-175",
+      "ndcg@10": 0.3511643449202446,
+      "latency_ms": 123,
+      "retrieved": [
+        "MED-3822",
+        "MED-3818",
+        "MED-3816",
+        "MED-4627",
+        "MED-1045",
+        "MED-2292",
+        "MED-2529",
+        "MED-4502",
+        "MED-5218",
+        "MED-3964"
+      ]
+    },
+    {
+      "query_id": "PLAIN-186",
+      "ndcg@10": 0.22009176629808017,
+      "latency_ms": 114,
+      "retrieved": [
+        "MED-3904",
+        "MED-949",
+        "MED-2203",
+        "MED-1016",
+        "MED-3510",
+        "MED-2054",
+        "MED-1006",
+        "MED-1031",
+        "MED-1005",
+        "MED-1049"
+      ]
+    },
+    {
+      "query_id": "PLAIN-196",
+      "ndcg@10": 0.6110191504983018,
+      "latency_ms": 120,
+      "retrieved": [
+        "MED-3969",
+        "MED-3970",
+        "MED-3963",
+        "MED-4470",
+        "MED-4866",
+        "MED-3960",
+        "MED-4928",
+        "MED-3452",
+        "MED-4872",
+        "MED-3966"
+      ]
+    },
+    {
+      "query_id": "PLAIN-207",
+      "ndcg@10": 0.39673781793804724,
+      "latency_ms": 119,
+      "retrieved": [
+        "MED-4493",
+        "MED-5326",
+        "MED-5197",
+        "MED-4482",
+        "MED-3000",
+        "MED-4060",
+        "MED-4451",
+        "MED-4057",
+        "MED-5205",
+        "MED-847"
+      ]
+    },
+    {
+      "query_id": "PLAIN-217",
+      "ndcg@10": 0.08514311764162098,
+      "latency_ms": 100,
+      "retrieved": [
+        "MED-2441",
+        "MED-1293",
+        "MED-4349",
+        "MED-1991",
+        "MED-4850",
+        "MED-2816",
+        "MED-2432",
+        "MED-1874",
+        "MED-4831",
+        "MED-5231"
+      ]
+    },
+    {
+      "query_id": "PLAIN-227",
+      "ndcg@10": 0.09478836436955078,
+      "latency_ms": 114,
+      "retrieved": [
+        "MED-3534",
+        "MED-2271",
+        "MED-3466",
+        "MED-4150",
+        "MED-2335",
+        "MED-2265",
+        "MED-3206",
+        "MED-3944",
+        "MED-3161",
+        "MED-939"
+      ]
+    },
+    {
+      "query_id": "PLAIN-238",
+      "ndcg@10": 0.22009176629808017,
+      "latency_ms": 109,
+      "retrieved": [
+        "MED-4739",
+        "MED-2627",
+        "MED-1099",
+        "MED-1982",
+        "MED-1774",
+        "MED-4949",
+        "MED-4205",
+        "MED-3590",
+        "MED-1171",
+        "MED-4915"
+      ]
+    },
+    {
+      "query_id": "PLAIN-248",
+      "ndcg@10": 0.35359815335916356,
+      "latency_ms": 127,
+      "retrieved": [
+        "MED-4890",
+        "MED-3243",
+        "MED-4234",
+        "MED-4232",
+        "MED-4239",
+        "MED-3790",
+        "MED-3245",
+        "MED-4898",
+        "MED-3877",
+        "MED-5337"
+      ]
+    },
+    {
+      "query_id": "PLAIN-259",
+      "ndcg@10": 0.3589542101716347,
+      "latency_ms": 114,
+      "retrieved": [
+        "MED-4295",
+        "MED-4296",
+        "MED-5115",
+        "MED-2430",
+        "MED-3854",
+        "MED-752",
+        "MED-2323",
+        "MED-2647",
+        "MED-2335",
+        "MED-2070"
+      ]
+    },
+    {
+      "query_id": "PLAIN-270",
+      "ndcg@10": 0.2863459897524692,
+      "latency_ms": 124,
+      "retrieved": [
+        "MED-4331",
+        "MED-5245",
+        "MED-1648",
+        "MED-1645",
+        "MED-1647",
+        "MED-1637",
+        "MED-5123",
+        "MED-1635",
+        "MED-5047",
+        "MED-1640"
+      ]
+    },
+    {
+      "query_id": "PLAIN-280",
+      "ndcg@10": 0.3340514446642156,
+      "latency_ms": 107,
+      "retrieved": [
+        "MED-3023",
+        "MED-5097",
+        "MED-4739",
+        "MED-3595",
+        "MED-4376",
+        "MED-3032",
+        "MED-2905",
+        "MED-3020",
+        "MED-3026",
+        "MED-2904"
+      ]
+    },
+    {
+      "query_id": "PLAIN-291",
+      "ndcg@10": 0.5271064966405454,
+      "latency_ms": 99,
+      "retrieved": [
+        "MED-4639",
+        "MED-4517",
+        "MED-2100",
+        "MED-4641",
+        "MED-3844",
+        "MED-1045",
+        "MED-4638",
+        "MED-2437",
+        "MED-3862",
+        "MED-5111"
+      ]
+    },
+    {
+      "query_id": "PLAIN-307",
+      "ndcg@10": 0.9469024295259745,
+      "latency_ms": 123,
+      "retrieved": [
+        "MED-714",
+        "MED-919",
+        "MED-3990",
+        "MED-4573",
+        "MED-716",
+        "MED-4575",
+        "MED-961",
+        "MED-3987",
+        "MED-4570",
+        "MED-921"
+      ]
+    },
+    {
+      "query_id": "PLAIN-320",
+      "ndcg@10": 0.0,
+      "latency_ms": 121,
+      "retrieved": [
+        "MED-2437",
+        "MED-5111",
+        "MED-2423",
+        "MED-4450",
+        "MED-3862",
+        "MED-2424",
+        "MED-2417",
+        "MED-4069",
+        "MED-3791",
+        "MED-3799"
+      ]
+    },
+    {
+      "query_id": "PLAIN-332",
+      "ndcg@10": 0.6131471927654584,
+      "latency_ms": 130,
+      "retrieved": [
+        "MED-760",
+        "MED-5265",
+        "MED-5305",
+        "MED-3451",
+        "MED-5084",
+        "MED-5263",
+        "MED-2705",
+        "MED-4005",
+        "MED-4350",
+        "MED-2459"
+      ]
+    },
+    {
+      "query_id": "PLAIN-344",
+      "ndcg@10": 0.4841420358687262,
+      "latency_ms": 1827,
+      "retrieved": [
+        "MED-2405",
+        "MED-2388",
+        "MED-5238",
+        "MED-2394",
+        "MED-2395",
+        "MED-2397",
+        "MED-2396",
+        "MED-2389",
+        "MED-1672",
+        "MED-3027"
+      ]
+    },
+    {
+      "query_id": "PLAIN-358",
+      "ndcg@10": 0.0,
+      "latency_ms": 115,
+      "retrieved": [
+        "MED-2586",
+        "MED-3788",
+        "MED-4314",
+        "MED-2762",
+        "MED-5026",
+        "MED-2588",
+        "MED-1257",
+        "MED-4578",
+        "MED-4496",
+        "MED-2163"
+      ]
+    },
+    {
+      "query_id": "PLAIN-371",
+      "ndcg@10": 0.38009376671593426,
+      "latency_ms": 125,
+      "retrieved": [
+        "MED-4618",
+        "MED-4620",
+        "MED-5010",
+        "MED-4619",
+        "MED-5011",
+        "MED-957",
+        "MED-1573",
+        "MED-5009",
+        "MED-2627",
+        "MED-1570"
+      ]
+    },
+    {
+      "query_id": "PLAIN-383",
+      "ndcg@10": 0.14606834984270645,
+      "latency_ms": 122,
+      "retrieved": [
+        "MED-4469",
+        "MED-1479",
+        "MED-1478",
+        "MED-4299",
+        "MED-2220",
+        "MED-1366",
+        "MED-1407",
+        "MED-1378",
+        "MED-2112",
+        "MED-4313"
+      ]
+    },
+    {
+      "query_id": "PLAIN-395",
+      "ndcg@10": 0.0,
+      "latency_ms": 116,
+      "retrieved": [
+        "MED-5137",
+        "MED-2783",
+        "MED-3511",
+        "MED-2825",
+        "MED-957",
+        "MED-2820",
+        "MED-2810",
+        "MED-2243",
+        "MED-1685",
+        "MED-1689"
+      ]
+    },
+    {
+      "query_id": "PLAIN-407",
+      "ndcg@10": 0.6387878864795979,
+      "latency_ms": 126,
+      "retrieved": [
+        "MED-906",
+        "MED-2618",
+        "MED-2994",
+        "MED-3497",
+        "MED-5063",
+        "MED-4869",
+        "MED-3380",
+        "MED-4870",
+        "MED-5059",
+        "MED-2616"
+      ]
+    },
+    {
+      "query_id": "PLAIN-418",
+      "ndcg@10": 0.8670870086853021,
+      "latency_ms": 114,
+      "retrieved": [
+        "MED-917",
+        "MED-3714",
+        "MED-3738",
+        "MED-3900",
+        "MED-3469",
+        "MED-4029",
+        "MED-3908",
+        "MED-3201",
+        "MED-1792",
+        "MED-3744"
+      ]
+    },
+    {
+      "query_id": "PLAIN-430",
+      "ndcg@10": 0.6174886499090687,
+      "latency_ms": 117,
+      "retrieved": [
+        "MED-928",
+        "MED-927",
+        "MED-4936",
+        "MED-839",
+        "MED-1620",
+        "MED-5095",
+        "MED-4943",
+        "MED-1831",
+        "MED-4731",
+        "MED-4811"
+      ]
+    },
+    {
+      "query_id": "PLAIN-441",
+      "ndcg@10": 0.6724453760579601,
+      "latency_ms": 122,
+      "retrieved": [
+        "MED-4701",
+        "MED-942",
+        "MED-4580",
+        "MED-4703",
+        "MED-4702",
+        "MED-4590",
+        "MED-3558",
+        "MED-1792",
+        "MED-2491",
+        "MED-5019"
+      ]
+    },
+    {
+      "query_id": "PLAIN-457",
+      "ndcg@10": 0.0,
+      "latency_ms": 131,
+      "retrieved": [
+        "MED-4602",
+        "MED-745",
+        "MED-2716",
+        "MED-1498",
+        "MED-1625",
+        "MED-3490",
+        "MED-1751",
+        "MED-3487",
+        "MED-4922",
+        "MED-2590"
+      ]
+    },
+    {
+      "query_id": "PLAIN-468",
+      "ndcg@10": 0.3239134396887189,
+      "latency_ms": 103,
+      "retrieved": [
+        "MED-961",
+        "MED-3987",
+        "MED-4573",
+        "MED-3988",
+        "MED-3990",
+        "MED-919",
+        "MED-4575",
+        "MED-3991",
+        "MED-716",
+        "MED-4566"
+      ]
+    },
+    {
+      "query_id": "PLAIN-478",
+      "ndcg@10": 0.0,
+      "latency_ms": 1180,
+      "retrieved": [
+        "MED-3567",
+        "MED-5345",
+        "MED-4427",
+        "MED-2400",
+        "MED-4617",
+        "MED-2944",
+        "MED-3385",
+        "MED-3939",
+        "MED-2709",
+        "MED-5293"
+      ]
+    },
+    {
+      "query_id": "PLAIN-488",
+      "ndcg@10": 1.0,
+      "latency_ms": 116,
+      "retrieved": [
+        "MED-1808",
+        "MED-1804",
+        "MED-1800",
+        "MED-1799",
+        "MED-1798",
+        "MED-1796",
+        "MED-1810",
+        "MED-1806",
+        "MED-4767",
+        "MED-4769"
+      ]
+    },
+    {
+      "query_id": "PLAIN-499",
+      "ndcg@10": 0.28088150105118154,
+      "latency_ms": 1310,
+      "retrieved": [
+        "MED-5198",
+        "MED-1115",
+        "MED-1747",
+        "MED-5208",
+        "MED-976",
+        "MED-4095",
+        "MED-4346",
+        "MED-1417",
+        "MED-1475",
+        "MED-2900"
+      ]
+    },
+    {
+      "query_id": "PLAIN-510",
+      "ndcg@10": 0.0,
+      "latency_ms": 111,
+      "retrieved": [
+        "MED-3278",
+        "MED-4980",
+        "MED-4813",
+        "MED-1980",
+        "MED-4142",
+        "MED-1757",
+        "MED-3321",
+        "MED-1982",
+        "MED-1755",
+        "MED-2940"
+      ]
+    },
+    {
+      "query_id": "PLAIN-520",
+      "ndcg@10": 0.0,
+      "latency_ms": 125,
+      "retrieved": [
+        "MED-1953",
+        "MED-4742",
+        "MED-2346",
+        "MED-5163",
+        "MED-2326",
+        "MED-4883",
+        "MED-5045",
+        "MED-4458",
+        "MED-5120",
+        "MED-2345"
+      ]
+    },
+    {
+      "query_id": "PLAIN-531",
+      "ndcg@10": 0.44519897452998813,
+      "latency_ms": 120,
+      "retrieved": [
+        "MED-1017",
+        "MED-2322",
+        "MED-3113",
+        "MED-743",
+        "MED-3759",
+        "MED-3750",
+        "MED-4840",
+        "MED-3749",
+        "MED-4251",
+        "MED-3607"
+      ]
+    },
+    {
+      "query_id": "PLAIN-541",
+      "ndcg@10": 0.3026024134988135,
+      "latency_ms": 117,
+      "retrieved": [
+        "MED-3618",
+        "MED-4036",
+        "MED-4028",
+        "MED-4780",
+        "MED-872",
+        "MED-2093",
+        "MED-4027",
+        "MED-4033",
+        "MED-3639",
+        "MED-2990"
+      ]
+    },
+    {
+      "query_id": "PLAIN-551",
+      "ndcg@10": 0.2640681225725909,
+      "latency_ms": 115,
+      "retrieved": [
+        "MED-3179",
+        "MED-1497",
+        "MED-3176",
+        "MED-4381",
+        "MED-1282",
+        "MED-3937",
+        "MED-1944",
+        "MED-3181",
+        "MED-4161",
+        "MED-2217"
+      ]
+    },
+    {
+      "query_id": "PLAIN-561",
+      "ndcg@10": 0.3589542101716347,
+      "latency_ms": 119,
+      "retrieved": [
+        "MED-3180",
+        "MED-4555",
+        "MED-4423",
+        "MED-4427",
+        "MED-4883",
+        "MED-5278",
+        "MED-911",
+        "MED-4424",
+        "MED-2376",
+        "MED-5281"
+      ]
+    },
+    {
+      "query_id": "PLAIN-571",
+      "ndcg@10": 0.2558209594125084,
+      "latency_ms": 115,
+      "retrieved": [
+        "MED-2345",
+        "MED-2346",
+        "MED-4742",
+        "MED-2338",
+        "MED-2339",
+        "MED-4883",
+        "MED-4963",
+        "MED-2790",
+        "MED-3953",
+        "MED-3180"
+      ]
+    },
+    {
+      "query_id": "PLAIN-583",
+      "ndcg@10": 0.07336392209936005,
+      "latency_ms": 112,
+      "retrieved": [
+        "MED-3452",
+        "MED-4872",
+        "MED-3467",
+        "MED-2223",
+        "MED-897",
+        "MED-4470",
+        "MED-2983",
+        "MED-2803",
+        "MED-4650",
+        "MED-3531"
+      ]
+    },
+    {
+      "query_id": "PLAIN-593",
+      "ndcg@10": 0.46927872602275644,
+      "latency_ms": 111,
+      "retrieved": [
+        "MED-4402",
+        "MED-1032",
+        "MED-1241",
+        "MED-4407",
+        "MED-4381",
+        "MED-720",
+        "MED-926",
+        "MED-1285",
+        "MED-718",
+        "MED-2110"
+      ]
+    },
+    {
+      "query_id": "PLAIN-603",
+      "ndcg@10": 0.0,
+      "latency_ms": 110,
+      "retrieved": [
+        "MED-3769",
+        "MED-2088",
+        "MED-4803",
+        "MED-4911",
+        "MED-1279",
+        "MED-915",
+        "MED-3231",
+        "MED-1476",
+        "MED-2492",
+        "MED-1288"
+      ]
+    },
+    {
+      "query_id": "PLAIN-613",
+      "ndcg@10": 0.13886244387355454,
+      "latency_ms": 112,
+      "retrieved": [
+        "MED-909",
+        "MED-1198",
+        "MED-2983",
+        "MED-4995",
+        "MED-4470",
+        "MED-4468",
+        "MED-936",
+        "MED-2068",
+        "MED-3157",
+        "MED-3453"
+      ]
+    },
+    {
+      "query_id": "PLAIN-623",
+      "ndcg@10": 0.33013764944712026,
+      "latency_ms": 120,
+      "retrieved": [
+        "MED-4880",
+        "MED-4848",
+        "MED-4515",
+        "MED-4845",
+        "MED-4984",
+        "MED-5329",
+        "MED-4847",
+        "MED-4627",
+        "MED-4844",
+        "MED-1674"
+      ]
+    },
+    {
+      "query_id": "PLAIN-634",
+      "ndcg@10": 0.424926013816671,
+      "latency_ms": 122,
+      "retrieved": [
+        "MED-4620",
+        "MED-5010",
+        "MED-4619",
+        "MED-4618",
+        "MED-5009",
+        "MED-5011",
+        "MED-4414",
+        "MED-861",
+        "MED-3199",
+        "MED-5059"
+      ]
+    },
+    {
+      "query_id": "PLAIN-645",
+      "ndcg@10": 0.0,
+      "latency_ms": 128,
+      "retrieved": [
+        "MED-1673",
+        "MED-4863",
+        "MED-5037",
+        "MED-4267",
+        "MED-4974",
+        "MED-2705",
+        "MED-1045",
+        "MED-2064",
+        "MED-3582",
+        "MED-2070"
+      ]
+    },
+    {
+      "query_id": "PLAIN-660",
+      "ndcg@10": 1.0,
+      "latency_ms": 111,
+      "retrieved": [
+        "MED-2147",
+        "MED-4991",
+        "MED-2144",
+        "MED-1880",
+        "MED-2570",
+        "MED-3136",
+        "MED-3138",
+        "MED-3141",
+        "MED-5079",
+        "MED-2010"
+      ]
+    },
+    {
+      "query_id": "PLAIN-671",
+      "ndcg@10": 1.0,
+      "latency_ms": 126,
+      "retrieved": [
+        "MED-4857",
+        "MED-4973",
+        "MED-2678",
+        "MED-5122",
+        "MED-999",
+        "MED-4037",
+        "MED-4186",
+        "MED-996",
+        "MED-2652",
+        "MED-4974"
+      ]
+    },
+    {
+      "query_id": "PLAIN-681",
+      "ndcg@10": 0.6309297535714575,
+      "latency_ms": 122,
+      "retrieved": [
+        "MED-4314",
+        "MED-5017",
+        "MED-2381",
+        "MED-4295",
+        "MED-2383",
+        "MED-4286",
+        "MED-4292",
+        "MED-2595",
+        "MED-2597",
+        "MED-2153"
+      ]
+    },
+    {
+      "query_id": "PLAIN-691",
+      "ndcg@10": 0.0,
+      "latency_ms": 116,
+      "retrieved": [
+        "MED-2791",
+        "MED-4909",
+        "MED-885",
+        "MED-5131",
+        "MED-2262",
+        "MED-2263",
+        "MED-3479",
+        "MED-1793",
+        "MED-928",
+        "MED-4454"
+      ]
+    },
+    {
+      "query_id": "PLAIN-701",
+      "ndcg@10": 0.4351085316587033,
+      "latency_ms": 119,
+      "retrieved": [
+        "MED-3720",
+        "MED-917",
+        "MED-2922",
+        "MED-2280",
+        "MED-3719",
+        "MED-5070",
+        "MED-3721",
+        "MED-1671",
+        "MED-5137",
+        "MED-4901"
+      ]
+    },
+    {
+      "query_id": "PLAIN-711",
+      "ndcg@10": 0.40853591842579556,
+      "latency_ms": 126,
+      "retrieved": [
+        "MED-2077",
+        "MED-1027",
+        "MED-1683",
+        "MED-4520",
+        "MED-5281",
+        "MED-2080",
+        "MED-4427",
+        "MED-1205",
+        "MED-965",
+        "MED-1643"
+      ]
+    },
+    {
+      "query_id": "PLAIN-721",
+      "ndcg@10": 0.8486026589039899,
+      "latency_ms": 120,
+      "retrieved": [
+        "MED-1278",
+        "MED-4876",
+        "MED-1290",
+        "MED-1287",
+        "MED-4186",
+        "MED-1279",
+        "MED-1271",
+        "MED-1282",
+        "MED-891",
+        "MED-1274"
+      ]
+    },
+    {
+      "query_id": "PLAIN-731",
+      "ndcg@10": 0.6316243658611127,
+      "latency_ms": 114,
+      "retrieved": [
+        "MED-1337",
+        "MED-5145",
+        "MED-4226",
+        "MED-5253",
+        "MED-4427",
+        "MED-5241",
+        "MED-2990",
+        "MED-2989",
+        "MED-1340",
+        "MED-2985"
+      ]
+    },
+    {
+      "query_id": "PLAIN-741",
+      "ndcg@10": 0.6275071330616558,
+      "latency_ms": 119,
+      "retrieved": [
+        "MED-4236",
+        "MED-4234",
+        "MED-4235",
+        "MED-5296",
+        "MED-4230",
+        "MED-4421",
+        "MED-4232",
+        "MED-4186",
+        "MED-4942",
+        "MED-4184"
+      ]
+    },
+    {
+      "query_id": "PLAIN-751",
+      "ndcg@10": 0.0,
+      "latency_ms": 117,
+      "retrieved": [
+        "MED-3129",
+        "MED-3135",
+        "MED-2247",
+        "MED-3130",
+        "MED-845",
+        "MED-4271",
+        "MED-2106",
+        "MED-2364",
+        "MED-3648",
+        "MED-1797"
+      ]
+    },
+    {
+      "query_id": "PLAIN-761",
+      "ndcg@10": 0.21779548001177887,
+      "latency_ms": 120,
+      "retrieved": [
+        "MED-3795",
+        "MED-3800",
+        "MED-3797",
+        "MED-666",
+        "MED-3792",
+        "MED-2101",
+        "MED-2100",
+        "MED-4641",
+        "MED-4069",
+        "MED-3801"
+      ]
+    },
+    {
+      "query_id": "PLAIN-771",
+      "ndcg@10": 1.0,
+      "latency_ms": 125,
+      "retrieved": [
+        "MED-3386",
+        "MED-3387",
+        "MED-3385",
+        "MED-4428",
+        "MED-4704",
+        "MED-899",
+        "MED-4431",
+        "MED-3302",
+        "MED-2360",
+        "MED-3310"
+      ]
+    },
+    {
+      "query_id": "PLAIN-782",
+      "ndcg@10": 0.0,
+      "latency_ms": 111,
+      "retrieved": [
+        "MED-1055",
+        "MED-1058",
+        "MED-3385",
+        "MED-4179",
+        "MED-3603",
+        "MED-3635",
+        "MED-2173",
+        "MED-1605",
+        "MED-2284",
+        "MED-1031"
+      ]
+    },
+    {
+      "query_id": "PLAIN-792",
+      "ndcg@10": 0.419665006636777,
+      "latency_ms": 106,
+      "retrieved": [
+        "MED-4546",
+        "MED-2101",
+        "MED-3275",
+        "MED-2264",
+        "MED-4958",
+        "MED-2258",
+        "MED-1216",
+        "MED-2250",
+        "MED-873",
+        "MED-912"
+      ]
+    },
+    {
+      "query_id": "PLAIN-806",
+      "ndcg@10": 0.9305687780632227,
+      "latency_ms": 133,
+      "retrieved": [
+        "MED-2519",
+        "MED-2513",
+        "MED-1715",
+        "MED-2325",
+        "MED-2138",
+        "MED-2506",
+        "MED-4996",
+        "MED-5297",
+        "MED-2502",
+        "MED-2328"
+      ]
+    },
+    {
+      "query_id": "PLAIN-817",
+      "ndcg@10": 0.0,
+      "latency_ms": 120,
+      "retrieved": [
+        "MED-3462",
+        "MED-3923",
+        "MED-4672",
+        "MED-2062",
+        "MED-4957",
+        "MED-2736",
+        "MED-2746",
+        "MED-2056",
+        "MED-2338",
+        "MED-4824"
+      ]
+    },
+    {
+      "query_id": "PLAIN-827",
+      "ndcg@10": 0.49639329739530086,
+      "latency_ms": 122,
+      "retrieved": [
+        "MED-2172",
+        "MED-2627",
+        "MED-1605",
+        "MED-4060",
+        "MED-4470",
+        "MED-4391",
+        "MED-2106",
+        "MED-4451",
+        "MED-3765",
+        "MED-2994"
+      ]
+    },
+    {
+      "query_id": "PLAIN-838",
+      "ndcg@10": 0.7767471075223498,
+      "latency_ms": 118,
+      "retrieved": [
+        "MED-3499",
+        "MED-3502",
+        "MED-3501",
+        "MED-3500",
+        "MED-3495",
+        "MED-3496",
+        "MED-2803",
+        "MED-2816",
+        "MED-3548",
+        "MED-1827"
+      ]
+    },
+    {
+      "query_id": "PLAIN-850",
+      "ndcg@10": 0.7125523635307982,
+      "latency_ms": 120,
+      "retrieved": [
+        "MED-2064",
+        "MED-2070",
+        "MED-4455",
+        "MED-2073",
+        "MED-2066",
+        "MED-2816",
+        "MED-1293",
+        "MED-1604",
+        "MED-5037",
+        "MED-3245"
+      ]
+    },
+    {
+      "query_id": "PLAIN-872",
+      "ndcg@10": 0.0,
+      "latency_ms": 118,
+      "retrieved": [
+        "MED-3989",
+        "MED-3712",
+        "MED-4916",
+        "MED-1291",
+        "MED-1292",
+        "MED-4098",
+        "MED-3985",
+        "MED-3991",
+        "MED-4403",
+        "MED-3986"
+      ]
+    },
+    {
+      "query_id": "PLAIN-882",
+      "ndcg@10": 0.7967610662472991,
+      "latency_ms": 119,
+      "retrieved": [
+        "MED-3630",
+        "MED-3632",
+        "MED-3636",
+        "MED-3622",
+        "MED-3635",
+        "MED-3634",
+        "MED-1605",
+        "MED-3620",
+        "MED-2627",
+        "MED-859"
+      ]
+    },
+    {
+      "query_id": "PLAIN-892",
+      "ndcg@10": 0.6719377023185354,
+      "latency_ms": 91,
+      "retrieved": [
+        "MED-2009",
+        "MED-2010",
+        "MED-4863",
+        "MED-2146",
+        "MED-2147",
+        "MED-2070",
+        "MED-4510",
+        "MED-3132",
+        "MED-2066",
+        "MED-2570"
+      ]
+    },
+    {
+      "query_id": "PLAIN-902",
+      "ndcg@10": 0.6366824387328317,
+      "latency_ms": 106,
+      "retrieved": [
+        "MED-4195",
+        "MED-4197",
+        "MED-3522",
+        "MED-4385",
+        "MED-1142",
+        "MED-2899",
+        "MED-4489",
+        "MED-1160",
+        "MED-5024",
+        "MED-5231"
+      ]
+    },
+    {
+      "query_id": "PLAIN-913",
+      "ndcg@10": 0.7967610662472991,
+      "latency_ms": 116,
+      "retrieved": [
+        "MED-4415",
+        "MED-3813",
+        "MED-4416",
+        "MED-3811",
+        "MED-4417",
+        "MED-3812",
+        "MED-894",
+        "MED-5000",
+        "MED-3810",
+        "MED-2780"
+      ]
+    },
+    {
+      "query_id": "PLAIN-924",
+      "ndcg@10": 0.388244052766991,
+      "latency_ms": 125,
+      "retrieved": [
+        "MED-3044",
+        "MED-3585",
+        "MED-2219",
+        "MED-3544",
+        "MED-2173",
+        "MED-1605",
+        "MED-3055",
+        "MED-5042",
+        "MED-924",
+        "MED-2177"
+      ]
+    },
+    {
+      "query_id": "PLAIN-934",
+      "ndcg@10": 0.49828993591603105,
+      "latency_ms": 128,
+      "retrieved": [
+        "MED-1648",
+        "MED-5245",
+        "MED-1640",
+        "MED-2155",
+        "MED-5244",
+        "MED-5249",
+        "MED-1636",
+        "MED-5256",
+        "MED-5259",
+        "MED-878"
+      ]
+    },
+    {
+      "query_id": "PLAIN-946",
+      "ndcg@10": 0.13886244387355454,
+      "latency_ms": 133,
+      "retrieved": [
+        "MED-3179",
+        "MED-4381",
+        "MED-4439",
+        "MED-5163",
+        "MED-4668",
+        "MED-1523",
+        "MED-4966",
+        "MED-926",
+        "MED-3170",
+        "MED-3176"
+      ]
+    },
+    {
+      "query_id": "PLAIN-956",
+      "ndcg@10": 0.5548010254700118,
+      "latency_ms": 121,
+      "retrieved": [
+        "MED-2182",
+        "MED-884",
+        "MED-5076",
+        "MED-1165",
+        "MED-909",
+        "MED-1441",
+        "MED-1600",
+        "MED-4554",
+        "MED-5074",
+        "MED-2209"
+      ]
+    },
+    {
+      "query_id": "PLAIN-966",
+      "ndcg@10": 0.0,
+      "latency_ms": 117,
+      "retrieved": [
+        "MED-3919",
+        "MED-4323",
+        "MED-3671",
+        "MED-4748",
+        "MED-4418",
+        "MED-1595",
+        "MED-831",
+        "MED-923",
+        "MED-2219",
+        "MED-4192"
+      ]
+    },
+    {
+      "query_id": "PLAIN-977",
+      "ndcg@10": 0.43734888382569426,
+      "latency_ms": 123,
+      "retrieved": [
+        "MED-2110",
+        "MED-4402",
+        "MED-925",
+        "MED-4427",
+        "MED-2421",
+        "MED-4891",
+        "MED-2109",
+        "MED-1410",
+        "MED-4399",
+        "MED-2282"
+      ]
+    },
+    {
+      "query_id": "PLAIN-987",
+      "ndcg@10": 0.0,
+      "latency_ms": 114,
+      "retrieved": [
+        "MED-3585",
+        "MED-2810",
+        "MED-1827",
+        "MED-5121",
+        "MED-3816",
+        "MED-4677",
+        "MED-828",
+        "MED-1771",
+        "MED-5070",
+        "MED-957"
+      ]
+    },
+    {
+      "query_id": "PLAIN-997",
+      "ndcg@10": 0.0,
+      "latency_ms": 133,
+      "retrieved": [
+        "MED-4814",
+        "MED-4427",
+        "MED-5331",
+        "MED-3182",
+        "MED-5094",
+        "MED-3622",
+        "MED-3653",
+        "MED-1634",
+        "MED-2254",
+        "MED-4364"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1008",
+      "ndcg@10": 0.0,
+      "latency_ms": 134,
+      "retrieved": [
+        "MED-4668",
+        "MED-901",
+        "MED-3863",
+        "MED-2036",
+        "MED-5210",
+        "MED-3302",
+        "MED-5135",
+        "MED-4694",
+        "MED-3317",
+        "MED-5142"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1018",
+      "ndcg@10": 0.2114502791144043,
+      "latency_ms": 121,
+      "retrieved": [
+        "MED-5095",
+        "MED-839",
+        "MED-4322",
+        "MED-4323",
+        "MED-2790",
+        "MED-5091",
+        "MED-831",
+        "MED-3012",
+        "MED-838",
+        "MED-4936"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1028",
+      "ndcg@10": 0.3333333333333333,
+      "latency_ms": 101,
+      "retrieved": [
+        "MED-4627",
+        "MED-2220",
+        "MED-3654",
+        "MED-4178",
+        "MED-3137",
+        "MED-3718",
+        "MED-4686",
+        "MED-4313",
+        "MED-2108",
+        "MED-1402"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1039",
+      "ndcg@10": 1.0,
+      "latency_ms": 121,
+      "retrieved": [
+        "MED-4380",
+        "MED-4381",
+        "MED-2103",
+        "MED-4995",
+        "MED-5202",
+        "MED-4771",
+        "MED-3701",
+        "MED-2101",
+        "MED-2705",
+        "MED-839"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1050",
+      "ndcg@10": 0.0,
+      "latency_ms": 121,
+      "retrieved": [
+        "MED-1097",
+        "MED-2093",
+        "MED-3407",
+        "MED-3618",
+        "MED-1581",
+        "MED-4143",
+        "MED-761",
+        "MED-716",
+        "MED-2220",
+        "MED-4652"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1066",
+      "ndcg@10": 0.0,
+      "latency_ms": 124,
+      "retrieved": [
+        "MED-3604",
+        "MED-4668",
+        "MED-3603",
+        "MED-4967",
+        "MED-4968",
+        "MED-4498",
+        "MED-1432",
+        "MED-1434",
+        "MED-5210",
+        "MED-1097"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1088",
+      "ndcg@10": 0.5531464700081437,
+      "latency_ms": 117,
+      "retrieved": [
+        "MED-2110",
+        "MED-2109",
+        "MED-1634",
+        "MED-3732",
+        "MED-4423",
+        "MED-3417",
+        "MED-2947",
+        "MED-3462",
+        "MED-4407",
+        "MED-4806"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1098",
+      "ndcg@10": 0.0,
+      "latency_ms": 110,
+      "retrieved": [
+        "MED-4741",
+        "MED-5124",
+        "MED-1889",
+        "MED-2372",
+        "MED-4892",
+        "MED-2977",
+        "MED-4953",
+        "MED-2884",
+        "MED-2975",
+        "MED-2374"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1109",
+      "ndcg@10": 0.6830838076905165,
+      "latency_ms": 128,
+      "retrieved": [
+        "MED-2643",
+        "MED-2650",
+        "MED-2627",
+        "MED-4728",
+        "MED-5323",
+        "MED-1099",
+        "MED-2087",
+        "MED-2654",
+        "MED-2658",
+        "MED-4941"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1119",
+      "ndcg@10": 0.0,
+      "latency_ms": 117,
+      "retrieved": [
+        "MED-877",
+        "MED-1646",
+        "MED-1710",
+        "MED-1627",
+        "MED-4834",
+        "MED-3469",
+        "MED-4587",
+        "MED-3201",
+        "MED-2271",
+        "MED-3588"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1130",
+      "ndcg@10": 1.0,
+      "latency_ms": 121,
+      "retrieved": [
+        "MED-4165",
+        "MED-2068",
+        "MED-2235",
+        "MED-2648",
+        "MED-2643",
+        "MED-4124",
+        "MED-5120",
+        "MED-2065",
+        "MED-918",
+        "MED-4738"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1141",
+      "ndcg@10": 0.22009176629808017,
+      "latency_ms": 108,
+      "retrieved": [
+        "MED-2112",
+        "MED-4840",
+        "MED-3953",
+        "MED-3113",
+        "MED-1343",
+        "MED-3487",
+        "MED-3750",
+        "MED-3759",
+        "MED-1192",
+        "MED-1579"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1151",
+      "ndcg@10": 0.533722528236359,
+      "latency_ms": 109,
+      "retrieved": [
+        "MED-1157",
+        "MED-4140",
+        "MED-4594",
+        "MED-4489",
+        "MED-1161",
+        "MED-2489",
+        "MED-3890",
+        "MED-4932",
+        "MED-4179",
+        "MED-4137"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1161",
+      "ndcg@10": 0.0,
+      "latency_ms": 120,
+      "retrieved": [
+        "MED-2570",
+        "MED-2147",
+        "MED-2144",
+        "MED-3136",
+        "MED-1880",
+        "MED-4335",
+        "MED-3138",
+        "MED-5079",
+        "MED-4991",
+        "MED-4863"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1172",
+      "ndcg@10": 0.22009176629808017,
+      "latency_ms": 111,
+      "retrieved": [
+        "MED-4150",
+        "MED-2335",
+        "MED-4501",
+        "MED-4966",
+        "MED-5069",
+        "MED-957",
+        "MED-1570",
+        "MED-3199",
+        "MED-5156",
+        "MED-2070"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1183",
+      "ndcg@10": 0.18340980524840012,
+      "latency_ms": 115,
+      "retrieved": [
+        "MED-5331",
+        "MED-4727",
+        "MED-1276",
+        "MED-5094",
+        "MED-5369",
+        "MED-5351",
+        "MED-4070",
+        "MED-5353",
+        "MED-2773",
+        "MED-3981"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1193",
+      "ndcg@10": 0.0,
+      "latency_ms": 103,
+      "retrieved": [
+        "MED-4443",
+        "MED-1493",
+        "MED-3864",
+        "MED-3867",
+        "MED-886",
+        "MED-1494",
+        "MED-4885",
+        "MED-3874",
+        "MED-3868",
+        "MED-1825"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1203",
+      "ndcg@10": 0.522495596791931,
+      "latency_ms": 114,
+      "retrieved": [
+        "MED-4771",
+        "MED-1203",
+        "MED-993",
+        "MED-2101",
+        "MED-1202",
+        "MED-1201",
+        "MED-5231",
+        "MED-1466",
+        "MED-1455",
+        "MED-850"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1214",
+      "ndcg@10": 0.0,
+      "latency_ms": 116,
+      "retrieved": [
+        "MED-1466",
+        "MED-1491",
+        "MED-2603",
+        "MED-4176",
+        "MED-2067",
+        "MED-3874",
+        "MED-4885",
+        "MED-4174",
+        "MED-5313",
+        "MED-1455"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1225",
+      "ndcg@10": 0.7935840677649109,
+      "latency_ms": 118,
+      "retrieved": [
+        "MED-1674",
+        "MED-1710",
+        "MED-1261",
+        "MED-1672",
+        "MED-1669",
+        "MED-5057",
+        "MED-918",
+        "MED-717",
+        "MED-1675",
+        "MED-3059"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1236",
+      "ndcg@10": 0.3391602052736161,
+      "latency_ms": 112,
+      "retrieved": [
+        "MED-1341",
+        "MED-720",
+        "MED-2354",
+        "MED-2348",
+        "MED-1669",
+        "MED-2366",
+        "MED-1706",
+        "MED-1236",
+        "MED-2369",
+        "MED-2355"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1249",
+      "ndcg@10": 0.0,
+      "latency_ms": 119,
+      "retrieved": [
+        "MED-1744",
+        "MED-2090",
+        "MED-2247",
+        "MED-3130",
+        "MED-3172",
+        "MED-3309",
+        "MED-3292",
+        "MED-2303",
+        "MED-2328",
+        "MED-2105"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1262",
+      "ndcg@10": 0.4690000933206748,
+      "latency_ms": 117,
+      "retrieved": [
+        "MED-5293",
+        "MED-2082",
+        "MED-5303",
+        "MED-4096",
+        "MED-1054",
+        "MED-1531",
+        "MED-1721",
+        "MED-2163",
+        "MED-2627",
+        "MED-3793"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1275",
+      "ndcg@10": 0.5637884576902256,
+      "latency_ms": 118,
+      "retrieved": [
+        "MED-4712",
+        "MED-2886",
+        "MED-2922",
+        "MED-2924",
+        "MED-2280",
+        "MED-2076",
+        "MED-1695",
+        "MED-5070",
+        "MED-2274",
+        "MED-1682"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1288",
+      "ndcg@10": 0.5022037311331263,
+      "latency_ms": 105,
+      "retrieved": [
+        "MED-2083",
+        "MED-5065",
+        "MED-4585",
+        "MED-3701",
+        "MED-3744",
+        "MED-3952",
+        "MED-2668",
+        "MED-3207",
+        "MED-398",
+        "MED-3206"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1299",
+      "ndcg@10": 0.06362078819895171,
+      "latency_ms": 112,
+      "retrieved": [
+        "MED-4224",
+        "MED-2498",
+        "MED-1752",
+        "MED-1724",
+        "MED-1712",
+        "MED-2579",
+        "MED-4890",
+        "MED-4239",
+        "MED-2070",
+        "MED-2774"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1309",
+      "ndcg@10": 0.0,
+      "latency_ms": 115,
+      "retrieved": [
+        "MED-4968",
+        "MED-4490",
+        "MED-4933",
+        "MED-4961",
+        "MED-2700",
+        "MED-3094",
+        "MED-4363",
+        "MED-4932",
+        "MED-1165",
+        "MED-5110"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1320",
+      "ndcg@10": 0.0,
+      "latency_ms": 118,
+      "retrieved": [
+        "MED-1097",
+        "MED-3604",
+        "MED-2525",
+        "MED-4674",
+        "MED-4599",
+        "MED-1552",
+        "MED-3407",
+        "MED-2163",
+        "MED-1920",
+        "MED-3759"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1331",
+      "ndcg@10": 0.0,
+      "latency_ms": 93,
+      "retrieved": [
+        "MED-1307",
+        "MED-4883",
+        "MED-3674",
+        "MED-1049",
+        "MED-5278",
+        "MED-3302",
+        "MED-5288",
+        "MED-4721",
+        "MED-901",
+        "MED-3272"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1342",
+      "ndcg@10": 0.5036067026046991,
+      "latency_ms": 113,
+      "retrieved": [
+        "MED-1403",
+        "MED-4317",
+        "MED-2851",
+        "MED-897",
+        "MED-2845",
+        "MED-1401",
+        "MED-898",
+        "MED-1846",
+        "MED-4316",
+        "MED-2984"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1353",
+      "ndcg@10": 0.0,
+      "latency_ms": 109,
+      "retrieved": [
+        "MED-976",
+        "MED-1665",
+        "MED-3182",
+        "MED-4883",
+        "MED-3178",
+        "MED-3562",
+        "MED-557",
+        "MED-1026",
+        "MED-666",
+        "MED-3504"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1363",
+      "ndcg@10": 0.16421958630632802,
+      "latency_ms": 111,
+      "retrieved": [
+        "MED-3632",
+        "MED-3630",
+        "MED-3635",
+        "MED-3620",
+        "MED-3629",
+        "MED-3636",
+        "MED-2773",
+        "MED-3622",
+        "MED-2770",
+        "MED-3619"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1374",
+      "ndcg@10": 0.0,
+      "latency_ms": 121,
+      "retrieved": [
+        "MED-2330",
+        "MED-2643",
+        "MED-2324",
+        "MED-4322",
+        "MED-833",
+        "MED-831",
+        "MED-4323",
+        "MED-4222",
+        "MED-1099",
+        "MED-3919"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1387",
+      "ndcg@10": 0.6489315753318465,
+      "latency_ms": 111,
+      "retrieved": [
+        "MED-3383",
+        "MED-3380",
+        "MED-5063",
+        "MED-5062",
+        "MED-3382",
+        "MED-4655",
+        "MED-4350",
+        "MED-3055",
+        "MED-1153",
+        "MED-5300"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1398",
+      "ndcg@10": 1.0,
+      "latency_ms": 117,
+      "retrieved": [
+        "MED-1722",
+        "MED-1719",
+        "MED-4223",
+        "MED-1724",
+        "MED-1723",
+        "MED-4220",
+        "MED-1715",
+        "MED-1720",
+        "MED-4228",
+        "MED-4212"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1409",
+      "ndcg@10": 0.07839826897867533,
+      "latency_ms": 118,
+      "retrieved": [
+        "MED-3385",
+        "MED-4949",
+        "MED-1265",
+        "MED-2726",
+        "MED-4380",
+        "MED-2650",
+        "MED-3022",
+        "MED-3279",
+        "MED-1726",
+        "MED-4664"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1419",
+      "ndcg@10": 0.7151857987862356,
+      "latency_ms": 125,
+      "retrieved": [
+        "MED-4198",
+        "MED-1150",
+        "MED-4915",
+        "MED-3279",
+        "MED-2360",
+        "MED-5094",
+        "MED-2089",
+        "MED-1288",
+        "MED-4403",
+        "MED-3890"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1429",
+      "ndcg@10": 0.0,
+      "latency_ms": 105,
+      "retrieved": [
+        "MED-2428",
+        "MED-3793",
+        "MED-2163",
+        "MED-2846",
+        "MED-5090",
+        "MED-3556",
+        "MED-5125",
+        "MED-837",
+        "MED-4160",
+        "MED-3394"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1441",
+      "ndcg@10": 0.6025064803817581,
+      "latency_ms": 115,
+      "retrieved": [
+        "MED-2773",
+        "MED-2770",
+        "MED-4963",
+        "MED-2511",
+        "MED-2660",
+        "MED-2216",
+        "MED-3033",
+        "MED-2299",
+        "MED-2218",
+        "MED-1532"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1453",
+      "ndcg@10": 0.15176219107803537,
+      "latency_ms": 111,
+      "retrieved": [
+        "MED-5105",
+        "MED-1098",
+        "MED-5203",
+        "MED-4474",
+        "MED-5207",
+        "MED-2253",
+        "MED-4746",
+        "MED-1958",
+        "MED-1419",
+        "MED-1961"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1463",
+      "ndcg@10": 0.2614432242450501,
+      "latency_ms": 121,
+      "retrieved": [
+        "MED-2147",
+        "MED-4991",
+        "MED-3136",
+        "MED-1880",
+        "MED-2144",
+        "MED-2010",
+        "MED-2570",
+        "MED-1137",
+        "MED-3138",
+        "MED-3132"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1473",
+      "ndcg@10": 0.38685280723454163,
+      "latency_ms": 114,
+      "retrieved": [
+        "MED-2810",
+        "MED-4544",
+        "MED-2813",
+        "MED-2041",
+        "MED-4455",
+        "MED-1476",
+        "MED-2783",
+        "MED-2820",
+        "MED-1127",
+        "MED-4418"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1485",
+      "ndcg@10": 0.0,
+      "latency_ms": 108,
+      "retrieved": [
+        "MED-2098",
+        "MED-4811",
+        "MED-4447",
+        "MED-5022",
+        "MED-5245",
+        "MED-2101",
+        "MED-1016",
+        "MED-2271",
+        "MED-5354",
+        "MED-4474"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1496",
+      "ndcg@10": 0.0,
+      "latency_ms": 100,
+      "retrieved": [
+        "MED-2360",
+        "MED-1016",
+        "MED-1288",
+        "MED-4490",
+        "MED-3107",
+        "MED-4150",
+        "MED-5094",
+        "MED-2361",
+        "MED-2928",
+        "MED-2645"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1506",
+      "ndcg@10": 0.13886244387355454,
+      "latency_ms": 113,
+      "retrieved": [
+        "MED-2126",
+        "MED-5239",
+        "MED-4281",
+        "MED-5120",
+        "MED-3275",
+        "MED-4040",
+        "MED-3788",
+        "MED-2326",
+        "MED-3280",
+        "MED-5304"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1516",
+      "ndcg@10": 0.0,
+      "latency_ms": 101,
+      "retrieved": [
+        "MED-5120",
+        "MED-3852",
+        "MED-930",
+        "MED-3847",
+        "MED-5354",
+        "MED-1503",
+        "MED-3833",
+        "MED-3841",
+        "MED-3834",
+        "MED-3830"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1527",
+      "ndcg@10": 0.9266360779006398,
+      "latency_ms": 120,
+      "retrieved": [
+        "MED-1304",
+        "MED-4101",
+        "MED-2157",
+        "MED-2154",
+        "MED-1301",
+        "MED-4814",
+        "MED-1068",
+        "MED-1675",
+        "MED-5163",
+        "MED-3491"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1537",
+      "ndcg@10": 0.6835381846158708,
+      "latency_ms": 119,
+      "retrieved": [
+        "MED-1616",
+        "MED-2586",
+        "MED-4880",
+        "MED-2588",
+        "MED-4514",
+        "MED-4515",
+        "MED-1323",
+        "MED-3582",
+        "MED-2591",
+        "MED-4985"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1547",
+      "ndcg@10": 0.15130120674940675,
+      "latency_ms": 121,
+      "retrieved": [
+        "MED-2360",
+        "MED-2361",
+        "MED-2365",
+        "MED-4431",
+        "MED-5094",
+        "MED-4428",
+        "MED-2356",
+        "MED-4805",
+        "MED-1216",
+        "MED-3177"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1557",
+      "ndcg@10": 0.2489083270225946,
+      "latency_ms": 116,
+      "retrieved": [
+        "MED-1406",
+        "MED-4315",
+        "MED-3918",
+        "MED-872",
+        "MED-3022",
+        "MED-2386",
+        "MED-4682",
+        "MED-2261",
+        "MED-1838",
+        "MED-5097"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1568",
+      "ndcg@10": 0.8175295903539445,
+      "latency_ms": 131,
+      "retrieved": [
+        "MED-4150",
+        "MED-5057",
+        "MED-1710",
+        "MED-2271",
+        "MED-2420",
+        "MED-3206",
+        "MED-5056",
+        "MED-3533",
+        "MED-2679",
+        "MED-3469"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1579",
+      "ndcg@10": 0.14606834984270645,
+      "latency_ms": 116,
+      "retrieved": [
+        "MED-3795",
+        "MED-3801",
+        "MED-666",
+        "MED-4667",
+        "MED-901",
+        "MED-4677",
+        "MED-3792",
+        "MED-3800",
+        "MED-2056",
+        "MED-900"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1590",
+      "ndcg@10": 0.09478836436955078,
+      "latency_ms": 121,
+      "retrieved": [
+        "MED-748",
+        "MED-3755",
+        "MED-3757",
+        "MED-3604",
+        "MED-3625",
+        "MED-5343",
+        "MED-3626",
+        "MED-5346",
+        "MED-3759",
+        "MED-5345"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1601",
+      "ndcg@10": 0.721801830382049,
+      "latency_ms": 122,
+      "retrieved": [
+        "MED-2668",
+        "MED-4996",
+        "MED-1506",
+        "MED-3772",
+        "MED-3537",
+        "MED-4583",
+        "MED-1503",
+        "MED-3775",
+        "MED-4581",
+        "MED-3776"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1611",
+      "ndcg@10": 0.0,
+      "latency_ms": 128,
+      "retrieved": [
+        "MED-1571",
+        "MED-1570",
+        "MED-4150",
+        "MED-818",
+        "MED-1572",
+        "MED-4360",
+        "MED-4966",
+        "MED-1569",
+        "MED-1288",
+        "MED-3850"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1621",
+      "ndcg@10": 0.0,
+      "latency_ms": 115,
+      "retrieved": [
+        "MED-844",
+        "MED-3462",
+        "MED-2890",
+        "MED-2130",
+        "MED-1023",
+        "MED-2177",
+        "MED-2748",
+        "MED-3178",
+        "MED-1979",
+        "MED-2173"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1635",
+      "ndcg@10": 0.9305687780632227,
+      "latency_ms": 130,
+      "retrieved": [
+        "MED-1768",
+        "MED-4899",
+        "MED-4897",
+        "MED-1229",
+        "MED-2123",
+        "MED-2772",
+        "MED-2774",
+        "MED-2917",
+        "MED-1595",
+        "MED-2771"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1645",
+      "ndcg@10": 0.0,
+      "latency_ms": 119,
+      "retrieved": [
+        "MED-4881",
+        "MED-5104",
+        "MED-1316",
+        "MED-1274",
+        "MED-4476",
+        "MED-3441",
+        "MED-4490",
+        "MED-909",
+        "MED-5088",
+        "MED-5059"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1656",
+      "ndcg@10": 0.14279514403613733,
+      "latency_ms": 117,
+      "retrieved": [
+        "MED-3717",
+        "MED-4024",
+        "MED-4030",
+        "MED-3764",
+        "MED-3767",
+        "MED-2092",
+        "MED-4433",
+        "MED-4819",
+        "MED-3715",
+        "MED-852"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1667",
+      "ndcg@10": 0.6937613565160449,
+      "latency_ms": 116,
+      "retrieved": [
+        "MED-4828",
+        "MED-3462",
+        "MED-3460",
+        "MED-3235",
+        "MED-3220",
+        "MED-1750",
+        "MED-3164",
+        "MED-4087",
+        "MED-4405",
+        "MED-4234"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1679",
+      "ndcg@10": 0.31546487678572877,
+      "latency_ms": 117,
+      "retrieved": [
+        "MED-4828",
+        "MED-4830",
+        "MED-3949",
+        "MED-1569",
+        "MED-1104",
+        "MED-1105",
+        "MED-1665",
+        "MED-5142",
+        "MED-4312",
+        "MED-1107"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1690",
+      "ndcg@10": 0.0,
+      "latency_ms": 121,
+      "retrieved": [
+        "MED-1496",
+        "MED-3604",
+        "MED-2220",
+        "MED-4472",
+        "MED-1266",
+        "MED-3112",
+        "MED-1279",
+        "MED-1282",
+        "MED-4876",
+        "MED-4115"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1700",
+      "ndcg@10": 0.0,
+      "latency_ms": 125,
+      "retrieved": [
+        "MED-2572",
+        "MED-5296",
+        "MED-5292",
+        "MED-5294",
+        "MED-1476",
+        "MED-976",
+        "MED-5198",
+        "MED-4896",
+        "MED-5042",
+        "MED-4346"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1710",
+      "ndcg@10": 1.0,
+      "latency_ms": 109,
+      "retrieved": [
+        "MED-3177",
+        "MED-3178",
+        "MED-3181",
+        "MED-3169",
+        "MED-3179",
+        "MED-3180",
+        "MED-3172",
+        "MED-4672",
+        "MED-3170",
+        "MED-3175"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1721",
+      "ndcg@10": 0.33013764944712026,
+      "latency_ms": 117,
+      "retrieved": [
+        "MED-1602",
+        "MED-4479",
+        "MED-4821",
+        "MED-5296",
+        "MED-3953",
+        "MED-3112",
+        "MED-4485",
+        "MED-3604",
+        "MED-1887",
+        "MED-1230"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1731",
+      "ndcg@10": 0.7653606369886217,
+      "latency_ms": 117,
+      "retrieved": [
+        "MED-2748",
+        "MED-2749",
+        "MED-3509",
+        "MED-4490",
+        "MED-3302",
+        "MED-3177",
+        "MED-911",
+        "MED-3178",
+        "MED-3317",
+        "MED-3294"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1741",
+      "ndcg@10": 1.0,
+      "latency_ms": 116,
+      "retrieved": [
+        "MED-4314",
+        "MED-4286",
+        "MED-2383",
+        "MED-2597",
+        "MED-4292",
+        "MED-2595",
+        "MED-2381",
+        "MED-1381",
+        "MED-2593",
+        "MED-2596"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1752",
+      "ndcg@10": 0.0,
+      "latency_ms": 119,
+      "retrieved": [
+        "MED-2780",
+        "MED-885",
+        "MED-884",
+        "MED-1689",
+        "MED-4544",
+        "MED-1683",
+        "MED-2790",
+        "MED-1685",
+        "MED-2783",
+        "MED-3946"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1762",
+      "ndcg@10": 0.4883505467692416,
+      "latency_ms": 113,
+      "retrieved": [
+        "MED-3717",
+        "MED-4652",
+        "MED-3716",
+        "MED-3721",
+        "MED-4030",
+        "MED-2568",
+        "MED-4464",
+        "MED-759",
+        "MED-1712",
+        "MED-3103"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1772",
+      "ndcg@10": 1.0,
+      "latency_ms": 96,
+      "retrieved": [
+        "MED-4728",
+        "MED-4727",
+        "MED-3279",
+        "MED-4165",
+        "MED-2793",
+        "MED-2658",
+        "MED-2643",
+        "MED-2327",
+        "MED-2173",
+        "MED-2331"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1784",
+      "ndcg@10": 0.0,
+      "latency_ms": 101,
+      "retrieved": [
+        "MED-2704",
+        "MED-1551",
+        "MED-5326",
+        "MED-4493",
+        "MED-4205",
+        "MED-4747",
+        "MED-4437",
+        "MED-5235",
+        "MED-1770",
+        "MED-4482"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1794",
+      "ndcg@10": 0.6052602440527057,
+      "latency_ms": 119,
+      "retrieved": [
+        "MED-1285",
+        "MED-5042",
+        "MED-1288",
+        "MED-1570",
+        "MED-1571",
+        "MED-5041",
+        "MED-976",
+        "MED-2173",
+        "MED-3182",
+        "MED-4427"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1805",
+      "ndcg@10": 1.0,
+      "latency_ms": 111,
+      "retrieved": [
+        "MED-3935",
+        "MED-3940",
+        "MED-3931",
+        "MED-3938",
+        "MED-2177",
+        "MED-3926",
+        "MED-3933",
+        "MED-2173",
+        "MED-3928",
+        "MED-4939"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1817",
+      "ndcg@10": 0.42838543210841196,
+      "latency_ms": 114,
+      "retrieved": [
+        "MED-4284",
+        "MED-4706",
+        "MED-4287",
+        "MED-3085",
+        "MED-5104",
+        "MED-1676",
+        "MED-1004",
+        "MED-2150",
+        "MED-2380",
+        "MED-334"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1827",
+      "ndcg@10": 0.0,
+      "latency_ms": 117,
+      "retrieved": [
+        "MED-1041",
+        "MED-3085",
+        "MED-2444",
+        "MED-4480",
+        "MED-3379",
+        "MED-4406",
+        "MED-4973",
+        "MED-4883",
+        "MED-2705",
+        "MED-2722"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1837",
+      "ndcg@10": 1.0,
+      "latency_ms": 121,
+      "retrieved": [
+        "MED-1157",
+        "MED-4179",
+        "MED-1726",
+        "MED-1158",
+        "MED-1161",
+        "MED-1162",
+        "MED-1164",
+        "MED-1160",
+        "MED-4178",
+        "MED-1174"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1847",
+      "ndcg@10": 0.11004588314904008,
+      "latency_ms": 121,
+      "retrieved": [
+        "MED-1285",
+        "MED-1532",
+        "MED-3983",
+        "MED-5216",
+        "MED-3603",
+        "MED-1288",
+        "MED-4824",
+        "MED-4361",
+        "MED-1571",
+        "MED-2581"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1857",
+      "ndcg@10": 0.6300426811446146,
+      "latency_ms": 122,
+      "retrieved": [
+        "MED-2988",
+        "MED-4319",
+        "MED-2544",
+        "MED-2578",
+        "MED-2989",
+        "MED-2979",
+        "MED-2986",
+        "MED-2985",
+        "MED-3095",
+        "MED-4587"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1867",
+      "ndcg@10": 0.27487633291429087,
+      "latency_ms": 113,
+      "retrieved": [
+        "MED-3744",
+        "MED-5020",
+        "MED-1695",
+        "MED-3199",
+        "MED-4267",
+        "MED-1670",
+        "MED-1846",
+        "MED-3528",
+        "MED-3206",
+        "MED-4414"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1877",
+      "ndcg@10": 0.0,
+      "latency_ms": 112,
+      "retrieved": [
+        "MED-4831",
+        "MED-1991",
+        "MED-4349",
+        "MED-1874",
+        "MED-2432",
+        "MED-4613",
+        "MED-4255",
+        "MED-1997",
+        "MED-4515",
+        "MED-3931"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1887",
+      "ndcg@10": 0.0,
+      "latency_ms": 111,
+      "retrieved": [
+        "MED-4535",
+        "MED-3923",
+        "MED-902",
+        "MED-4915",
+        "MED-1726",
+        "MED-2331",
+        "MED-4778",
+        "MED-1731",
+        "MED-5083",
+        "MED-4489"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1897",
+      "ndcg@10": 0.0,
+      "latency_ms": 120,
+      "retrieved": [
+        "MED-4327",
+        "MED-3085",
+        "MED-2644",
+        "MED-999",
+        "MED-3628",
+        "MED-3088",
+        "MED-3089",
+        "MED-3095",
+        "MED-332",
+        "MED-4973"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1909",
+      "ndcg@10": 0.7100226348397881,
+      "latency_ms": 122,
+      "retrieved": [
+        "MED-4818",
+        "MED-1979",
+        "MED-5188",
+        "MED-1491",
+        "MED-4144",
+        "MED-1977",
+        "MED-4138",
+        "MED-4134",
+        "MED-2352",
+        "MED-4482"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1919",
+      "ndcg@10": 0.7967610662472991,
+      "latency_ms": 147,
+      "retrieved": [
+        "MED-4431",
+        "MED-4819",
+        "MED-3321",
+        "MED-4433",
+        "MED-3315",
+        "MED-3320",
+        "MED-1755",
+        "MED-3311",
+        "MED-2745",
+        "MED-4429"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1929",
+      "ndcg@10": 0.31488013066763093,
+      "latency_ms": 118,
+      "retrieved": [
+        "MED-4685",
+        "MED-716",
+        "MED-4872",
+        "MED-4773",
+        "MED-4739",
+        "MED-4724",
+        "MED-4470",
+        "MED-1955",
+        "MED-5131",
+        "MED-3452"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1940",
+      "ndcg@10": 0.3589542101716347,
+      "latency_ms": 116,
+      "retrieved": [
+        "MED-3792",
+        "MED-3797",
+        "MED-3819",
+        "MED-2970",
+        "MED-2006",
+        "MED-2436",
+        "MED-4234",
+        "MED-2136",
+        "MED-3476",
+        "MED-4752"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1950",
+      "ndcg@10": 0.2489083270225946,
+      "latency_ms": 106,
+      "retrieved": [
+        "MED-912",
+        "MED-4250",
+        "MED-3904",
+        "MED-3744",
+        "MED-4576",
+        "MED-1670",
+        "MED-3245",
+        "MED-4193",
+        "MED-4585",
+        "MED-3646"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1962",
+      "ndcg@10": 0.0,
+      "latency_ms": 103,
+      "retrieved": [
+        "MED-3528",
+        "MED-3522",
+        "MED-863",
+        "MED-4884",
+        "MED-4150",
+        "MED-3206",
+        "MED-2274",
+        "MED-1683",
+        "MED-3375",
+        "MED-3530"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1972",
+      "ndcg@10": 0.13886244387355454,
+      "latency_ms": 96,
+      "retrieved": [
+        "MED-4075",
+        "MED-2793",
+        "MED-3158",
+        "MED-3543",
+        "MED-4051",
+        "MED-2280",
+        "MED-5070",
+        "MED-5137",
+        "MED-5166",
+        "MED-3642"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1983",
+      "ndcg@10": 1.0,
+      "latency_ms": 105,
+      "retrieved": [
+        "MED-2521",
+        "MED-2134",
+        "MED-2132",
+        "MED-2137",
+        "MED-2139",
+        "MED-2517",
+        "MED-2127",
+        "MED-2504",
+        "MED-5237",
+        "MED-2128"
+      ]
+    },
+    {
+      "query_id": "PLAIN-1995",
+      "ndcg@10": 0.0,
+      "latency_ms": 120,
+      "retrieved": [
+        "MED-1635",
+        "MED-1647",
+        "MED-4902",
+        "MED-1637",
+        "MED-3351",
+        "MED-1645",
+        "MED-4331",
+        "MED-5257",
+        "MED-1847",
+        "MED-898"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2009",
+      "ndcg@10": 0.20678808725291634,
+      "latency_ms": 128,
+      "retrieved": [
+        "MED-5173",
+        "MED-3951",
+        "MED-1733",
+        "MED-4961",
+        "MED-4828",
+        "MED-1125",
+        "MED-1116",
+        "MED-2005",
+        "MED-1127",
+        "MED-1129"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2019",
+      "ndcg@10": 0.0,
+      "latency_ms": 121,
+      "retrieved": [
+        "MED-1137",
+        "MED-4502",
+        "MED-2985",
+        "MED-4319",
+        "MED-1135",
+        "MED-934",
+        "MED-2989",
+        "MED-1133",
+        "MED-756",
+        "MED-1935"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2030",
+      "ndcg@10": 0.0,
+      "latency_ms": 123,
+      "retrieved": [
+        "MED-3279",
+        "MED-4501",
+        "MED-4727",
+        "MED-3743",
+        "MED-1125",
+        "MED-4728",
+        "MED-1432",
+        "MED-3158",
+        "MED-1434",
+        "MED-3531"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2040",
+      "ndcg@10": 0.696938354998433,
+      "latency_ms": 113,
+      "retrieved": [
+        "MED-4961",
+        "MED-4933",
+        "MED-3024",
+        "MED-4964",
+        "MED-4958",
+        "MED-4874",
+        "MED-4936",
+        "MED-4959",
+        "MED-4944",
+        "MED-5035"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2051",
+      "ndcg@10": 0.4721567066247473,
+      "latency_ms": 128,
+      "retrieved": [
+        "MED-1556",
+        "MED-1238",
+        "MED-1455",
+        "MED-1873",
+        "MED-1069",
+        "MED-1454",
+        "MED-5261",
+        "MED-1072",
+        "MED-5320",
+        "MED-4556"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2061",
+      "ndcg@10": 0.933745776545611,
+      "latency_ms": 121,
+      "retrieved": [
+        "MED-2344",
+        "MED-4736",
+        "MED-5101",
+        "MED-3592",
+        "MED-4960",
+        "MED-4932",
+        "MED-3031",
+        "MED-4944",
+        "MED-3295",
+        "MED-3030"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2071",
+      "ndcg@10": 0.491526182307598,
+      "latency_ms": 110,
+      "retrieved": [
+        "MED-4309",
+        "MED-4306",
+        "MED-3532",
+        "MED-3530",
+        "MED-1352",
+        "MED-3540",
+        "MED-1349",
+        "MED-3543",
+        "MED-3661",
+        "MED-4720"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2081",
+      "ndcg@10": 1.0,
+      "latency_ms": 107,
+      "retrieved": [
+        "MED-4303",
+        "MED-2510",
+        "MED-2325",
+        "MED-2498",
+        "MED-1433",
+        "MED-1378",
+        "MED-887",
+        "MED-917",
+        "MED-2512",
+        "MED-3270"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2092",
+      "ndcg@10": 0.6489315753318465,
+      "latency_ms": 125,
+      "retrieved": [
+        "MED-1434",
+        "MED-1437",
+        "MED-1432",
+        "MED-1436",
+        "MED-1440",
+        "MED-2128",
+        "MED-5237",
+        "MED-2353",
+        "MED-1121",
+        "MED-1127"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2102",
+      "ndcg@10": 0.8701249883466592,
+      "latency_ms": 123,
+      "retrieved": [
+        "MED-1603",
+        "MED-1599",
+        "MED-1598",
+        "MED-2237",
+        "MED-1605",
+        "MED-3318",
+        "MED-3634",
+        "MED-2678",
+        "MED-5159",
+        "MED-3033"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2113",
+      "ndcg@10": 0.0,
+      "latency_ms": 129,
+      "retrieved": [
+        "MED-1182",
+        "MED-2022",
+        "MED-3890",
+        "MED-1412",
+        "MED-4168",
+        "MED-2264",
+        "MED-915",
+        "MED-1179",
+        "MED-2489",
+        "MED-2335"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2124",
+      "ndcg@10": 0.6489315753318465,
+      "latency_ms": 117,
+      "retrieved": [
+        "MED-1525",
+        "MED-1522",
+        "MED-1520",
+        "MED-1523",
+        "MED-1526",
+        "MED-1009",
+        "MED-3528",
+        "MED-5165",
+        "MED-1008",
+        "MED-3810"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2134",
+      "ndcg@10": 0.0,
+      "latency_ms": 112,
+      "retrieved": [
+        "MED-5173",
+        "MED-3486",
+        "MED-4778",
+        "MED-1525",
+        "MED-5064",
+        "MED-5025",
+        "MED-5011",
+        "MED-5024",
+        "MED-5172",
+        "MED-2070"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2145",
+      "ndcg@10": 0.0,
+      "latency_ms": 117,
+      "retrieved": [
+        "MED-743",
+        "MED-1525",
+        "MED-3750",
+        "MED-5064",
+        "MED-5156",
+        "MED-3701",
+        "MED-2521",
+        "MED-1293",
+        "MED-1522",
+        "MED-1441"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2156",
+      "ndcg@10": 0.8696762340896294,
+      "latency_ms": 120,
+      "retrieved": [
+        "MED-4868",
+        "MED-5055",
+        "MED-4867",
+        "MED-4834",
+        "MED-5054",
+        "MED-5053",
+        "MED-4120",
+        "MED-2439",
+        "MED-1258",
+        "MED-1671"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2167",
+      "ndcg@10": 0.0,
+      "latency_ms": 102,
+      "retrieved": [
+        "MED-2488",
+        "MED-1230",
+        "MED-5331",
+        "MED-2726",
+        "MED-4366",
+        "MED-2489",
+        "MED-4949",
+        "MED-1058",
+        "MED-3770",
+        "MED-1605"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2177",
+      "ndcg@10": 0.4288398090337664,
+      "latency_ms": 131,
+      "retrieved": [
+        "MED-3282",
+        "MED-1185",
+        "MED-1421",
+        "MED-1418",
+        "MED-1184",
+        "MED-1953",
+        "MED-2067",
+        "MED-2075",
+        "MED-2065",
+        "MED-895"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2187",
+      "ndcg@10": 0.2350455494144854,
+      "latency_ms": 127,
+      "retrieved": [
+        "MED-1248",
+        "MED-723",
+        "MED-5053",
+        "MED-4458",
+        "MED-4474",
+        "MED-3643",
+        "MED-3642",
+        "MED-4476",
+        "MED-5059",
+        "MED-5045"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2197",
+      "ndcg@10": 0.7909506325094736,
+      "latency_ms": 118,
+      "retrieved": [
+        "MED-5054",
+        "MED-4868",
+        "MED-4120",
+        "MED-1625",
+        "MED-5057",
+        "MED-5056",
+        "MED-1710",
+        "MED-4585",
+        "MED-2202",
+        "MED-5053"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2209",
+      "ndcg@10": 0.0,
+      "latency_ms": 132,
+      "retrieved": [
+        "MED-3807",
+        "MED-3808",
+        "MED-3809",
+        "MED-2616",
+        "MED-1443",
+        "MED-5294",
+        "MED-4811",
+        "MED-4525",
+        "MED-863",
+        "MED-5059"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2220",
+      "ndcg@10": 0.0,
+      "latency_ms": 119,
+      "retrieved": [
+        "MED-2783",
+        "MED-4532",
+        "MED-2820",
+        "MED-3795",
+        "MED-4312",
+        "MED-2825",
+        "MED-2243",
+        "MED-4458",
+        "MED-2810",
+        "MED-2330"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2230",
+      "ndcg@10": 0.0,
+      "latency_ms": 120,
+      "retrieved": [
+        "MED-4165",
+        "MED-2068",
+        "MED-981",
+        "MED-4547",
+        "MED-4511",
+        "MED-5075",
+        "MED-4958",
+        "MED-4738",
+        "MED-909",
+        "MED-4468"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2240",
+      "ndcg@10": 0.6086182388744239,
+      "latency_ms": 115,
+      "retrieved": [
+        "MED-3969",
+        "MED-3970",
+        "MED-3960",
+        "MED-895",
+        "MED-4470",
+        "MED-1185",
+        "MED-3963",
+        "MED-3282",
+        "MED-3966",
+        "MED-4319"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2250",
+      "ndcg@10": 0.0,
+      "latency_ms": 131,
+      "retrieved": [
+        "MED-2346",
+        "MED-2360",
+        "MED-5094",
+        "MED-5024",
+        "MED-4968",
+        "MED-911",
+        "MED-2361",
+        "MED-4955",
+        "MED-3717",
+        "MED-4363"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2261",
+      "ndcg@10": 0.7034066032439746,
+      "latency_ms": 133,
+      "retrieved": [
+        "MED-3599",
+        "MED-1455",
+        "MED-3598",
+        "MED-3597",
+        "MED-1238",
+        "MED-1467",
+        "MED-1558",
+        "MED-5320",
+        "MED-1454",
+        "MED-1921"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2271",
+      "ndcg@10": 0.0,
+      "latency_ms": 121,
+      "retrieved": [
+        "MED-1272",
+        "MED-3923",
+        "MED-1279",
+        "MED-5315",
+        "MED-5203",
+        "MED-901",
+        "MED-3105",
+        "MED-3672",
+        "MED-2361",
+        "MED-1525"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2281",
+      "ndcg@10": 0.0,
+      "latency_ms": 151,
+      "retrieved": [
+        "MED-5228",
+        "MED-5231",
+        "MED-1580",
+        "MED-3370",
+        "MED-736",
+        "MED-2064",
+        "MED-1312",
+        "MED-2783",
+        "MED-2577",
+        "MED-1683"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2291",
+      "ndcg@10": 0.0,
+      "latency_ms": 130,
+      "retrieved": [
+        "MED-4408",
+        "MED-4523",
+        "MED-3966",
+        "MED-1600",
+        "MED-1794",
+        "MED-1534",
+        "MED-3085",
+        "MED-335",
+        "MED-2704",
+        "MED-4493"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2301",
+      "ndcg@10": 0.22400556151517553,
+      "latency_ms": 113,
+      "retrieved": [
+        "MED-5186",
+        "MED-4941",
+        "MED-5191",
+        "MED-4486",
+        "MED-557",
+        "MED-4665",
+        "MED-4739",
+        "MED-4330",
+        "MED-4953",
+        "MED-3778"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2311",
+      "ndcg@10": 0.0,
+      "latency_ms": 138,
+      "retrieved": [
+        "MED-3136",
+        "MED-5226",
+        "MED-4810",
+        "MED-1124",
+        "MED-5200",
+        "MED-4637",
+        "MED-5096",
+        "MED-1045",
+        "MED-4644",
+        "MED-2108"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2321",
+      "ndcg@10": 0.0,
+      "latency_ms": 128,
+      "retrieved": [
+        "MED-2991",
+        "MED-2745",
+        "MED-4626",
+        "MED-1801",
+        "MED-2339",
+        "MED-3653",
+        "MED-4427",
+        "MED-733",
+        "MED-1797",
+        "MED-4769"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2332",
+      "ndcg@10": 0.6145870006788592,
+      "latency_ms": 116,
+      "retrieved": [
+        "MED-2748",
+        "MED-4968",
+        "MED-2749",
+        "MED-3974",
+        "MED-3320",
+        "MED-3653",
+        "MED-4596",
+        "MED-4767",
+        "MED-4766",
+        "MED-4363"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2343",
+      "ndcg@10": 0.0,
+      "latency_ms": 122,
+      "retrieved": [
+        "MED-4103",
+        "MED-716",
+        "MED-4872",
+        "MED-5216",
+        "MED-5131",
+        "MED-4575",
+        "MED-921",
+        "MED-4470",
+        "MED-4573",
+        "MED-3157"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2354",
+      "ndcg@10": 0.5531464700081437,
+      "latency_ms": 143,
+      "retrieved": [
+        "MED-4303",
+        "MED-2152",
+        "MED-2379",
+        "MED-4708",
+        "MED-4302",
+        "MED-2378",
+        "MED-5153",
+        "MED-1785",
+        "MED-4249",
+        "MED-1373"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2364",
+      "ndcg@10": 0.0,
+      "latency_ms": 130,
+      "retrieved": [
+        "MED-4261",
+        "MED-5004",
+        "MED-4291",
+        "MED-1807",
+        "MED-1718",
+        "MED-2717",
+        "MED-4766",
+        "MED-5323",
+        "MED-2595",
+        "MED-2721"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2375",
+      "ndcg@10": 0.0,
+      "latency_ms": 155,
+      "retrieved": [
+        "MED-4811",
+        "MED-3783",
+        "MED-3094",
+        "MED-1979",
+        "MED-4966",
+        "MED-4429",
+        "MED-3651",
+        "MED-2724",
+        "MED-884",
+        "MED-4932"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2386",
+      "ndcg@10": 0.06362078819895171,
+      "latency_ms": 126,
+      "retrieved": [
+        "MED-2346",
+        "MED-4968",
+        "MED-5094",
+        "MED-4363",
+        "MED-4141",
+        "MED-4956",
+        "MED-4963",
+        "MED-4140",
+        "MED-4198",
+        "MED-4403"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2396",
+      "ndcg@10": 0.0,
+      "latency_ms": 130,
+      "retrieved": [
+        "MED-3884",
+        "MED-5339",
+        "MED-4135",
+        "MED-2740",
+        "MED-4596",
+        "MED-4143",
+        "MED-4138",
+        "MED-3671",
+        "MED-3656",
+        "MED-3882"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2408",
+      "ndcg@10": 0.0,
+      "latency_ms": 119,
+      "retrieved": [
+        "MED-3670",
+        "MED-1016",
+        "MED-1503",
+        "MED-2813",
+        "MED-2093",
+        "MED-3540",
+        "MED-4188",
+        "MED-2284",
+        "MED-2888",
+        "MED-3795"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2430",
+      "ndcg@10": 0.5908251720119758,
+      "latency_ms": 104,
+      "retrieved": [
+        "MED-994",
+        "MED-980",
+        "MED-986",
+        "MED-5128",
+        "MED-982",
+        "MED-3452",
+        "MED-2664",
+        "MED-1705",
+        "MED-1505",
+        "MED-1499"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2440",
+      "ndcg@10": 0.0,
+      "latency_ms": 108,
+      "retrieved": [
+        "MED-1194",
+        "MED-3001",
+        "MED-5019",
+        "MED-4613",
+        "MED-4255",
+        "MED-5069",
+        "MED-1293",
+        "MED-1792",
+        "MED-2816",
+        "MED-1386"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2450",
+      "ndcg@10": 0.3479118113640809,
+      "latency_ms": 123,
+      "retrieved": [
+        "MED-1140",
+        "MED-1178",
+        "MED-1179",
+        "MED-1143",
+        "MED-1151",
+        "MED-1144",
+        "MED-1173",
+        "MED-1169",
+        "MED-1174",
+        "MED-1162"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2460",
+      "ndcg@10": 0.3969923323657619,
+      "latency_ms": 119,
+      "retrieved": [
+        "MED-2405",
+        "MED-1238",
+        "MED-5233",
+        "MED-1062",
+        "MED-5238",
+        "MED-1236",
+        "MED-1996",
+        "MED-1455",
+        "MED-1304",
+        "MED-1467"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2470",
+      "ndcg@10": 0.7700100348160483,
+      "latency_ms": 124,
+      "retrieved": [
+        "MED-1337",
+        "MED-1340",
+        "MED-1338",
+        "MED-2772",
+        "MED-3228",
+        "MED-4722",
+        "MED-2771",
+        "MED-4682",
+        "MED-4897",
+        "MED-3215"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2480",
+      "ndcg@10": 0.36806819190105955,
+      "latency_ms": 134,
+      "retrieved": [
+        "MED-1187",
+        "MED-3964",
+        "MED-1576",
+        "MED-1582",
+        "MED-4628",
+        "MED-4342",
+        "MED-1578",
+        "MED-2811",
+        "MED-3966",
+        "MED-1045"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2490",
+      "ndcg@10": 0.06673768929853466,
+      "latency_ms": 143,
+      "retrieved": [
+        "MED-4559",
+        "MED-2383",
+        "MED-2524",
+        "MED-4994",
+        "MED-3055",
+        "MED-1505",
+        "MED-2022",
+        "MED-2220",
+        "MED-4286",
+        "MED-4299"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2500",
+      "ndcg@10": 0.0,
+      "latency_ms": 121,
+      "retrieved": [
+        "MED-1556",
+        "MED-1454",
+        "MED-1230",
+        "MED-1069",
+        "MED-2716",
+        "MED-1552",
+        "MED-1873",
+        "MED-2407",
+        "MED-3356",
+        "MED-1801"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2510",
+      "ndcg@10": 0.6910257341009391,
+      "latency_ms": 123,
+      "retrieved": [
+        "MED-1648",
+        "MED-878",
+        "MED-1640",
+        "MED-1639",
+        "MED-1642",
+        "MED-1649",
+        "MED-880",
+        "MED-1641",
+        "MED-2155",
+        "MED-5244"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2520",
+      "ndcg@10": 0.039199134489337664,
+      "latency_ms": 121,
+      "retrieved": [
+        "MED-1991",
+        "MED-1997",
+        "MED-4831",
+        "MED-4515",
+        "MED-1445",
+        "MED-2519",
+        "MED-1669",
+        "MED-2290",
+        "MED-3778",
+        "MED-3815"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2530",
+      "ndcg@10": 0.9608008655106622,
+      "latency_ms": 127,
+      "retrieved": [
+        "MED-1804",
+        "MED-1798",
+        "MED-1808",
+        "MED-1796",
+        "MED-1800",
+        "MED-4766",
+        "MED-4767",
+        "MED-1806",
+        "MED-1803",
+        "MED-1799"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2540",
+      "ndcg@10": 0.20160204117158806,
+      "latency_ms": 143,
+      "retrieved": [
+        "MED-1966",
+        "MED-1555",
+        "MED-1884",
+        "MED-3398",
+        "MED-1890",
+        "MED-1552",
+        "MED-2440",
+        "MED-1968",
+        "MED-4827",
+        "MED-4353"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2550",
+      "ndcg@10": 0.04247244516790241,
+      "latency_ms": 132,
+      "retrieved": [
+        "MED-1194",
+        "MED-1679",
+        "MED-1546",
+        "MED-5331",
+        "MED-4255",
+        "MED-4613",
+        "MED-4559",
+        "MED-4994",
+        "MED-1542",
+        "MED-1490"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2560",
+      "ndcg@10": 0.8701249883466592,
+      "latency_ms": 133,
+      "retrieved": [
+        "MED-2057",
+        "MED-2055",
+        "MED-2058",
+        "MED-2060",
+        "MED-2053",
+        "MED-2061",
+        "MED-2063",
+        "MED-2054",
+        "MED-5005",
+        "MED-4753"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2570",
+      "ndcg@10": 0.3128323018202527,
+      "latency_ms": 139,
+      "retrieved": [
+        "MED-2148",
+        "MED-2145",
+        "MED-1992",
+        "MED-2008",
+        "MED-3583",
+        "MED-1999",
+        "MED-2146",
+        "MED-2144",
+        "MED-2001",
+        "MED-1019"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2580",
+      "ndcg@10": 0.3941769500918012,
+      "latency_ms": 120,
+      "retrieved": [
+        "MED-2220",
+        "MED-2725",
+        "MED-3487",
+        "MED-1351",
+        "MED-1058",
+        "MED-2112",
+        "MED-728",
+        "MED-3486",
+        "MED-5059",
+        "MED-4674"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2590",
+      "ndcg@10": 0.14342484470735153,
+      "latency_ms": 122,
+      "retrieved": [
+        "MED-4163",
+        "MED-4313",
+        "MED-934",
+        "MED-4952",
+        "MED-3236",
+        "MED-5226",
+        "MED-1528",
+        "MED-2290",
+        "MED-4644",
+        "MED-1613"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2600",
+      "ndcg@10": 0.5438183553983671,
+      "latency_ms": 101,
+      "retrieved": [
+        "MED-2372",
+        "MED-2371",
+        "MED-1889",
+        "MED-5124",
+        "MED-2939",
+        "MED-2374",
+        "MED-5278",
+        "MED-963",
+        "MED-4324",
+        "MED-3438"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2610",
+      "ndcg@10": 0.5415879285615246,
+      "latency_ms": 136,
+      "retrieved": [
+        "MED-2472",
+        "MED-2655",
+        "MED-2458",
+        "MED-5072",
+        "MED-2464",
+        "MED-2452",
+        "MED-2460",
+        "MED-1293",
+        "MED-945",
+        "MED-2450"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2620",
+      "ndcg@10": 0.32430493269934535,
+      "latency_ms": 141,
+      "retrieved": [
+        "MED-2435",
+        "MED-4391",
+        "MED-3555",
+        "MED-2988",
+        "MED-2578",
+        "MED-4543",
+        "MED-4319",
+        "MED-3551",
+        "MED-4196",
+        "MED-2989"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2630",
+      "ndcg@10": 0.6906478832608418,
+      "latency_ms": 1800,
+      "retrieved": [
+        "MED-2658",
+        "MED-2643",
+        "MED-2445",
+        "MED-2650",
+        "MED-2644",
+        "MED-2654",
+        "MED-2651",
+        "MED-118",
+        "MED-5323",
+        "MED-2627"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2640",
+      "ndcg@10": 0.6321104637230194,
+      "latency_ms": 131,
+      "retrieved": [
+        "MED-3882",
+        "MED-2745",
+        "MED-4354",
+        "MED-2743",
+        "MED-2740",
+        "MED-3888",
+        "MED-3892",
+        "MED-4596",
+        "MED-4429",
+        "MED-3880"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2650",
+      "ndcg@10": 0.6421867266689009,
+      "latency_ms": 139,
+      "retrieved": [
+        "MED-2800",
+        "MED-2819",
+        "MED-2801",
+        "MED-2803",
+        "MED-2817",
+        "MED-2807",
+        "MED-2788",
+        "MED-2825",
+        "MED-2820",
+        "MED-2815"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2660",
+      "ndcg@10": 0.21222636597291458,
+      "latency_ms": 136,
+      "retrieved": [
+        "MED-4739",
+        "MED-3012",
+        "MED-5099",
+        "MED-5097",
+        "MED-4376",
+        "MED-4735",
+        "MED-3034",
+        "MED-4736",
+        "MED-4379",
+        "MED-3783"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2670",
+      "ndcg@10": 0.2996484034259831,
+      "latency_ms": 127,
+      "retrieved": [
+        "MED-2994",
+        "MED-2106",
+        "MED-2618",
+        "MED-5037",
+        "MED-4493",
+        "MED-3765",
+        "MED-1604",
+        "MED-5089",
+        "MED-1414",
+        "MED-2616"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2680",
+      "ndcg@10": 0.27953060422445425,
+      "latency_ms": 86,
+      "retrieved": [
+        "MED-1961",
+        "MED-3100",
+        "MED-4411",
+        "MED-1098",
+        "MED-4437",
+        "MED-4168",
+        "MED-1958",
+        "MED-3109",
+        "MED-4740",
+        "MED-2249"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2690",
+      "ndcg@10": 0.5846148490411306,
+      "latency_ms": 111,
+      "retrieved": [
+        "MED-3175",
+        "MED-3288",
+        "MED-3169",
+        "MED-3302",
+        "MED-4818",
+        "MED-3319",
+        "MED-3316",
+        "MED-3307",
+        "MED-3171",
+        "MED-4138"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2700",
+      "ndcg@10": 0.38561265963846075,
+      "latency_ms": 127,
+      "retrieved": [
+        "MED-1996",
+        "MED-3954",
+        "MED-3253",
+        "MED-3255",
+        "MED-3979",
+        "MED-3254",
+        "MED-4173",
+        "MED-1949",
+        "MED-4680",
+        "MED-4795"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2710",
+      "ndcg@10": 0.6687203801353124,
+      "latency_ms": 108,
+      "retrieved": [
+        "MED-3380",
+        "MED-3382",
+        "MED-5063",
+        "MED-3381",
+        "MED-5062",
+        "MED-3173",
+        "MED-3351",
+        "MED-3054",
+        "MED-1630",
+        "MED-1153"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2720",
+      "ndcg@10": 0.17947710508581735,
+      "latency_ms": 135,
+      "retrieved": [
+        "MED-2707",
+        "MED-4392",
+        "MED-3483",
+        "MED-4804",
+        "MED-2713",
+        "MED-2083",
+        "MED-2265",
+        "MED-1686",
+        "MED-3161",
+        "MED-5321"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2730",
+      "ndcg@10": 0.6764697374587659,
+      "latency_ms": 121,
+      "retrieved": [
+        "MED-3550",
+        "MED-3554",
+        "MED-3551",
+        "MED-2573",
+        "MED-3553",
+        "MED-3549",
+        "MED-3840",
+        "MED-2357",
+        "MED-1315",
+        "MED-2435"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2740",
+      "ndcg@10": 0.5540685595122726,
+      "latency_ms": 126,
+      "retrieved": [
+        "MED-2940",
+        "MED-3627",
+        "MED-3623",
+        "MED-3624",
+        "MED-2947",
+        "MED-3625",
+        "MED-3619",
+        "MED-3621",
+        "MED-3562",
+        "MED-2627"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2750",
+      "ndcg@10": 0.6176449647597239,
+      "latency_ms": 122,
+      "retrieved": [
+        "MED-3683",
+        "MED-4762",
+        "MED-3680",
+        "MED-1300",
+        "MED-3679",
+        "MED-2482",
+        "MED-3687",
+        "MED-3688",
+        "MED-3692",
+        "MED-3693"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2760",
+      "ndcg@10": 0.2672237663843007,
+      "latency_ms": 138,
+      "retrieved": [
+        "MED-2201",
+        "MED-4600",
+        "MED-2488",
+        "MED-3770",
+        "MED-2308",
+        "MED-4036",
+        "MED-2511",
+        "MED-3769",
+        "MED-2108",
+        "MED-4627"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2770",
+      "ndcg@10": 0.2933230584459666,
+      "latency_ms": 117,
+      "retrieved": [
+        "MED-1825",
+        "MED-3836",
+        "MED-1826",
+        "MED-4885",
+        "MED-3874",
+        "MED-5116",
+        "MED-1493",
+        "MED-3840",
+        "MED-4233",
+        "MED-3123"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2780",
+      "ndcg@10": 0.4325066995973789,
+      "latency_ms": 127,
+      "retrieved": [
+        "MED-3896",
+        "MED-4291",
+        "MED-2595",
+        "MED-4707",
+        "MED-4292",
+        "MED-4286",
+        "MED-2594",
+        "MED-2153",
+        "MED-4287",
+        "MED-5284"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2790",
+      "ndcg@10": 0.7472679744991868,
+      "latency_ms": 122,
+      "retrieved": [
+        "MED-3970",
+        "MED-3964",
+        "MED-3963",
+        "MED-3966",
+        "MED-3969",
+        "MED-1576",
+        "MED-4628",
+        "MED-4342",
+        "MED-1187",
+        "MED-3960"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2800",
+      "ndcg@10": 0.06452577150984495,
+      "latency_ms": 125,
+      "retrieved": [
+        "MED-5075",
+        "MED-2070",
+        "MED-2231",
+        "MED-4454",
+        "MED-2235",
+        "MED-5074",
+        "MED-4456",
+        "MED-2064",
+        "MED-2068",
+        "MED-2229"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2810",
+      "ndcg@10": 0.0,
+      "latency_ms": 135,
+      "retrieved": [
+        "MED-2491",
+        "MED-4590",
+        "MED-1792",
+        "MED-4580",
+        "MED-3469",
+        "MED-942",
+        "MED-1625",
+        "MED-1790",
+        "MED-1707",
+        "MED-5054"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2820",
+      "ndcg@10": 0.0,
+      "latency_ms": 130,
+      "retrieved": [
+        "MED-1677",
+        "MED-2698",
+        "MED-1329",
+        "MED-1232",
+        "MED-3480",
+        "MED-1233",
+        "MED-1691",
+        "MED-1408",
+        "MED-2755",
+        "MED-2212"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2830",
+      "ndcg@10": 0.6387878864795979,
+      "latency_ms": 117,
+      "retrieved": [
+        "MED-4120",
+        "MED-5054",
+        "MED-3677",
+        "MED-3173",
+        "MED-1625",
+        "MED-1623",
+        "MED-1624",
+        "MED-1499",
+        "MED-1630",
+        "MED-3059"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2840",
+      "ndcg@10": 0.0,
+      "latency_ms": 113,
+      "retrieved": [
+        "MED-2335",
+        "MED-4150",
+        "MED-1293",
+        "MED-2070",
+        "MED-2570",
+        "MED-1493",
+        "MED-2231",
+        "MED-5064",
+        "MED-3842",
+        "MED-1494"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2850",
+      "ndcg@10": 0.0,
+      "latency_ms": 109,
+      "retrieved": [
+        "MED-3891",
+        "MED-5326",
+        "MED-4493",
+        "MED-3887",
+        "MED-3000",
+        "MED-5207",
+        "MED-4358",
+        "MED-2671",
+        "MED-5205",
+        "MED-4200"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2860",
+      "ndcg@10": 1.0,
+      "latency_ms": 119,
+      "retrieved": [
+        "MED-4185",
+        "MED-4186",
+        "MED-3590",
+        "MED-3421",
+        "MED-3407",
+        "MED-4951",
+        "MED-3955",
+        "MED-3429",
+        "MED-828",
+        "MED-4230"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2870",
+      "ndcg@10": 0.10907458963273321,
+      "latency_ms": 113,
+      "retrieved": [
+        "MED-2253",
+        "MED-3379",
+        "MED-3378",
+        "MED-4531",
+        "MED-4529",
+        "MED-3593",
+        "MED-2178",
+        "MED-872",
+        "MED-4184",
+        "MED-1774"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2880",
+      "ndcg@10": 0.0,
+      "latency_ms": 124,
+      "retrieved": [
+        "MED-4668",
+        "MED-1127",
+        "MED-1125",
+        "MED-1031",
+        "MED-1434",
+        "MED-1437",
+        "MED-2353",
+        "MED-4792",
+        "MED-1568",
+        "MED-2810"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2890",
+      "ndcg@10": 0.36077903708155934,
+      "latency_ms": 104,
+      "retrieved": [
+        "MED-4250",
+        "MED-4262",
+        "MED-4287",
+        "MED-3896",
+        "MED-1508",
+        "MED-3376",
+        "MED-1533",
+        "MED-1534",
+        "MED-1709",
+        "MED-2597"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2900",
+      "ndcg@10": 0.0,
+      "latency_ms": 132,
+      "retrieved": [
+        "MED-1420",
+        "MED-3679",
+        "MED-3687",
+        "MED-4266",
+        "MED-1426",
+        "MED-3692",
+        "MED-2544",
+        "MED-3683",
+        "MED-1414",
+        "MED-5201"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2910",
+      "ndcg@10": 0.3239134396887189,
+      "latency_ms": 120,
+      "retrieved": [
+        "MED-4295",
+        "MED-4296",
+        "MED-2430",
+        "MED-5115",
+        "MED-752",
+        "MED-3854",
+        "MED-2988",
+        "MED-2075",
+        "MED-4650",
+        "MED-2647"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2920",
+      "ndcg@10": 0.0,
+      "latency_ms": 143,
+      "retrieved": [
+        "MED-2331",
+        "MED-2335",
+        "MED-4489",
+        "MED-4309",
+        "MED-3532",
+        "MED-4719",
+        "MED-2333",
+        "MED-4197",
+        "MED-4721",
+        "MED-2664"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2930",
+      "ndcg@10": 0.4509737963519492,
+      "latency_ms": 119,
+      "retrieved": [
+        "MED-4325",
+        "MED-1686",
+        "MED-4832",
+        "MED-1017",
+        "MED-1009",
+        "MED-1005",
+        "MED-3539",
+        "MED-1006",
+        "MED-1695",
+        "MED-3512"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2940",
+      "ndcg@10": 0.0,
+      "latency_ms": 157,
+      "retrieved": [
+        "MED-1578",
+        "MED-3961",
+        "MED-1581",
+        "MED-1579",
+        "MED-3965",
+        "MED-1425",
+        "MED-3966",
+        "MED-1582",
+        "MED-1576",
+        "MED-1580"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2950",
+      "ndcg@10": 0.0,
+      "latency_ms": 134,
+      "retrieved": [
+        "MED-4363",
+        "MED-4911",
+        "MED-4205",
+        "MED-4805",
+        "MED-4429",
+        "MED-2738",
+        "MED-4796",
+        "MED-1144",
+        "MED-4354",
+        "MED-4932"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2960",
+      "ndcg@10": 0.27078426295835145,
+      "latency_ms": 179,
+      "retrieved": [
+        "MED-4372",
+        "MED-4371",
+        "MED-4598",
+        "MED-4673",
+        "MED-1543",
+        "MED-4370",
+        "MED-4374",
+        "MED-2220",
+        "MED-4969",
+        "MED-728"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2970",
+      "ndcg@10": 0.4990771526693681,
+      "latency_ms": 97,
+      "retrieved": [
+        "MED-4382",
+        "MED-2889",
+        "MED-5218",
+        "MED-2069",
+        "MED-4502",
+        "MED-2896",
+        "MED-4388",
+        "MED-2200",
+        "MED-2900",
+        "MED-4384"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2981",
+      "ndcg@10": 0.43122038713502514,
+      "latency_ms": 142,
+      "retrieved": [
+        "MED-4403",
+        "MED-2360",
+        "MED-3171",
+        "MED-3178",
+        "MED-2361",
+        "MED-5109",
+        "MED-3169",
+        "MED-3923",
+        "MED-2346",
+        "MED-3177"
+      ]
+    },
+    {
+      "query_id": "PLAIN-2991",
+      "ndcg@10": 0.38685280723454163,
+      "latency_ms": 134,
+      "retrieved": [
+        "MED-1663",
+        "MED-4424",
+        "MED-1665",
+        "MED-1660",
+        "MED-3398",
+        "MED-1667",
+        "MED-4827",
+        "MED-1657",
+        "MED-1968",
+        "MED-2967"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3001",
+      "ndcg@10": 0.2640681225725909,
+      "latency_ms": 131,
+      "retrieved": [
+        "MED-3314",
+        "MED-1114",
+        "MED-5060",
+        "MED-4436",
+        "MED-4433",
+        "MED-5313",
+        "MED-2928",
+        "MED-1725",
+        "MED-1156",
+        "MED-5061"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3014",
+      "ndcg@10": 0.0,
+      "latency_ms": 122,
+      "retrieved": [
+        "MED-4922",
+        "MED-4771",
+        "MED-4115",
+        "MED-5206",
+        "MED-1127",
+        "MED-1282",
+        "MED-4125",
+        "MED-2357",
+        "MED-3452",
+        "MED-5200"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3026",
+      "ndcg@10": 1.0,
+      "latency_ms": 166,
+      "retrieved": [
+        "MED-4470",
+        "MED-3453",
+        "MED-3157",
+        "MED-5131",
+        "MED-1601",
+        "MED-981",
+        "MED-1833",
+        "MED-4683",
+        "MED-3452",
+        "MED-4472"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3037",
+      "ndcg@10": 0.0,
+      "latency_ms": 133,
+      "retrieved": [
+        "MED-3458",
+        "MED-3274",
+        "MED-5339",
+        "MED-3457",
+        "MED-1757",
+        "MED-3278",
+        "MED-3454",
+        "MED-3108",
+        "MED-3154",
+        "MED-4141"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3053",
+      "ndcg@10": 0.46927872602275644,
+      "latency_ms": 139,
+      "retrieved": [
+        "MED-4525",
+        "MED-5340",
+        "MED-3353",
+        "MED-4490",
+        "MED-2264",
+        "MED-1748",
+        "MED-1027",
+        "MED-4427",
+        "MED-4501",
+        "MED-5163"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3063",
+      "ndcg@10": 0.16812753627111746,
+      "latency_ms": 122,
+      "retrieved": [
+        "MED-4712",
+        "MED-2886",
+        "MED-2922",
+        "MED-3894",
+        "MED-1671",
+        "MED-1695",
+        "MED-2274",
+        "MED-2924",
+        "MED-2076",
+        "MED-5070"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3074",
+      "ndcg@10": 1.0,
+      "latency_ms": 153,
+      "retrieved": [
+        "MED-4555",
+        "MED-4423",
+        "MED-3718",
+        "MED-3550",
+        "MED-4560",
+        "MED-1704",
+        "MED-1194",
+        "MED-3436",
+        "MED-5278",
+        "MED-4424"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3085",
+      "ndcg@10": 0.3065735963827292,
+      "latency_ms": 147,
+      "retrieved": [
+        "MED-919",
+        "MED-714",
+        "MED-4573",
+        "MED-4575",
+        "MED-716",
+        "MED-3990",
+        "MED-4574",
+        "MED-961",
+        "MED-4566",
+        "MED-3987"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3097",
+      "ndcg@10": 0.4770382338730848,
+      "latency_ms": 149,
+      "retrieved": [
+        "MED-4590",
+        "MED-4580",
+        "MED-5019",
+        "MED-2491",
+        "MED-4089",
+        "MED-1792",
+        "MED-4267",
+        "MED-4585",
+        "MED-5082",
+        "MED-4862"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3116",
+      "ndcg@10": 0.0,
+      "latency_ms": 132,
+      "retrieved": [
+        "MED-4600",
+        "MED-2220",
+        "MED-2922",
+        "MED-4028",
+        "MED-2924",
+        "MED-5083",
+        "MED-5111",
+        "MED-3799",
+        "MED-3718",
+        "MED-1676"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3131",
+      "ndcg@10": 0.4872901307151978,
+      "latency_ms": 152,
+      "retrieved": [
+        "MED-5010",
+        "MED-4620",
+        "MED-4619",
+        "MED-5009",
+        "MED-4618",
+        "MED-2227",
+        "MED-5041",
+        "MED-4314",
+        "MED-3535",
+        "MED-5011"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3141",
+      "ndcg@10": 0.10673691490577927,
+      "latency_ms": 129,
+      "retrieved": [
+        "MED-835",
+        "MED-2643",
+        "MED-1594",
+        "MED-3701",
+        "MED-4698",
+        "MED-4642",
+        "MED-5226",
+        "MED-3446",
+        "MED-1596",
+        "MED-1592"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3151",
+      "ndcg@10": 0.6026425227446734,
+      "latency_ms": 167,
+      "retrieved": [
+        "MED-4665",
+        "MED-4662",
+        "MED-4664",
+        "MED-4668",
+        "MED-3444",
+        "MED-3971",
+        "MED-855",
+        "MED-4666",
+        "MED-3445",
+        "MED-4660"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3161",
+      "ndcg@10": 0.4745921515613674,
+      "latency_ms": 139,
+      "retrieved": [
+        "MED-4677",
+        "MED-1768",
+        "MED-2772",
+        "MED-4897",
+        "MED-2771",
+        "MED-4902",
+        "MED-4899",
+        "MED-4752",
+        "MED-2917",
+        "MED-2774"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3171",
+      "ndcg@10": 0.0,
+      "latency_ms": 130,
+      "retrieved": [
+        "MED-2997",
+        "MED-2590",
+        "MED-745",
+        "MED-4825",
+        "MED-3699",
+        "MED-1192",
+        "MED-1479",
+        "MED-3953",
+        "MED-1586",
+        "MED-2333"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3181",
+      "ndcg@10": 0.07336392209936005,
+      "latency_ms": 132,
+      "retrieved": [
+        "MED-3744",
+        "MED-3900",
+        "MED-3906",
+        "MED-1695",
+        "MED-1686",
+        "MED-3896",
+        "MED-1792",
+        "MED-4496",
+        "MED-3210",
+        "MED-4325"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3191",
+      "ndcg@10": 0.13893229086313383,
+      "latency_ms": 146,
+      "retrieved": [
+        "MED-839",
+        "MED-1831",
+        "MED-4936",
+        "MED-4943",
+        "MED-928",
+        "MED-2751",
+        "MED-5095",
+        "MED-5102",
+        "MED-5100",
+        "MED-4811"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3201",
+      "ndcg@10": 0.22762622895961598,
+      "latency_ms": 136,
+      "retrieved": [
+        "MED-2120",
+        "MED-4752",
+        "MED-2124",
+        "MED-2117",
+        "MED-5107",
+        "MED-2122",
+        "MED-5033",
+        "MED-2121",
+        "MED-3703",
+        "MED-4394"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3211",
+      "ndcg@10": 0.11004588314904008,
+      "latency_ms": 132,
+      "retrieved": [
+        "MED-2098",
+        "MED-2705",
+        "MED-4040",
+        "MED-3199",
+        "MED-4365",
+        "MED-5173",
+        "MED-5048",
+        "MED-1731",
+        "MED-4595",
+        "MED-4604"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3221",
+      "ndcg@10": 0.052144264846557896,
+      "latency_ms": 146,
+      "retrieved": [
+        "MED-2212",
+        "MED-1705",
+        "MED-1702",
+        "MED-1504",
+        "MED-2216",
+        "MED-1851",
+        "MED-1506",
+        "MED-1849",
+        "MED-1703",
+        "MED-726"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3231",
+      "ndcg@10": 0.1711432694095351,
+      "latency_ms": 141,
+      "retrieved": [
+        "MED-1109",
+        "MED-4069",
+        "MED-5205",
+        "MED-4493",
+        "MED-4057",
+        "MED-4482",
+        "MED-4821",
+        "MED-847",
+        "MED-4070",
+        "MED-5035"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3241",
+      "ndcg@10": 0.36077903708155934,
+      "latency_ms": 134,
+      "retrieved": [
+        "MED-4841",
+        "MED-1125",
+        "MED-735",
+        "MED-731",
+        "MED-1127",
+        "MED-2821",
+        "MED-1116",
+        "MED-5339",
+        "MED-1121",
+        "MED-2345"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3251",
+      "ndcg@10": 0.0,
+      "latency_ms": 123,
+      "retrieved": [
+        "MED-4278",
+        "MED-1429",
+        "MED-1380",
+        "MED-1498",
+        "MED-1655",
+        "MED-3671",
+        "MED-4256",
+        "MED-4151",
+        "MED-2830",
+        "MED-2163"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3261",
+      "ndcg@10": 0.0,
+      "latency_ms": 137,
+      "retrieved": [
+        "MED-5157",
+        "MED-5158",
+        "MED-2891",
+        "MED-949",
+        "MED-3489",
+        "MED-870",
+        "MED-4535",
+        "MED-4917",
+        "MED-4251",
+        "MED-2830"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3271",
+      "ndcg@10": 0.06943122193677727,
+      "latency_ms": 124,
+      "retrieved": [
+        "MED-1718",
+        "MED-1716",
+        "MED-2154",
+        "MED-4823",
+        "MED-5033",
+        "MED-2434",
+        "MED-2440",
+        "MED-1611",
+        "MED-4069",
+        "MED-4826"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3281",
+      "ndcg@10": 0.3239134396887189,
+      "latency_ms": 131,
+      "retrieved": [
+        "MED-4909",
+        "MED-3087",
+        "MED-1845",
+        "MED-1850",
+        "MED-1843",
+        "MED-1847",
+        "MED-1852",
+        "MED-1851",
+        "MED-1839",
+        "MED-3966"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3292",
+      "ndcg@10": 0.62491881108221,
+      "latency_ms": 131,
+      "retrieved": [
+        "MED-2761",
+        "MED-2758",
+        "MED-2760",
+        "MED-4647",
+        "MED-2757",
+        "MED-950",
+        "MED-4925",
+        "MED-951",
+        "MED-2759",
+        "MED-4872"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3302",
+      "ndcg@10": 0.0,
+      "latency_ms": 121,
+      "retrieved": [
+        "MED-4811",
+        "MED-4379",
+        "MED-3783",
+        "MED-4966",
+        "MED-3592",
+        "MED-1572",
+        "MED-4792",
+        "MED-4960",
+        "MED-1274",
+        "MED-5099"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3312",
+      "ndcg@10": 0.17884686023174207,
+      "latency_ms": 126,
+      "retrieved": [
+        "MED-4360",
+        "MED-4959",
+        "MED-4811",
+        "MED-4961",
+        "MED-4966",
+        "MED-1570",
+        "MED-1572",
+        "MED-4958",
+        "MED-3783",
+        "MED-4874"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3322",
+      "ndcg@10": 0.28088150105118154,
+      "latency_ms": 154,
+      "retrieved": [
+        "MED-1146",
+        "MED-3557",
+        "MED-3620",
+        "MED-890",
+        "MED-4714",
+        "MED-2577",
+        "MED-5033",
+        "MED-4861",
+        "MED-3245",
+        "MED-2581"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3332",
+      "ndcg@10": 0.7571924834651238,
+      "latency_ms": 138,
+      "retrieved": [
+        "MED-3768",
+        "MED-4994",
+        "MED-3696",
+        "MED-3762",
+        "MED-4445",
+        "MED-3767",
+        "MED-3766",
+        "MED-3765",
+        "MED-1646",
+        "MED-3312"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3342",
+      "ndcg@10": 0.5307212739772434,
+      "latency_ms": 134,
+      "retrieved": [
+        "MED-2227",
+        "MED-5012",
+        "MED-5014",
+        "MED-4897",
+        "MED-4002",
+        "MED-4001",
+        "MED-2772",
+        "MED-2771",
+        "MED-4335",
+        "MED-4000"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3352",
+      "ndcg@10": 0.46258194721989987,
+      "latency_ms": 158,
+      "retrieved": [
+        "MED-5026",
+        "MED-4421",
+        "MED-3427",
+        "MED-4245",
+        "MED-3602",
+        "MED-3417",
+        "MED-2335",
+        "MED-1510",
+        "MED-3944",
+        "MED-1686"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3362",
+      "ndcg@10": 0.3239134396887189,
+      "latency_ms": 147,
+      "retrieved": [
+        "MED-5042",
+        "MED-5296",
+        "MED-2792",
+        "MED-2790",
+        "MED-4532",
+        "MED-4536",
+        "MED-4544",
+        "MED-4534",
+        "MED-4529",
+        "MED-5294"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3372",
+      "ndcg@10": 0.13956838328637602,
+      "latency_ms": 187,
+      "retrieved": [
+        "MED-4868",
+        "MED-5054",
+        "MED-1625",
+        "MED-4120",
+        "MED-5056",
+        "MED-5057",
+        "MED-1710",
+        "MED-712",
+        "MED-1674",
+        "MED-5053"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3382",
+      "ndcg@10": 0.4640081722206151,
+      "latency_ms": 162,
+      "retrieved": [
+        "MED-3380",
+        "MED-4659",
+        "MED-2618",
+        "MED-3382",
+        "MED-3353",
+        "MED-3381",
+        "MED-4385",
+        "MED-3359",
+        "MED-3351",
+        "MED-5063"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3392",
+      "ndcg@10": 0.0,
+      "latency_ms": 146,
+      "retrieved": [
+        "MED-1646",
+        "MED-1710",
+        "MED-1627",
+        "MED-1790",
+        "MED-1792",
+        "MED-1674",
+        "MED-2271",
+        "MED-1707",
+        "MED-5249",
+        "MED-4834"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3402",
+      "ndcg@10": 0.0,
+      "latency_ms": 137,
+      "retrieved": [
+        "MED-4689",
+        "MED-2951",
+        "MED-4149",
+        "MED-4413",
+        "MED-5083",
+        "MED-4523",
+        "MED-2693",
+        "MED-5056",
+        "MED-5084",
+        "MED-2695"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3412",
+      "ndcg@10": 0.2130483765146811,
+      "latency_ms": 134,
+      "retrieved": [
+        "MED-4682",
+        "MED-1135",
+        "MED-1136",
+        "MED-4898",
+        "MED-4894",
+        "MED-5192",
+        "MED-1138",
+        "MED-3227",
+        "MED-3918",
+        "MED-936"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3422",
+      "ndcg@10": 0.1475019883113467,
+      "latency_ms": 146,
+      "retrieved": [
+        "MED-3452",
+        "MED-4872",
+        "MED-3157",
+        "MED-951",
+        "MED-4930",
+        "MED-716",
+        "MED-4566",
+        "MED-5131",
+        "MED-714",
+        "MED-3987"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3432",
+      "ndcg@10": 0.21726071285222986,
+      "latency_ms": 138,
+      "retrieved": [
+        "MED-4822",
+        "MED-2227",
+        "MED-5038",
+        "MED-5283",
+        "MED-5284",
+        "MED-2223",
+        "MED-5040",
+        "MED-4336",
+        "MED-5286",
+        "MED-1710"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3442",
+      "ndcg@10": 0.0,
+      "latency_ms": 169,
+      "retrieved": [
+        "MED-2201",
+        "MED-4714",
+        "MED-5076",
+        "MED-3371",
+        "MED-3245",
+        "MED-3238",
+        "MED-1693",
+        "MED-3369",
+        "MED-2511",
+        "MED-1997"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3452",
+      "ndcg@10": 0.44048039344096895,
+      "latency_ms": 115,
+      "retrieved": [
+        "MED-5175",
+        "MED-1048",
+        "MED-1042",
+        "MED-4638",
+        "MED-1040",
+        "MED-1049",
+        "MED-4810",
+        "MED-1034",
+        "MED-1036",
+        "MED-4637"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3462",
+      "ndcg@10": 0.6402900881481707,
+      "latency_ms": 117,
+      "retrieved": [
+        "MED-1373",
+        "MED-5260",
+        "MED-5274",
+        "MED-5269",
+        "MED-5271",
+        "MED-5263",
+        "MED-1390",
+        "MED-5268",
+        "MED-5153",
+        "MED-5273"
+      ]
+    },
+    {
+      "query_id": "PLAIN-3472",
+      "ndcg@10": 0.08421358772610595,
+      "latency_ms": 133,
+      "retrieved": [
+        "MED-3636",
+        "MED-2928",
+        "MED-3604",
+        "MED-2923",
+        "MED-3603",
+        "MED-2525",
+        "MED-4116",
+        "MED-5343",
+        "MED-2944",
+        "MED-4617"
+      ]
+    }
+  ],
+  "llm_calls": 0
+}

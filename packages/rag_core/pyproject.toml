@@ -21,6 +21,8 @@ dependencies = [
     "tiktoken>=0.8",
     # Lexical (BM25) retrieval — pure-Python, no extra system deps.
     "rank-bm25>=0.2",
+    # Cosine similarity over the dense index matrix.
+    "numpy>=1.26",
 ]
 
 [project.optional-dependencies]

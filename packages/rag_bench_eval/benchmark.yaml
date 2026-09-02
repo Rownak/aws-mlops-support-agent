@@ -1,0 +1,29 @@
+# rag_bench_eval config (design_summary.md §Config). One file: embedding/LLM/
+# reranker resources by name, retrieval pipelines by name, the sweep list, and
+# the evaluation metrics. Pipeline nodes nest inline — no cross-references.
+
+embeddings:
+  default:
+    provider: ollama
+    model: nomic-embed-text
+    base_url: "http://localhost:11434"
+
+retrieval:
+  active: production
+  pipelines:
+    bm25:
+      type: bm25
+      k1: 0.9
+      b: 0.4
+      top_k: 10
+    dense:
+      type: dense
+      embeddings: default
+      metric: cosine
+      top_k: 10
+
+sweep: [bm25, dense]
+
+evaluation:
+  metrics: [ndcg@10]
+  primary: ndcg@10

@@ -10,6 +10,10 @@ dependencies = [
     "rag-core",
     # NFCorpus (corpus, queries, qrels) is pulled from the Hugging Face Hub.
     "datasets>=3.0",
+    # benchmark.yaml.
+    "pyyaml>=6.0",
+    # Dense baseline embeds via Ollama (nomic-embed-text), run locally.
+    "langchain-ollama>=0.3",
 ]
 
 [project.scripts]
