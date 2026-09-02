@@ -12,6 +12,9 @@ dependencies = [
     "datasets>=3.0",
 ]
 
+[project.scripts]
+rag-bench-eval = "rag_bench_eval.cli:main"
+
 # rag-core comes from the workspace, not PyPI.
 [tool.uv.sources]
 rag-core = { workspace = true }

@@ -19,6 +19,8 @@ dependencies = [
     # actually constrains the embedding model. Declared explicitly because
     # the splitters need it whether or not an OpenAI extra is installed.
     "tiktoken>=0.8",
+    # Lexical (BM25) retrieval — pure-Python, no extra system deps.
+    "rank-bm25>=0.2",
 ]
 
 [project.optional-dependencies]
