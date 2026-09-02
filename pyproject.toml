@@ -14,15 +14,17 @@ requires-python = ">=3.13, <4.0"
 dependencies = [
     "rag-core",
     "aws-mlops-support-agent",
+    "rag-bench-eval",
 ]
 
 [tool.uv.workspace]
 members = ["packages/*"]
 
-# Resolve both names to the local workspace members rather than PyPI.
+# Resolve all names to the local workspace members rather than PyPI.
 [tool.uv.sources]
 rag-core = { workspace = true }
 aws-mlops-support-agent = { workspace = true }
+rag-bench-eval = { workspace = true }
 
 [dependency-groups]
 dev = [
@@ -32,7 +34,11 @@ dev = [
 
 [tool.pytest.ini_options]
 # Both packages' test directories, collected by one `uv run pytest` from the root.
-testpaths = ["packages/rag_core/tests", "packages/aws_mlops_support_agent/tests"]
+testpaths = [
+    "packages/rag_core/tests",
+    "packages/aws_mlops_support_agent/tests",
+    "packages/rag_bench_eval/tests",
+]
 
 [tool.ruff]
 line-length = 100

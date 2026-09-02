@@ -1,0 +1,22 @@
+# Retrieval-optimization benchmark harness for rag-core, run against BEIR/NFCorpus.
+# Standalone package so sweep experiments and eval deps stay out of the agent's
+# runtime dependency tree (design_summary.md).
+[project]
+name = "rag-bench-eval"
+version = "0.1.0"
+description = "Retrieval benchmark harness for rag-core, evaluated on BEIR/NFCorpus."
+requires-python = ">=3.13, <4.0"
+dependencies = [
+    "rag-core",
+]
+
+# rag-core comes from the workspace, not PyPI.
+[tool.uv.sources]
+rag-core = { workspace = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/rag_bench_eval"]
