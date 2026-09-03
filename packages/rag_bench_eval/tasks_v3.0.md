@@ -187,7 +187,7 @@ for the depth it needs, and `min_score` stays on the outermost node only.
   *Done when:* a unit test over two hand-built rankings matches hand-computed
   RRF scores, including a doc found by only one child.
 
-- [ ] **4.2 `rerankers:` resources.** Add the map to `benchmark.yaml`
+- [x] **4.2 `rerankers:` resources.** Add the map to `benchmark.yaml`
   (`bi_encoder` → `provider: bi_encoder` + an `embeddings:` reference;
   `cross_encoder` → `provider: cross_encoder` + `model:`) and
   `get_reranker(name, cfg)` to `resources.py`, dict-cached like
@@ -206,27 +206,27 @@ for the depth it needs, and `min_score` stays on the outermost node only.
   adapt at the `SearchResult` boundary. **`candidate_k` must exceed `top_k`** or
   reranking has nothing to reorder.
 
-- [ ] **4.5 Extend `build_retriever`.** Add `rrf` (recurses over
+- [x] **4.5 Extend `build_retriever`.** Add `rrf` (recurses over
   `cfg["retrievers"]`) and `rerank` (recurses into `cfg["inner"]`) to the
   dispatcher; extend `_VALID_TYPES`. Resources gains `get_reranker(name)`.
   *Done when:* a unit test builds the nested `hybrid_cross_encoder` config
   (rerank → rrf → [bm25, dense]) from a dict.
 
-- [ ] **4.6 Depth-rule test.** Over that nested config, assert the inner RRF
+- [x] **4.6 Depth-rule test.** Over that nested config, assert the inner RRF
   actually receives `candidate_k=50` — not the 10 its children configure
   (`design.md` §7: a wrong `top_k`/`candidate_k` interaction degrades results
   silently). This is the one interaction with no external number to catch it.
 
-- [ ] **4.7 Index cache for composites.** Extend `build_pipeline_retriever`
+- [x] **4.7 Index cache for composites.** Extend `build_pipeline_retriever`
   in `retrievers.py` so nested pipelines still hit the phase 2 caches — the
   bm25 and dense leaves inside `hybrid` must reuse cached indexes, not rebuild.
   *Done when:* a sweep of `dense` + `hybrid` embeds the corpus once.
 
-- [ ] **4.8 Pipelines + sweep.** Add `hybrid` (RRF over bm25 + dense),
+- [x] **4.8 Pipelines + sweep.** Add `hybrid` (RRF over bm25 + dense),
   `bi_encoder_rerank` and `hybrid_cross_encoder` to `benchmark.yaml`; extend
   the `sweep` list.
 
-- [ ] **4.9 Experiments 5, 6, hybrid.** Run all three over 323 queries.
+- [x] **4.9 Experiments 5, 6, hybrid.** Run all three over 323 queries.
   *Done when:* `results.md` shows five experiments. Expect hybrid > either
   parent (lexical and dense fail differently) and cross-encoder > bi-encoder.
   A hybrid *below* both parents means the depth rule is broken — check 4.6

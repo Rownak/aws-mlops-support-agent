@@ -6,16 +6,27 @@ cache (2.5), keyed on the settings that actually change the index. Neither
 cache is visible to rag_core — build_retriever itself stays a pure
 dispatcher (design_summary.md 2.7); it only takes an optional pre-built
 vectors matrix and hands back whatever it built, including a fresh one.
+
+`rrf` and `rerank` nodes recurse through this module's own dispatch (4.7),
+not rag_core's — a composite's leaves must hit the cache above just like a
+top-level bm25/dense pipeline does, so `hybrid`'s bm25 and dense children
+reuse whatever `bm25`/`dense` already built in the same sweep rather than
+rebuilding. The composite wrapper itself (RRFRetriever/RerankingRetriever)
+is cheap to construct and isn't cached — only its embedding/BM25-index
+leaves are.
 """
 
 import numpy as np
 from rag_core.retriever.base import Retriever
 from rag_core.retriever.dense import DenseRetriever
 from rag_core.retriever.factory import build_retriever
+from rag_core.retriever.fusion import RRFRetriever
+from rag_core.retriever.rerank import RerankingRetriever
 
 from rag_bench_eval import embedding_cache
 from rag_bench_eval.index_cache import get_or_build
 from rag_bench_eval.resources import get_embeddings, get_embeddings_model_name
+from rag_bench_eval.resources import get_reranker as get_reranker_resource
 
 
 class _Resources:
@@ -47,6 +58,9 @@ class _Resources:
     def had_cache_hit(self, name: str) -> bool:
         return self._cached_vectors.get(name) is not None
 
+    def get_reranker(self, name: str):
+        return get_reranker_resource(name, self._config)
+
 
 def build_pipeline_retriever(
     name: str, pipeline_cfg: dict, config: dict, corpus: dict[str, str]
@@ -74,6 +88,26 @@ def build_pipeline_retriever(
         return get_or_build(
             ("bm25", k1, b),
             lambda: build_retriever(pipeline_cfg, _Resources(corpus, config)),
+        )
+
+    if ptype == "rrf":
+        children = [
+            build_pipeline_retriever(name, child_cfg, config, corpus)
+            for child_cfg in pipeline_cfg["retrievers"]
+        ]
+        return RRFRetriever(
+            retrievers=children,
+            rrf_k=pipeline_cfg["rrf_k"],
+            top_k=pipeline_cfg["top_k"],
+        )
+
+    if ptype == "rerank":
+        inner = build_pipeline_retriever(name, pipeline_cfg["inner"], config, corpus)
+        return RerankingRetriever(
+            inner=inner,
+            scorer=get_reranker_resource(pipeline_cfg["reranker"], config),
+            candidate_k=pipeline_cfg["candidate_k"],
+            top_k=pipeline_cfg["top_k"],
         )
 
     raise ValueError(f"unknown pipeline type: {ptype!r} (pipeline {name!r})")

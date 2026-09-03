@@ -2661,7 +2661,7 @@ dependencies = [
     { name = "datasets" },
     { name = "langchain-ollama" },
     { name = "pyyaml" },
-    { name = "rag-core" },
+    { name = "rag-core", extra = ["rerank"] },
 ]
 
 [package.metadata]
@@ -2669,7 +2669,7 @@ requires-dist = [
     { name = "datasets", specifier = ">=3.0" },
     { name = "langchain-ollama", specifier = ">=0.3" },
     { name = "pyyaml", specifier = ">=6.0" },
-    { name = "rag-core", editable = "packages/rag_core" },
+    { name = "rag-core", extras = ["rerank"], editable = "packages/rag_core" },
 ]
 
 [[package]]

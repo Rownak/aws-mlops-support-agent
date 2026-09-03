@@ -8,6 +8,14 @@ embeddings:
     model: nomic-embed-text
     base_url: "http://localhost:11434"
 
+rerankers:
+  bi_encoder:
+    provider: bi_encoder
+    embeddings: default
+  cross_encoder:
+    provider: cross_encoder
+    model: cross-encoder/ms-marco-MiniLM-L-6-v2
+
 retrieval:
   active: production
   pipelines:
@@ -21,8 +29,33 @@ retrieval:
       embeddings: default
       metric: cosine
       top_k: 10
+    hybrid:
+      type: rrf
+      rrf_k: 60
+      top_k: 10
+      retrievers:
+        - {type: bm25, k1: 0.9, b: 0.4, top_k: 10}
+        - {type: dense, embeddings: default, metric: cosine, top_k: 10}
+    bi_encoder_rerank:
+      type: rerank
+      reranker: bi_encoder
+      candidate_k: 50
+      top_k: 10
+      inner: {type: dense, embeddings: default, metric: cosine, top_k: 10}
+    hybrid_cross_encoder:
+      type: rerank
+      reranker: cross_encoder
+      candidate_k: 50
+      top_k: 10
+      inner:
+        type: rrf
+        rrf_k: 60
+        top_k: 50
+        retrievers:
+          - {type: bm25, k1: 0.9, b: 0.4, top_k: 50}
+          - {type: dense, embeddings: default, metric: cosine, top_k: 50}
 
-sweep: [bm25, dense]
+sweep: [bm25, dense, hybrid, bi_encoder_rerank, hybrid_cross_encoder]
 
 evaluation:
   metrics: [ndcg@10, recall@100, mrr@10, precision@10]
