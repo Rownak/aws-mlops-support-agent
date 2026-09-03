@@ -1,9 +1,10 @@
 """Run this project's eval set against the live index.
 
 The generic machinery (hit@k, escalation accuracy, the markdown table) lives
-in `rag_core.evals.runner`. What this module supplies is the corpus-specific
-half: the questions, and the agent's REAL routing function — so the eval
-measures the code that actually ships, not a re-implementation of it.
+in `aws_mlops_support_agent.evals.runner`. What this module supplies is the
+corpus-specific half: the questions, and the agent's REAL routing function —
+so the eval measures the code that actually ships, not a re-implementation of
+it.
 
 Run: `uv run aws-agent-evals` — prints the markdown table and writes it to
 `evals/results.md`. Costs ~15 embedding calls and zero LLM calls.
@@ -14,10 +15,10 @@ from pathlib import Path
 
 from langchain_core.documents import Document
 from rag_core import RagCore
-from rag_core.evals.runner import format_results_table, run_cases, summarize
 
 from aws_mlops_support_agent.agent.graph import route_after_retrieve
 from aws_mlops_support_agent.evals.dataset import EVAL_CASES
+from aws_mlops_support_agent.evals.runner import format_results_table, run_cases, summarize
 from aws_mlops_support_agent.settings import CONFIG_PATH
 
 RESULTS_PATH = Path(__file__).parent / "results.md"
@@ -35,7 +36,7 @@ def escalates(confidence) -> bool:
 def _basename_retriever(rag: RagCore):
     """Wrap rag.retrieve_scored so the runner's chunk_label sees a filename.
 
-    rag_core.evals.runner.chunk_label() matches on the raw
+    aws_mlops_support_agent.evals.runner.chunk_label() matches on the raw
     document.metadata["source"], which is the full local file path (and
     OS-specific: backslashes on Windows, forward slashes elsewhere) —
     matching EVAL_CASES.expected_files against that directly would be

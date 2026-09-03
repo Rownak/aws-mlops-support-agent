@@ -1,8 +1,8 @@
 """The eval set for THIS corpus, declared as data.
 
-The questions are corpus-specific, so they live with the project; the
-`EvalCase` type and the runner are generic and live in `rag_core.evals`.
-Adding an eval case = appending one entry here.
+The questions are corpus-specific, so they live with the project, alongside
+the `EvalCase` type and the runner in `aws_mlops_support_agent.evals`. Adding
+an eval case = appending one entry here.
 
 Labels are FILE-level, not chunk-level: a retrieval "hit" means any expected
 doc file appears among the top-k chunks' sources. Chunk-level labels would
@@ -29,7 +29,7 @@ Two kinds of cases:
   catch a threshold that never escalates.
 """
 
-from rag_core.evals.runner import EvalCase
+from aws_mlops_support_agent.evals.runner import EvalCase
 
 EVAL_CASES: list[EvalCase] = [
     # --- CodeBuild, on-corpus ---

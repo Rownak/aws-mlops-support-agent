@@ -160,6 +160,41 @@ collection of four test files.
   coverage (Streamlit calls are no-ops in bare mode, so these just check the
   function runs on a real `IngestStats` shape without raising).
 
+
+---
+
+## Phase 6 — Move the eval runner out of rag_core
+
+`rag_core/evals/runner.py` takes its router as an injected callable specifically
+so it doesn't depend on any particular agent — but in practice it only has one
+caller (`aws_mlops_support_agent/evals/run.py`), and `should_escalate`/`EvalCase`
+are shaped around this agent's retrieve → confidence → escalate flow. That
+makes it project-specific code sitting in the generic engine package, the same
+shape Phase 2 fixed for chunking. Nothing else in `rag_core` imports it.
+
+- [x] **6.1 Move `evals/runner.py` and its test into this package.**
+  `rag_core/src/rag_core/evals/runner.py` →
+  `aws_mlops_support_agent/src/aws_mlops_support_agent/evals/runner.py`;
+  `rag_core/tests/test_evals.py` → this package's `tests/`. Pure move, no
+  behavior change. Updated imports in `evals/run.py` and `evals/dataset.py`
+  from `rag_core.evals.runner` to `aws_mlops_support_agent.evals.runner`, plus
+  the stale docstring mentions of the old path in both files and in
+  `runner.py`'s own module docstring. Left `rag_core/src/rag_core/evals/`
+  in place (just `__init__.py`) rather than deleting it, per instruction —
+  `rag_bench_eval`'s tasks_v3.0 has its own, unrelated plan to land a generic
+  IR-metrics runner at that same `rag_core.evals` path later, so the package
+  stays.
+
+- [x] **6.2 Verify.** `rag_core`: `uv run pytest` → 175 passed. The moved
+  and updated modules (`evals/runner.py`, `evals/dataset.py`, `evals/run.py`)
+  import cleanly and `test_evals.py`'s 9 tests pass when run directly.
+  Collecting `aws_mlops_support_agent`'s full `tests/` via pytest still fails
+  at `conftest.py` — the pre-existing, already-documented breakage from Phase
+  1 (`ChunkingConfig`/`RetrievalConfig` import from the old flat schema),
+  reproduced as unchanged before touching anything eval-related, so it's not
+  a regression from this move. Did not run `uv run aws-agent-evals` against
+  a live index (needs a populated Pinecone index + API keys).
+
 ---
 
 ## Notes / open items
@@ -191,3 +226,6 @@ collection of four test files.
   mechanical swap for the config tree, but not itself a solution for
   filterable chunk metadata — that needs a schema threaded through
   `build_chunks`/`metadata_for` regardless of container type.
+
+  Errors: Failed to process data\aws_docs\codebuild\doc_source\build-spec-ref.md: File conversion failed after 1 attempts:
+ - PlainTextConverter threw UnicodeDecodeError with message: 'ascii' codec can't decode byte 0xe2 in position 32238: ordinal not in range(128)
