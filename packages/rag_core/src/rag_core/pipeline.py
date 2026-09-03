@@ -33,7 +33,10 @@ from rag_core.generation.generator import AnswerGenerator
 from rag_core.ingestion import DEFAULT_BATCH_SIZE, IngestStats, Ingestor
 from rag_core.llm.factory import get_llm
 from rag_core.loaders.markitdown_loader import MarkItDownLoader
+from rag_core.retriever.base import Retriever
 from rag_core.retriever.confidence import RetrievalConfidence, assess_confidence
+from rag_core.retriever.pinecone import PineconeRetriever
+from rag_core.retriever.rerank import RerankingRetriever, get_reranker, resolve_fetch_k
 from rag_core.retriever.retrieve import retrieve, retrieve_scored
 from rag_core.vectorstores.pinecone_store import PineconeStore
 
@@ -130,6 +133,37 @@ class RagCore:
 
     def _vectorstore(self):
         return self.store.get_store(use_sparse=self.config.vectorstore.use_sparse)
+
+    def _retriever(self) -> Retriever:
+        """Build a `Retriever`-protocol view of the configured vectorstore.
+
+        A new seam, not a replacement: `retrieve()`/`retrieve_scored()` above
+        keep using `_vectorstore()` unchanged. This is for callers migrating to
+        the benchmark's `Retriever` protocol (`search(query, k) ->
+        list[SearchResult]`), proven in `rag_bench_eval` across five retrievers
+        before being pointed at this production vectorstore (design.md phase 7).
+
+        RRF/hybrid fusion is deliberately not built here: it needs a second
+        retriever to fuse with, and none exists in production today
+        (claude/docs/phase7_pinecone_scope_decision.md). Reranking is wired
+        through `config.retriever.rerank` — the same field `retrieve_scored()`
+        already reads — but the benchmark found it neutral-to-harmful on the
+        closer-analog CQADupStack dataset, so it stays opt-in via config rather
+        than a default.
+        """
+        top_k = self.config.retriever.top_k
+        base = PineconeRetriever(self._vectorstore(), top_k=top_k)
+
+        reranker = get_reranker(self.config.retriever.rerank)
+        if reranker is None:
+            return base
+
+        return RerankingRetriever(
+            inner=base,
+            scorer=reranker,
+            candidate_k=resolve_fetch_k(self.config.retriever.rerank, top_k),
+            top_k=top_k,
+        )
 
     def retrieve(
         self, question: str, k: int | None = None, filters: dict | None = None

@@ -10,12 +10,24 @@ import asyncio
 from rag_core.config import RetrieverConfig, VectorStoreConfig
 from rag_core.generation.generator import AnswerGenerator
 from rag_core.pipeline import RagCore
+from rag_core.retriever.rerank import RelevanceScorer
+
+
+class _FakeReversingScorer(RelevanceScorer):
+    """Scores candidates in reverse order, so the effect of reranking is visible."""
+
+    name = "fake_reversing"
+
+    def _score(self, query, texts):
+        return list(range(len(texts)))
 
 
 class _FakeDoc:
-    def __init__(self, text, source="doc.md"):
+    def __init__(self, text, source="doc.md", chunk_id=None):
         self.page_content = text
         self.metadata = {"source": source}
+        if chunk_id is not None:
+            self.metadata["chunk_id"] = chunk_id
 
 
 class _FakeVectorStore:
@@ -139,3 +151,36 @@ def test_aquery_generates_an_answer():
     answer = asyncio.run(rag.aquery("question"))
 
     assert not answer.refused
+
+
+def test_retriever_returns_bare_pinecone_retriever_when_rerank_unset():
+    scored = [(_FakeDoc("text", chunk_id="a_0"), 0.9), (_FakeDoc("text2", chunk_id="a_1"), 0.7)]
+    rag = _rag_core(scored)
+
+    results = rag._retriever().search("question")
+
+    assert [r.doc_id for r in results] == ["a_0", "a_1"]
+    assert [r.score_type for r in results] == ["cosine", "cosine"]
+
+
+def test_retriever_wraps_in_reranking_retriever_when_rerank_configured(monkeypatch):
+    scored = [(_FakeDoc("text", chunk_id=f"a_{i}"), 1.0 - i * 0.1) for i in range(5)]
+    rag = _rag_core(scored)
+    rag.config.retriever = RetrieverConfig(top_k=2, rerank={"provider": "cross_encoder"})
+
+    # Reranker construction/inference is exercised in test_rerank.py; here we
+    # only assert _retriever() calls get_reranker/resolve_fetch_k and wraps
+    # with the result, so a fake scorer stands in rather than downloading a
+    # real cross-encoder model.
+    fake_scorer = _FakeReversingScorer()
+    monkeypatch.setattr("rag_core.pipeline.get_reranker", lambda config: fake_scorer)
+    monkeypatch.setattr("rag_core.pipeline.resolve_fetch_k", lambda config, top_k: 4)
+
+    retriever = rag._retriever()
+    results = retriever.search("question")
+
+    assert retriever.candidate_k == 4
+    assert len(results) == 2
+    assert all(r.score_type == "rerank_logit" for r in results)
+    # The fake scorer reverses order, so the lowest first-stage score wins.
+    assert results[0].doc_id == "a_3"

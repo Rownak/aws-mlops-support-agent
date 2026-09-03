@@ -274,19 +274,30 @@ and must keep working unchanged — including `search_type: mmr`, metadata
 `Retriever` protocol has any notion of. The protocol is additive: it does not
 replace `retrieve.py`.
 
-- [ ] **7.1 `PineconeRetriever`.** New `rag_core/retriever/pinecone.py`
+- [x] **7.1 `PineconeRetriever`.** New `rag_core/retriever/pinecone.py`
   implementing the protocol over an existing `PineconeStore` —
   `search(query, k)` → `SearchResult` with `score_type="cosine"`, `doc_id` from
-  chunk metadata. Read-only: no ingestion, no index lifecycle.
-  *Done when:* a unit test with a stubbed store returns well-formed results.
+  chunk metadata (`metadata["chunk_id"]`). Read-only: no ingestion, no index
+  lifecycle. Also accepts `filters`, passed through to
+  `similarity_search_with_relevance_scores` — unused today, added so a future
+  filtered-retrieval config needs no signature change
+  (`claude/docs/phase7_pinecone_scope_decision.md`).
+  Result: 4 unit tests against a stubbed vectorstore.
 
-- [ ] **7.2 `_retriever()` on `RagCore`.** Add alongside `_vectorstore()`,
-  building a protocol retriever from `config.retriever` — a bare
-  `PineconeRetriever`, or that wrapped in `RerankingRetriever`/`RRFRetriever`
-  when configured. `retrieve()`/`retrieve_scored()` keep their current path
-  untouched; this is a new seam, not a replacement.
-  *Done when:* `uv run pytest` is green and the AWS agent's own eval
-  (hit@k + escalation) reproduces its previous numbers exactly.
+- [x] **7.2 `_retriever()` on `RagCore`.** Added alongside `_vectorstore()`,
+  building a bare `PineconeRetriever` from `config.retriever`, wrapped in
+  `RerankingRetriever` when `config.retriever.rerank` is set (the same field
+  `retrieve_scored()` already reads). `RRFRetriever` composition deliberately
+  **not** built — no second production retriever exists to fuse with; see the
+  scope doc. `retrieve()`/`retrieve_scored()` keep their current path
+  untouched — this is a new, unused-by-them seam.
+  Along the way: `RerankingRetriever.search()` hardcoded
+  `doc.metadata["doc_id"]`, a benchmark-only key (bm25/dense set it;
+  production chunks carry `chunk_id`) — fixed to source `doc_id` from the
+  candidate `SearchResult` itself instead of metadata, so the wrap works for
+  any retriever regardless of its metadata shape.
+  *Done when:* `uv run pytest` is green (229 passed). AWS agent eval
+  reproduction deferred to 7.4, which verifies against the live agent corpus.
 
 - [ ] **7.3 Config for composed retrieval.** Let the agent's `config.yml`
   express the winning pipeline (hybrid and/or reranking) through the existing

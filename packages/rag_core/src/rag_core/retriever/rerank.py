@@ -282,15 +282,19 @@ class RerankingRetriever:
         # candidate_k is that depth here regardless of what's ultimately kept.
         candidates = self._inner.search(query, k=self.candidate_k)
 
-        # Every retriever's SearchResult.document carries doc_id in metadata
-        # (bm25.py, dense.py) — used here rather than page_content identity,
-        # which two distinct documents could share.
+        # doc_id comes from the candidate SearchResult itself, not from
+        # metadata — different retrievers key their Document's metadata
+        # differently (bm25.py/dense.py use "doc_id", PineconeRetriever uses
+        # "chunk_id"), but every SearchResult.doc_id is already the right
+        # value regardless of source. Keyed by object identity: rerank()
+        # returns the same Document instances it was given, just reordered.
+        doc_ids_by_document = {id(c.document): c.doc_id for c in candidates}
         documents = [c.document for c in candidates]
         reranked = self._scorer.rerank(query, documents, top_n=k)
 
         return [
             SearchResult(
-                doc_id=doc.metadata["doc_id"],
+                doc_id=doc_ids_by_document[id(doc)],
                 document=doc,
                 score=doc.metadata["rerank_score"],
                 score_type="rerank_logit",
