@@ -8,6 +8,7 @@ PACKAGE_ROOT = Path(__file__).resolve().parents[2]
 
 DATA_DIR = PACKAGE_ROOT / "data"
 NFCORPUS_DIR = DATA_DIR / "beir" / "nfcorpus"
+CQADUPSTACK_PROGRAMMERS_DIR = DATA_DIR / "cqadupstack" / "programmers"
 EMBEDDINGS_CACHE_DIR = NFCORPUS_DIR / ".embeddings"
 
 RESULTS_DIR = PACKAGE_ROOT / "results"

@@ -69,6 +69,15 @@ trustworthy until it does, so build the thinnest path that produces it.
   *Done when:* nDCG@10 is within ~0.02 of 0.32. If not, the fault is in
   1.2–1.6 — fix before starting phase 2.
 
+- [x] **1.10 CQADupStack Programmers dataset.** `datasets/cqadupstack_programmers.py` —
+  `load_cqadupstack_programmers()` parses local BEIR-format files: `corpus.jsonl`,
+  `queries.jsonl`, `qrels/test.tsv` under `data/cqadupstack/programmers/`. Adds
+  setting `CQADUPSTACK_PROGRAMMERS_DIR` to `settings.py`.
+  *Done when:* end-to-end run: corpus → BM25 → nDCG@10 over all CQADupStack
+  Programmers queries; result recorded in `results/runs/` (JSON's `"dataset"`
+  field identifies it as `cqadupstack_programmers`).
+  Result: nDCG@10 = 0.2680 over 876 queries.
+
 **Deferred to later phases:** `benchmark.yaml` and `build_retriever` (phase 2,
 when dense gives a second type to dispatch on), named resources (phase 2),
 `git_commit` in the run JSON.
