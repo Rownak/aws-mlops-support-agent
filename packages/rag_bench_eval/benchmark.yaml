@@ -25,5 +25,5 @@ retrieval:
 sweep: [bm25, dense]
 
 evaluation:
-  metrics: [ndcg@10]
+  metrics: [ndcg@10, recall@100, mrr@10, precision@10]
   primary: ndcg@10

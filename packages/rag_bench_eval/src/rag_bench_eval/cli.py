@@ -1,13 +1,16 @@
-"""rag-bench-eval CLI: uv run rag-bench-eval <download|list|run>
+"""rag-bench-eval CLI: uv run rag-bench-eval <download|list|run|report>
 
 Pipelines come from benchmark.yaml; `run --all` sweeps the `sweep` list.
 """
 
 import argparse
 
+from rag_core.evals.ir_runner import run_evaluation
+
 from rag_bench_eval.config import load_config
 from rag_bench_eval.datasets.nfcorpus import download_nfcorpus, load_nfcorpus
-from rag_bench_eval.evaluator import run_evaluation, write_run_json
+from rag_bench_eval.evaluator import write_run_json
+from rag_bench_eval.report import write_report
 from rag_bench_eval.retrievers import build_pipeline_retriever
 
 
@@ -32,6 +35,7 @@ def _run_one(experiment: str, config: dict, corpus: dict, queries: dict, qrels: 
 
     pipeline_cfg = pipelines[experiment]
     retriever = build_pipeline_retriever(experiment, pipeline_cfg, config, corpus)
+    metrics = config["evaluation"]["metrics"]
 
     result = run_evaluation(
         retriever=retriever,
@@ -39,12 +43,20 @@ def _run_one(experiment: str, config: dict, corpus: dict, queries: dict, qrels: 
         qrels=qrels,
         experiment=experiment,
         config=pipeline_cfg,
+        dataset="nfcorpus",
+        metrics=metrics,
         limit=limit,
     )
     path = write_run_json(result)
 
     n = len(result.per_query)
-    print(f"{experiment}: nDCG@10 = {result.mean_ndcg_at_10:.4f} over {n} queries")
+    scores = "  ".join(f"{name} = {score:.4f}" for name, score in result.metrics.items())
+    print(f"{experiment}: {scores}  over {n} queries")
+    print(f"wrote {path}")
+
+
+def _cmd_report(args: argparse.Namespace) -> None:
+    path = write_report()
     print(f"wrote {path}")
 
 
@@ -79,6 +91,9 @@ def main() -> None:
     p_run.add_argument("--all", action="store_true", help="run every pipeline in the sweep list")
     p_run.add_argument("--limit", type=int, default=None, help="cap query count for a smoke run")
     p_run.set_defaults(func=_cmd_run)
+
+    p_report = subparsers.add_parser("report", help="write results/results.md from results/runs/")
+    p_report.set_defaults(func=_cmd_report)
 
     args = parser.parse_args()
     args.func(args)

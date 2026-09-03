@@ -1,90 +1,17 @@
-"""Run a Retriever over NFCorpus's queries and score it against qrels.
+"""Persist a rag_core.evals.ir_runner.RunResult to results/runs/*.json.
 
-Runner stays local to rag_bench_eval for now — it moves to `rag_core.evals`
-in phase 3 once a second retriever (dense) exists to generalize from
-(design_summary.md build order).
+The runner itself lives in rag_core.evals.ir_runner (phase 3): two retrievers
+now share it, so its generic shape (plain dicts, metric list from config)
+moved out of rag_bench_eval. Only the run-JSON path convention
+(`results/runs/`) is specific to this benchmark harness.
 """
 
 import json
-import time
-from dataclasses import dataclass, field
-from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any
 
-from rag_core.retriever.base import Retriever
+from rag_core.evals.ir_runner import RunResult
 
-from rag_bench_eval.datasets.types import Qrels, Query
-from rag_bench_eval.metrics import ndcg_at_k
 from rag_bench_eval.settings import RUNS_DIR
-
-TOP_K = 10
-
-
-@dataclass
-class PerQueryResult:
-    query_id: str
-    ndcg_at_10: float
-    latency_ms: int
-    retrieved: list[str]
-
-
-@dataclass
-class RunResult:
-    experiment: str
-    dataset: str
-    config: dict[str, Any]
-    per_query: list[PerQueryResult]
-    llm_calls: int = 0
-    timestamp: str = field(default_factory=lambda: datetime.now(UTC).isoformat())
-
-    @property
-    def mean_ndcg_at_10(self) -> float:
-        if not self.per_query:
-            return 0.0
-        return sum(r.ndcg_at_10 for r in self.per_query) / len(self.per_query)
-
-
-def run_evaluation(
-    retriever: Retriever,
-    queries: dict[str, Query],
-    qrels: Qrels,
-    experiment: str,
-    config: dict[str, Any],
-    dataset: str = "nfcorpus",
-    limit: int | None = None,
-) -> RunResult:
-    """Search every query, score each ranking's nDCG@10, and collect a RunResult.
-
-    `limit` caps the number of queries — a fast smoke run rather than the
-    full 323-query gate.
-    """
-    query_items = list(queries.items())[:limit] if limit else list(queries.items())
-
-    per_query: list[PerQueryResult] = []
-    for query_id, query in query_items:
-        start = time.perf_counter()
-        results = retriever.search(query.text, TOP_K)
-        latency_ms = int((time.perf_counter() - start) * 1000)
-
-        retrieved = [r.doc_id for r in results]
-        score = ndcg_at_k(retrieved, qrels.get(query_id, {}), TOP_K)
-
-        per_query.append(
-            PerQueryResult(
-                query_id=query_id,
-                ndcg_at_10=score,
-                latency_ms=latency_ms,
-                retrieved=retrieved,
-            )
-        )
-
-    return RunResult(
-        experiment=experiment,
-        dataset=dataset,
-        config=config,
-        per_query=per_query,
-    )
 
 
 def write_run_json(result: RunResult, runs_dir: Path = RUNS_DIR) -> Path:
@@ -104,7 +31,7 @@ def write_run_json(result: RunResult, runs_dir: Path = RUNS_DIR) -> Path:
         "dataset": result.dataset,
         "timestamp": result.timestamp,
         "config": result.config,
-        "metrics": {"ndcg@10": result.mean_ndcg_at_10},
+        "metrics": result.metrics,
         "per_query": [
             {
                 "query_id": r.query_id,

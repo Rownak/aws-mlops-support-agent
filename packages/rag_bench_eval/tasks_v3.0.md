@@ -141,32 +141,30 @@ Two retrievers now share one runner, so its generic shape is visible rather
 than guessed (`design.md` §6). The extraction is a move, not a rewrite: phase 2
 numbers must reproduce byte-for-byte afterwards.
 
-- [ ] **3.1 Move metrics.** `metrics.py` → `rag_core/evals/metrics.py`,
+- [x] **3.1 Move metrics.** `metrics.py` → `rag_core/evals/metrics.py`,
   unchanged, with its tests. Drop the `Qrels` import from `rag_bench_eval` —
   take a plain `dict[str, int]` so `rag_core` keeps no dataset dependency.
   *Done when:* `uv run pytest` is green and the hand-computed nDCG tests pass
   from their new home.
 
-- [ ] **3.2 Add the remaining metrics.** `recall@100`, `mrr@10`,
+- [x] **3.2 Add the remaining metrics.** `recall@100`, `mrr@10`,
   `precision@10` alongside `ndcg_at_k`, each with hand-computed unit tests
   (CLAUDE.md: metrics get real tests — a wrong metric invalidates every number).
 
-- [ ] **3.3 Extract the runner.** `evaluator.py` → `rag_core/evals/
-  ir_runner.py` as a *new* module beside the existing `runner.py` — that one
-  measures the AWS agent's hit@k and escalation routing and is a different
-  concern; do not merge them. Generalize: take `queries`/`qrels` as plain
+- [x] **3.3 Extract the runner.** `evaluator.py` → `rag_core/evals/
+  runner.py. Generalize: take `queries`/`qrels` as plain
   dicts, metric list from config, `dataset` as a parameter.
   *Done when:* re-running experiment 1 reproduces the phase 1 nDCG exactly.
 
-- [ ] **3.4 Multi-metric run JSON.** `metrics` carries all four scores;
+- [x] **3.4 Multi-metric run JSON.** `metrics` carries all four scores;
   `per_query` keeps `ndcg@10` only (the diagnostic one) plus `latency_ms` and
   `retrieved`. Existing run files stay readable — additive keys only.
 
-- [ ] **3.5 Results table.** `report.py` — read `results/runs/*.json`, take the
+- [x] **3.5 Results table.** `report.py` — read `results/runs/*.json`, take the
   latest run per experiment, emit a markdown table (experiment, the four
   metrics, mean latency, `llm_calls`) sorted by nDCG@10. Wire `report` into
   the CLI, writing `results/results.md`.
   *Done when:* the table shows bm25 and dense side by side.
 
-- [ ] **3.6 Backfill.** Re-run experiments 1 and 2 through the extracted
+- [x] **3.6 Backfill.** Re-run experiments 1 and 2 through the extracted
   runner so both have four-metric runs, then regenerate `results.md`.
