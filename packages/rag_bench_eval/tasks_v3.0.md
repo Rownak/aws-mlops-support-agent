@@ -168,3 +168,70 @@ numbers must reproduce byte-for-byte afterwards.
 
 - [x] **3.6 Backfill.** Re-run experiments 1 and 2 through the extracted
   runner so both have four-metric runs, then regenerate `results.md`.
+
+---
+
+## Phase 4 — `RRFRetriever`, `RerankingRetriever` + `rerankers:` → experiments 5, 6, hybrid
+
+Composition arrives before query expansion because fusion and reranking need no
+LLM (`design.md` §6) — three more data points for zero tokens. This is also the
+first phase where retrievers *nest*, so the two rules that produce wrong numbers
+rather than errors (`design.md` §3.2) get enforced here: a parent asks its child
+for the depth it needs, and `min_score` stays on the outermost node only.
+
+- [x] **4.1 `RRFRetriever`.** `rag_core/retriever/fusion.py` — reciprocal rank
+  fusion over n retrievers, `score = Σ 1/(rrf_k + rank)`, `score_type="rrf"`.
+  Ranks are 1-based and per-child; a doc missing from a child contributes
+  nothing. **Depth rule:** ask each child for at least the `k` requested, so
+  fusing children that each return 10 can still yield a sensible top-10.
+  *Done when:* a unit test over two hand-built rankings matches hand-computed
+  RRF scores, including a doc found by only one child.
+
+- [ ] **4.2 `rerankers:` resources.** Add the map to `benchmark.yaml`
+  (`bi_encoder` → `provider: bi_encoder` + an `embeddings:` reference;
+  `cross_encoder` → `provider: cross_encoder` + `model:`) and
+  `get_reranker(name, cfg)` to `resources.py`, dict-cached like
+  `get_embeddings`. `provider` is the discriminator, not `type` —
+  in `pipelines:` `type` means topology (`design.md` §3.3).
+
+- [x] **4.3 Bi-encoder reranker.** Add to `rag_core/retriever/rerank.py` —
+  re-scores candidates with an embedding model, cosine over query vs. candidate.
+  Note: pointed at the same `default` the dense retriever uses it should show
+  near-zero gain; that is the intended sanity check, not a bug (`design.md` §3.3).
+
+- [x] **4.4 `RerankingRetriever`.** Same file — wraps an inner retriever, asks
+  it for `candidate_k`, re-scores, returns `top_k`. `score_type="rerank_logit"`.
+  The existing `CrossEncoderReranker`/`CohereReranker` operate on `Document`
+  lists; reuse their `_score()` rather than duplicating provider logic, and
+  adapt at the `SearchResult` boundary. **`candidate_k` must exceed `top_k`** or
+  reranking has nothing to reorder.
+
+- [ ] **4.5 Extend `build_retriever`.** Add `rrf` (recurses over
+  `cfg["retrievers"]`) and `rerank` (recurses into `cfg["inner"]`) to the
+  dispatcher; extend `_VALID_TYPES`. Resources gains `get_reranker(name)`.
+  *Done when:* a unit test builds the nested `hybrid_cross_encoder` config
+  (rerank → rrf → [bm25, dense]) from a dict.
+
+- [ ] **4.6 Depth-rule test.** Over that nested config, assert the inner RRF
+  actually receives `candidate_k=50` — not the 10 its children configure
+  (`design.md` §7: a wrong `top_k`/`candidate_k` interaction degrades results
+  silently). This is the one interaction with no external number to catch it.
+
+- [ ] **4.7 Index cache for composites.** Extend `build_pipeline_retriever`
+  in `retrievers.py` so nested pipelines still hit the phase 2 caches — the
+  bm25 and dense leaves inside `hybrid` must reuse cached indexes, not rebuild.
+  *Done when:* a sweep of `dense` + `hybrid` embeds the corpus once.
+
+- [ ] **4.8 Pipelines + sweep.** Add `hybrid` (RRF over bm25 + dense),
+  `bi_encoder_rerank` and `hybrid_cross_encoder` to `benchmark.yaml`; extend
+  the `sweep` list.
+
+- [ ] **4.9 Experiments 5, 6, hybrid.** Run all three over 323 queries.
+  *Done when:* `results.md` shows five experiments. Expect hybrid > either
+  parent (lexical and dense fail differently) and cross-encoder > bi-encoder.
+  A hybrid *below* both parents means the depth rule is broken — check 4.6
+  before believing it as a finding.
+
+**Dependency:** the cross-encoder needs `sentence-transformers`, an existing
+`rag-core[rerank]` extra — declare it in `rag_bench_eval`, no new package.
+First run downloads the model (~90 MB).

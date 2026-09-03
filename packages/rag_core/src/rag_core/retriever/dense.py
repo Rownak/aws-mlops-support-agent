@@ -31,6 +31,7 @@ class DenseRetriever:
     ):
         self.top_k = top_k
         self._embeddings = embeddings
+        self._corpus = corpus
         self._doc_ids = list(corpus.keys())
 
         if vectors is None:
@@ -66,7 +67,10 @@ class DenseRetriever:
         return [
             SearchResult(
                 doc_id=self._doc_ids[i],
-                document=Document(page_content="", metadata={"doc_id": self._doc_ids[i]}),
+                document=Document(
+                    page_content=self._corpus[self._doc_ids[i]],
+                    metadata={"doc_id": self._doc_ids[i]},
+                ),
                 score=float(scores[i]),
                 score_type="cosine",
             )

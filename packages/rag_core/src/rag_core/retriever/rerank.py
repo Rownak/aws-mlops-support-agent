@@ -8,18 +8,32 @@ far more accurate but far too slow to run over a whole collection. The usual
 arrangement, and the one RagCore uses, is to retrieve a wide candidate pool
 cheaply and rerank it down to the handful of chunks you actually keep.
 
-Two providers ship with the package:
+Three providers ship with the package:
 
 - ``cross_encoder`` runs a local sentence-transformers model. No API key, no
   network calls after the first download, and it is the default.
 - ``cohere`` calls the hosted Cohere Rerank endpoint. Needs ``COHERE_API_KEY``.
+- ``bi_encoder`` re-embeds candidates with an ``Embeddings`` model and scores
+  cosine(query, document) — cheaper than a cross-encoder, and a useful
+  sanity check when pointed at the same model first-stage retrieval used.
 
-Neither dependency is installed by default. Install the one you want with
-``pip install rag-core[rerank]`` or ``pip install rag-core[cohere]``.
+``cross_encoder`` and ``cohere`` are optional dependencies: install the one
+you want with ``pip install rag-core[rerank]`` or ``pip install rag-core[cohere]``.
+``bi_encoder`` needs only an ``Embeddings`` instance the caller already has.
+
+This module also holds ``RerankingRetriever``, which wraps one of the scorers
+above behind the ``Retriever`` protocol (``search(query, k) ->
+list[SearchResult]``) for use in a `rag_core.retriever.factory.build_retriever`
+pipeline tree — see its docstring for how the two shapes relate.
 """
 
 import logging
 from typing import Any, Dict, List, Optional
+
+import numpy as np
+from langchain_core.embeddings import Embeddings
+
+from rag_core.retriever.base import Retriever, SearchResult
 
 logger = logging.getLogger(__name__)
 
@@ -27,13 +41,17 @@ DEFAULT_CROSS_ENCODER_MODEL = "BAAI/bge-reranker-base"
 DEFAULT_COHERE_MODEL = "rerank-v3.5"
 
 
-class BaseReranker:
+class RelevanceScorer:
     """
-    Common behaviour for rerankers.
+    Common behaviour for relevance scorers: `Document` in, `Document` out.
 
-    Subclasses implement :meth:`_score`, which returns one relevance score per
-    document in the order it was given. Ordering, truncation and score
-    attachment are handled here so every provider behaves identically.
+    This is the production-facing shape `retrieve.py` calls directly against
+    a live vectorstore's results, distinct from the `Retriever` protocol
+    (`search(query, k) -> list[SearchResult]`) that `RerankingRetriever`
+    below implements by wrapping one of these. Subclasses implement
+    :meth:`_score`, which returns one relevance score per document in the
+    order it was given. Ordering, truncation and score attachment are
+    handled here so every provider behaves identically.
     """
 
     name = "base"
@@ -85,7 +103,7 @@ class BaseReranker:
         raise NotImplementedError
 
 
-class CrossEncoderReranker(BaseReranker):
+class CrossEncoderScorer(RelevanceScorer):
     """
     Local cross-encoder reranker backed by sentence-transformers.
 
@@ -134,7 +152,36 @@ class CrossEncoderReranker(BaseReranker):
         return [float(s) for s in scores]
 
 
-class CohereReranker(BaseReranker):
+class BiEncoderScorer(RelevanceScorer):
+    """
+    Re-scores candidates with an embedding model: cosine(query, document).
+
+    A cross-encoder reads the query and document together; a bi-encoder
+    embeds them separately, same as first-stage dense retrieval — so pointed
+    at the same embedding model the first-stage retriever already used, this
+    should show near-zero gain. That is the intended sanity check, not a bug
+    (design.md 3.3): a genuine improvement means the reranker is using a
+    stronger or differently-tuned model, not just "a second look".
+    """
+
+    name = "bi_encoder"
+
+    def __init__(self, embeddings: Embeddings):
+        self._embeddings = embeddings
+
+    def _score(self, query: str, texts: List[str]) -> List[float]:
+        query_vector = np.array(self._embeddings.embed_query(query))
+        query_vector = query_vector / max(np.linalg.norm(query_vector), 1e-12)
+
+        doc_vectors = np.array(self._embeddings.embed_documents(texts))
+        norms = np.linalg.norm(doc_vectors, axis=1, keepdims=True)
+        norms[norms == 0] = 1.0
+        doc_vectors = doc_vectors / norms
+
+        return [float(s) for s in doc_vectors @ query_vector]
+
+
+class CohereScorer(RelevanceScorer):
     """
     Hosted reranker backed by the Cohere Rerank endpoint.
 
@@ -185,13 +232,74 @@ class CohereReranker(BaseReranker):
         return scores
 
 
+class RerankingRetriever:
+    """
+    A `Retriever` that reranks an inner retriever's candidates.
+
+    Wraps an inner `Retriever` and a `RelevanceScorer`, translating
+    `SearchResult <-> Document` at this boundary — the scorers above stay
+    `Document`-in/out (what `retrieve.py` needs against a live vectorstore)
+    and know nothing about `SearchResult`; this class is the only place the
+    two shapes meet. Reuses the scorer's `_score()` via `rerank()` rather
+    than duplicating provider logic.
+
+    `candidate_k` must exceed `top_k` or reranking has nothing to reorder —
+    it asks the inner retriever for a wide pool, then narrows to `top_k`.
+    """
+
+    def __init__(
+        self,
+        inner: Retriever,
+        scorer: RelevanceScorer,
+        candidate_k: int,
+        top_k: int = 10,
+    ):
+        if candidate_k < top_k:
+            raise ValueError(
+                f"candidate_k ({candidate_k}) must be >= top_k ({top_k}), "
+                "or reranking has nothing to reorder"
+            )
+        self._inner = inner
+        self._scorer = scorer
+        self.candidate_k = candidate_k
+        self.top_k = top_k
+
+    def search(self, query: str, k: int | None = None) -> List[SearchResult]:
+        k = k if k is not None else self.top_k
+        # Ask the inner retriever for the wider candidate pool, not k — a
+        # parent requests the depth it needs (design.md's depth rule), and
+        # candidate_k is that depth here regardless of what's ultimately kept.
+        candidates = self._inner.search(query, k=self.candidate_k)
+
+        # Every retriever's SearchResult.document carries doc_id in metadata
+        # (bm25.py, dense.py) — used here rather than page_content identity,
+        # which two distinct documents could share.
+        documents = [c.document for c in candidates]
+        reranked = self._scorer.rerank(query, documents, top_n=k)
+
+        return [
+            SearchResult(
+                doc_id=doc.metadata["doc_id"],
+                document=doc,
+                score=doc.metadata["rerank_score"],
+                score_type="rerank_logit",
+            )
+            for doc in reranked
+        ]
+
+
 PROVIDERS = {
-    "cross_encoder": CrossEncoderReranker,
-    "cohere": CohereReranker,
+    "cross_encoder": CrossEncoderScorer,
+    "cohere": CohereScorer,
+    # bi_encoder is deliberately absent: it needs a pre-built Embeddings
+    # instance (a resource, not a primitive config value), so it cannot be
+    # constructed via **kwargs-from-dict below. rag_bench_eval's
+    # resources.get_reranker() resolves the embeddings resource and
+    # constructs BiEncoderScorer directly instead of going through here.
 }
 
 
-def get_reranker(config: Optional[Dict[str, Any]]) -> Optional[BaseReranker]:
+def get_reranker(config: Optional[Dict[str, Any]]) -> Optional[RelevanceScorer]:
     """
     Build a reranker from a ``retriever.rerank`` config block.
 
@@ -209,7 +317,7 @@ def get_reranker(config: Optional[Dict[str, Any]]) -> Optional[BaseReranker]:
 
     Example:
         >>> get_reranker({"provider": "cross_encoder"})  # doctest: +SKIP
-        <CrossEncoderReranker ...>
+        <CrossEncoderScorer ...>
         >>> get_reranker(None) is None
         True
     """

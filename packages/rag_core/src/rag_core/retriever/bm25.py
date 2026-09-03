@@ -30,6 +30,7 @@ class BM25Retriever:
         top_k: int = 10,
     ):
         self.top_k = top_k
+        self._corpus = corpus
         self._doc_ids = list(corpus.keys())
         tokenized = [_tokenize(text) for text in corpus.values()]
         # k1/b tune term-frequency saturation and length normalization;
@@ -44,7 +45,9 @@ class BM25Retriever:
         return [
             SearchResult(
                 doc_id=doc_id,
-                document=Document(page_content="", metadata={"doc_id": doc_id}),
+                document=Document(
+                    page_content=self._corpus[doc_id], metadata={"doc_id": doc_id}
+                ),
                 score=float(score),
                 score_type="bm25",
             )

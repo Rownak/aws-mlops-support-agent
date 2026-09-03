@@ -3,11 +3,15 @@
 from .base import Retriever, SearchResult
 from .bm25 import BM25Retriever
 from .confidence import DEFAULT_MIN_TOP_SCORE, RetrievalConfidence, assess_confidence
+from .dense import DenseRetriever
+from .fusion import RRFRetriever
 from .hybrid import get_retriever, hybrid_search, mmr_search
 from .rerank import (
-    BaseReranker,
-    CohereReranker,
-    CrossEncoderReranker,
+    BiEncoderScorer,
+    CohereScorer,
+    CrossEncoderScorer,
+    RelevanceScorer,
+    RerankingRetriever,
     get_reranker,
     resolve_fetch_k,
 )
@@ -17,12 +21,16 @@ __all__ = [
     "Retriever",
     "SearchResult",
     "BM25Retriever",
+    "DenseRetriever",
+    "RRFRetriever",
     "get_retriever",
     "hybrid_search",
     "mmr_search",
-    "BaseReranker",
-    "CohereReranker",
-    "CrossEncoderReranker",
+    "RelevanceScorer",
+    "CohereScorer",
+    "CrossEncoderScorer",
+    "BiEncoderScorer",
+    "RerankingRetriever",
     "get_reranker",
     "resolve_fetch_k",
     "DEFAULT_MIN_TOP_SCORE",
