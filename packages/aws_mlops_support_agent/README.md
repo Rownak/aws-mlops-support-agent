@@ -7,8 +7,13 @@ This package is a *consumer* of [`rag-core`](../rag_core/README.md). Everything 
 embedding, retrieval, answer generation, evals — lives there. What lives here is everything that is
 specifically about AWS docs, this agent's control flow, and Jira.
 
-For the project overview, architecture diagram and deployment guide, see the
-[root README](../../README.md).
+Retrieval techniques used here are scored on labelled IR data by
+[`rag_bench_eval`](../rag_bench_eval/README.md) before they reach production.
+
+> **Status: 🟡 catching up.** This package has not been re-verified since `rag_core` was extended for the
+> benchmark; its test suite currently fails to collect. See [Testing](#testing).
+
+For the monorepo overview and deployment guide, see the [root README](../../README.md).
 
 ---
 
@@ -113,6 +118,43 @@ engine function, while `cfg.jira_*` and `cfg.dry_run` stay on this side of the b
 `flase` all keep dry-run *on*, so a config mistake can never silently create real tickets. The Streamlit
 demo goes further and forces `dry_run=True` regardless of the environment.
 
+Copy [`.env.example`](../../.env.example) to `.env` and fill in the two required keys — everything else
+has a sensible default.
+
+| Variable | Required? | Default (from `config.yml`) | Description |
+|----------|-----------|---------|-------------|
+| `OPENAI_API_KEY` | ✅ | — | OpenAI key for chat + embeddings. |
+| `PINECONE_API_KEY` | ✅ | — | Pinecone key for the vector index. |
+| `AWS_REGION` | | `us-east-1` | AWS region for the serverless index. |
+| `DRY_RUN` | | `true` | Safety gate: Jira tickets are only *logged* unless explicitly set to `false`. |
+
+<details>
+<summary>Optional: tuning overrides, Jira ticket creation & LangSmith tracing</summary>
+
+Models, the index name and the providers live in `config.yml`. The tuning knobs below can also be set by
+environment variable, which is useful for experiments without editing (and committing) the file:
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `RAG_TOP_K` | `4` | Chunks retrieved per query. |
+| `RAG_MIN_TOP_SCORE` | `0.35` | Confidence threshold below which the agent escalates. |
+| `RAG_CHUNK_SIZE` | `800` | Chunk size at ingest time. |
+| `RAG_CHUNK_OVERLAP` | `100` | Overlap between adjacent chunks. |
+
+| Variable | Required? | Description |
+|----------|-----------|-------------|
+| `JIRA_BASE_URL` | Only to create real tickets | e.g. `https://your-site.atlassian.net`. |
+| `JIRA_EMAIL` | Only to create real tickets | The email you log into Jira with. |
+| `JIRA_API_TOKEN` | Only to create real tickets | API token (not your password) — [create one here](https://id.atlassian.com/manage-profile/security/api-tokens). |
+| `JIRA_PROJECT_KEY` | Only to create real tickets | Project key to file under, e.g. `SUP`. |
+| `LANGSMITH_TRACING` | Optional | Set to `true` to trace every graph run. |
+| `LANGSMITH_API_KEY` | Optional | LangSmith key ([free account](https://smith.langchain.com)). |
+| `LANGSMITH_PROJECT` | Optional | Trace bucket name (defaults to `default`). |
+
+`.env.example` has step-by-step setup notes for each of these. Never commit real secrets — `.env` is
+gitignored.
+</details>
+
 Verify what's actually loaded (secrets masked):
 
 ```bash
@@ -142,6 +184,30 @@ uv run python -m aws_mlops_support_agent.agent.graph
 
 ---
 
+## Evaluation results
+
+A 15-question eval set (12 in-corpus with expected doc files, 3 off-corpus negatives) measures whether
+retrieval surfaces the right docs (**hit@4**) and whether the agent escalates when it should. Runner:
+`uv run aws-agent-evals` (embedding calls only, no LLM). Full table:
+[`evals/results.md`](src/aws_mlops_support_agent/evals/results.md).
+
+| Metric | Result | Notes |
+|--------|--------|-------|
+| **Hit@4** (in-corpus) | **11 / 12** | Correct doc in the top 4 chunks for all but one question. |
+| **Escalation accuracy** | **12 / 15** | All 3 misses are off-corpus questions the retriever scored too confidently. |
+
+**Honest caveat:** the 3 escalation failures are off-corpus questions (EKS, SageMaker, account password)
+that scored *above* the `0.35` confidence threshold — the current heuristic (top cosine score) doesn't
+cleanly separate "irrelevant but adjacent" AWS topics. Tuning that threshold / adding a reranker is a
+deliberate next step, not a solved problem.
+
+This eval measures *this corpus, this agent*. The technique-level question — is dense better than BM25,
+does reranking help — is answered separately on labelled IR data by
+[`rag_bench_eval`](../rag_bench_eval/README.md), whose current finding is that the best technique is
+corpus-dependent, so any candidate still has to be re-verified here.
+
+---
+
 ## Testing
 
 ```bash
@@ -153,8 +219,16 @@ retriever / answerer / Jira functions, so the whole interrupt-and-resume flow ru
 keys. `tests/jira_live_check.py` is the deliberate exception — a manual script that creates a **real**
 ticket, named so pytest never collects it.
 
-> **Known breakage.** `tests/conftest.py` still builds a `RagConfig` from the pre-migration flat schema
-> (`ChunkingConfig`, `RetrievalConfig`, `openai_api_key`, …), all of which rag_core removed. It fails to
-> import, which blocks collection of `test_graph.py`, `test_jira_tool.py`, `test_routing.py` and
-> `test_ticket.py`. The other files (33 tests) pass with `--noconftest`. Porting the fixtures to the new
-> `embeddings` / `llm` / `vectorstore` / `splitter` / `retriever` blocks is outstanding work.
+> **⚠️ Known breakage — this package is mid-migration.** `tests/conftest.py` still builds a `RagConfig`
+> from the pre-migration flat schema (`ChunkingConfig`, `RetrievalConfig`, `openai_api_key`, …), all of
+> which rag_core removed. It fails to import, which blocks collection of the whole package. Some test
+> modules also still import `rag_core.retrieval.*`, a path that is now `rag_core.retriever.*`.
+>
+> Separately, `rag_core` is being extended for [`rag_bench_eval`](../rag_bench_eval/README.md) — a
+> `Retriever` protocol, new retrieval implementations, and a rename inside `rerank.py`
+> (`BaseReranker` → `RelevanceScorer`, …). Those changes are meant to be additive, and every module in
+> this package still imports cleanly against current `rag_core`, but the agent has **not** been
+> re-verified end to end since. Treat it as untested on this branch.
+>
+> Porting the fixtures to the nested `embeddings` / `llm` / `vectorstore` / `splitter` / `retriever`
+> blocks, then re-running ingest → query → escalate, is the outstanding work.

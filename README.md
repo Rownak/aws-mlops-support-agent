@@ -1,45 +1,78 @@
-# AWS MLOps Support Agent
+# RAG Pipeline Monorepo
 
-**An agentic RAG assistant that answers AWS CI/CD questions from the official AWS docs — and files a Jira ticket for a human when it can't.**
+**A reusable RAG engine, a benchmark that measures its retrieval quality, and a production agent built
+on top of it.**
 
 ![Python 3.13](https://img.shields.io/badge/python-3.13-blue)
 ![LangGraph](https://img.shields.io/badge/orchestration-LangGraph-1c3d5a)
 ![Pinecone](https://img.shields.io/badge/vector%20db-Pinecone-6f42c1)
+![BEIR](https://img.shields.io/badge/benchmark-BEIR-critical)
 ![Deploy](https://img.shields.io/badge/deploy-ECS%20Fargate-ff9900)
-![Docs license](https://img.shields.io/badge/AWS%20docs-CC%20BY--SA%204.0-lightgrey)
 ![Code license](https://img.shields.io/badge/code-MIT-green)
 
 ---
 
 ## What it does & why
 
-Ask it a question like *"How do I cache dependencies between CodeBuild builds?"* and it searches the
-official AWS CodeBuild and CodePipeline documentation, writes a grounded answer **with citations**, and
-asks whether that resolved your issue. If it didn't — or if the docs clearly don't cover your question —
-the agent drafts a **Jira support ticket** (summarizing the problem, which docs it already checked, and
-suggested next steps) and hands it off to a developer team.
+Three packages, one dependency direction:
 
-It's a portfolio project showcasing end-to-end implementation of **RAG**, **agentic workflows (LangGraph state machines)**, and
-**MLOps on AWS** covering document ingestion to a deployed, observable service.
+| Package | What it is |
+|---|---|
+| **[`rag_core`](packages/rag_core/README.md)** | A corpus-agnostic RAG engine. Hand it a `config.yaml` and it loads, chunks, embeds, indexes, retrieves, reranks, scores confidence, and generates cited answers. Knows nothing about AWS, Jira, LangGraph, or BEIR. |
+| **[`rag_bench_eval`](packages/rag_bench_eval/README.md)** | A retrieval benchmark over labelled IR datasets (BEIR/NFCorpus, CQADupStack). Scores each technique — BM25, dense, RRF hybrid, reranking — with nDCG@10 against human relevance judgements. |
+| **[`aws_mlops_support_agent`](packages/aws_mlops_support_agent/README.md)** | The production consumer: an agentic assistant that answers AWS CI/CD questions from the official docs with citations, and files a Jira ticket for a human when it can't. |
+
+The point of the split is that **retrieval decisions get measured before they ship.** A change to
+`rag_core`'s retrieval is scored on labelled data by `rag_bench_eval` and only then carried into the
+agent. Both apps consume the same engine; neither can be imported by it.
+
+It's a portfolio project showcasing end-to-end **RAG**, **retrieval evaluation**, **agentic workflows
+(LangGraph state machines)**, and **MLOps on AWS**.
 
 **Key features**
 
+- 🧩 **Reusable engine** — `pip install ./packages/rag_core` and point it at any corpus.
+  Provider-switchable (OpenAI / Ollama / Google / HuggingFace), hash-based incremental ingest, hybrid
+  retrieval, reranking, confidence scoring. Two independent apps prove the seam.
+- 📏 **Measured retrieval, not eyeballed** — every technique scored on the same queries against the same
+  labels, with the BM25 baseline validated against a published figure first.
 - 🔎 **Grounded answers with citations** — every answer links back to the exact AWS doc section it used.
-- 🧠 **Agentic escalation** — a LangGraph state machine loops, retries, and escalates when confidence is low, retries run out, or you ask it to.
-- 🎫 **Jira ticket drafting** — turns an unresolved question into a structured ticket (safe: dry-run by default, so no ticket is created unless you explicitly opt in).
-- 🙋 **Human-in-the-loop** — the agent pauses mid-run to ask *"did this resolve it, or should I open a ticket?"*
-- 📊 **Built-in evals & tracing** — retrieval-quality eval set, LangSmith tracing, and CloudWatch-friendly JSON logging.
-- 🧩 **Reusable engine** — the RAG half is built as a **standalone, independently installable pipeline** (`rag-core`) you can drop into any new RAG app: provider-switchable (OpenAI / Ollama / Google / HuggingFace), hash-based incremental ingest, hybrid retrieval and reranking. This AWS agent is just its first consumer.
-- 🚀 **Real deployment path** — containerized, pushed to ECR via GitHub Actions, running on ECS Fargate with secrets in AWS Secrets Manager.
-
-> **Live demo note:** the hosted demo forces Jira into **dry-run mode**, so visitors can't create real tickets — the drafted payload is logged instead.
+- 🧠 **Agentic escalation** — a LangGraph state machine loops, retries, and escalates when confidence is
+  low, retries run out, or you ask it to.
+- 🎫 **Jira ticket drafting** — turns an unresolved question into a structured ticket (dry-run by
+  default, so no ticket is created unless you explicitly opt in).
+- 🚀 **Real deployment path** — containerized, pushed to ECR via GitHub Actions, running on ECS Fargate
+  with secrets in AWS Secrets Manager.
 
 ---
 
 ## Architecture at a glance
 
-The core is a small **state machine**: retrieve → answer → confirm → (maybe) escalate. Solid arrows are
-always-taken; dashed arrows are **conditional** (a decision function picks the next step).
+```text
+                 ┌──────────────────────────────────────┐
+                 │              rag_core                │
+                 │  sources → loaders → processing      │
+                 │  embeddings → vectorstores           │
+                 │  retriever (protocol + techniques)   │
+                 │  generation · evals · config         │
+                 └──────────────────────────────────────┘
+                       ▲                        ▲
+        measures ──────┘                        └────── consumes
+                       │                        │
+    ┌──────────────────────────┐   ┌──────────────────────────────┐
+    │      rag_bench_eval      │   │   aws_mlops_support_agent    │
+    │  BEIR datasets, qrels    │   │  AWS docs source, LangGraph  │
+    │  pipelines, nDCG@10      │   │  Jira escalation, Streamlit  │
+    └──────────────────────────┘   └──────────────────────────────┘
+```
+
+Retrieval techniques implement one protocol —
+`search(query, k) -> list[SearchResult]` — so they **compose by nesting**: a reranker wraps an RRF
+fusion which wraps BM25 and dense. That is what lets the benchmark declare a whole pipeline in YAML and
+the agent adopt whichever shape won.
+
+The agent itself is a small **state machine**: retrieve → answer → confirm → (maybe) escalate. Solid
+arrows are always-taken; dashed arrows are **conditional**.
 
 ```mermaid
 graph TD;
@@ -62,122 +95,55 @@ graph TD;
     classDef last fill:#bfb6fc
 ```
 
-| Step | What happens |
-|------|--------------|
-| **retrieve** | Embed the question (OpenAI) and pull the top-k matching doc chunks from Pinecone. |
-| **answer** | The chat model writes an answer grounded *only* in those chunks, with `[n]` citations. |
-| **confirm_resolution** | The graph **pauses** and asks the user: resolved, retry, or open a ticket? |
-| **escalate** | Builds a Jira ticket draft (problem + docs checked + next steps); files it only if not in dry-run. |
-
-**Escalation fires on any of three triggers:** low retrieval confidence, the user asking for a ticket, or
-retries being exhausted — each decided in exactly one routing function
-([`agent/graph.py`](packages/aws_mlops_support_agent/src/aws_mlops_support_agent/agent/graph.py)).
+Full walkthrough of the nodes, escalation triggers and interrupt/resume flow:
+[`aws_mlops_support_agent/README.md`](packages/aws_mlops_support_agent/README.md).
 
 **Tech stack:** Python 3.13 · [LangGraph](https://langchain-ai.github.io/langgraph/) (orchestration) ·
-[LangChain](https://python.langchain.com/) (RAG plumbing) · [Pinecone](https://www.pinecone.io/) serverless
-(vector DB, swappable for Pinecone Local) · OpenAI via `langchain_openai` (chat + embeddings; Ollama /
-Google / HuggingFace selectable from config) · Jira Cloud REST API · Docker · ECS Fargate ·
-GitHub Actions + ECR · CloudWatch + [LangSmith](https://smith.langchain.com/) (logging & tracing).
+[LangChain](https://python.langchain.com/) (RAG plumbing) · [Pinecone](https://www.pinecone.io/)
+serverless (vector DB, swappable for Pinecone Local) · OpenAI via `langchain_openai` (chat + embeddings;
+Ollama / Google / HuggingFace selectable from config) · `rank_bm25` + numpy + sentence-transformers
+(benchmark retrieval) · Jira Cloud REST API · Docker · ECS Fargate · GitHub Actions + ECR ·
+CloudWatch + [LangSmith](https://smith.langchain.com/) (logging & tracing).
 
 ---
 
 ## Quick start
 
-**Prerequisites:** Python 3.13, [`uv`](https://docs.astral.sh/uv/), an **OpenAI API key**, and a
-**Pinecone API key** (free serverless tier is enough). Jira and LangSmith are optional.
+**Prerequisites:** Python 3.13, [`uv`](https://docs.astral.sh/uv/). For the agent: an **OpenAI API key**
+and a **Pinecone API key** (free serverless tier is enough); Jira and LangSmith are optional. For the
+benchmark: a local [Ollama](https://ollama.com/) for the dense pipelines — no cloud keys needed.
 
 ```bash
 git clone https://github.com/Rownak/aws-mlops-support-agent.git
 cd aws-mlops-support-agent
-
-cp .env.example .env    # then fill in OPENAI_API_KEY and PINECONE_API_KEY
 uv sync                 # install the whole workspace from the lockfile
-
-uv run aws-agent-ingest # fetch AWS docs, chunk, embed, upsert to Pinecone (one-time)
-
-uv run aws-agent-demo   # open the chat demo
 ```
 
-That's the whole path: within a few minutes you have a running chat UI backed by a real vector index.
-The ingest step pulls the AWS docs at build time (they're never committed — see
-[License & attribution](#license--attribution)) and is safe to re-run (idempotent upserts).
-
-Prefer the terminal? Skip Streamlit and run the CLI agent instead:
+**Run the agent** *(⚠️ mid-migration on this branch — see [Roadmap / status](#roadmap--status))*:
 
 ```bash
-uv run aws-agent
+cp .env.example .env    # then fill in OPENAI_API_KEY and PINECONE_API_KEY
+
+uv run aws-agent-ingest # fetch AWS docs, chunk, embed, upsert to Pinecone (one-time)
+uv run aws-agent-demo   # open the chat demo  (or: uv run aws-agent, for the terminal)
 ```
 
----
+Within a few minutes you have a running chat UI backed by a real vector index. The ingest step pulls the
+AWS docs at build time (never committed — see [License & attribution](#license--attribution)) and is safe
+to re-run (idempotent upserts).
 
-## Configuration
+**Run the benchmark:**
 
-Configuration comes in **two layers**, deliberately different in kind:
+```bash
+ollama pull nomic-embed-text
 
-- **`config.yml`** (committed, per project) — non-secret, corpus-shaped settings in `rag_core`'s generic
-  schema: `embeddings`, `llm`, `vectorstore`, `splitter`, `retriever`, and `sources`. Because the
-  providers are named in config, switching between local dev (Ollama + Pinecone Local, no keys) and a
-  managed deployment needs no code change. It ships inside the package, so a fresh clone (or the
-  container) already knows how to build and query the right index:
-  [`config.yml`](packages/aws_mlops_support_agent/src/aws_mlops_support_agent/config.yml) ·
-  annotated reference: [`config.example.yaml`](packages/rag_core/config.example.yaml).
-- **Environment variables** (never committed) — secrets, plus optional overrides for any non-secret key.
+uv run rag-bench-eval download                            # fetch + cache NFCorpus
+uv run rag-bench-eval run --experiment bm25 --limit 20    # smoke test
+uv run rag-bench-eval run --all                           # full sweep, all pipelines
+uv run rag-bench-eval report                              # regenerate results/results.md
+```
 
-**Precedence: environment variable > `config.yml` > built-in default**, per field. Secrets are read
-*only* from the environment — never from a value written in the YAML — and missing ones fail fast, all
-reported in a single error rather than one per run.
-
-Copy [`.env.example`](.env.example) to `.env` and fill in the two required keys — everything else has a
-sensible default.
-
-| Variable | Required? | Default (from `config.yml`) | Description |
-|----------|-----------|---------|-------------|
-| `OPENAI_API_KEY` | ✅ | — | OpenAI key for chat + embeddings. |
-| `PINECONE_API_KEY` | ✅ | — | Pinecone key for the vector index. |
-| `AWS_REGION` | | `us-east-1` | AWS region for the serverless index. |
-| `DRY_RUN` | | `true` | Safety gate: Jira tickets are only *logged* unless explicitly set to `false`. |
-
-<details>
-<summary>Optional: tuning overrides, Jira ticket creation & LangSmith tracing</summary>
-
-Models, the index name and the providers live in `config.yml`. The tuning knobs below can also be set
-by environment variable, which is useful for experiments without editing (and committing) the file:
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `RAG_TOP_K` | `4` | Chunks retrieved per query. |
-| `RAG_MIN_TOP_SCORE` | `0.35` | Confidence threshold below which the agent escalates. |
-| `RAG_CHUNK_SIZE` | `800` | Chunk size at ingest time. |
-| `RAG_CHUNK_OVERLAP` | `100` | Overlap between adjacent chunks. |
-
-| Variable | Required? | Description |
-|----------|-----------|-------------|
-| `JIRA_BASE_URL` | Only to create real tickets | e.g. `https://your-site.atlassian.net`. |
-| `JIRA_EMAIL` | Only to create real tickets | The email you log into Jira with. |
-| `JIRA_API_TOKEN` | Only to create real tickets | API token (not your password) — [create one here](https://id.atlassian.com/manage-profile/security/api-tokens). |
-| `JIRA_PROJECT_KEY` | Only to create real tickets | Project key to file under, e.g. `SUP`. |
-| `LANGSMITH_TRACING` | Optional | Set to `true` to trace every graph run. |
-| `LANGSMITH_API_KEY` | Optional | LangSmith key ([free account](https://smith.langchain.com)). |
-| `LANGSMITH_PROJECT` | Optional | Trace bucket name (defaults to `default`). |
-
-`.env.example` has step-by-step setup notes for each of these. Never commit real secrets — `.env` is gitignored.
-</details>
-
----
-
-## Usage
-
-Every entrypoint is a console script, so the commands don't depend on the repo layout.
-
-| Command | What it does |
-|---|---|
-| `uv run aws-agent-demo` | Streamlit chat UI — the full flow, including the "resolved / open a ticket?" prompt. |
-| `uv run aws-agent` | The same graph, in the terminal. |
-| `uv run aws-agent-ingest` | Fetch → chunk → embed → upsert the AWS docs corpus. Idempotent. |
-| `uv run aws-agent-evals` | Run the eval set against the live index (embeddings only, no LLM calls). |
-| `uv run rag-ask "…" --config <path>` | Corpus-agnostic single question: retrieve → confidence → answer. |
-
-The last one belongs to the engine, not this project — point it at any project's `config.yml`:
+**Query any corpus through the engine alone:**
 
 ```bash
 uv run rag-ask "What phases can I define in a buildspec file?" \
@@ -186,13 +152,107 @@ uv run rag-ask "What phases can I define in a buildspec file?" \
 
 ---
 
+## `rag_core` — the engine
+
+A complete RAG pipeline in its own right: `pip install ./packages/rag_core`, hand it a `config.yaml`, and
+it loads, chunks, embeds, indexes, retrieves, reranks and answers.
+
+```python
+from rag_core import RagCore
+
+rag = RagCore("config.yaml")
+rag.sync()                                  # reconcile the index against configured sources
+print(rag.query("your question").formatted())
+```
+
+Highlights:
+
+- **One YAML file configures everything**, with **env var > `config.yaml` > default** precedence per
+  field. Secrets are read *only* from the environment and missing ones fail fast, all reported in one
+  error. Switching between local dev (Ollama + Pinecone Local, no keys) and a managed deployment needs
+  no code change.
+- **Content hash is the unit of ingest identity** — re-runs are free for unchanged files, a changed file
+  replaces its older version, and a run that died mid-write is rolled back rather than left truncated.
+- **A `Retriever` protocol with composable implementations** — BM25, dense, RRF fusion, reranking — plus
+  the production path (`retrieve` / `retrieve_scored` over a live Pinecone index, with MMR, metadata
+  filters and normalized scores).
+- **Every step is standalone.** `RagCore` is a convenience facade; `retriever.retrieve`,
+  `assess_confidence` and `AnswerGenerator.generate` are each independently callable, which is what lets
+  the agent interleave its own control flow and escalate on a weak match instead of answering.
+- **`evals/`** carries both IR metrics (nDCG, recall, MRR, precision + a generic `ir_runner`) and the
+  hit@k / escalation-accuracy runner, which takes the router as a parameter so it measures whatever
+  logic the caller actually ships.
+
+Details, config reference and design notes: [`packages/rag_core/README.md`](packages/rag_core/README.md).
+
+---
+
+## `rag_bench_eval` — measuring retrieval
+
+Retrieval quality sets the ceiling on any RAG system: if the right document never reaches the context
+window, no amount of prompting recovers it. Yet retrieval changes are usually judged by eyeballing a
+handful of queries, which cannot separate a real gain from noise.
+
+This package replaces that with measurement. Each technique is a named pipeline in `benchmark.yaml`, run
+over every query in a labelled dataset and scored against human relevance judgements — nDCG@10 as the
+primary metric, alongside recall@100, MRR@10 and precision@10, plus latency and LLM-call cost. The BM25
+baseline is validated against a published figure (NFCorpus ≈ 0.32) first, which is what makes the rest of
+the numbers trustworthy.
+
+**Results so far** — NFCorpus (323 queries) and CQADupStack Programmers (876 queries), nDCG@10:
+
+| pipeline | NFCorpus | CQADupStack |
+|---|---|---|
+| cross-encoder rerank over RRF hybrid | **0.3554** | 0.3932 |
+| RRF hybrid (BM25 + dense) | 0.3413 | 0.3651 |
+| dense | 0.3408 | **0.4279** |
+| bi-encoder rerank over dense | 0.3408 | 0.4279 |
+| BM25 | 0.3052 | 0.2680 |
+
+Two findings worth the whole exercise: **dense beats BM25 on both corpora** — the only result that held
+its direction — but **the winner does not transfer.** Cross-encoder reranking tops NFCorpus and *loses*
+to plain dense on CQADupStack, at roughly 8-12× the latency. Reranking also costs recall@100 every time,
+since it reorders a truncated candidate pool and cannot recover what the first stage missed.
+
+Full tables, findings and the technique-by-technique explanation:
+[`packages/rag_bench_eval/README.md`](packages/rag_bench_eval/README.md).
+
+---
+
+## `aws_mlops_support_agent` — the production consumer
+
+Ask it *"How do I cache dependencies between CodeBuild builds?"* and it searches the official AWS
+CodeBuild and CodePipeline documentation, writes a grounded answer **with citations**, and asks whether
+that resolved your issue. If it didn't — or the docs clearly don't cover the question — it drafts a
+**Jira support ticket** (problem, docs already checked, suggested next steps) and hands off to a human.
+
+Everything AWS-, Jira- or LangGraph-specific lives in this package: the `awsdocs_git` source that
+recovers markdown deleted from archived repos, the agent graph and its three escalation triggers, ticket
+drafting, the AWS answer prompt, the eval questions, and the Streamlit UI.
+
+> **Live demo note:** the hosted demo forces Jira into **dry-run mode**, so visitors can't create real
+> tickets — the drafted payload is logged instead.
+
+**Corpus eval** — a 15-question set (12 in-corpus, 3 off-corpus negatives) measuring whether retrieval
+surfaces the right docs and whether the agent escalates when it should:
+
+| Metric | Result | Notes |
+|--------|--------|-------|
+| **Hit@4** (in-corpus) | **11 / 12** | Correct doc in the top 4 chunks for all but one question. |
+| **Escalation accuracy** | **12 / 15** | All 3 misses are off-corpus questions the retriever scored too confidently. |
+
+**Honest caveat:** those 3 failures are off-corpus questions (EKS, SageMaker, account password) scoring
+*above* the `0.35` threshold — the current heuristic (top cosine score) doesn't cleanly separate
+"irrelevant but adjacent" AWS topics. Fixing that is what `rag_bench_eval` exists to inform.
+
+Configuration, commands, the graph walkthrough and corpus-fetch mechanics:
+[`packages/aws_mlops_support_agent/README.md`](packages/aws_mlops_support_agent/README.md).
+
+---
+
 ## Project structure
 
-This is a **uv workspace** of two independently installable packages. The split is the point: `rag_core`
-is a **complete RAG pipeline in its own right** — `pip install ./packages/rag_core`, hand it a
-`config.yaml`, and it loads, chunks, embeds, indexes, retrieves, reranks and answers. It knows nothing
-about AWS, Jira, or LangGraph, so any new RAG app reuses it without a fork; this agent is just its first
-consumer.
+A **uv workspace** of three independently installable packages.
 
 ```text
 packages/
@@ -204,12 +264,17 @@ packages/
 │       ├── loaders/ processing/  # bytes → markdown; content hashing + chunking
 │       ├── embeddings/ llm/      # provider factories (openai, ollama, google, huggingface, …)
 │       ├── vectorstores/         # Pinecone index lifecycle + hash-based ingest-state tracking
-│       ├── retriever/            # similarity / mmr / hybrid, reranking, confidence heuristic
+│       ├── retriever/            # base protocol, bm25, dense, fusion, rerank, factory
+│       │                         #   + retrieve/hybrid/confidence (the live-index production path)
 │       ├── generation/           # cited Answer objects, context budget, the `rag-ask` CLI
-│       └── evals/                # hit@k + escalation-accuracy runner
-└── aws_mlops_support_agent/      # THIS project: AWS docs corpus + support agent
+│       └── evals/                # metrics + ir_runner · hit@k + escalation-accuracy runner
+├── rag_bench_eval/               # retrieval benchmark on labelled IR datasets
+│   ├── benchmark.yaml            # resources, pipelines, sweep list, metrics
+│   ├── results/                  # runs/*.json + comparison tables
+│   └── src/rag_bench_eval/       # datasets, config, resources, caches, evaluator, report, CLI
+└── aws_mlops_support_agent/      # AWS docs corpus + support agent
     └── src/aws_mlops_support_agent/
-        ├── config.yml            # embeddings, llm, vectorstore, splitter, retriever + the awsdocs sources
+        ├── config.yml            # embeddings, llm, vectorstore, splitter, retriever + awsdocs sources
         ├── settings.py           # AgentConfig: Jira vars + DRY_RUN wrapped around RagConfig (cfg.rag)
         ├── sources/              # AwsDocsGitSource — registers `awsdocs_git` with rag_core
         ├── agent/                # LangGraph state machine, Jira tool, ticket builder, AWS prompt
@@ -218,13 +283,14 @@ packages/
 deploy/                           # ECR + ECS Fargate runbooks and task definition
 ```
 
-**The rule that keeps it honest:** dependencies point one way only — project → `rag_core`, never the
-reverse. It's enforced structurally, not by convention: a test parses every `rag_core` module and fails
-the build if one imports a project package, and CI additionally installs `rag-core` *alone* and runs its
-suite with no project package present.
+**The rule that keeps it honest:** dependencies point one way only — app → `rag_core`, never the reverse.
+It's enforced structurally, not by convention: a test parses every `rag_core` module and fails the build
+if one imports an app package, and CI additionally installs `rag-core` *alone* and runs its suite with no
+app package present.
 
-Each package has its own README:
-[`rag_core`](packages/rag_core/README.md) · [`aws_mlops_support_agent`](packages/aws_mlops_support_agent/README.md).
+A reusable technique or metric belongs in `rag_core`; a dataset or experiment workflow belongs in
+`rag_bench_eval`. That is why the IR metrics and the `Retriever` implementations live in the engine while
+BEIR loading and `benchmark.yaml` do not.
 
 ---
 
@@ -237,38 +303,19 @@ Because the engine is corpus-agnostic, most new corpora are **config only** — 
 from rag_core import RagCore
 
 rag = RagCore("config.yaml")
-rag.sync()                                  # reconcile the index against the configured sources
+rag.sync()
 print(rag.query("your question").formatted())
 ```
 
 A corpus obtained some other way (this project's archived-git-history trick, an API, a crawler) needs
 **one adapter**: subclass `rag_core.sources.Source`, implement `list_files()` (and optionally
-`metadata_for()` to attach a citable URL to every chunk), and register it under a `type:` name —
-see [`sources/fetch.py`](packages/aws_mlops_support_agent/src/aws_mlops_support_agent/sources/fetch.py).
+`metadata_for()` to attach a citable URL to every chunk), and register it under a `type:` name — see
+[`sources/fetch.py`](packages/aws_mlops_support_agent/src/aws_mlops_support_agent/sources/fetch.py).
 `RagCore.sync()` then drives it like any built-in source; ingest is content-hash based, so re-runs are
 free for unchanged files.
 
 Optionally pass a domain-specific `system_prompt` to `AnswerGenerator`; the default is corpus-neutral.
-Anything beyond that — an agent, a UI, ticketing — is yours to add, exactly as this project does.
-
----
-
-## Evaluation results
-
-A 15-question eval set (12 in-corpus with expected doc files, 3 off-corpus negatives) measures whether
-retrieval surfaces the right docs (**hit@4**) and whether the agent escalates when it should. Runner:
-`uv run aws-agent-evals` (embedding calls only, no LLM). Full table:
-[`evals/results.md`](packages/aws_mlops_support_agent/src/aws_mlops_support_agent/evals/results.md).
-
-| Metric | Result | Notes |
-|--------|--------|-------|
-| **Hit@4** (in-corpus) | **11 / 12** | Correct doc in the top 4 chunks for all but one question. |
-| **Escalation accuracy** | **12 / 15** | All 3 misses are off-corpus questions the retriever scored too confidently. |
-
-**Honest caveat:** the 3 escalation failures are off-corpus questions (EKS, SageMaker, account
-password) that scored *above* the `0.35` confidence threshold — the current heuristic (top cosine
-score) doesn't cleanly separate "irrelevant but adjacent" AWS topics. Tuning that threshold / adding a
-reranker is a deliberate next step, not a solved problem. Being upfront about this is part of the point.
+Anything beyond that — an agent, a UI, ticketing — is yours to add, exactly as the AWS agent does.
 
 ---
 
@@ -282,11 +329,18 @@ uv run ruff format .     # format
 
 Tests favor small, injectable fakes over mocking the network — the graph accepts stub
 retriever/answerer/Jira functions, so the full interrupt-and-resume flow is tested with no API keys.
-The suites live with their packages (`packages/*/tests/`); one `uv run pytest` from the root runs both.
+Metrics are the deliberate exception to "prefer eval scripts over unit tests": they get real tests
+against hand-computed rankings, because a wrong nDCG would invalidate every number in the benchmark.
 
-> **Known gap:** the agent package's `tests/conftest.py` still builds a `RagConfig` from the pre-migration
-> flat schema, so four of its test modules don't collect until the fixtures are ported to the nested
-> `embeddings` / `llm` / `vectorstore` / `splitter` / `retriever` blocks. `rag_core`'s 142 tests pass.
+The suites live with their packages (`packages/*/tests/`); one `uv run pytest` from the root runs all
+three.
+
+> **Known gap:** the agent package's `tests/conftest.py` imports `ChunkingConfig` / `RetrievalConfig`,
+> which the config migration removed, so `uv run pytest` currently fails at collection for that package —
+> a root-level run stops there rather than reporting the other two suites. Run them directly
+> (`uv run pytest packages/rag_core/tests packages/rag_bench_eval/tests`) until the fixtures are ported
+> to the nested `embeddings` / `llm` / `vectorstore` / `splitter` / `retriever` blocks. Tracked in
+> [Roadmap / status](#roadmap--status).
 
 To reproduce CI's independence check — `rag_core`'s tests passing with **only** the engine installed:
 
@@ -310,14 +364,15 @@ docker build -t aws-mlops-support-agent .          # multi-stage build, non-root
 docker run --env-file .env -p 8501:8501 aws-mlops-support-agent
 ```
 
-The image builds the whole workspace and installs both packages non-editable, so the runtime stage carries
+The image builds the whole workspace and installs the packages non-editable, so the runtime stage carries
 only the venv — including each package's `config.yml`. The container runs the `aws-agent-demo` console
 script, so it never hardcodes a source path.
 
 Full, step-by-step AWS runbooks:
 
 - [`deploy/aws_ecr_setup.md`](deploy/aws_ecr_setup.md) — one-time ECR + GitHub OIDC setup.
-- [`deploy/aws_ecs_setup.md`](deploy/aws_ecs_setup.md) — Secrets Manager, task definition, service, verification, and cost control (scale-to-zero).
+- [`deploy/aws_ecs_setup.md`](deploy/aws_ecs_setup.md) — Secrets Manager, task definition, service,
+  verification, and cost control (scale-to-zero).
 
 Ingestion runs **separately** from serving (locally or as a scheduled job) — the container only serves;
 the corpus already lives in Pinecone.
@@ -326,16 +381,28 @@ the corpus already lives in Pinecone.
 
 ## Roadmap / status
 
-**Status:** feature-complete portfolio demo. `rag_core` has since been rebuilt as a standalone,
-provider-switchable RAG pipeline (multi-provider LLM/embeddings, hash-based incremental ingest, hybrid
-retrieval + reranking) and this agent migrated onto it. Happy path works end to end and is deployed.
+| Package | Status |
+|---|---|
+| `rag_core` | 🟢 **Stable.** Standalone, provider-switchable engine; its own suite passes. |
+| `rag_bench_eval` | 🟢 **Active.** Five retrieval pipelines swept across two BEIR datasets. |
+| `aws_mlops_support_agent` | 🟡 **Catching up.** May be broken by in-flight `rag_core` changes — see below. |
+
+> **⚠️ The AWS agent is mid-migration.** `rag_core` is being extended to support the benchmark — a
+> `Retriever` protocol, new BM25/dense/fusion/rerank implementations, IR metrics, and a rename inside
+> `rerank.py` (`BaseReranker` → `RelevanceScorer`, and so on). The engine's contract is meant to stay
+> additive, but the agent has not yet been re-verified against it end to end, so **treat the agent as
+> untested on this branch** until it is. It will be brought current and this row turns green.
 
 Backlog / next steps:
 
-- Port the agent package's test fixtures to the new nested config schema (see Testing).
-- Prove the seam: add a second project (`scifact_rag`) using only `rag_core` + its own source adapter.
-- Tune the confidence threshold / add a reranker to fix off-corpus escalation (see caveat above).
-- Expand the corpus (Step Functions, Lambda, EventBridge, S3, CloudFormation, IAM).
+- **Re-verify the agent against current `rag_core`** — port the test fixtures to the nested
+  `embeddings` / `llm` / `vectorstore` / `splitter` / `retriever` schema, then run ingest → query →
+  escalate end to end. This is what flips the status to green.
+- Carry the benchmark's winning retrieval shape into the agent's config and verify it on the AWS corpus —
+  where the two datasets already disagree, the AWS numbers decide.
+- HyDE and multi-query pipelines (query expansion via LLM), with per-run LLM-call accounting.
+- Tune the confidence threshold / add reranking to fix off-corpus escalation (see caveat above).
+- Expand the AWS corpus (Step Functions, Lambda, EventBridge, S3, CloudFormation, IAM).
 - Swap Pinecone → OpenSearch Serverless / pgvector for an all-AWS stack.
 - Schedule ingestion via EventBridge; response streaming in the UI.
 
@@ -368,6 +435,15 @@ tickets are always dry-run (logged, not created).
 </details>
 
 <details>
+<summary>A benchmark <code>dense</code> run fails or hangs</summary>
+
+Dense pipelines embed the whole corpus through Ollama — it must be running locally with
+`nomic-embed-text` pulled. The first cross-encoder run additionally downloads its model (~90MB). Corpus
+vectors are cached to disk after the first run, keyed by model plus a corpus hash, so re-runs are fast
+and an edited corpus invalidates the cache rather than silently reusing stale vectors.
+</details>
+
+<details>
 <summary><code>docker --env-file</code> rejects my <code>.env</code></summary>
 
 Docker is stricter than python-dotenv about whitespace in variable *names* (e.g. `LANGSMITH_TRACING =`
@@ -386,11 +462,16 @@ Fine for a demo; not a substitute for current AWS documentation.
 ## License & attribution
 
 - **Code:** [MIT](LICENSE) — free to use, modify, and learn from.
-- **Use of AI for development:** the architecture and task plan were designed by the developer, drafted with Claude, then reviewed and edited by the developer. Tasks are executed with Claude Code (Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>) in plan mode — the developer reviews and edits each plan before execution.
+- **Use of AI for development:** the architecture and task plan were designed by the developer, drafted
+  with Claude, then reviewed and edited by the developer. Tasks are executed with Claude Code in plan
+  mode — the developer reviews and edits each plan before execution.
 - **AWS documentation content:** the ingested docs (AWS CodeBuild & CodePipeline user guides) are
-  © Amazon Web Services, licensed under **[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)**.
-  This repository **does not redistribute** the raw doc text — it is fetched at build time by
-  `aws-agent-ingest` from the public `awsdocs` GitHub repositories (https://github.com/awsdocs). Attribution: *"AWS Documentation,"
-  © Amazon Web Services, Inc., used under CC BY-SA 4.0.*
+  © Amazon Web Services, licensed under
+  **[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)**. This repository **does not
+  redistribute** the raw doc text — it is fetched at build time by `aws-agent-ingest` from the public
+  `awsdocs` GitHub repositories (https://github.com/awsdocs). Attribution: *"AWS Documentation,"*
+  © Amazon Web Services, Inc., used under CC BY-SA 4.0.
+- **Benchmark data:** BEIR/NFCorpus and CQADupStack are CC BY-SA and likewise fetched at run time, never
+  committed.
 
-Built as a demo project — RAG, agentic AI, and MLOps on AWS.
+Built as a demo project — RAG, retrieval evaluation, agentic AI, and MLOps on AWS.
