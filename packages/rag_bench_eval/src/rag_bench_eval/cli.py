@@ -65,7 +65,7 @@ def _run_one(
 
 
 def _cmd_report(args: argparse.Namespace) -> None:
-    path = write_report()
+    path = write_report(dataset=args.dataset)
     print(f"wrote {path}")
 
 
@@ -112,6 +112,9 @@ def main() -> None:
     p_run.set_defaults(func=_cmd_run)
 
     p_report = subparsers.add_parser("report", help="write results/results.md from results/runs/")
+    p_report.add_argument(
+        "--dataset", default="nfcorpus", help="dataset to report on (nfcorpus or cqadupstack_programmers)"
+    )
     p_report.set_defaults(func=_cmd_report)
 
     args = parser.parse_args()

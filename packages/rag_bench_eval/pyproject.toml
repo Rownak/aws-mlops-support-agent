@@ -7,7 +7,6 @@ version = "0.1.0"
 description = "Retrieval benchmark harness for rag-core, evaluated on BEIR/NFCorpus."
 requires-python = ">=3.13, <4.0"
 dependencies = [
-    "rag-core[rerank]",
     # NFCorpus (corpus, queries, qrels) is pulled from the Hugging Face Hub.
     "datasets>=3.0",
     # benchmark.yaml.
@@ -16,12 +15,27 @@ dependencies = [
     "langchain-ollama>=0.3",
 ]
 
+[project.optional-dependencies]
+# Forward to rag-core's reranker choice — pick ONE:
+#   uv sync --extra rerank-cpu
+#   uv sync --extra rerank-cuda
+rerank-cpu = ["rag-core[rerank-cpu]"]
+rerank-cuda = ["rag-core[rerank-cuda]"]
+
 [project.scripts]
 rag-bench-eval = "rag_bench_eval.cli:main"
 
 # rag-core comes from the workspace, not PyPI.
 [tool.uv.sources]
 rag-core = { workspace = true }
+
+[tool.uv]
+conflicts = [
+    [
+        { extra = "rerank-cpu" },
+        { extra = "rerank-cuda" },
+    ],
+]
 
 [build-system]
 requires = ["hatchling"]

@@ -15,6 +15,7 @@ rerankers:
   cross_encoder:
     provider: cross_encoder
     model: cross-encoder/ms-marco-MiniLM-L-6-v2
+    device: cuda  # falls back to cpu automatically if CUDA isn't available
 
 retrieval:
   active: production

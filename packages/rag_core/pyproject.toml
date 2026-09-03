@@ -34,8 +34,12 @@ openai = ["langchain-openai>=1.3.3"]
 google = ["langchain-google-genai>=2.0"]
 # S3 document source.
 s3 = ["boto3>=1.34"]
-# Local cross-encoder reranking.
-rerank = ["sentence-transformers>=3.0"]
+# Local cross-encoder reranking. Pick ONE: CPU (default PyPI wheels) or
+# CUDA (GPU-accelerated, pulled from PyTorch's own index below).
+#   uv sync --extra rerank-cpu
+#   uv sync --extra rerank-cuda
+rerank-cpu = ["sentence-transformers>=3.0", "torch>=2.0"]
+rerank-cuda = ["sentence-transformers>=3.0", "torch>=2.0"]
 # Hosted Cohere reranking.
 cohere = ["cohere>=5.0"]
 # Hybrid (dense + sparse) retrieval.
@@ -51,3 +55,22 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/rag_core"]
+
+[tool.uv]
+# rerank-cpu and rerank-cuda both provide torch — never resolve together.
+conflicts = [
+    [
+        { extra = "rerank-cpu" },
+        { extra = "rerank-cuda" },
+    ],
+]
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cu130", extra = "rerank-cuda" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true

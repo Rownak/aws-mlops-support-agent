@@ -138,10 +138,21 @@ class CrossEncoderScorer(RelevanceScorer):
         if self._model is None:
             from sentence_transformers import CrossEncoder
 
-            logger.info(f"Loading cross-encoder reranker: {self.model_name}")
+            device = self.device
+            if device and device != "cpu":
+                import torch
+
+                if not torch.cuda.is_available():
+                    logger.warning(
+                        f"cross_encoder reranker configured for device={device!r} "
+                        "but CUDA is not available; falling back to cpu"
+                    )
+                    device = "cpu"
+
+            logger.info(f"Loading cross-encoder reranker: {self.model_name} (device={device})")
             kwargs: Dict[str, Any] = {}
-            if self.device:
-                kwargs["device"] = self.device
+            if device:
+                kwargs["device"] = device
             self._model = CrossEncoder(self.model_name, **kwargs)
         return self._model
 

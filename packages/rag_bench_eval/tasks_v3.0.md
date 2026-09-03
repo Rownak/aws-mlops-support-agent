@@ -244,3 +244,64 @@ for the depth it needs, and `min_score` stays on the outermost node only.
 **Dependency:** the cross-encoder needs `sentence-transformers`, an existing
 `rag-core[rerank]` extra — declare it in `rag_bench_eval`, no new package.
 First run downloads the model (~90 MB).
+
+---
+
+## Phases 5–6 — SKIPPED (backlog)
+
+HyDE, MultiQuery and the `llms:` resource map are **deferred, not cancelled**.
+Experiments 1, 2, 5 and 6 plus hybrid already answer the project's question —
+which retrieval technique wins, and at what cost. Query expansion is the one
+family that needs an LLM per query, so skipping it keeps the benchmark
+free to re-run.
+
+Backlog (`design.md` §5, experiments 3–4): `llms:` map, `HyDERetriever`,
+`MultiQueryRetriever`, `llm_cache.py`, and `llm_calls` accounting in the run
+JSON. The `llm_calls` field already exists and stays 0 until then.
+
+---
+
+## Phase 7 — `RagCore._retriever()` cutover: wrap Pinecone behind the protocol
+
+The payoff phase: the winning technique reaches the shipping AWS agent. This is
+the only change in the project that can break it, which is why it comes last —
+the protocol has now carried five retrievers, so this migrates onto something
+proven (`design.md` §6).
+
+**Constraint:** `retrieve()` and `retrieve_scored()` are the agent's contract
+and must keep working unchanged — including `search_type: mmr`, metadata
+`filters`, and `[0,1]`-normalized scores, none of which the benchmark's
+`Retriever` protocol has any notion of. The protocol is additive: it does not
+replace `retrieve.py`.
+
+- [ ] **7.1 `PineconeRetriever`.** New `rag_core/retriever/pinecone.py`
+  implementing the protocol over an existing `PineconeStore` —
+  `search(query, k)` → `SearchResult` with `score_type="cosine"`, `doc_id` from
+  chunk metadata. Read-only: no ingestion, no index lifecycle.
+  *Done when:* a unit test with a stubbed store returns well-formed results.
+
+- [ ] **7.2 `_retriever()` on `RagCore`.** Add alongside `_vectorstore()`,
+  building a protocol retriever from `config.retriever` — a bare
+  `PineconeRetriever`, or that wrapped in `RerankingRetriever`/`RRFRetriever`
+  when configured. `retrieve()`/`retrieve_scored()` keep their current path
+  untouched; this is a new seam, not a replacement.
+  *Done when:* `uv run pytest` is green and the AWS agent's own eval
+  (hit@k + escalation) reproduces its previous numbers exactly.
+
+- [ ] **7.3 Config for composed retrieval.** Let the agent's `config.yml`
+  express the winning pipeline (hybrid and/or reranking) through the existing
+  `retriever:` block. Keep today's flat shape valid — an unset key means
+  today's behaviour, so no existing config changes meaning.
+
+- [ ] **7.4 Verify against the agent's corpus.** Run the AWS agent's eval with
+  the winner enabled vs. disabled and record both. The benchmark says a
+  technique wins on NFCorpus; this checks it also wins on AWS docs, where the
+  corpus is smaller and the queries are longer.
+  *Done when:* both numbers are in `progress.md` — including if the winner
+  does *not* transfer, which is a finding, not a failure.
+
+**Scope guard:** `min_score` stays on the outermost node only, and a reranker's
+logits are not normalized similarities — an existing `min_top_score` tuned for
+cosine will not mean the same thing under reranking (`design.md` §3.2, and
+`retrieve.py`'s own warning). If 7.3 enables reranking by default, re-tune the
+threshold or leave it off.

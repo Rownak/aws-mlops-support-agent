@@ -1,7 +1,7 @@
 {
   "experiment": "bm25",
   "dataset": "cqadupstack_programmers",
-  "timestamp": "2026-09-03T16:59:53.204256+00:00",
+  "timestamp": "2026-09-03T19:20:00.550652+00:00",
   "config": {
     "type": "bm25",
     "k1": 0.9,
@@ -18,7 +18,7 @@
     {
       "query_id": "88392",
       "ndcg@10": 1.0,
-      "latency_ms": 60,
+      "latency_ms": 59,
       "retrieved": [
         "203507",
         "154839",
@@ -35,7 +35,7 @@
     {
       "query_id": "16708",
       "ndcg@10": 0.0,
-      "latency_ms": 78,
+      "latency_ms": 69,
       "retrieved": [
         "71534",
         "99009",
@@ -52,7 +52,7 @@
     {
       "query_id": "88028",
       "ndcg@10": 0.0,
-      "latency_ms": 80,
+      "latency_ms": 68,
       "retrieved": [
         "39174",
         "159151",
@@ -69,7 +69,7 @@
     {
       "query_id": "64671",
       "ndcg@10": 0.3333333333333333,
-      "latency_ms": 119,
+      "latency_ms": 122,
       "retrieved": [
         "146374",
         "132956",
@@ -86,7 +86,7 @@
     {
       "query_id": "23507",
       "ndcg@10": 0.0,
-      "latency_ms": 69,
+      "latency_ms": 73,
       "retrieved": [
         "149698",
         "132378",
@@ -103,7 +103,7 @@
     {
       "query_id": "8544",
       "ndcg@10": 1.0,
-      "latency_ms": 76,
+      "latency_ms": 84,
       "retrieved": [
         "99935",
         "94715",
@@ -120,7 +120,7 @@
     {
       "query_id": "145437",
       "ndcg@10": 0.0,
-      "latency_ms": 110,
+      "latency_ms": 106,
       "retrieved": [
         "254784",
         "185051",
@@ -137,7 +137,7 @@
     {
       "query_id": "164599",
       "ndcg@10": 1.0,
-      "latency_ms": 44,
+      "latency_ms": 43,
       "retrieved": [
         "175824",
         "168264",
@@ -154,7 +154,7 @@
     {
       "query_id": "3747",
       "ndcg@10": 0.08514311764162098,
-      "latency_ms": 88,
+      "latency_ms": 87,
       "retrieved": [
         "68072",
         "205254",
@@ -171,7 +171,7 @@
     {
       "query_id": "210327",
       "ndcg@10": 0.0,
-      "latency_ms": 178,
+      "latency_ms": 189,
       "retrieved": [
         "181864",
         "219158",
@@ -188,7 +188,7 @@
     {
       "query_id": "170138",
       "ndcg@10": 0.0,
-      "latency_ms": 81,
+      "latency_ms": 79,
       "retrieved": [
         "170222",
         "186511",
@@ -205,7 +205,7 @@
     {
       "query_id": "232812",
       "ndcg@10": 0.0,
-      "latency_ms": 71,
+      "latency_ms": 62,
       "retrieved": [
         "58797",
         "16165",
@@ -222,7 +222,7 @@
     {
       "query_id": "109279",
       "ndcg@10": 0.0,
-      "latency_ms": 46,
+      "latency_ms": 43,
       "retrieved": [
         "187715",
         "205305",
@@ -239,7 +239,7 @@
     {
       "query_id": "206816",
       "ndcg@10": 0.0,
-      "latency_ms": 60,
+      "latency_ms": 53,
       "retrieved": [
         "202801",
         "88168",
@@ -256,7 +256,7 @@
     {
       "query_id": "201894",
       "ndcg@10": 0.0,
-      "latency_ms": 51,
+      "latency_ms": 50,
       "retrieved": [
         "107563",
         "180771",
@@ -273,7 +273,7 @@
     {
       "query_id": "131314",
       "ndcg@10": 0.13886244387355454,
-      "latency_ms": 101,
+      "latency_ms": 99,
       "retrieved": [
         "80024",
         "39032",
@@ -290,7 +290,7 @@
     {
       "query_id": "42817",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 42,
+      "latency_ms": 39,
       "retrieved": [
         "149688",
         "155055",
@@ -307,7 +307,7 @@
     {
       "query_id": "204443",
       "ndcg@10": 0.0,
-      "latency_ms": 67,
+      "latency_ms": 60,
       "retrieved": [
         "246753",
         "196416",
@@ -324,7 +324,7 @@
     {
       "query_id": "38566",
       "ndcg@10": 0.6131471927654584,
-      "latency_ms": 102,
+      "latency_ms": 101,
       "retrieved": [
         "96421",
         "129688",
@@ -341,7 +341,7 @@
     {
       "query_id": "236903",
       "ndcg@10": 0.0,
-      "latency_ms": 152,
+      "latency_ms": 140,
       "retrieved": [
         "68251",
         "232885",
@@ -358,7 +358,7 @@
     {
       "query_id": "36175",
       "ndcg@10": 0.0,
-      "latency_ms": 94,
+      "latency_ms": 88,
       "retrieved": [
         "158052",
         "185332",
@@ -375,7 +375,7 @@
     {
       "query_id": "89947",
       "ndcg@10": 0.0,
-      "latency_ms": 105,
+      "latency_ms": 109,
       "retrieved": [
         "246686",
         "173284",
@@ -392,7 +392,7 @@
     {
       "query_id": "41545",
       "ndcg@10": 0.0,
-      "latency_ms": 59,
+      "latency_ms": 61,
       "retrieved": [
         "191033",
         "78270",
@@ -409,7 +409,7 @@
     {
       "query_id": "86656",
       "ndcg@10": 0.2640681225725909,
-      "latency_ms": 64,
+      "latency_ms": 60,
       "retrieved": [
         "223991",
         "247038",
@@ -426,7 +426,7 @@
     {
       "query_id": "89491",
       "ndcg@10": 0.0,
-      "latency_ms": 86,
+      "latency_ms": 82,
       "retrieved": [
         "86722",
         "60595",
@@ -443,7 +443,7 @@
     {
       "query_id": "120628",
       "ndcg@10": 1.0,
-      "latency_ms": 209,
+      "latency_ms": 81,
       "retrieved": [
         "163062",
         "239087",
@@ -460,7 +460,7 @@
     {
       "query_id": "155469",
       "ndcg@10": 0.16716045496620227,
-      "latency_ms": 71,
+      "latency_ms": 69,
       "retrieved": [
         "157555",
         "200572",
@@ -477,7 +477,7 @@
     {
       "query_id": "154593",
       "ndcg@10": 0.0,
-      "latency_ms": 98,
+      "latency_ms": 94,
       "retrieved": [
         "127117",
         "239180",
@@ -494,7 +494,7 @@
     {
       "query_id": "13676",
       "ndcg@10": 1.0,
-      "latency_ms": 112,
+      "latency_ms": 106,
       "retrieved": [
         "53302",
         "180320",
@@ -511,7 +511,7 @@
     {
       "query_id": "199303",
       "ndcg@10": 0.0,
-      "latency_ms": 75,
+      "latency_ms": 76,
       "retrieved": [
         "153410",
         "62817",
@@ -528,7 +528,7 @@
     {
       "query_id": "56848",
       "ndcg@10": 0.0,
-      "latency_ms": 98,
+      "latency_ms": 99,
       "retrieved": [
         "35525",
         "221950",
@@ -545,7 +545,7 @@
     {
       "query_id": "118301",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 90,
+      "latency_ms": 91,
       "retrieved": [
         "129936",
         "122026",
@@ -562,7 +562,7 @@
     {
       "query_id": "161809",
       "ndcg@10": 0.0,
-      "latency_ms": 129,
+      "latency_ms": 132,
       "retrieved": [
         "105012",
         "226229",
@@ -579,7 +579,7 @@
     {
       "query_id": "167890",
       "ndcg@10": 0.0,
-      "latency_ms": 50,
+      "latency_ms": 49,
       "retrieved": [
         "156601",
         "69083",
@@ -596,7 +596,7 @@
     {
       "query_id": "223815",
       "ndcg@10": 1.0,
-      "latency_ms": 60,
+      "latency_ms": 49,
       "retrieved": [
         "223767",
         "115573",
@@ -613,7 +613,7 @@
     {
       "query_id": "21403",
       "ndcg@10": 0.0,
-      "latency_ms": 116,
+      "latency_ms": 112,
       "retrieved": [
         "158687",
         "147487",
@@ -630,7 +630,7 @@
     {
       "query_id": "197251",
       "ndcg@10": 0.0,
-      "latency_ms": 54,
+      "latency_ms": 53,
       "retrieved": [
         "106440",
         "75084",
@@ -664,7 +664,7 @@
     {
       "query_id": "198995",
       "ndcg@10": 0.0,
-      "latency_ms": 60,
+      "latency_ms": 63,
       "retrieved": [
         "37285",
         "112865",
@@ -681,7 +681,7 @@
     {
       "query_id": "115920",
       "ndcg@10": 0.0,
-      "latency_ms": 56,
+      "latency_ms": 53,
       "retrieved": [
         "254077",
         "158195",
@@ -698,7 +698,7 @@
     {
       "query_id": "9944",
       "ndcg@10": 0.30523488393970116,
-      "latency_ms": 90,
+      "latency_ms": 89,
       "retrieved": [
         "3317",
         "83029",
@@ -715,7 +715,7 @@
     {
       "query_id": "9948",
       "ndcg@10": 0.9469024295259745,
-      "latency_ms": 86,
+      "latency_ms": 83,
       "retrieved": [
         "20407",
         "20949",
@@ -732,7 +732,7 @@
     {
       "query_id": "57435",
       "ndcg@10": 0.0,
-      "latency_ms": 63,
+      "latency_ms": 61,
       "retrieved": [
         "49482",
         "54038",
@@ -749,7 +749,7 @@
     {
       "query_id": "223596",
       "ndcg@10": 1.0,
-      "latency_ms": 70,
+      "latency_ms": 67,
       "retrieved": [
         "223624",
         "225968",
@@ -766,7 +766,7 @@
     {
       "query_id": "133872",
       "ndcg@10": 0.3333333333333333,
-      "latency_ms": 31,
+      "latency_ms": 29,
       "retrieved": [
         "14052",
         "98562",
@@ -783,7 +783,7 @@
     {
       "query_id": "4765",
       "ndcg@10": 0.8772153153380493,
-      "latency_ms": 124,
+      "latency_ms": 116,
       "retrieved": [
         "10313",
         "198767",
@@ -800,7 +800,7 @@
     {
       "query_id": "130743",
       "ndcg@10": 0.0,
-      "latency_ms": 74,
+      "latency_ms": 69,
       "retrieved": [
         "127298",
         "84377",
@@ -817,7 +817,7 @@
     {
       "query_id": "202889",
       "ndcg@10": 0.0,
-      "latency_ms": 64,
+      "latency_ms": 58,
       "retrieved": [
         "125503",
         "25670",
@@ -834,7 +834,7 @@
     {
       "query_id": "111003",
       "ndcg@10": 0.4034698846650846,
-      "latency_ms": 62,
+      "latency_ms": 65,
       "retrieved": [
         "55536",
         "103827",
@@ -851,7 +851,7 @@
     {
       "query_id": "254936",
       "ndcg@10": 0.0,
-      "latency_ms": 30,
+      "latency_ms": 28,
       "retrieved": [
         "29665",
         "182070",
@@ -868,7 +868,7 @@
     {
       "query_id": "129603",
       "ndcg@10": 0.22009176629808017,
-      "latency_ms": 95,
+      "latency_ms": 87,
       "retrieved": [
         "136639",
         "79521",
@@ -885,7 +885,7 @@
     {
       "query_id": "161303",
       "ndcg@10": 0.0,
-      "latency_ms": 73,
+      "latency_ms": 74,
       "retrieved": [
         "144594",
         "114397",
@@ -902,7 +902,7 @@
     {
       "query_id": "82286",
       "ndcg@10": 0.0,
-      "latency_ms": 31,
+      "latency_ms": 34,
       "retrieved": [
         "94379",
         "102517",
@@ -919,7 +919,7 @@
     {
       "query_id": "117766",
       "ndcg@10": 0.38685280723454163,
-      "latency_ms": 69,
+      "latency_ms": 65,
       "retrieved": [
         "55032",
         "118404",
@@ -970,7 +970,7 @@
     {
       "query_id": "102518",
       "ndcg@10": 0.0,
-      "latency_ms": 152,
+      "latency_ms": 144,
       "retrieved": [
         "181864",
         "189807",
@@ -987,7 +987,7 @@
     {
       "query_id": "223718",
       "ndcg@10": 0.36005461457723403,
-      "latency_ms": 62,
+      "latency_ms": 59,
       "retrieved": [
         "147214",
         "154500",
@@ -1004,7 +1004,7 @@
     {
       "query_id": "193996",
       "ndcg@10": 0.0,
-      "latency_ms": 87,
+      "latency_ms": 93,
       "retrieved": [
         "50585",
         "10920",
@@ -1021,7 +1021,7 @@
     {
       "query_id": "26642",
       "ndcg@10": 0.0,
-      "latency_ms": 74,
+      "latency_ms": 66,
       "retrieved": [
         "46064",
         "173722",
@@ -1038,7 +1038,7 @@
     {
       "query_id": "92393",
       "ndcg@10": 0.0,
-      "latency_ms": 127,
+      "latency_ms": 120,
       "retrieved": [
         "155055",
         "149688",
@@ -1055,7 +1055,7 @@
     {
       "query_id": "130582",
       "ndcg@10": 0.0,
-      "latency_ms": 51,
+      "latency_ms": 45,
       "retrieved": [
         "65845",
         "237235",
@@ -1072,7 +1072,7 @@
     {
       "query_id": "145055",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 99,
+      "latency_ms": 85,
       "retrieved": [
         "164648",
         "152999",
@@ -1089,7 +1089,7 @@
     {
       "query_id": "192",
       "ndcg@10": 0.0,
-      "latency_ms": 86,
+      "latency_ms": 77,
       "retrieved": [
         "202157",
         "168485",
@@ -1106,7 +1106,7 @@
     {
       "query_id": "147977",
       "ndcg@10": 0.3333333333333333,
-      "latency_ms": 132,
+      "latency_ms": 84,
       "retrieved": [
         "187040",
         "235096",
@@ -1123,7 +1123,7 @@
     {
       "query_id": "40063",
       "ndcg@10": 0.0,
-      "latency_ms": 133,
+      "latency_ms": 95,
       "retrieved": [
         "255615",
         "102205",
@@ -1140,7 +1140,7 @@
     {
       "query_id": "18679",
       "ndcg@10": 0.31546487678572877,
-      "latency_ms": 84,
+      "latency_ms": 67,
       "retrieved": [
         "239045",
         "117364",
@@ -1157,7 +1157,7 @@
     {
       "query_id": "137344",
       "ndcg@10": 0.0,
-      "latency_ms": 124,
+      "latency_ms": 126,
       "retrieved": [
         "214462",
         "192035",
@@ -1191,7 +1191,7 @@
     {
       "query_id": "69242",
       "ndcg@10": 0.11305340175787204,
-      "latency_ms": 82,
+      "latency_ms": 83,
       "retrieved": [
         "34227",
         "35511",
@@ -1225,7 +1225,7 @@
     {
       "query_id": "100095",
       "ndcg@10": 0.0,
-      "latency_ms": 128,
+      "latency_ms": 127,
       "retrieved": [
         "210978",
         "186771",
@@ -1242,7 +1242,7 @@
     {
       "query_id": "210532",
       "ndcg@10": 1.0,
-      "latency_ms": 64,
+      "latency_ms": 68,
       "retrieved": [
         "209967",
         "231870",
@@ -1259,7 +1259,7 @@
     {
       "query_id": "218121",
       "ndcg@10": 0.0,
-      "latency_ms": 39,
+      "latency_ms": 41,
       "retrieved": [
         "144652",
         "58950",
@@ -1276,7 +1276,7 @@
     {
       "query_id": "124533",
       "ndcg@10": 0.0,
-      "latency_ms": 118,
+      "latency_ms": 127,
       "retrieved": [
         "201796",
         "252588",
@@ -1293,7 +1293,7 @@
     {
       "query_id": "253026",
       "ndcg@10": 0.0,
-      "latency_ms": 25,
+      "latency_ms": 29,
       "retrieved": [
         "251603",
         "141046",
@@ -1310,7 +1310,7 @@
     {
       "query_id": "111633",
       "ndcg@10": 0.38685280723454163,
-      "latency_ms": 65,
+      "latency_ms": 64,
       "retrieved": [
         "237579",
         "168049",
@@ -1327,7 +1327,7 @@
     {
       "query_id": "28050",
       "ndcg@10": 0.0,
-      "latency_ms": 29,
+      "latency_ms": 34,
       "retrieved": [
         "228322",
         "161421",
@@ -1344,7 +1344,7 @@
     {
       "query_id": "147185",
       "ndcg@10": 0.13565197343244778,
-      "latency_ms": 83,
+      "latency_ms": 95,
       "retrieved": [
         "245824",
         "59756",
@@ -1361,7 +1361,7 @@
     {
       "query_id": "163752",
       "ndcg@10": 0.0,
-      "latency_ms": 129,
+      "latency_ms": 139,
       "retrieved": [
         "175351",
         "158715",
@@ -1378,7 +1378,7 @@
     {
       "query_id": "220023",
       "ndcg@10": 0.0,
-      "latency_ms": 41,
+      "latency_ms": 39,
       "retrieved": [
         "96770",
         "214855",
@@ -1395,7 +1395,7 @@
     {
       "query_id": "110270",
       "ndcg@10": 0.8065735963827293,
-      "latency_ms": 108,
+      "latency_ms": 118,
       "retrieved": [
         "110274",
         "231812",
@@ -1412,7 +1412,7 @@
     {
       "query_id": "253650",
       "ndcg@10": 0.0,
-      "latency_ms": 96,
+      "latency_ms": 102,
       "retrieved": [
         "207034",
         "54536",
@@ -1429,7 +1429,7 @@
     {
       "query_id": "195719",
       "ndcg@10": 0.3333333333333333,
-      "latency_ms": 60,
+      "latency_ms": 46,
       "retrieved": [
         "108105",
         "88267",
@@ -1446,7 +1446,7 @@
     {
       "query_id": "176471",
       "ndcg@10": 0.0,
-      "latency_ms": 96,
+      "latency_ms": 69,
       "retrieved": [
         "127007",
         "147566",
@@ -1463,7 +1463,7 @@
     {
       "query_id": "51987",
       "ndcg@10": 1.0,
-      "latency_ms": 89,
+      "latency_ms": 88,
       "retrieved": [
         "232245",
         "210341",
@@ -1480,7 +1480,7 @@
     {
       "query_id": "194395",
       "ndcg@10": 0.38685280723454163,
-      "latency_ms": 42,
+      "latency_ms": 51,
       "retrieved": [
         "134738",
         "39798",
@@ -1514,7 +1514,7 @@
     {
       "query_id": "233038",
       "ndcg@10": 0.0,
-      "latency_ms": 108,
+      "latency_ms": 64,
       "retrieved": [
         "224828",
         "45477",
@@ -1531,7 +1531,7 @@
     {
       "query_id": "27410",
       "ndcg@10": 1.0,
-      "latency_ms": 82,
+      "latency_ms": 70,
       "retrieved": [
         "141292",
         "67354",
@@ -1548,7 +1548,7 @@
     {
       "query_id": "115769",
       "ndcg@10": 0.0,
-      "latency_ms": 65,
+      "latency_ms": 64,
       "retrieved": [
         "186368",
         "79169",
@@ -1565,7 +1565,7 @@
     {
       "query_id": "225931",
       "ndcg@10": 1.0,
-      "latency_ms": 51,
+      "latency_ms": 45,
       "retrieved": [
         "242724",
         "19225",
@@ -1582,7 +1582,7 @@
     {
       "query_id": "189426",
       "ndcg@10": 0.18065894665528784,
-      "latency_ms": 87,
+      "latency_ms": 48,
       "retrieved": [
         "62105",
         "221868",
@@ -1599,7 +1599,7 @@
     {
       "query_id": "117852",
       "ndcg@10": 0.0,
-      "latency_ms": 154,
+      "latency_ms": 72,
       "retrieved": [
         "122954",
         "225026",
@@ -1616,7 +1616,7 @@
     {
       "query_id": "61558",
       "ndcg@10": 0.0,
-      "latency_ms": 91,
+      "latency_ms": 72,
       "retrieved": [
         "254239",
         "146053",
@@ -1633,7 +1633,7 @@
     {
       "query_id": "212932",
       "ndcg@10": 0.0,
-      "latency_ms": 157,
+      "latency_ms": 106,
       "retrieved": [
         "49260",
         "53448",
@@ -1650,7 +1650,7 @@
     {
       "query_id": "246532",
       "ndcg@10": 0.0,
-      "latency_ms": 54,
+      "latency_ms": 56,
       "retrieved": [
         "131293",
         "230539",
@@ -1667,7 +1667,7 @@
     {
       "query_id": "81478",
       "ndcg@10": 1.0,
-      "latency_ms": 139,
+      "latency_ms": 134,
       "retrieved": [
         "44623",
         "61678",
@@ -1684,7 +1684,7 @@
     {
       "query_id": "133096",
       "ndcg@10": 1.0,
-      "latency_ms": 196,
+      "latency_ms": 118,
       "retrieved": [
         "134564",
         "247040",
@@ -1701,7 +1701,7 @@
     {
       "query_id": "7126",
       "ndcg@10": 0.0,
-      "latency_ms": 61,
+      "latency_ms": 44,
       "retrieved": [
         "232711",
         "196526",
@@ -1718,7 +1718,7 @@
     {
       "query_id": "219198",
       "ndcg@10": 0.0,
-      "latency_ms": 85,
+      "latency_ms": 82,
       "retrieved": [
         "12318",
         "201029",
@@ -1735,7 +1735,7 @@
     {
       "query_id": "38265",
       "ndcg@10": 0.46927872602275644,
-      "latency_ms": 132,
+      "latency_ms": 115,
       "retrieved": [
         "117179",
         "154448",
@@ -1752,7 +1752,7 @@
     {
       "query_id": "214734",
       "ndcg@10": 0.0,
-      "latency_ms": 54,
+      "latency_ms": 47,
       "retrieved": [
         "168485",
         "128071",
@@ -1769,7 +1769,7 @@
     {
       "query_id": "195416",
       "ndcg@10": 0.0,
-      "latency_ms": 111,
+      "latency_ms": 93,
       "retrieved": [
         "173478",
         "124976",
@@ -1786,7 +1786,7 @@
     {
       "query_id": "153631",
       "ndcg@10": 0.0,
-      "latency_ms": 127,
+      "latency_ms": 108,
       "retrieved": [
         "80891",
         "134357",
@@ -1803,7 +1803,7 @@
     {
       "query_id": "176102",
       "ndcg@10": 0.0,
-      "latency_ms": 61,
+      "latency_ms": 56,
       "retrieved": [
         "184051",
         "127432",
@@ -1820,7 +1820,7 @@
     {
       "query_id": "190955",
       "ndcg@10": 0.43067655807339306,
-      "latency_ms": 56,
+      "latency_ms": 50,
       "retrieved": [
         "246809",
         "255372",
@@ -1837,7 +1837,7 @@
     {
       "query_id": "211610",
       "ndcg@10": 0.6131471927654584,
-      "latency_ms": 55,
+      "latency_ms": 53,
       "retrieved": [
         "178317",
         "157024",
@@ -1854,7 +1854,7 @@
     {
       "query_id": "90217",
       "ndcg@10": 0.0,
-      "latency_ms": 57,
+      "latency_ms": 56,
       "retrieved": [
         "151637",
         "232830",
@@ -1871,7 +1871,7 @@
     {
       "query_id": "20684",
       "ndcg@10": 1.0,
-      "latency_ms": 66,
+      "latency_ms": 61,
       "retrieved": [
         "124831",
         "228895",
@@ -1888,7 +1888,7 @@
     {
       "query_id": "237431",
       "ndcg@10": 0.0,
-      "latency_ms": 78,
+      "latency_ms": 74,
       "retrieved": [
         "137793",
         "221161",
@@ -1905,7 +1905,7 @@
     {
       "query_id": "161711",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 97,
+      "latency_ms": 92,
       "retrieved": [
         "225566",
         "74222",
@@ -1922,7 +1922,7 @@
     {
       "query_id": "29534",
       "ndcg@10": 0.6131471927654584,
-      "latency_ms": 72,
+      "latency_ms": 71,
       "retrieved": [
         "135383",
         "137764",
@@ -1939,7 +1939,7 @@
     {
       "query_id": "50755",
       "ndcg@10": 0.46927872602275644,
-      "latency_ms": 81,
+      "latency_ms": 69,
       "retrieved": [
         "53123",
         "181431",
@@ -1956,7 +1956,7 @@
     {
       "query_id": "221234",
       "ndcg@10": 0.0,
-      "latency_ms": 117,
+      "latency_ms": 108,
       "retrieved": [
         "254046",
         "222820",
@@ -1973,7 +1973,7 @@
     {
       "query_id": "95335",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 94,
+      "latency_ms": 82,
       "retrieved": [
         "29396",
         "95491",
@@ -1990,7 +1990,7 @@
     {
       "query_id": "110595",
       "ndcg@10": 0.13743816645714543,
-      "latency_ms": 69,
+      "latency_ms": 56,
       "retrieved": [
         "129407",
         "157590",
@@ -2007,7 +2007,7 @@
     {
       "query_id": "118108",
       "ndcg@10": 0.0,
-      "latency_ms": 115,
+      "latency_ms": 95,
       "retrieved": [
         "165598",
         "241107",
@@ -2024,7 +2024,7 @@
     {
       "query_id": "141961",
       "ndcg@10": 0.0,
-      "latency_ms": 103,
+      "latency_ms": 97,
       "retrieved": [
         "95720",
         "157013",
@@ -2041,7 +2041,7 @@
     {
       "query_id": "251756",
       "ndcg@10": 0.0,
-      "latency_ms": 119,
+      "latency_ms": 108,
       "retrieved": [
         "188819",
         "221502",
@@ -2058,7 +2058,7 @@
     {
       "query_id": "199698",
       "ndcg@10": 0.3562071871080222,
-      "latency_ms": 123,
+      "latency_ms": 128,
       "retrieved": [
         "150853",
         "104249",
@@ -2075,7 +2075,7 @@
     {
       "query_id": "196876",
       "ndcg@10": 0.0,
-      "latency_ms": 95,
+      "latency_ms": 87,
       "retrieved": [
         "36311",
         "119913",
@@ -2092,7 +2092,7 @@
     {
       "query_id": "37029",
       "ndcg@10": 1.0,
-      "latency_ms": 70,
+      "latency_ms": 63,
       "retrieved": [
         "184412",
         "215687",
@@ -2109,7 +2109,7 @@
     {
       "query_id": "136629",
       "ndcg@10": 0.6131471927654584,
-      "latency_ms": 71,
+      "latency_ms": 69,
       "retrieved": [
         "182267",
         "206031",
@@ -2126,7 +2126,7 @@
     {
       "query_id": "197056",
       "ndcg@10": 0.15642624200758548,
-      "latency_ms": 87,
+      "latency_ms": 86,
       "retrieved": [
         "233053",
         "218925",
@@ -2143,7 +2143,7 @@
     {
       "query_id": "234449",
       "ndcg@10": 0.0,
-      "latency_ms": 58,
+      "latency_ms": 53,
       "retrieved": [
         "211572",
         "173312",
@@ -2160,7 +2160,7 @@
     {
       "query_id": "108395",
       "ndcg@10": 0.2960819109658652,
-      "latency_ms": 70,
+      "latency_ms": 64,
       "retrieved": [
         "80333",
         "96729",
@@ -2177,7 +2177,7 @@
     {
       "query_id": "204521",
       "ndcg@10": 0.0,
-      "latency_ms": 66,
+      "latency_ms": 64,
       "retrieved": [
         "143197",
         "68882",
@@ -2194,7 +2194,7 @@
     {
       "query_id": "237157",
       "ndcg@10": 1.0,
-      "latency_ms": 73,
+      "latency_ms": 76,
       "retrieved": [
         "101157",
         "206651",
@@ -2211,7 +2211,7 @@
     {
       "query_id": "202804",
       "ndcg@10": 0.0,
-      "latency_ms": 49,
+      "latency_ms": 47,
       "retrieved": [
         "178620",
         "161749",
@@ -2228,7 +2228,7 @@
     {
       "query_id": "136908",
       "ndcg@10": 0.0,
-      "latency_ms": 64,
+      "latency_ms": 56,
       "retrieved": [
         "102736",
         "233316",
@@ -2262,7 +2262,7 @@
     {
       "query_id": "9320",
       "ndcg@10": 1.0,
-      "latency_ms": 38,
+      "latency_ms": 40,
       "retrieved": [
         "126410",
         "52623",
@@ -2279,7 +2279,7 @@
     {
       "query_id": "54959",
       "ndcg@10": 0.0,
-      "latency_ms": 111,
+      "latency_ms": 114,
       "retrieved": [
         "124321",
         "145784",
@@ -2296,7 +2296,7 @@
     {
       "query_id": "209857",
       "ndcg@10": 0.0,
-      "latency_ms": 36,
+      "latency_ms": 42,
       "retrieved": [
         "157712",
         "169941",
@@ -2313,7 +2313,7 @@
     {
       "query_id": "54373",
       "ndcg@10": 0.6131471927654584,
-      "latency_ms": 78,
+      "latency_ms": 86,
       "retrieved": [
         "109192",
         "107946",
@@ -2330,7 +2330,7 @@
     {
       "query_id": "89819",
       "ndcg@10": 0.6131471927654584,
-      "latency_ms": 73,
+      "latency_ms": 94,
       "retrieved": [
         "65081",
         "225341",
@@ -2347,7 +2347,7 @@
     {
       "query_id": "61745",
       "ndcg@10": 0.0,
-      "latency_ms": 76,
+      "latency_ms": 106,
       "retrieved": [
         "63942",
         "68631",
@@ -2364,7 +2364,7 @@
     {
       "query_id": "129520",
       "ndcg@10": 1.0,
-      "latency_ms": 62,
+      "latency_ms": 67,
       "retrieved": [
         "141485",
         "219043",
@@ -2381,7 +2381,7 @@
     {
       "query_id": "117403",
       "ndcg@10": 0.0,
-      "latency_ms": 101,
+      "latency_ms": 98,
       "retrieved": [
         "134886",
         "44686",
@@ -2398,7 +2398,7 @@
     {
       "query_id": "220444",
       "ndcg@10": 0.38685280723454163,
-      "latency_ms": 84,
+      "latency_ms": 79,
       "retrieved": [
         "118261",
         "147480",
@@ -2415,7 +2415,7 @@
     {
       "query_id": "105380",
       "ndcg@10": 0.0,
-      "latency_ms": 66,
+      "latency_ms": 55,
       "retrieved": [
         "95720",
         "77296",
@@ -2432,7 +2432,7 @@
     {
       "query_id": "196930",
       "ndcg@10": 1.0,
-      "latency_ms": 56,
+      "latency_ms": 47,
       "retrieved": [
         "194353",
         "185604",
@@ -2449,7 +2449,7 @@
     {
       "query_id": "116730",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 47,
+      "latency_ms": 40,
       "retrieved": [
         "71585",
         "207057",
@@ -2466,7 +2466,7 @@
     {
       "query_id": "18444",
       "ndcg@10": 0.0,
-      "latency_ms": 99,
+      "latency_ms": 92,
       "retrieved": [
         "231812",
         "149659",
@@ -2483,7 +2483,7 @@
     {
       "query_id": "189824",
       "ndcg@10": 0.0,
-      "latency_ms": 115,
+      "latency_ms": 114,
       "retrieved": [
         "229903",
         "164285",
@@ -2500,7 +2500,7 @@
     {
       "query_id": "89944",
       "ndcg@10": 1.0,
-      "latency_ms": 126,
+      "latency_ms": 121,
       "retrieved": [
         "121829",
         "72492",
@@ -2517,7 +2517,7 @@
     {
       "query_id": "228584",
       "ndcg@10": 0.0,
-      "latency_ms": 79,
+      "latency_ms": 80,
       "retrieved": [
         "228326",
         "250124",
@@ -2534,7 +2534,7 @@
     {
       "query_id": "133782",
       "ndcg@10": 0.0,
-      "latency_ms": 91,
+      "latency_ms": 82,
       "retrieved": [
         "215890",
         "88099",
@@ -2551,7 +2551,7 @@
     {
       "query_id": "123834",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 53,
+      "latency_ms": 48,
       "retrieved": [
         "81236",
         "5153",
@@ -2568,7 +2568,7 @@
     {
       "query_id": "10998",
       "ndcg@10": 1.0,
-      "latency_ms": 102,
+      "latency_ms": 84,
       "retrieved": [
         "223634",
         "150254",
@@ -2585,7 +2585,7 @@
     {
       "query_id": "158591",
       "ndcg@10": 0.3010299956639812,
-      "latency_ms": 61,
+      "latency_ms": 55,
       "retrieved": [
         "178356",
         "57442",
@@ -2602,7 +2602,7 @@
     {
       "query_id": "96504",
       "ndcg@10": 1.0,
-      "latency_ms": 128,
+      "latency_ms": 112,
       "retrieved": [
         "136005",
         "140691",
@@ -2619,7 +2619,7 @@
     {
       "query_id": "190542",
       "ndcg@10": 1.0,
-      "latency_ms": 59,
+      "latency_ms": 64,
       "retrieved": [
         "76528",
         "144839",
@@ -2636,7 +2636,7 @@
     {
       "query_id": "215474",
       "ndcg@10": 0.0,
-      "latency_ms": 75,
+      "latency_ms": 88,
       "retrieved": [
         "95667",
         "236894",
@@ -2653,7 +2653,7 @@
     {
       "query_id": "254008",
       "ndcg@10": 0.0,
-      "latency_ms": 107,
+      "latency_ms": 112,
       "retrieved": [
         "225835",
         "37155",
@@ -2670,7 +2670,7 @@
     {
       "query_id": "21397",
       "ndcg@10": 0.8065735963827293,
-      "latency_ms": 79,
+      "latency_ms": 85,
       "retrieved": [
         "134213",
         "196416",
@@ -2687,7 +2687,7 @@
     {
       "query_id": "210637",
       "ndcg@10": 1.0,
-      "latency_ms": 73,
+      "latency_ms": 87,
       "retrieved": [
         "210645",
         "210941",
@@ -2704,7 +2704,7 @@
     {
       "query_id": "210635",
       "ndcg@10": 0.43067655807339306,
-      "latency_ms": 44,
+      "latency_ms": 38,
       "retrieved": [
         "29137",
         "107930",
@@ -2721,7 +2721,7 @@
     {
       "query_id": "193895",
       "ndcg@10": 0.5,
-      "latency_ms": 58,
+      "latency_ms": 62,
       "retrieved": [
         "125151",
         "171745",
@@ -2738,7 +2738,7 @@
     {
       "query_id": "195073",
       "ndcg@10": 0.0,
-      "latency_ms": 57,
+      "latency_ms": 50,
       "retrieved": [
         "160500",
         "210359",
@@ -2755,7 +2755,7 @@
     {
       "query_id": "142612",
       "ndcg@10": 0.0,
-      "latency_ms": 54,
+      "latency_ms": 34,
       "retrieved": [
         "148391",
         "250040",
@@ -2772,7 +2772,7 @@
     {
       "query_id": "194679",
       "ndcg@10": 0.0,
-      "latency_ms": 261,
+      "latency_ms": 147,
       "retrieved": [
         "197675",
         "180488",
@@ -2789,7 +2789,7 @@
     {
       "query_id": "136634",
       "ndcg@10": 0.2350455494144854,
-      "latency_ms": 72,
+      "latency_ms": 78,
       "retrieved": [
         "139821",
         "165272",
@@ -2806,7 +2806,7 @@
     {
       "query_id": "127535",
       "ndcg@10": 0.0,
-      "latency_ms": 105,
+      "latency_ms": 114,
       "retrieved": [
         "149021",
         "33713",
@@ -2823,7 +2823,7 @@
     {
       "query_id": "199803",
       "ndcg@10": 1.0,
-      "latency_ms": 75,
+      "latency_ms": 103,
       "retrieved": [
         "213826",
         "229690",
@@ -2840,7 +2840,7 @@
     {
       "query_id": "221615",
       "ndcg@10": 0.0,
-      "latency_ms": 94,
+      "latency_ms": 106,
       "retrieved": [
         "150348",
         "210725",
@@ -2857,7 +2857,7 @@
     {
       "query_id": "221619",
       "ndcg@10": 0.0,
-      "latency_ms": 84,
+      "latency_ms": 69,
       "retrieved": [
         "112680",
         "161293",
@@ -2874,7 +2874,7 @@
     {
       "query_id": "130335",
       "ndcg@10": 1.0,
-      "latency_ms": 84,
+      "latency_ms": 75,
       "retrieved": [
         "130173",
         "90507",
@@ -2891,7 +2891,7 @@
     {
       "query_id": "70755",
       "ndcg@10": 0.0,
-      "latency_ms": 104,
+      "latency_ms": 161,
       "retrieved": [
         "117192",
         "252782",
@@ -2908,7 +2908,7 @@
     {
       "query_id": "102999",
       "ndcg@10": 1.0,
-      "latency_ms": 116,
+      "latency_ms": 114,
       "retrieved": [
         "123044",
         "186700",
@@ -2925,7 +2925,7 @@
     {
       "query_id": "238057",
       "ndcg@10": 0.0,
-      "latency_ms": 182,
+      "latency_ms": 122,
       "retrieved": [
         "184451",
         "237662",
@@ -2942,7 +2942,7 @@
     {
       "query_id": "230199",
       "ndcg@10": 0.0,
-      "latency_ms": 70,
+      "latency_ms": 67,
       "retrieved": [
         "114170",
         "194961",
@@ -2959,7 +2959,7 @@
     {
       "query_id": "225504",
       "ndcg@10": 0.0,
-      "latency_ms": 98,
+      "latency_ms": 91,
       "retrieved": [
         "214044",
         "203618",
@@ -2976,7 +2976,7 @@
     {
       "query_id": "15004",
       "ndcg@10": 1.0,
-      "latency_ms": 131,
+      "latency_ms": 125,
       "retrieved": [
         "3139",
         "130412",
@@ -2993,7 +2993,7 @@
     {
       "query_id": "239016",
       "ndcg@10": 0.0,
-      "latency_ms": 100,
+      "latency_ms": 113,
       "retrieved": [
         "134421",
         "224424",
@@ -3010,7 +3010,7 @@
     {
       "query_id": "204938",
       "ndcg@10": 0.0,
-      "latency_ms": 81,
+      "latency_ms": 117,
       "retrieved": [
         "232321",
         "72844",
@@ -3027,7 +3027,7 @@
     {
       "query_id": "229657",
       "ndcg@10": 0.4935232796777482,
-      "latency_ms": 100,
+      "latency_ms": 85,
       "retrieved": [
         "167938",
         "233695",
@@ -3044,7 +3044,7 @@
     {
       "query_id": "235645",
       "ndcg@10": 0.0,
-      "latency_ms": 83,
+      "latency_ms": 67,
       "retrieved": [
         "56674",
         "235967",
@@ -3061,7 +3061,7 @@
     {
       "query_id": "140264",
       "ndcg@10": 0.0,
-      "latency_ms": 102,
+      "latency_ms": 83,
       "retrieved": [
         "152716",
         "146685",
@@ -3078,7 +3078,7 @@
     {
       "query_id": "174762",
       "ndcg@10": 0.38685280723454163,
-      "latency_ms": 78,
+      "latency_ms": 64,
       "retrieved": [
         "134028",
         "35323",
@@ -3095,7 +3095,7 @@
     {
       "query_id": "119367",
       "ndcg@10": 0.0,
-      "latency_ms": 76,
+      "latency_ms": 64,
       "retrieved": [
         "206539",
         "140720",
@@ -3112,7 +3112,7 @@
     {
       "query_id": "154339",
       "ndcg@10": 0.0,
-      "latency_ms": 66,
+      "latency_ms": 58,
       "retrieved": [
         "89128",
         "139035",
@@ -3129,7 +3129,7 @@
     {
       "query_id": "17898",
       "ndcg@10": 0.0,
-      "latency_ms": 61,
+      "latency_ms": 58,
       "retrieved": [
         "96882",
         "70196",
@@ -3146,7 +3146,7 @@
     {
       "query_id": "114520",
       "ndcg@10": 0.45390362024822023,
-      "latency_ms": 83,
+      "latency_ms": 71,
       "retrieved": [
         "114727",
         "15828",
@@ -3163,7 +3163,7 @@
     {
       "query_id": "229170",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 45,
+      "latency_ms": 40,
       "retrieved": [
         "153896",
         "149871",
@@ -3180,7 +3180,7 @@
     {
       "query_id": "126965",
       "ndcg@10": 0.0,
-      "latency_ms": 35,
+      "latency_ms": 31,
       "retrieved": [
         "155921",
         "128461",
@@ -3197,7 +3197,7 @@
     {
       "query_id": "163933",
       "ndcg@10": 0.6131471927654584,
-      "latency_ms": 77,
+      "latency_ms": 81,
       "retrieved": [
         "166165",
         "189000",
@@ -3214,7 +3214,7 @@
     {
       "query_id": "215703",
       "ndcg@10": 0.3562071871080222,
-      "latency_ms": 73,
+      "latency_ms": 77,
       "retrieved": [
         "85573",
         "135170",
@@ -3231,7 +3231,7 @@
     {
       "query_id": "166884",
       "ndcg@10": 0.0,
-      "latency_ms": 70,
+      "latency_ms": 90,
       "retrieved": [
         "170740",
         "189126",
@@ -3248,7 +3248,7 @@
     {
       "query_id": "210864",
       "ndcg@10": 0.0,
-      "latency_ms": 153,
+      "latency_ms": 123,
       "retrieved": [
         "246405",
         "500",
@@ -3265,7 +3265,7 @@
     {
       "query_id": "604",
       "ndcg@10": 1.0,
-      "latency_ms": 109,
+      "latency_ms": 89,
       "retrieved": [
         "170573",
         "215265",
@@ -3282,7 +3282,7 @@
     {
       "query_id": "196366",
       "ndcg@10": 0.0,
-      "latency_ms": 54,
+      "latency_ms": 51,
       "retrieved": [
         "107305",
         "151317",
@@ -3316,7 +3316,7 @@
     {
       "query_id": "91976",
       "ndcg@10": 0.0,
-      "latency_ms": 45,
+      "latency_ms": 48,
       "retrieved": [
         "92326",
         "118114",
@@ -3350,7 +3350,7 @@
     {
       "query_id": "73304",
       "ndcg@10": 1.0,
-      "latency_ms": 68,
+      "latency_ms": 73,
       "retrieved": [
         "125414",
         "79433",
@@ -3367,7 +3367,7 @@
     {
       "query_id": "98509",
       "ndcg@10": 0.24630238874073,
-      "latency_ms": 84,
+      "latency_ms": 83,
       "retrieved": [
         "173118",
         "198458",
@@ -3384,7 +3384,7 @@
     {
       "query_id": "224835",
       "ndcg@10": 0.0,
-      "latency_ms": 129,
+      "latency_ms": 114,
       "retrieved": [
         "120244",
         "78819",
@@ -3401,7 +3401,7 @@
     {
       "query_id": "74086",
       "ndcg@10": 0.24630238874073,
-      "latency_ms": 69,
+      "latency_ms": 57,
       "retrieved": [
         "197836",
         "190152",
@@ -3418,7 +3418,7 @@
     {
       "query_id": "25234",
       "ndcg@10": 0.0,
-      "latency_ms": 76,
+      "latency_ms": 65,
       "retrieved": [
         "25385",
         "154301",
@@ -3435,7 +3435,7 @@
     {
       "query_id": "87082",
       "ndcg@10": 0.0,
-      "latency_ms": 85,
+      "latency_ms": 70,
       "retrieved": [
         "116276",
         "110711",
@@ -3452,7 +3452,7 @@
     {
       "query_id": "215727",
       "ndcg@10": 0.0,
-      "latency_ms": 56,
+      "latency_ms": 60,
       "retrieved": [
         "201516",
         "224647",
@@ -3469,7 +3469,7 @@
     {
       "query_id": "86904",
       "ndcg@10": 1.0,
-      "latency_ms": 92,
+      "latency_ms": 88,
       "retrieved": [
         "102353",
         "127934",
@@ -3486,7 +3486,7 @@
     {
       "query_id": "144829",
       "ndcg@10": 0.0,
-      "latency_ms": 63,
+      "latency_ms": 54,
       "retrieved": [
         "160304",
         "35316",
@@ -3503,7 +3503,7 @@
     {
       "query_id": "19842",
       "ndcg@10": 1.0,
-      "latency_ms": 81,
+      "latency_ms": 77,
       "retrieved": [
         "22073",
         "140311",
@@ -3520,7 +3520,7 @@
     {
       "query_id": "236415",
       "ndcg@10": 0.0,
-      "latency_ms": 50,
+      "latency_ms": 47,
       "retrieved": [
         "227983",
         "97478",
@@ -3537,7 +3537,7 @@
     {
       "query_id": "10495",
       "ndcg@10": 1.0,
-      "latency_ms": 100,
+      "latency_ms": 91,
       "retrieved": [
         "132395",
         "3724",
@@ -3554,7 +3554,7 @@
     {
       "query_id": "14975",
       "ndcg@10": 0.0,
-      "latency_ms": 70,
+      "latency_ms": 65,
       "retrieved": [
         "93334",
         "137161",
@@ -3571,7 +3571,7 @@
     {
       "query_id": "18371",
       "ndcg@10": 0.5008655546918773,
-      "latency_ms": 92,
+      "latency_ms": 84,
       "retrieved": [
         "109418",
         "98688",
@@ -3588,7 +3588,7 @@
     {
       "query_id": "114286",
       "ndcg@10": 0.6131471927654584,
-      "latency_ms": 119,
+      "latency_ms": 116,
       "retrieved": [
         "172917",
         "153744",
@@ -3605,7 +3605,7 @@
     {
       "query_id": "32425",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 72,
+      "latency_ms": 77,
       "retrieved": [
         "97985",
         "67295",
@@ -3639,7 +3639,7 @@
     {
       "query_id": "253496",
       "ndcg@10": 0.0,
-      "latency_ms": 73,
+      "latency_ms": 67,
       "retrieved": [
         "191033",
         "139704",
@@ -3656,7 +3656,7 @@
     {
       "query_id": "222464",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 24,
+      "latency_ms": 30,
       "retrieved": [
         "176070",
         "222465",
@@ -3673,7 +3673,7 @@
     {
       "query_id": "193496",
       "ndcg@10": 0.5,
-      "latency_ms": 99,
+      "latency_ms": 107,
       "retrieved": [
         "170803",
         "19427",
@@ -3690,7 +3690,7 @@
     {
       "query_id": "108292",
       "ndcg@10": 0.3562071871080222,
-      "latency_ms": 39,
+      "latency_ms": 54,
       "retrieved": [
         "144070",
         "162118",
@@ -3707,7 +3707,7 @@
     {
       "query_id": "225153",
       "ndcg@10": 1.0,
-      "latency_ms": 143,
+      "latency_ms": 148,
       "retrieved": [
         "225145",
         "235311",
@@ -3724,7 +3724,7 @@
     {
       "query_id": "181780",
       "ndcg@10": 0.46927872602275644,
-      "latency_ms": 92,
+      "latency_ms": 90,
       "retrieved": [
         "183836",
         "152288",
@@ -3741,7 +3741,7 @@
     {
       "query_id": "23313",
       "ndcg@10": 0.6131471927654584,
-      "latency_ms": 26,
+      "latency_ms": 28,
       "retrieved": [
         "175150",
         "143438",
@@ -3758,7 +3758,7 @@
     {
       "query_id": "135701",
       "ndcg@10": 1.0,
-      "latency_ms": 76,
+      "latency_ms": 81,
       "retrieved": [
         "135697",
         "193700",
@@ -3775,7 +3775,7 @@
     {
       "query_id": "99647",
       "ndcg@10": 1.0,
-      "latency_ms": 71,
+      "latency_ms": 69,
       "retrieved": [
         "99487",
         "129702",
@@ -3792,7 +3792,7 @@
     {
       "query_id": "87321",
       "ndcg@10": 1.0,
-      "latency_ms": 101,
+      "latency_ms": 109,
       "retrieved": [
         "129478",
         "198767",
@@ -3809,7 +3809,7 @@
     {
       "query_id": "159666",
       "ndcg@10": 0.0,
-      "latency_ms": 69,
+      "latency_ms": 66,
       "retrieved": [
         "135868",
         "165740",
@@ -3826,7 +3826,7 @@
     {
       "query_id": "208698",
       "ndcg@10": 0.0,
-      "latency_ms": 50,
+      "latency_ms": 41,
       "retrieved": [
         "139915",
         "75039",
@@ -3843,7 +3843,7 @@
     {
       "query_id": "230604",
       "ndcg@10": 0.0,
-      "latency_ms": 175,
+      "latency_ms": 161,
       "retrieved": [
         "230271",
         "82902",
@@ -3860,7 +3860,7 @@
     {
       "query_id": "192037",
       "ndcg@10": 0.0,
-      "latency_ms": 65,
+      "latency_ms": 78,
       "retrieved": [
         "203847",
         "123096",
@@ -3877,7 +3877,7 @@
     {
       "query_id": "254083",
       "ndcg@10": 0.0,
-      "latency_ms": 186,
+      "latency_ms": 167,
       "retrieved": [
         "160561",
         "228722",
@@ -3894,7 +3894,7 @@
     {
       "query_id": "99499",
       "ndcg@10": 1.0,
-      "latency_ms": 36,
+      "latency_ms": 24,
       "retrieved": [
         "131545",
         "200977",
@@ -3911,7 +3911,7 @@
     {
       "query_id": "252595",
       "ndcg@10": 0.38685280723454163,
-      "latency_ms": 50,
+      "latency_ms": 42,
       "retrieved": [
         "74362",
         "136152",
@@ -3928,7 +3928,7 @@
     {
       "query_id": "143127",
       "ndcg@10": 0.0,
-      "latency_ms": 47,
+      "latency_ms": 35,
       "retrieved": [
         "101088",
         "201979",
@@ -3979,7 +3979,7 @@
     {
       "query_id": "21907",
       "ndcg@10": 1.0,
-      "latency_ms": 79,
+      "latency_ms": 69,
       "retrieved": [
         "105089",
         "199209",
@@ -3996,7 +3996,7 @@
     {
       "query_id": "104517",
       "ndcg@10": 0.0,
-      "latency_ms": 86,
+      "latency_ms": 76,
       "retrieved": [
         "116040",
         "113161",
@@ -4013,7 +4013,7 @@
     {
       "query_id": "186377",
       "ndcg@10": 0.0,
-      "latency_ms": 82,
+      "latency_ms": 71,
       "retrieved": [
         "206245",
         "100460",
@@ -4030,7 +4030,7 @@
     {
       "query_id": "54451",
       "ndcg@10": 1.0,
-      "latency_ms": 51,
+      "latency_ms": 37,
       "retrieved": [
         "136860",
         "225258",
@@ -4047,7 +4047,7 @@
     {
       "query_id": "146810",
       "ndcg@10": 0.0,
-      "latency_ms": 28,
+      "latency_ms": 22,
       "retrieved": [
         "74697",
         "188025",
@@ -4064,7 +4064,7 @@
     {
       "query_id": "34173",
       "ndcg@10": 0.0,
-      "latency_ms": 108,
+      "latency_ms": 105,
       "retrieved": [
         "238942",
         "95655",
@@ -4081,7 +4081,7 @@
     {
       "query_id": "232843",
       "ndcg@10": 0.0,
-      "latency_ms": 151,
+      "latency_ms": 142,
       "retrieved": [
         "224778",
         "203635",
@@ -4098,7 +4098,7 @@
     {
       "query_id": "201844",
       "ndcg@10": 0.0,
-      "latency_ms": 126,
+      "latency_ms": 113,
       "retrieved": [
         "55616",
         "195548",
@@ -4115,7 +4115,7 @@
     {
       "query_id": "111846",
       "ndcg@10": 1.0,
-      "latency_ms": 125,
+      "latency_ms": 100,
       "retrieved": [
         "142632",
         "120408",
@@ -4132,7 +4132,7 @@
     {
       "query_id": "236370",
       "ndcg@10": 0.0,
-      "latency_ms": 34,
+      "latency_ms": 30,
       "retrieved": [
         "232013",
         "195076",
@@ -4149,7 +4149,7 @@
     {
       "query_id": "204410",
       "ndcg@10": 0.0,
-      "latency_ms": 182,
+      "latency_ms": 126,
       "retrieved": [
         "34286",
         "106400",
@@ -4166,7 +4166,7 @@
     {
       "query_id": "214784",
       "ndcg@10": 0.6934264036172708,
-      "latency_ms": 59,
+      "latency_ms": 47,
       "retrieved": [
         "214557",
         "214721",
@@ -4183,7 +4183,7 @@
     {
       "query_id": "119466",
       "ndcg@10": 0.38685280723454163,
-      "latency_ms": 64,
+      "latency_ms": 49,
       "retrieved": [
         "100973",
         "55966",
@@ -4200,7 +4200,7 @@
     {
       "query_id": "97446",
       "ndcg@10": 0.5,
-      "latency_ms": 97,
+      "latency_ms": 82,
       "retrieved": [
         "57491",
         "239132",
@@ -4217,7 +4217,7 @@
     {
       "query_id": "195337",
       "ndcg@10": 0.11284514134893527,
-      "latency_ms": 79,
+      "latency_ms": 68,
       "retrieved": [
         "196690",
         "74731",
@@ -4234,7 +4234,7 @@
     {
       "query_id": "53517",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 95,
+      "latency_ms": 77,
       "retrieved": [
         "69955",
         "200930",
@@ -4251,7 +4251,7 @@
     {
       "query_id": "225870",
       "ndcg@10": 0.0,
-      "latency_ms": 62,
+      "latency_ms": 55,
       "retrieved": [
         "128930",
         "234911",
@@ -4268,7 +4268,7 @@
     {
       "query_id": "240612",
       "ndcg@10": 0.0,
-      "latency_ms": 53,
+      "latency_ms": 51,
       "retrieved": [
         "114701",
         "200391",
@@ -4285,7 +4285,7 @@
     {
       "query_id": "142974",
       "ndcg@10": 1.0,
-      "latency_ms": 71,
+      "latency_ms": 70,
       "retrieved": [
         "142970",
         "148113",
@@ -4302,7 +4302,7 @@
     {
       "query_id": "223027",
       "ndcg@10": 0.07945707943276742,
-      "latency_ms": 64,
+      "latency_ms": 59,
       "retrieved": [
         "143292",
         "162331",
@@ -4319,7 +4319,7 @@
     {
       "query_id": "57405",
       "ndcg@10": 0.0,
-      "latency_ms": 143,
+      "latency_ms": 126,
       "retrieved": [
         "33578",
         "139606",
@@ -4336,7 +4336,7 @@
     {
       "query_id": "26030",
       "ndcg@10": 1.0,
-      "latency_ms": 95,
+      "latency_ms": 111,
       "retrieved": [
         "88158",
         "119168",
@@ -4353,7 +4353,7 @@
     {
       "query_id": "250707",
       "ndcg@10": 1.0,
-      "latency_ms": 134,
+      "latency_ms": 164,
       "retrieved": [
         "215874",
         "233833",
@@ -4370,7 +4370,7 @@
     {
       "query_id": "234962",
       "ndcg@10": 0.3903800499921017,
-      "latency_ms": 82,
+      "latency_ms": 80,
       "retrieved": [
         "242889",
         "213669",
@@ -4387,7 +4387,7 @@
     {
       "query_id": "233615",
       "ndcg@10": 0.3065735963827292,
-      "latency_ms": 58,
+      "latency_ms": 55,
       "retrieved": [
         "7566",
         "58661",
@@ -4404,7 +4404,7 @@
     {
       "query_id": "35925",
       "ndcg@10": 0.0,
-      "latency_ms": 151,
+      "latency_ms": 126,
       "retrieved": [
         "207954",
         "244360",
@@ -4421,7 +4421,7 @@
     {
       "query_id": "159089",
       "ndcg@10": 1.0,
-      "latency_ms": 83,
+      "latency_ms": 69,
       "retrieved": [
         "159096",
         "179479",
@@ -4472,7 +4472,7 @@
     {
       "query_id": "179618",
       "ndcg@10": 0.38685280723454163,
-      "latency_ms": 84,
+      "latency_ms": 69,
       "retrieved": [
         "170740",
         "49550",
@@ -4489,7 +4489,7 @@
     {
       "query_id": "80826",
       "ndcg@10": 0.0,
-      "latency_ms": 123,
+      "latency_ms": 65,
       "retrieved": [
         "75016",
         "234645",
@@ -4506,7 +4506,7 @@
     {
       "query_id": "220872",
       "ndcg@10": 0.0,
-      "latency_ms": 93,
+      "latency_ms": 38,
       "retrieved": [
         "108518",
         "251278",
@@ -4523,7 +4523,7 @@
     {
       "query_id": "122233",
       "ndcg@10": 0.0,
-      "latency_ms": 129,
+      "latency_ms": 89,
       "retrieved": [
         "193332",
         "80318",
@@ -4540,7 +4540,7 @@
     {
       "query_id": "238325",
       "ndcg@10": 0.0,
-      "latency_ms": 153,
+      "latency_ms": 91,
       "retrieved": [
         "143754",
         "240281",
@@ -4557,7 +4557,7 @@
     {
       "query_id": "110788",
       "ndcg@10": 0.0,
-      "latency_ms": 120,
+      "latency_ms": 61,
       "retrieved": [
         "146098",
         "183807",
@@ -4574,7 +4574,7 @@
     {
       "query_id": "118558",
       "ndcg@10": 0.0,
-      "latency_ms": 119,
+      "latency_ms": 59,
       "retrieved": [
         "213118",
         "139912",
@@ -4591,7 +4591,7 @@
     {
       "query_id": "111788",
       "ndcg@10": 0.0,
-      "latency_ms": 238,
+      "latency_ms": 111,
       "retrieved": [
         "178423",
         "96103",
@@ -4608,7 +4608,7 @@
     {
       "query_id": "193415",
       "ndcg@10": 0.0,
-      "latency_ms": 122,
+      "latency_ms": 72,
       "retrieved": [
         "59870",
         "236780",
@@ -4625,7 +4625,7 @@
     {
       "query_id": "206754",
       "ndcg@10": 0.0,
-      "latency_ms": 194,
+      "latency_ms": 114,
       "retrieved": [
         "127071",
         "224798",
@@ -4642,7 +4642,7 @@
     {
       "query_id": "206755",
       "ndcg@10": 0.3391602052736161,
-      "latency_ms": 37,
+      "latency_ms": 30,
       "retrieved": [
         "20950",
         "47125",
@@ -4659,7 +4659,7 @@
     {
       "query_id": "57243",
       "ndcg@10": 1.0,
-      "latency_ms": 55,
+      "latency_ms": 57,
       "retrieved": [
         "158936",
         "184510",
@@ -4676,7 +4676,7 @@
     {
       "query_id": "158359",
       "ndcg@10": 0.6131471927654584,
-      "latency_ms": 87,
+      "latency_ms": 90,
       "retrieved": [
         "166171",
         "72409",
@@ -4693,7 +4693,7 @@
     {
       "query_id": "150633",
       "ndcg@10": 0.0,
-      "latency_ms": 28,
+      "latency_ms": 29,
       "retrieved": [
         "196689",
         "242724",
@@ -4710,7 +4710,7 @@
     {
       "query_id": "153581",
       "ndcg@10": 0.0,
-      "latency_ms": 54,
+      "latency_ms": 48,
       "retrieved": [
         "145605",
         "252433",
@@ -4727,7 +4727,7 @@
     {
       "query_id": "167277",
       "ndcg@10": 0.0,
-      "latency_ms": 137,
+      "latency_ms": 121,
       "retrieved": [
         "236717",
         "80054",
@@ -4744,7 +4744,7 @@
     {
       "query_id": "81705",
       "ndcg@10": 0.0,
-      "latency_ms": 57,
+      "latency_ms": 49,
       "retrieved": [
         "193565",
         "105912",
@@ -4761,7 +4761,7 @@
     {
       "query_id": "152678",
       "ndcg@10": 0.0,
-      "latency_ms": 62,
+      "latency_ms": 54,
       "retrieved": [
         "142450",
         "205845",
@@ -4778,7 +4778,7 @@
     {
       "query_id": "222362",
       "ndcg@10": 0.0,
-      "latency_ms": 172,
+      "latency_ms": 165,
       "retrieved": [
         "229722",
         "211208",
@@ -4795,7 +4795,7 @@
     {
       "query_id": "61798",
       "ndcg@10": 0.0,
-      "latency_ms": 60,
+      "latency_ms": 57,
       "retrieved": [
         "177916",
         "169830",
@@ -4812,7 +4812,7 @@
     {
       "query_id": "227720",
       "ndcg@10": 0.0,
-      "latency_ms": 70,
+      "latency_ms": 69,
       "retrieved": [
         "38661",
         "205936",
@@ -4829,7 +4829,7 @@
     {
       "query_id": "223250",
       "ndcg@10": 0.0,
-      "latency_ms": 101,
+      "latency_ms": 81,
       "retrieved": [
         "93208",
         "161774",
@@ -4846,7 +4846,7 @@
     {
       "query_id": "15829",
       "ndcg@10": 0.0,
-      "latency_ms": 100,
+      "latency_ms": 90,
       "retrieved": [
         "200320",
         "175666",
@@ -4863,7 +4863,7 @@
     {
       "query_id": "79624",
       "ndcg@10": 0.0,
-      "latency_ms": 145,
+      "latency_ms": 123,
       "retrieved": [
         "125180",
         "34828",
@@ -4880,7 +4880,7 @@
     {
       "query_id": "45378",
       "ndcg@10": 0.4441228664487979,
-      "latency_ms": 78,
+      "latency_ms": 57,
       "retrieved": [
         "14297",
         "53669",
@@ -4897,7 +4897,7 @@
     {
       "query_id": "119814",
       "ndcg@10": 1.0,
-      "latency_ms": 65,
+      "latency_ms": 52,
       "retrieved": [
         "188154",
         "161928",
@@ -4914,7 +4914,7 @@
     {
       "query_id": "43796",
       "ndcg@10": 1.0,
-      "latency_ms": 129,
+      "latency_ms": 106,
       "retrieved": [
         "181933",
         "119872",
@@ -4931,7 +4931,7 @@
     {
       "query_id": "14831",
       "ndcg@10": 0.0,
-      "latency_ms": 71,
+      "latency_ms": 62,
       "retrieved": [
         "119668",
         "109297",
@@ -4948,7 +4948,7 @@
     {
       "query_id": "175561",
       "ndcg@10": 0.0,
-      "latency_ms": 66,
+      "latency_ms": 58,
       "retrieved": [
         "247458",
         "85289",
@@ -4965,7 +4965,7 @@
     {
       "query_id": "67960",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 98,
+      "latency_ms": 75,
       "retrieved": [
         "128428",
         "106909",
@@ -4982,7 +4982,7 @@
     {
       "query_id": "199838",
       "ndcg@10": 0.31546487678572877,
-      "latency_ms": 134,
+      "latency_ms": 128,
       "retrieved": [
         "252730",
         "232049",
@@ -4999,7 +4999,7 @@
     {
       "query_id": "154954",
       "ndcg@10": 0.0,
-      "latency_ms": 101,
+      "latency_ms": 90,
       "retrieved": [
         "214557",
         "205739",
@@ -5016,7 +5016,7 @@
     {
       "query_id": "165668",
       "ndcg@10": 0.0,
-      "latency_ms": 54,
+      "latency_ms": 49,
       "retrieved": [
         "97353",
         "253325",
@@ -5033,7 +5033,7 @@
     {
       "query_id": "222508",
       "ndcg@10": 0.0,
-      "latency_ms": 112,
+      "latency_ms": 105,
       "retrieved": [
         "81624",
         "94351",
@@ -5050,7 +5050,7 @@
     {
       "query_id": "210049",
       "ndcg@10": 0.0,
-      "latency_ms": 88,
+      "latency_ms": 89,
       "retrieved": [
         "153248",
         "214061",
@@ -5067,7 +5067,7 @@
     {
       "query_id": "166314",
       "ndcg@10": 0.0,
-      "latency_ms": 82,
+      "latency_ms": 69,
       "retrieved": [
         "117015",
         "199224",
@@ -5084,7 +5084,7 @@
     {
       "query_id": "52158",
       "ndcg@10": 0.0,
-      "latency_ms": 89,
+      "latency_ms": 76,
       "retrieved": [
         "127080",
         "135642",
@@ -5101,7 +5101,7 @@
     {
       "query_id": "169962",
       "ndcg@10": 1.0,
-      "latency_ms": 58,
+      "latency_ms": 52,
       "retrieved": [
         "180371",
         "17606",
@@ -5118,7 +5118,7 @@
     {
       "query_id": "189983",
       "ndcg@10": 0.0,
-      "latency_ms": 47,
+      "latency_ms": 50,
       "retrieved": [
         "121313",
         "250357",
@@ -5135,7 +5135,7 @@
     {
       "query_id": "190649",
       "ndcg@10": 0.0,
-      "latency_ms": 85,
+      "latency_ms": 89,
       "retrieved": [
         "75143",
         "189830",
@@ -5152,7 +5152,7 @@
     {
       "query_id": "145722",
       "ndcg@10": 0.0,
-      "latency_ms": 44,
+      "latency_ms": 45,
       "retrieved": [
         "97333",
         "162587",
@@ -5169,7 +5169,7 @@
     {
       "query_id": "246568",
       "ndcg@10": 0.2640681225725909,
-      "latency_ms": 61,
+      "latency_ms": 52,
       "retrieved": [
         "102778",
         "224161",
@@ -5186,7 +5186,7 @@
     {
       "query_id": "235283",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 107,
+      "latency_ms": 103,
       "retrieved": [
         "236060",
         "235361",
@@ -5203,7 +5203,7 @@
     {
       "query_id": "133664",
       "ndcg@10": 1.0,
-      "latency_ms": 59,
+      "latency_ms": 61,
       "retrieved": [
         "135873",
         "186398",
@@ -5237,7 +5237,7 @@
     {
       "query_id": "37677",
       "ndcg@10": 0.0,
-      "latency_ms": 66,
+      "latency_ms": 58,
       "retrieved": [
         "151317",
         "152668",
@@ -5254,7 +5254,7 @@
     {
       "query_id": "208867",
       "ndcg@10": 0.0,
-      "latency_ms": 64,
+      "latency_ms": 53,
       "retrieved": [
         "138639",
         "211708",
@@ -5271,7 +5271,7 @@
     {
       "query_id": "191759",
       "ndcg@10": 0.0,
-      "latency_ms": 60,
+      "latency_ms": 47,
       "retrieved": [
         "81937",
         "204455",
@@ -5288,7 +5288,7 @@
     {
       "query_id": "95465",
       "ndcg@10": 0.2890648263178879,
-      "latency_ms": 51,
+      "latency_ms": 42,
       "retrieved": [
         "85556",
         "125576",
@@ -5305,7 +5305,7 @@
     {
       "query_id": "1319",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 106,
+      "latency_ms": 94,
       "retrieved": [
         "7861",
         "85573",
@@ -5322,7 +5322,7 @@
     {
       "query_id": "114629",
       "ndcg@10": 0.0,
-      "latency_ms": 76,
+      "latency_ms": 70,
       "retrieved": [
         "103123",
         "193756",
@@ -5339,7 +5339,7 @@
     {
       "query_id": "103471",
       "ndcg@10": 0.43067655807339306,
-      "latency_ms": 58,
+      "latency_ms": 57,
       "retrieved": [
         "121147",
         "184654",
@@ -5356,7 +5356,7 @@
     {
       "query_id": "237577",
       "ndcg@10": 0.38685280723454163,
-      "latency_ms": 103,
+      "latency_ms": 106,
       "retrieved": [
         "156417",
         "180184",
@@ -5373,7 +5373,7 @@
     {
       "query_id": "116148",
       "ndcg@10": 0.0,
-      "latency_ms": 125,
+      "latency_ms": 114,
       "retrieved": [
         "114424",
         "73080",
@@ -5390,7 +5390,7 @@
     {
       "query_id": "138396",
       "ndcg@10": 0.20438239758848611,
-      "latency_ms": 57,
+      "latency_ms": 48,
       "retrieved": [
         "153164",
         "158639",
@@ -5407,7 +5407,7 @@
     {
       "query_id": "246066",
       "ndcg@10": 0.0,
-      "latency_ms": 57,
+      "latency_ms": 51,
       "retrieved": [
         "193537",
         "188150",
@@ -5424,7 +5424,7 @@
     {
       "query_id": "120488",
       "ndcg@10": 1.0,
-      "latency_ms": 61,
+      "latency_ms": 54,
       "retrieved": [
         "119470",
         "124629",
@@ -5458,7 +5458,7 @@
     {
       "query_id": "940",
       "ndcg@10": 0.0,
-      "latency_ms": 62,
+      "latency_ms": 58,
       "retrieved": [
         "87437",
         "167185",
@@ -5492,7 +5492,7 @@
     {
       "query_id": "95637",
       "ndcg@10": 0.0,
-      "latency_ms": 124,
+      "latency_ms": 102,
       "retrieved": [
         "203148",
         "204831",
@@ -5509,7 +5509,7 @@
     {
       "query_id": "160628",
       "ndcg@10": 0.38685280723454163,
-      "latency_ms": 25,
+      "latency_ms": 26,
       "retrieved": [
         "138579",
         "133952",
@@ -5526,7 +5526,7 @@
     {
       "query_id": "196990",
       "ndcg@10": 0.0,
-      "latency_ms": 48,
+      "latency_ms": 41,
       "retrieved": [
         "235049",
         "234860",
@@ -5543,7 +5543,7 @@
     {
       "query_id": "247103",
       "ndcg@10": 0.24630238874073,
-      "latency_ms": 71,
+      "latency_ms": 66,
       "retrieved": [
         "171483",
         "59713",
@@ -5560,7 +5560,7 @@
     {
       "query_id": "113209",
       "ndcg@10": 0.4632423659320675,
-      "latency_ms": 42,
+      "latency_ms": 37,
       "retrieved": [
         "124900",
         "108546",
@@ -5577,7 +5577,7 @@
     {
       "query_id": "164665",
       "ndcg@10": 0.6131471927654584,
-      "latency_ms": 65,
+      "latency_ms": 64,
       "retrieved": [
         "166640",
         "126394",
@@ -5594,7 +5594,7 @@
     {
       "query_id": "136449",
       "ndcg@10": 0.0,
-      "latency_ms": 39,
+      "latency_ms": 38,
       "retrieved": [
         "246397",
         "177685",
@@ -5611,7 +5611,7 @@
     {
       "query_id": "170966",
       "ndcg@10": 0.0,
-      "latency_ms": 56,
+      "latency_ms": 55,
       "retrieved": [
         "251185",
         "251464",
@@ -5628,7 +5628,7 @@
     {
       "query_id": "254339",
       "ndcg@10": 0.0,
-      "latency_ms": 82,
+      "latency_ms": 72,
       "retrieved": [
         "229691",
         "129075",
@@ -5645,7 +5645,7 @@
     {
       "query_id": "179554",
       "ndcg@10": 0.2890648263178879,
-      "latency_ms": 84,
+      "latency_ms": 82,
       "retrieved": [
         "179199",
         "106477",
@@ -5679,7 +5679,7 @@
     {
       "query_id": "175309",
       "ndcg@10": 0.0,
-      "latency_ms": 122,
+      "latency_ms": 129,
       "retrieved": [
         "70647",
         "238767",
@@ -5696,7 +5696,7 @@
     {
       "query_id": "111663",
       "ndcg@10": 1.0,
-      "latency_ms": 61,
+      "latency_ms": 57,
       "retrieved": [
         "49",
         "55104",
@@ -5713,7 +5713,7 @@
     {
       "query_id": "119513",
       "ndcg@10": 1.0,
-      "latency_ms": 48,
+      "latency_ms": 53,
       "retrieved": [
         "144385",
         "41990",
@@ -5730,7 +5730,7 @@
     {
       "query_id": "211319",
       "ndcg@10": 0.38685280723454163,
-      "latency_ms": 49,
+      "latency_ms": 64,
       "retrieved": [
         "47678",
         "175504",
@@ -5747,7 +5747,7 @@
     {
       "query_id": "94024",
       "ndcg@10": 0.0,
-      "latency_ms": 40,
+      "latency_ms": 44,
       "retrieved": [
         "161823",
         "50460",
@@ -5764,7 +5764,7 @@
     {
       "query_id": "191191",
       "ndcg@10": 0.0,
-      "latency_ms": 94,
+      "latency_ms": 103,
       "retrieved": [
         "250334",
         "194275",
@@ -5781,7 +5781,7 @@
     {
       "query_id": "220890",
       "ndcg@10": 0.0,
-      "latency_ms": 51,
+      "latency_ms": 57,
       "retrieved": [
         "244623",
         "219158",
@@ -5798,7 +5798,7 @@
     {
       "query_id": "20653",
       "ndcg@10": 1.0,
-      "latency_ms": 172,
+      "latency_ms": 153,
       "retrieved": [
         "19987",
         "37317",
@@ -5815,7 +5815,7 @@
     {
       "query_id": "147273",
       "ndcg@10": 0.0,
-      "latency_ms": 77,
+      "latency_ms": 65,
       "retrieved": [
         "105840",
         "149353",
@@ -5832,7 +5832,7 @@
     {
       "query_id": "92465",
       "ndcg@10": 0.0,
-      "latency_ms": 108,
+      "latency_ms": 95,
       "retrieved": [
         "213874",
         "228745",
@@ -5849,7 +5849,7 @@
     {
       "query_id": "194646",
       "ndcg@10": 0.0,
-      "latency_ms": 103,
+      "latency_ms": 99,
       "retrieved": [
         "167687",
         "237667",
@@ -5866,7 +5866,7 @@
     {
       "query_id": "228848",
       "ndcg@10": 0.0,
-      "latency_ms": 97,
+      "latency_ms": 85,
       "retrieved": [
         "173011",
         "210673",
@@ -5883,7 +5883,7 @@
     {
       "query_id": "205638",
       "ndcg@10": 0.0,
-      "latency_ms": 56,
+      "latency_ms": 51,
       "retrieved": [
         "143734",
         "131397",
@@ -5900,7 +5900,7 @@
     {
       "query_id": "203776",
       "ndcg@10": 0.0,
-      "latency_ms": 63,
+      "latency_ms": 50,
       "retrieved": [
         "107976",
         "69869",
@@ -5917,7 +5917,7 @@
     {
       "query_id": "178916",
       "ndcg@10": 0.0,
-      "latency_ms": 140,
+      "latency_ms": 125,
       "retrieved": [
         "233022",
         "237160",
@@ -5934,7 +5934,7 @@
     {
       "query_id": "230250",
       "ndcg@10": 0.0,
-      "latency_ms": 44,
+      "latency_ms": 41,
       "retrieved": [
         "40285",
         "148405",
@@ -5951,7 +5951,7 @@
     {
       "query_id": "233503",
       "ndcg@10": 0.0,
-      "latency_ms": 53,
+      "latency_ms": 57,
       "retrieved": [
         "79648",
         "7618",
@@ -5968,7 +5968,7 @@
     {
       "query_id": "76182",
       "ndcg@10": 0.0,
-      "latency_ms": 76,
+      "latency_ms": 78,
       "retrieved": [
         "175644",
         "255365",
@@ -5985,7 +5985,7 @@
     {
       "query_id": "213173",
       "ndcg@10": 0.5,
-      "latency_ms": 124,
+      "latency_ms": 126,
       "retrieved": [
         "189202",
         "190424",
@@ -6002,7 +6002,7 @@
     {
       "query_id": "57576",
       "ndcg@10": 0.5,
-      "latency_ms": 28,
+      "latency_ms": 21,
       "retrieved": [
         "230331",
         "61296",
@@ -6019,7 +6019,7 @@
     {
       "query_id": "154679",
       "ndcg@10": 0.0,
-      "latency_ms": 44,
+      "latency_ms": 37,
       "retrieved": [
         "81907",
         "87437",
@@ -6036,7 +6036,7 @@
     {
       "query_id": "234820",
       "ndcg@10": 0.09546043308946735,
-      "latency_ms": 59,
+      "latency_ms": 51,
       "retrieved": [
         "225837",
         "229642",
@@ -6053,7 +6053,7 @@
     {
       "query_id": "162583",
       "ndcg@10": 0.31546487678572877,
-      "latency_ms": 76,
+      "latency_ms": 65,
       "retrieved": [
         "180676",
         "47678",
@@ -6070,7 +6070,7 @@
     {
       "query_id": "255912",
       "ndcg@10": 0.3333333333333333,
-      "latency_ms": 110,
+      "latency_ms": 99,
       "retrieved": [
         "218866",
         "207234",
@@ -6087,7 +6087,7 @@
     {
       "query_id": "39378",
       "ndcg@10": 0.0,
-      "latency_ms": 59,
+      "latency_ms": 51,
       "retrieved": [
         "205731",
         "154206",
@@ -6104,7 +6104,7 @@
     {
       "query_id": "95363",
       "ndcg@10": 1.0,
-      "latency_ms": 89,
+      "latency_ms": 72,
       "retrieved": [
         "92385",
         "95976",
@@ -6121,7 +6121,7 @@
     {
       "query_id": "19558",
       "ndcg@10": 0.09162544430476362,
-      "latency_ms": 45,
+      "latency_ms": 40,
       "retrieved": [
         "143795",
         "97124",
@@ -6155,7 +6155,7 @@
     {
       "query_id": "142292",
       "ndcg@10": 0.0,
-      "latency_ms": 137,
+      "latency_ms": 139,
       "retrieved": [
         "198767",
         "33968",
@@ -6172,7 +6172,7 @@
     {
       "query_id": "111802",
       "ndcg@10": 0.20210734650054757,
-      "latency_ms": 109,
+      "latency_ms": 101,
       "retrieved": [
         "38590",
         "45492",
@@ -6189,7 +6189,7 @@
     {
       "query_id": "156771",
       "ndcg@10": 0.0,
-      "latency_ms": 77,
+      "latency_ms": 72,
       "retrieved": [
         "119353",
         "158768",
@@ -6206,7 +6206,7 @@
     {
       "query_id": "196356",
       "ndcg@10": 0.0,
-      "latency_ms": 53,
+      "latency_ms": 49,
       "retrieved": [
         "161265",
         "228126",
@@ -6223,7 +6223,7 @@
     {
       "query_id": "180012",
       "ndcg@10": 0.0,
-      "latency_ms": 122,
+      "latency_ms": 107,
       "retrieved": [
         "219590",
         "198358",
@@ -6240,7 +6240,7 @@
     {
       "query_id": "233981",
       "ndcg@10": 0.0,
-      "latency_ms": 65,
+      "latency_ms": 68,
       "retrieved": [
         "233968",
         "185886",
@@ -6257,7 +6257,7 @@
     {
       "query_id": "32617",
       "ndcg@10": 1.0,
-      "latency_ms": 82,
+      "latency_ms": 101,
       "retrieved": [
         "96809",
         "227756",
@@ -6274,7 +6274,7 @@
     {
       "query_id": "200360",
       "ndcg@10": 0.0,
-      "latency_ms": 76,
+      "latency_ms": 79,
       "retrieved": [
         "201781",
         "161336",
@@ -6291,7 +6291,7 @@
     {
       "query_id": "204840",
       "ndcg@10": 0.0,
-      "latency_ms": 69,
+      "latency_ms": 71,
       "retrieved": [
         "79068",
         "103558",
@@ -6308,7 +6308,7 @@
     {
       "query_id": "138642",
       "ndcg@10": 0.0,
-      "latency_ms": 115,
+      "latency_ms": 114,
       "retrieved": [
         "184783",
         "236635",
@@ -6325,7 +6325,7 @@
     {
       "query_id": "138643",
       "ndcg@10": 0.21840743681816419,
-      "latency_ms": 98,
+      "latency_ms": 94,
       "retrieved": [
         "253635",
         "24159",
@@ -6342,7 +6342,7 @@
     {
       "query_id": "128548",
       "ndcg@10": 0.0,
-      "latency_ms": 52,
+      "latency_ms": 56,
       "retrieved": [
         "244371",
         "132021",
@@ -6359,7 +6359,7 @@
     {
       "query_id": "125715",
       "ndcg@10": 0.0,
-      "latency_ms": 72,
+      "latency_ms": 112,
       "retrieved": [
         "229191",
         "179817",
@@ -6376,7 +6376,7 @@
     {
       "query_id": "246354",
       "ndcg@10": 0.0,
-      "latency_ms": 86,
+      "latency_ms": 91,
       "retrieved": [
         "205557",
         "155158",
@@ -6393,7 +6393,7 @@
     {
       "query_id": "84638",
       "ndcg@10": 0.0,
-      "latency_ms": 64,
+      "latency_ms": 77,
       "retrieved": [
         "204455",
         "74697",
@@ -6410,7 +6410,7 @@
     {
       "query_id": "236853",
       "ndcg@10": 0.0,
-      "latency_ms": 74,
+      "latency_ms": 88,
       "retrieved": [
         "238162",
         "245305",
@@ -6427,7 +6427,7 @@
     {
       "query_id": "163822",
       "ndcg@10": 0.0,
-      "latency_ms": 49,
+      "latency_ms": 55,
       "retrieved": [
         "39680",
         "186344",
@@ -6444,7 +6444,7 @@
     {
       "query_id": "123456",
       "ndcg@10": 0.3562071871080222,
-      "latency_ms": 116,
+      "latency_ms": 149,
       "retrieved": [
         "124321",
         "45681",
@@ -6461,7 +6461,7 @@
     {
       "query_id": "202273",
       "ndcg@10": 1.0,
-      "latency_ms": 67,
+      "latency_ms": 85,
       "retrieved": [
         "99389",
         "111932",
@@ -6478,7 +6478,7 @@
     {
       "query_id": "226233",
       "ndcg@10": 1.0,
-      "latency_ms": 91,
+      "latency_ms": 115,
       "retrieved": [
         "205925",
         "148405",
@@ -6495,7 +6495,7 @@
     {
       "query_id": "171701",
       "ndcg@10": 0.0,
-      "latency_ms": 66,
+      "latency_ms": 68,
       "retrieved": [
         "69869",
         "102689",
@@ -6512,7 +6512,7 @@
     {
       "query_id": "238546",
       "ndcg@10": 0.0,
-      "latency_ms": 102,
+      "latency_ms": 128,
       "retrieved": [
         "222303",
         "98836",
@@ -6529,7 +6529,7 @@
     {
       "query_id": "251707",
       "ndcg@10": 0.0,
-      "latency_ms": 62,
+      "latency_ms": 78,
       "retrieved": [
         "229108",
         "99163",
@@ -6546,7 +6546,7 @@
     {
       "query_id": "152094",
       "ndcg@10": 0.0,
-      "latency_ms": 43,
+      "latency_ms": 61,
       "retrieved": [
         "241033",
         "252694",
@@ -6563,7 +6563,7 @@
     {
       "query_id": "211477",
       "ndcg@10": 0.0,
-      "latency_ms": 47,
+      "latency_ms": 64,
       "retrieved": [
         "166409",
         "22249",
@@ -6580,7 +6580,7 @@
     {
       "query_id": "164799",
       "ndcg@10": 0.0,
-      "latency_ms": 26,
+      "latency_ms": 33,
       "retrieved": [
         "31550",
         "214342",
@@ -6597,7 +6597,7 @@
     {
       "query_id": "143722",
       "ndcg@10": 1.0,
-      "latency_ms": 97,
+      "latency_ms": 119,
       "retrieved": [
         "145989",
         "252873",
@@ -6614,7 +6614,7 @@
     {
       "query_id": "20023",
       "ndcg@10": 0.0,
-      "latency_ms": 88,
+      "latency_ms": 89,
       "retrieved": [
         "59924",
         "119516",
@@ -6631,7 +6631,7 @@
     {
       "query_id": "111757",
       "ndcg@10": 0.0,
-      "latency_ms": 72,
+      "latency_ms": 87,
       "retrieved": [
         "237552",
         "166273",
@@ -6648,7 +6648,7 @@
     {
       "query_id": "9813",
       "ndcg@10": 0.0,
-      "latency_ms": 60,
+      "latency_ms": 70,
       "retrieved": [
         "132395",
         "88415",
@@ -6665,7 +6665,7 @@
     {
       "query_id": "36961",
       "ndcg@10": 0.0,
-      "latency_ms": 104,
+      "latency_ms": 120,
       "retrieved": [
         "45754",
         "238007",
@@ -6682,7 +6682,7 @@
     {
       "query_id": "37249",
       "ndcg@10": 0.10209739512291163,
-      "latency_ms": 34,
+      "latency_ms": 40,
       "retrieved": [
         "147698",
         "170888",
@@ -6699,7 +6699,7 @@
     {
       "query_id": "115425",
       "ndcg@10": 1.0,
-      "latency_ms": 104,
+      "latency_ms": 120,
       "retrieved": [
         "115359",
         "212734",
@@ -6716,7 +6716,7 @@
     {
       "query_id": "186690",
       "ndcg@10": 0.31546487678572877,
-      "latency_ms": 57,
+      "latency_ms": 68,
       "retrieved": [
         "253469",
         "138983",
@@ -6733,7 +6733,7 @@
     {
       "query_id": "136195",
       "ndcg@10": 0.0,
-      "latency_ms": 158,
+      "latency_ms": 153,
       "retrieved": [
         "240294",
         "28139",
@@ -6750,7 +6750,7 @@
     {
       "query_id": "76801",
       "ndcg@10": 0.0,
-      "latency_ms": 30,
+      "latency_ms": 31,
       "retrieved": [
         "49",
         "42986",
@@ -6767,7 +6767,7 @@
     {
       "query_id": "194958",
       "ndcg@10": 1.0,
-      "latency_ms": 72,
+      "latency_ms": 69,
       "retrieved": [
         "163203",
         "247154",
@@ -6784,7 +6784,7 @@
     {
       "query_id": "139418",
       "ndcg@10": 0.0,
-      "latency_ms": 102,
+      "latency_ms": 90,
       "retrieved": [
         "137020",
         "151388",
@@ -6801,7 +6801,7 @@
     {
       "query_id": "125108",
       "ndcg@10": 0.0,
-      "latency_ms": 118,
+      "latency_ms": 113,
       "retrieved": [
         "29359",
         "140036",
@@ -6818,7 +6818,7 @@
     {
       "query_id": "237226",
       "ndcg@10": 0.0,
-      "latency_ms": 54,
+      "latency_ms": 51,
       "retrieved": [
         "37580",
         "93296",
@@ -6835,7 +6835,7 @@
     {
       "query_id": "110471",
       "ndcg@10": 0.0,
-      "latency_ms": 35,
+      "latency_ms": 61,
       "retrieved": [
         "57651",
         "29121",
@@ -6852,7 +6852,7 @@
     {
       "query_id": "98749",
       "ndcg@10": 0.0,
-      "latency_ms": 90,
+      "latency_ms": 121,
       "retrieved": [
         "48100",
         "17761",
@@ -6869,7 +6869,7 @@
     {
       "query_id": "98651",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 83,
+      "latency_ms": 104,
       "retrieved": [
         "198188",
         "151375",
@@ -6886,7 +6886,7 @@
     {
       "query_id": "194373",
       "ndcg@10": 0.0,
-      "latency_ms": 102,
+      "latency_ms": 119,
       "retrieved": [
         "242912",
         "120698",
@@ -6903,7 +6903,7 @@
     {
       "query_id": "210346",
       "ndcg@10": 0.0,
-      "latency_ms": 133,
+      "latency_ms": 164,
       "retrieved": [
         "137794",
         "161003",
@@ -6920,7 +6920,7 @@
     {
       "query_id": "147134",
       "ndcg@10": 1.0,
-      "latency_ms": 40,
+      "latency_ms": 51,
       "retrieved": [
         "161389",
         "152407",
@@ -6937,7 +6937,7 @@
     {
       "query_id": "137439",
       "ndcg@10": 0.0,
-      "latency_ms": 54,
+      "latency_ms": 62,
       "retrieved": [
         "59631",
         "104925",
@@ -6954,7 +6954,7 @@
     {
       "query_id": "228187",
       "ndcg@10": 0.0,
-      "latency_ms": 41,
+      "latency_ms": 58,
       "retrieved": [
         "131194",
         "170939",
@@ -6971,7 +6971,7 @@
     {
       "query_id": "253453",
       "ndcg@10": 0.0,
-      "latency_ms": 75,
+      "latency_ms": 103,
       "retrieved": [
         "194996",
         "166783",
@@ -6988,7 +6988,7 @@
     {
       "query_id": "247135",
       "ndcg@10": 0.0,
-      "latency_ms": 51,
+      "latency_ms": 65,
       "retrieved": [
         "142805",
         "123126",
@@ -7005,7 +7005,7 @@
     {
       "query_id": "125373",
       "ndcg@10": 0.0,
-      "latency_ms": 61,
+      "latency_ms": 69,
       "retrieved": [
         "156457",
         "97874",
@@ -7022,7 +7022,7 @@
     {
       "query_id": "134037",
       "ndcg@10": 0.0,
-      "latency_ms": 73,
+      "latency_ms": 79,
       "retrieved": [
         "96580",
         "79164",
@@ -7039,7 +7039,7 @@
     {
       "query_id": "133565",
       "ndcg@10": 0.0,
-      "latency_ms": 81,
+      "latency_ms": 88,
       "retrieved": [
         "168072",
         "219700",
@@ -7056,7 +7056,7 @@
     {
       "query_id": "252495",
       "ndcg@10": 0.3333333333333333,
-      "latency_ms": 134,
+      "latency_ms": 145,
       "retrieved": [
         "197087",
         "203296",
@@ -7073,7 +7073,7 @@
     {
       "query_id": "179763",
       "ndcg@10": 0.0,
-      "latency_ms": 96,
+      "latency_ms": 89,
       "retrieved": [
         "56674",
         "40373",
@@ -7090,7 +7090,7 @@
     {
       "query_id": "200362",
       "ndcg@10": 0.0,
-      "latency_ms": 66,
+      "latency_ms": 73,
       "retrieved": [
         "83207",
         "14152",
@@ -7107,7 +7107,7 @@
     {
       "query_id": "121998",
       "ndcg@10": 0.0,
-      "latency_ms": 53,
+      "latency_ms": 57,
       "retrieved": [
         "66125",
         "181205",
@@ -7124,7 +7124,7 @@
     {
       "query_id": "251126",
       "ndcg@10": 0.0,
-      "latency_ms": 77,
+      "latency_ms": 75,
       "retrieved": [
         "53324",
         "95066",
@@ -7141,7 +7141,7 @@
     {
       "query_id": "78431",
       "ndcg@10": 0.0,
-      "latency_ms": 89,
+      "latency_ms": 62,
       "retrieved": [
         "209371",
         "101528",
@@ -7158,7 +7158,7 @@
     {
       "query_id": "150888",
       "ndcg@10": 0.2640681225725909,
-      "latency_ms": 57,
+      "latency_ms": 44,
       "retrieved": [
         "140679",
         "55854",
@@ -7175,7 +7175,7 @@
     {
       "query_id": "198936",
       "ndcg@10": 0.0,
-      "latency_ms": 77,
+      "latency_ms": 73,
       "retrieved": [
         "129918",
         "151993",
@@ -7192,7 +7192,7 @@
     {
       "query_id": "104111",
       "ndcg@10": 0.0,
-      "latency_ms": 97,
+      "latency_ms": 101,
       "retrieved": [
         "68036",
         "136037",
@@ -7209,7 +7209,7 @@
     {
       "query_id": "74386",
       "ndcg@10": 0.0,
-      "latency_ms": 94,
+      "latency_ms": 90,
       "retrieved": [
         "116031",
         "62006",
@@ -7226,7 +7226,7 @@
     {
       "query_id": "141411",
       "ndcg@10": 1.0,
-      "latency_ms": 64,
+      "latency_ms": 59,
       "retrieved": [
         "159870",
         "144263",
@@ -7243,7 +7243,7 @@
     {
       "query_id": "182009",
       "ndcg@10": 1.0,
-      "latency_ms": 106,
+      "latency_ms": 86,
       "retrieved": [
         "256181",
         "243280",
@@ -7260,7 +7260,7 @@
     {
       "query_id": "209129",
       "ndcg@10": 0.0,
-      "latency_ms": 172,
+      "latency_ms": 140,
       "retrieved": [
         "254532",
         "171088",
@@ -7277,7 +7277,7 @@
     {
       "query_id": "138026",
       "ndcg@10": 0.0,
-      "latency_ms": 81,
+      "latency_ms": 61,
       "retrieved": [
         "195471",
         "148081",
@@ -7294,7 +7294,7 @@
     {
       "query_id": "18059",
       "ndcg@10": 0.46927872602275644,
-      "latency_ms": 94,
+      "latency_ms": 74,
       "retrieved": [
         "182105",
         "34584",
@@ -7311,7 +7311,7 @@
     {
       "query_id": "144892",
       "ndcg@10": 0.0,
-      "latency_ms": 79,
+      "latency_ms": 68,
       "retrieved": [
         "33478",
         "235145",
@@ -7328,7 +7328,7 @@
     {
       "query_id": "210623",
       "ndcg@10": 0.0,
-      "latency_ms": 89,
+      "latency_ms": 75,
       "retrieved": [
         "84320",
         "133294",
@@ -7345,7 +7345,7 @@
     {
       "query_id": "173320",
       "ndcg@10": 0.6131471927654584,
-      "latency_ms": 59,
+      "latency_ms": 52,
       "retrieved": [
         "80045",
         "55616",
@@ -7362,7 +7362,7 @@
     {
       "query_id": "127867",
       "ndcg@10": 0.0,
-      "latency_ms": 138,
+      "latency_ms": 125,
       "retrieved": [
         "116185",
         "69046",
@@ -7396,7 +7396,7 @@
     {
       "query_id": "254424",
       "ndcg@10": 0.3333333333333333,
-      "latency_ms": 63,
+      "latency_ms": 69,
       "retrieved": [
         "7057",
         "91019",
@@ -7413,7 +7413,7 @@
     {
       "query_id": "139037",
       "ndcg@10": 0.0,
-      "latency_ms": 64,
+      "latency_ms": 58,
       "retrieved": [
         "158584",
         "30329",
@@ -7430,7 +7430,7 @@
     {
       "query_id": "59606",
       "ndcg@10": 0.0,
-      "latency_ms": 57,
+      "latency_ms": 69,
       "retrieved": [
         "177127",
         "124554",
@@ -7447,7 +7447,7 @@
     {
       "query_id": "28379",
       "ndcg@10": 0.0,
-      "latency_ms": 73,
+      "latency_ms": 69,
       "retrieved": [
         "198551",
         "139463",
@@ -7464,7 +7464,7 @@
     {
       "query_id": "114258",
       "ndcg@10": 0.0,
-      "latency_ms": 104,
+      "latency_ms": 102,
       "retrieved": [
         "177061",
         "230462",
@@ -7481,7 +7481,7 @@
     {
       "query_id": "51268",
       "ndcg@10": 1.0,
-      "latency_ms": 61,
+      "latency_ms": 65,
       "retrieved": [
         "114484",
         "81236",
@@ -7498,7 +7498,7 @@
     {
       "query_id": "25063",
       "ndcg@10": 0.43067655807339306,
-      "latency_ms": 67,
+      "latency_ms": 64,
       "retrieved": [
         "87696",
         "194829",
@@ -7515,7 +7515,7 @@
     {
       "query_id": "82227",
       "ndcg@10": 0.0,
-      "latency_ms": 133,
+      "latency_ms": 138,
       "retrieved": [
         "198292",
         "173011",
@@ -7532,7 +7532,7 @@
     {
       "query_id": "194106",
       "ndcg@10": 0.0,
-      "latency_ms": 132,
+      "latency_ms": 112,
       "retrieved": [
         "250925",
         "166273",
@@ -7549,7 +7549,7 @@
     {
       "query_id": "97338",
       "ndcg@10": 1.0,
-      "latency_ms": 117,
+      "latency_ms": 118,
       "retrieved": [
         "165625",
         "105412",
@@ -7566,7 +7566,7 @@
     {
       "query_id": "91064",
       "ndcg@10": 1.0,
-      "latency_ms": 28,
+      "latency_ms": 27,
       "retrieved": [
         "198384",
         "96154",
@@ -7583,7 +7583,7 @@
     {
       "query_id": "29109",
       "ndcg@10": 1.0,
-      "latency_ms": 114,
+      "latency_ms": 130,
       "retrieved": [
         "137011",
         "65150",
@@ -7600,7 +7600,7 @@
     {
       "query_id": "34559",
       "ndcg@10": 1.0,
-      "latency_ms": 94,
+      "latency_ms": 110,
       "retrieved": [
         "101762",
         "126230",
@@ -7617,7 +7617,7 @@
     {
       "query_id": "55334",
       "ndcg@10": 0.0,
-      "latency_ms": 101,
+      "latency_ms": 97,
       "retrieved": [
         "135272",
         "67598",
@@ -7634,7 +7634,7 @@
     {
       "query_id": "66764",
       "ndcg@10": 0.0,
-      "latency_ms": 69,
+      "latency_ms": 86,
       "retrieved": [
         "142498",
         "101",
@@ -7651,7 +7651,7 @@
     {
       "query_id": "100959",
       "ndcg@10": 0.0,
-      "latency_ms": 57,
+      "latency_ms": 69,
       "retrieved": [
         "240635",
         "110199",
@@ -7668,7 +7668,7 @@
     {
       "query_id": "138726",
       "ndcg@10": 1.0,
-      "latency_ms": 94,
+      "latency_ms": 114,
       "retrieved": [
         "138860",
         "176107",
@@ -7685,7 +7685,7 @@
     {
       "query_id": "130256",
       "ndcg@10": 0.0,
-      "latency_ms": 85,
+      "latency_ms": 89,
       "retrieved": [
         "194049",
         "71952",
@@ -7702,7 +7702,7 @@
     {
       "query_id": "185671",
       "ndcg@10": 0.0,
-      "latency_ms": 66,
+      "latency_ms": 65,
       "retrieved": [
         "169925",
         "58688",
@@ -7719,7 +7719,7 @@
     {
       "query_id": "55065",
       "ndcg@10": 1.0,
-      "latency_ms": 78,
+      "latency_ms": 88,
       "retrieved": [
         "96934",
         "147487",
@@ -7736,7 +7736,7 @@
     {
       "query_id": "245115",
       "ndcg@10": 0.0,
-      "latency_ms": 78,
+      "latency_ms": 92,
       "retrieved": [
         "238782",
         "52395",
@@ -7753,7 +7753,7 @@
     {
       "query_id": "155659",
       "ndcg@10": 0.6804558477306826,
-      "latency_ms": 67,
+      "latency_ms": 68,
       "retrieved": [
         "51115",
         "114243",
@@ -7770,7 +7770,7 @@
     {
       "query_id": "257",
       "ndcg@10": 1.0,
-      "latency_ms": 105,
+      "latency_ms": 108,
       "retrieved": [
         "39594",
         "6118",
@@ -7787,7 +7787,7 @@
     {
       "query_id": "97912",
       "ndcg@10": 0.0,
-      "latency_ms": 59,
+      "latency_ms": 63,
       "retrieved": [
         "255821",
         "242684",
@@ -7804,7 +7804,7 @@
     {
       "query_id": "52833",
       "ndcg@10": 0.0,
-      "latency_ms": 78,
+      "latency_ms": 74,
       "retrieved": [
         "106412",
         "216555",
@@ -7821,7 +7821,7 @@
     {
       "query_id": "220049",
       "ndcg@10": 0.0,
-      "latency_ms": 38,
+      "latency_ms": 36,
       "retrieved": [
         "50150",
         "131137",
@@ -7838,7 +7838,7 @@
     {
       "query_id": "102348",
       "ndcg@10": 0.0,
-      "latency_ms": 117,
+      "latency_ms": 114,
       "retrieved": [
         "183819",
         "88896",
@@ -7872,7 +7872,7 @@
     {
       "query_id": "140876",
       "ndcg@10": 0.0,
-      "latency_ms": 40,
+      "latency_ms": 44,
       "retrieved": [
         "197307",
         "150534",
@@ -7889,7 +7889,7 @@
     {
       "query_id": "206199",
       "ndcg@10": 0.0,
-      "latency_ms": 129,
+      "latency_ms": 109,
       "retrieved": [
         "180419",
         "140691",
@@ -7906,7 +7906,7 @@
     {
       "query_id": "8886",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 111,
+      "latency_ms": 87,
       "retrieved": [
         "80045",
         "122763",
@@ -7923,7 +7923,7 @@
     {
       "query_id": "211678",
       "ndcg@10": 0.27727342735504823,
-      "latency_ms": 235,
+      "latency_ms": 213,
       "retrieved": [
         "147187",
         "119662",
@@ -7940,7 +7940,7 @@
     {
       "query_id": "220343",
       "ndcg@10": 0.0,
-      "latency_ms": 78,
+      "latency_ms": 71,
       "retrieved": [
         "185819",
         "224271",
@@ -7957,7 +7957,7 @@
     {
       "query_id": "186438",
       "ndcg@10": 0.0,
-      "latency_ms": 126,
+      "latency_ms": 114,
       "retrieved": [
         "191874",
         "147059",
@@ -7974,7 +7974,7 @@
     {
       "query_id": "27022",
       "ndcg@10": 0.0,
-      "latency_ms": 105,
+      "latency_ms": 97,
       "retrieved": [
         "93568",
         "111131",
@@ -7991,7 +7991,7 @@
     {
       "query_id": "35074",
       "ndcg@10": 0.6131471927654584,
-      "latency_ms": 153,
+      "latency_ms": 143,
       "retrieved": [
         "142652",
         "177229",
@@ -8008,7 +8008,7 @@
     {
       "query_id": "251222",
       "ndcg@10": 0.0,
-      "latency_ms": 103,
+      "latency_ms": 85,
       "retrieved": [
         "166118",
         "175644",
@@ -8025,7 +8025,7 @@
     {
       "query_id": "78903",
       "ndcg@10": 0.6131471927654584,
-      "latency_ms": 104,
+      "latency_ms": 99,
       "retrieved": [
         "79189",
         "245824",
@@ -8042,7 +8042,7 @@
     {
       "query_id": "23276",
       "ndcg@10": 0.20438239758848611,
-      "latency_ms": 100,
+      "latency_ms": 88,
       "retrieved": [
         "98502",
         "81929",
@@ -8059,7 +8059,7 @@
     {
       "query_id": "166798",
       "ndcg@10": 1.0,
-      "latency_ms": 93,
+      "latency_ms": 82,
       "retrieved": [
         "166374",
         "214714",
@@ -8076,7 +8076,7 @@
     {
       "query_id": "78176",
       "ndcg@10": 1.0,
-      "latency_ms": 89,
+      "latency_ms": 80,
       "retrieved": [
         "88416",
         "146075",
@@ -8093,7 +8093,7 @@
     {
       "query_id": "39282",
       "ndcg@10": 0.0,
-      "latency_ms": 92,
+      "latency_ms": 82,
       "retrieved": [
         "101673",
         "193357",
@@ -8110,7 +8110,7 @@
     {
       "query_id": "100685",
       "ndcg@10": 0.6131471927654584,
-      "latency_ms": 74,
+      "latency_ms": 64,
       "retrieved": [
         "100671",
         "164652",
@@ -8127,7 +8127,7 @@
     {
       "query_id": "73541",
       "ndcg@10": 0.3065735963827292,
-      "latency_ms": 50,
+      "latency_ms": 45,
       "retrieved": [
         "213291",
         "101388",
@@ -8144,7 +8144,7 @@
     {
       "query_id": "81838",
       "ndcg@10": 0.6131471927654584,
-      "latency_ms": 108,
+      "latency_ms": 101,
       "retrieved": [
         "233044",
         "240351",
@@ -8161,7 +8161,7 @@
     {
       "query_id": "182207",
       "ndcg@10": 0.3333333333333333,
-      "latency_ms": 129,
+      "latency_ms": 124,
       "retrieved": [
         "56330",
         "119394",
@@ -8178,7 +8178,7 @@
     {
       "query_id": "247382",
       "ndcg@10": 0.43067655807339306,
-      "latency_ms": 51,
+      "latency_ms": 43,
       "retrieved": [
         "131624",
         "162392",
@@ -8195,7 +8195,7 @@
     {
       "query_id": "94932",
       "ndcg@10": 0.0,
-      "latency_ms": 60,
+      "latency_ms": 55,
       "retrieved": [
         "211835",
         "84278",
@@ -8212,7 +8212,7 @@
     {
       "query_id": "110730",
       "ndcg@10": 0.0,
-      "latency_ms": 93,
+      "latency_ms": 87,
       "retrieved": [
         "106642",
         "223826",
@@ -8229,7 +8229,7 @@
     {
       "query_id": "191358",
       "ndcg@10": 0.0,
-      "latency_ms": 66,
+      "latency_ms": 52,
       "retrieved": [
         "215984",
         "253338",
@@ -8246,7 +8246,7 @@
     {
       "query_id": "97511",
       "ndcg@10": 0.0,
-      "latency_ms": 88,
+      "latency_ms": 72,
       "retrieved": [
         "14069",
         "22416",
@@ -8263,7 +8263,7 @@
     {
       "query_id": "60409",
       "ndcg@10": 0.0,
-      "latency_ms": 48,
+      "latency_ms": 52,
       "retrieved": [
         "224389",
         "159904",
@@ -8280,7 +8280,7 @@
     {
       "query_id": "59520",
       "ndcg@10": 0.0,
-      "latency_ms": 39,
+      "latency_ms": 33,
       "retrieved": [
         "54375",
         "148242",
@@ -8297,7 +8297,7 @@
     {
       "query_id": "197443",
       "ndcg@10": 0.3562071871080222,
-      "latency_ms": 41,
+      "latency_ms": 38,
       "retrieved": [
         "120144",
         "147561",
@@ -8314,7 +8314,7 @@
     {
       "query_id": "32956",
       "ndcg@10": 0.0,
-      "latency_ms": 90,
+      "latency_ms": 85,
       "retrieved": [
         "100617",
         "101736",
@@ -8348,7 +8348,7 @@
     {
       "query_id": "65918",
       "ndcg@10": 1.0,
-      "latency_ms": 79,
+      "latency_ms": 73,
       "retrieved": [
         "114002",
         "129688",
@@ -8365,7 +8365,7 @@
     {
       "query_id": "189096",
       "ndcg@10": 0.07311683844390995,
-      "latency_ms": 55,
+      "latency_ms": 48,
       "retrieved": [
         "177150",
         "199478",
@@ -8382,7 +8382,7 @@
     {
       "query_id": "93016",
       "ndcg@10": 0.0,
-      "latency_ms": 74,
+      "latency_ms": 71,
       "retrieved": [
         "137896",
         "50049",
@@ -8416,7 +8416,7 @@
     {
       "query_id": "144058",
       "ndcg@10": 0.0,
-      "latency_ms": 73,
+      "latency_ms": 72,
       "retrieved": [
         "213210",
         "26284",
@@ -8433,7 +8433,7 @@
     {
       "query_id": "102679",
       "ndcg@10": 0.0,
-      "latency_ms": 74,
+      "latency_ms": 82,
       "retrieved": [
         "119160",
         "153311",
@@ -8450,7 +8450,7 @@
     {
       "query_id": "87452",
       "ndcg@10": 0.0,
-      "latency_ms": 57,
+      "latency_ms": 63,
       "retrieved": [
         "32953",
         "104502",
@@ -8467,7 +8467,7 @@
     {
       "query_id": "43729",
       "ndcg@10": 0.7039180890341347,
-      "latency_ms": 37,
+      "latency_ms": 31,
       "retrieved": [
         "196391",
         "65512",
@@ -8484,7 +8484,7 @@
     {
       "query_id": "200031",
       "ndcg@10": 0.0,
-      "latency_ms": 135,
+      "latency_ms": 139,
       "retrieved": [
         "158417",
         "38966",
@@ -8518,7 +8518,7 @@
     {
       "query_id": "59091",
       "ndcg@10": 1.0,
-      "latency_ms": 81,
+      "latency_ms": 84,
       "retrieved": [
         "98786",
         "238815",
@@ -8535,7 +8535,7 @@
     {
       "query_id": "127201",
       "ndcg@10": 1.0,
-      "latency_ms": 81,
+      "latency_ms": 89,
       "retrieved": [
         "127158",
         "231165",
@@ -8552,7 +8552,7 @@
     {
       "query_id": "207815",
       "ndcg@10": 0.5437713091520254,
-      "latency_ms": 98,
+      "latency_ms": 95,
       "retrieved": [
         "202488",
         "172979",
@@ -8569,7 +8569,7 @@
     {
       "query_id": "158534",
       "ndcg@10": 0.5294362295028773,
-      "latency_ms": 121,
+      "latency_ms": 120,
       "retrieved": [
         "194446",
         "58685",
@@ -8586,7 +8586,7 @@
     {
       "query_id": "210693",
       "ndcg@10": 0.0,
-      "latency_ms": 38,
+      "latency_ms": 30,
       "retrieved": [
         "187742",
         "122151",
@@ -8603,7 +8603,7 @@
     {
       "query_id": "116242",
       "ndcg@10": 0.3391602052736161,
-      "latency_ms": 98,
+      "latency_ms": 109,
       "retrieved": [
         "152891",
         "210125",
@@ -8620,7 +8620,7 @@
     {
       "query_id": "71904",
       "ndcg@10": 0.43067655807339306,
-      "latency_ms": 50,
+      "latency_ms": 49,
       "retrieved": [
         "73602",
         "228460",
@@ -8637,7 +8637,7 @@
     {
       "query_id": "147240",
       "ndcg@10": 0.0,
-      "latency_ms": 46,
+      "latency_ms": 48,
       "retrieved": [
         "22073",
         "200980",
@@ -8654,7 +8654,7 @@
     {
       "query_id": "132578",
       "ndcg@10": 0.0,
-      "latency_ms": 145,
+      "latency_ms": 157,
       "retrieved": [
         "139890",
         "224798",
@@ -8671,7 +8671,7 @@
     {
       "query_id": "91816",
       "ndcg@10": 0.0,
-      "latency_ms": 104,
+      "latency_ms": 116,
       "retrieved": [
         "201023",
         "207301",
@@ -8688,7 +8688,7 @@
     {
       "query_id": "67931",
       "ndcg@10": 0.0,
-      "latency_ms": 64,
+      "latency_ms": 67,
       "retrieved": [
         "113194",
         "210442",
@@ -8705,7 +8705,7 @@
     {
       "query_id": "136382",
       "ndcg@10": 0.0,
-      "latency_ms": 70,
+      "latency_ms": 84,
       "retrieved": [
         "1719",
         "40059",
@@ -8722,7 +8722,7 @@
     {
       "query_id": "140561",
       "ndcg@10": 0.43067655807339306,
-      "latency_ms": 66,
+      "latency_ms": 76,
       "retrieved": [
         "3317",
         "110274",
@@ -8739,7 +8739,7 @@
     {
       "query_id": "56031",
       "ndcg@10": 0.43067655807339306,
-      "latency_ms": 52,
+      "latency_ms": 59,
       "retrieved": [
         "70581",
         "205605",
@@ -8756,7 +8756,7 @@
     {
       "query_id": "139171",
       "ndcg@10": 1.0,
-      "latency_ms": 43,
+      "latency_ms": 37,
       "retrieved": [
         "166039",
         "141522",
@@ -8773,7 +8773,7 @@
     {
       "query_id": "249892",
       "ndcg@10": 0.0,
-      "latency_ms": 74,
+      "latency_ms": 71,
       "retrieved": [
         "96478",
         "235678",
@@ -8790,7 +8790,7 @@
     {
       "query_id": "230280",
       "ndcg@10": 0.0,
-      "latency_ms": 117,
+      "latency_ms": 143,
       "retrieved": [
         "88735",
         "186294",
@@ -8807,7 +8807,7 @@
     {
       "query_id": "234620",
       "ndcg@10": 0.0,
-      "latency_ms": 77,
+      "latency_ms": 74,
       "retrieved": [
         "155879",
         "223674",
@@ -8824,7 +8824,7 @@
     {
       "query_id": "12773",
       "ndcg@10": 0.0,
-      "latency_ms": 78,
+      "latency_ms": 84,
       "retrieved": [
         "67594",
         "164227",
@@ -8858,7 +8858,7 @@
     {
       "query_id": "221030",
       "ndcg@10": 0.0,
-      "latency_ms": 115,
+      "latency_ms": 114,
       "retrieved": [
         "195819",
         "233802",
@@ -8875,7 +8875,7 @@
     {
       "query_id": "26371",
       "ndcg@10": 1.0,
-      "latency_ms": 123,
+      "latency_ms": 122,
       "retrieved": [
         "51586",
         "39243",
@@ -8892,7 +8892,7 @@
     {
       "query_id": "120541",
       "ndcg@10": 0.0,
-      "latency_ms": 113,
+      "latency_ms": 111,
       "retrieved": [
         "224523",
         "215349",
@@ -8909,7 +8909,7 @@
     {
       "query_id": "163924",
       "ndcg@10": 0.0,
-      "latency_ms": 65,
+      "latency_ms": 62,
       "retrieved": [
         "151980",
         "245857",
@@ -8926,7 +8926,7 @@
     {
       "query_id": "42938",
       "ndcg@10": 1.0,
-      "latency_ms": 71,
+      "latency_ms": 79,
       "retrieved": [
         "119228",
         "181044",
@@ -8943,7 +8943,7 @@
     {
       "query_id": "53572",
       "ndcg@10": 1.0,
-      "latency_ms": 79,
+      "latency_ms": 80,
       "retrieved": [
         "128725",
         "222285",
@@ -8960,7 +8960,7 @@
     {
       "query_id": "104122",
       "ndcg@10": 0.0,
-      "latency_ms": 139,
+      "latency_ms": 134,
       "retrieved": [
         "177990",
         "107523",
@@ -8994,7 +8994,7 @@
     {
       "query_id": "206254",
       "ndcg@10": 0.0,
-      "latency_ms": 59,
+      "latency_ms": 65,
       "retrieved": [
         "249664",
         "231150",
@@ -9011,7 +9011,7 @@
     {
       "query_id": "208976",
       "ndcg@10": 0.0,
-      "latency_ms": 113,
+      "latency_ms": 116,
       "retrieved": [
         "213668",
         "34761",
@@ -9028,7 +9028,7 @@
     {
       "query_id": "191539",
       "ndcg@10": 0.21840743681816419,
-      "latency_ms": 64,
+      "latency_ms": 67,
       "retrieved": [
         "243282",
         "80318",
@@ -9045,7 +9045,7 @@
     {
       "query_id": "46685",
       "ndcg@10": 0.43067655807339306,
-      "latency_ms": 98,
+      "latency_ms": 109,
       "retrieved": [
         "82792",
         "25093",
@@ -9062,7 +9062,7 @@
     {
       "query_id": "121167",
       "ndcg@10": 1.0,
-      "latency_ms": 79,
+      "latency_ms": 73,
       "retrieved": [
         "184376",
         "213423",
@@ -9079,7 +9079,7 @@
     {
       "query_id": "197838",
       "ndcg@10": 0.2640681225725909,
-      "latency_ms": 89,
+      "latency_ms": 93,
       "retrieved": [
         "213423",
         "137290",
@@ -9096,7 +9096,7 @@
     {
       "query_id": "178018",
       "ndcg@10": 1.0,
-      "latency_ms": 158,
+      "latency_ms": 124,
       "retrieved": [
         "180552",
         "57792",
@@ -9113,7 +9113,7 @@
     {
       "query_id": "129543",
       "ndcg@10": 0.0,
-      "latency_ms": 142,
+      "latency_ms": 127,
       "retrieved": [
         "243205",
         "64502",
@@ -9130,7 +9130,7 @@
     {
       "query_id": "32482",
       "ndcg@10": 0.0,
-      "latency_ms": 67,
+      "latency_ms": 46,
       "retrieved": [
         "57265",
         "179896",
@@ -9147,7 +9147,7 @@
     {
       "query_id": "92339",
       "ndcg@10": 0.5,
-      "latency_ms": 139,
+      "latency_ms": 82,
       "retrieved": [
         "114924",
         "249646",
@@ -9164,7 +9164,7 @@
     {
       "query_id": "113726",
       "ndcg@10": 0.0,
-      "latency_ms": 141,
+      "latency_ms": 71,
       "retrieved": [
         "56832",
         "179832",
@@ -9181,7 +9181,7 @@
     {
       "query_id": "196913",
       "ndcg@10": 0.0,
-      "latency_ms": 209,
+      "latency_ms": 124,
       "retrieved": [
         "132407",
         "131926",
@@ -9198,7 +9198,7 @@
     {
       "query_id": "146065",
       "ndcg@10": 0.0,
-      "latency_ms": 82,
+      "latency_ms": 64,
       "retrieved": [
         "60763",
         "135258",
@@ -9215,7 +9215,7 @@
     {
       "query_id": "36561",
       "ndcg@10": 0.0,
-      "latency_ms": 162,
+      "latency_ms": 139,
       "retrieved": [
         "147115",
         "78028",
@@ -9232,7 +9232,7 @@
     {
       "query_id": "218184",
       "ndcg@10": 0.0,
-      "latency_ms": 87,
+      "latency_ms": 77,
       "retrieved": [
         "252779",
         "111594",
@@ -9249,7 +9249,7 @@
     {
       "query_id": "139442",
       "ndcg@10": 0.0,
-      "latency_ms": 162,
+      "latency_ms": 164,
       "retrieved": [
         "145784",
         "65752",
@@ -9266,7 +9266,7 @@
     {
       "query_id": "255031",
       "ndcg@10": 0.0,
-      "latency_ms": 92,
+      "latency_ms": 109,
       "retrieved": [
         "175666",
         "92034",
@@ -9283,7 +9283,7 @@
     {
       "query_id": "123851",
       "ndcg@10": 0.15642624200758548,
-      "latency_ms": 44,
+      "latency_ms": 43,
       "retrieved": [
         "21911",
         "107186",
@@ -9300,7 +9300,7 @@
     {
       "query_id": "123270",
       "ndcg@10": 0.0,
-      "latency_ms": 65,
+      "latency_ms": 58,
       "retrieved": [
         "231146",
         "216024",
@@ -9317,7 +9317,7 @@
     {
       "query_id": "7565",
       "ndcg@10": 0.23463936301137822,
-      "latency_ms": 74,
+      "latency_ms": 79,
       "retrieved": [
         "50658",
         "251295",
@@ -9334,7 +9334,7 @@
     {
       "query_id": "175014",
       "ndcg@10": 0.0,
-      "latency_ms": 72,
+      "latency_ms": 77,
       "retrieved": [
         "233044",
         "197590",
@@ -9351,7 +9351,7 @@
     {
       "query_id": "181527",
       "ndcg@10": 1.0,
-      "latency_ms": 53,
+      "latency_ms": 51,
       "retrieved": [
         "195140",
         "124575",
@@ -9368,7 +9368,7 @@
     {
       "query_id": "60994",
       "ndcg@10": 0.3333333333333333,
-      "latency_ms": 66,
+      "latency_ms": 56,
       "retrieved": [
         "157013",
         "141764",
@@ -9385,7 +9385,7 @@
     {
       "query_id": "55697",
       "ndcg@10": 0.6131471927654584,
-      "latency_ms": 114,
+      "latency_ms": 110,
       "retrieved": [
         "103285",
         "103496",
@@ -9402,7 +9402,7 @@
     {
       "query_id": "230206",
       "ndcg@10": 0.0,
-      "latency_ms": 145,
+      "latency_ms": 124,
       "retrieved": [
         "39021",
         "246620",
@@ -9419,7 +9419,7 @@
     {
       "query_id": "103133",
       "ndcg@10": 1.0,
-      "latency_ms": 108,
+      "latency_ms": 98,
       "retrieved": [
         "53970",
         "117782",
@@ -9436,7 +9436,7 @@
     {
       "query_id": "225387",
       "ndcg@10": 0.3333333333333333,
-      "latency_ms": 41,
+      "latency_ms": 37,
       "retrieved": [
         "58086",
         "180522",
@@ -9453,7 +9453,7 @@
     {
       "query_id": "234001",
       "ndcg@10": 0.0,
-      "latency_ms": 166,
+      "latency_ms": 175,
       "retrieved": [
         "210826",
         "99182",
@@ -9470,7 +9470,7 @@
     {
       "query_id": "46434",
       "ndcg@10": 0.38685280723454163,
-      "latency_ms": 64,
+      "latency_ms": 62,
       "retrieved": [
         "39613",
         "240323",
@@ -9487,7 +9487,7 @@
     {
       "query_id": "246813",
       "ndcg@10": 0.0,
-      "latency_ms": 44,
+      "latency_ms": 45,
       "retrieved": [
         "116476",
         "228194",
@@ -9504,7 +9504,7 @@
     {
       "query_id": "203469",
       "ndcg@10": 0.0,
-      "latency_ms": 133,
+      "latency_ms": 114,
       "retrieved": [
         "163496",
         "183645",
@@ -9521,7 +9521,7 @@
     {
       "query_id": "28825",
       "ndcg@10": 0.0,
-      "latency_ms": 78,
+      "latency_ms": 39,
       "retrieved": [
         "63174",
         "135499",
@@ -9538,7 +9538,7 @@
     {
       "query_id": "214494",
       "ndcg@10": 0.0,
-      "latency_ms": 163,
+      "latency_ms": 94,
       "retrieved": [
         "231925",
         "218205",
@@ -9555,7 +9555,7 @@
     {
       "query_id": "213449",
       "ndcg@10": 0.0,
-      "latency_ms": 48,
+      "latency_ms": 52,
       "retrieved": [
         "124417",
         "75469",
@@ -9572,7 +9572,7 @@
     {
       "query_id": "250203",
       "ndcg@10": 0.0,
-      "latency_ms": 98,
+      "latency_ms": 85,
       "retrieved": [
         "149866",
         "150702",
@@ -9589,7 +9589,7 @@
     {
       "query_id": "81591",
       "ndcg@10": 0.2890648263178879,
-      "latency_ms": 143,
+      "latency_ms": 130,
       "retrieved": [
         "145784",
         "115826",
@@ -9606,7 +9606,7 @@
     {
       "query_id": "21230",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 170,
+      "latency_ms": 127,
       "retrieved": [
         "64579",
         "120094",
@@ -9623,7 +9623,7 @@
     {
       "query_id": "148747",
       "ndcg@10": 0.0,
-      "latency_ms": 61,
+      "latency_ms": 50,
       "retrieved": [
         "147886",
         "129075",
@@ -9640,7 +9640,7 @@
     {
       "query_id": "663",
       "ndcg@10": 0.0,
-      "latency_ms": 125,
+      "latency_ms": 91,
       "retrieved": [
         "18886",
         "116056",
@@ -9657,7 +9657,7 @@
     {
       "query_id": "98691",
       "ndcg@10": 0.17723928678404774,
-      "latency_ms": 55,
+      "latency_ms": 50,
       "retrieved": [
         "175504",
         "108349",
@@ -9674,7 +9674,7 @@
     {
       "query_id": "14582",
       "ndcg@10": 1.0,
-      "latency_ms": 62,
+      "latency_ms": 60,
       "retrieved": [
         "21336",
         "81899",
@@ -9691,7 +9691,7 @@
     {
       "query_id": "213603",
       "ndcg@10": 0.0,
-      "latency_ms": 31,
+      "latency_ms": 35,
       "retrieved": [
         "193187",
         "135260",
@@ -9708,7 +9708,7 @@
     {
       "query_id": "15239",
       "ndcg@10": 0.0,
-      "latency_ms": 83,
+      "latency_ms": 87,
       "retrieved": [
         "66964",
         "162789",
@@ -9725,7 +9725,7 @@
     {
       "query_id": "16528",
       "ndcg@10": 0.0,
-      "latency_ms": 67,
+      "latency_ms": 60,
       "retrieved": [
         "188455",
         "44632",
@@ -9742,7 +9742,7 @@
     {
       "query_id": "241411",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 70,
+      "latency_ms": 59,
       "retrieved": [
         "233099",
         "216765",
@@ -9759,7 +9759,7 @@
     {
       "query_id": "17696",
       "ndcg@10": 0.38685280723454163,
-      "latency_ms": 54,
+      "latency_ms": 43,
       "retrieved": [
         "230428",
         "133186",
@@ -9776,7 +9776,7 @@
     {
       "query_id": "122437",
       "ndcg@10": 0.0,
-      "latency_ms": 61,
+      "latency_ms": 47,
       "retrieved": [
         "210913",
         "222564",
@@ -9793,7 +9793,7 @@
     {
       "query_id": "98324",
       "ndcg@10": 0.0,
-      "latency_ms": 53,
+      "latency_ms": 36,
       "retrieved": [
         "253443",
         "175437",
@@ -9810,7 +9810,7 @@
     {
       "query_id": "2654",
       "ndcg@10": 0.0,
-      "latency_ms": 114,
+      "latency_ms": 87,
       "retrieved": [
         "198117",
         "64015",
@@ -9827,7 +9827,7 @@
     {
       "query_id": "6625",
       "ndcg@10": 0.0,
-      "latency_ms": 126,
+      "latency_ms": 114,
       "retrieved": [
         "237851",
         "21845",
@@ -9844,7 +9844,7 @@
     {
       "query_id": "202903",
       "ndcg@10": 0.0,
-      "latency_ms": 78,
+      "latency_ms": 81,
       "retrieved": [
         "117277",
         "10206",
@@ -9861,7 +9861,7 @@
     {
       "query_id": "203362",
       "ndcg@10": 1.0,
-      "latency_ms": 59,
+      "latency_ms": 53,
       "retrieved": [
         "255390",
         "154206",
@@ -9878,7 +9878,7 @@
     {
       "query_id": "38087",
       "ndcg@10": 0.0,
-      "latency_ms": 68,
+      "latency_ms": 59,
       "retrieved": [
         "84377",
         "95024",
@@ -9895,7 +9895,7 @@
     {
       "query_id": "103089",
       "ndcg@10": 0.0,
-      "latency_ms": 57,
+      "latency_ms": 53,
       "retrieved": [
         "38358",
         "65790",
@@ -9912,7 +9912,7 @@
     {
       "query_id": "43086",
       "ndcg@10": 1.0,
-      "latency_ms": 99,
+      "latency_ms": 101,
       "retrieved": [
         "118342",
         "148894",
@@ -9929,7 +9929,7 @@
     {
       "query_id": "221365",
       "ndcg@10": 0.0,
-      "latency_ms": 110,
+      "latency_ms": 106,
       "retrieved": [
         "214753",
         "163035",
@@ -9946,7 +9946,7 @@
     {
       "query_id": "194321",
       "ndcg@10": 0.0,
-      "latency_ms": 57,
+      "latency_ms": 56,
       "retrieved": [
         "165515",
         "135616",
@@ -9963,7 +9963,7 @@
     {
       "query_id": "234511",
       "ndcg@10": 0.0,
-      "latency_ms": 101,
+      "latency_ms": 105,
       "retrieved": [
         "122270",
         "120208",
@@ -9980,7 +9980,7 @@
     {
       "query_id": "101164",
       "ndcg@10": 0.6131471927654584,
-      "latency_ms": 142,
+      "latency_ms": 129,
       "retrieved": [
         "109171",
         "74691",
@@ -9997,7 +9997,7 @@
     {
       "query_id": "203970",
       "ndcg@10": 0.5,
-      "latency_ms": 82,
+      "latency_ms": 73,
       "retrieved": [
         "191406",
         "229926",
@@ -10014,7 +10014,7 @@
     {
       "query_id": "135970",
       "ndcg@10": 0.0,
-      "latency_ms": 102,
+      "latency_ms": 62,
       "retrieved": [
         "107288",
         "132436",
@@ -10031,7 +10031,7 @@
     {
       "query_id": "190758",
       "ndcg@10": 0.43067655807339306,
-      "latency_ms": 124,
+      "latency_ms": 121,
       "retrieved": [
         "124999",
         "156689",
@@ -10048,7 +10048,7 @@
     {
       "query_id": "108855",
       "ndcg@10": 0.0,
-      "latency_ms": 87,
+      "latency_ms": 83,
       "retrieved": [
         "139319",
         "170619",
@@ -10065,7 +10065,7 @@
     {
       "query_id": "233342",
       "ndcg@10": 0.46927872602275644,
-      "latency_ms": 107,
+      "latency_ms": 93,
       "retrieved": [
         "149782",
         "182034",
@@ -10082,7 +10082,7 @@
     {
       "query_id": "244866",
       "ndcg@10": 0.0,
-      "latency_ms": 194,
+      "latency_ms": 183,
       "retrieved": [
         "241016",
         "242912",
@@ -10099,7 +10099,7 @@
     {
       "query_id": "212575",
       "ndcg@10": 0.0,
-      "latency_ms": 63,
+      "latency_ms": 64,
       "retrieved": [
         "239045",
         "181431",
@@ -10116,7 +10116,7 @@
     {
       "query_id": "16010",
       "ndcg@10": 0.0,
-      "latency_ms": 89,
+      "latency_ms": 88,
       "retrieved": [
         "72740",
         "102205",
@@ -10133,7 +10133,7 @@
     {
       "query_id": "204206",
       "ndcg@10": 0.0,
-      "latency_ms": 93,
+      "latency_ms": 98,
       "retrieved": [
         "193620",
         "137575",
@@ -10150,7 +10150,7 @@
     {
       "query_id": "168685",
       "ndcg@10": 0.0,
-      "latency_ms": 91,
+      "latency_ms": 92,
       "retrieved": [
         "50819",
         "250825",
@@ -10167,7 +10167,7 @@
     {
       "query_id": "24542",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 41,
+      "latency_ms": 40,
       "retrieved": [
         "143399",
         "114885",
@@ -10184,7 +10184,7 @@
     {
       "query_id": "59496",
       "ndcg@10": 1.0,
-      "latency_ms": 102,
+      "latency_ms": 95,
       "retrieved": [
         "73667",
         "196524",
@@ -10201,7 +10201,7 @@
     {
       "query_id": "115910",
       "ndcg@10": 0.0,
-      "latency_ms": 81,
+      "latency_ms": 79,
       "retrieved": [
         "119662",
         "233222",
@@ -10218,7 +10218,7 @@
     {
       "query_id": "196139",
       "ndcg@10": 0.0,
-      "latency_ms": 57,
+      "latency_ms": 69,
       "retrieved": [
         "186667",
         "180482",
@@ -10235,7 +10235,7 @@
     {
       "query_id": "133330",
       "ndcg@10": 0.0,
-      "latency_ms": 173,
+      "latency_ms": 93,
       "retrieved": [
         "237905",
         "86254",
@@ -10252,7 +10252,7 @@
     {
       "query_id": "224752",
       "ndcg@10": 0.0,
-      "latency_ms": 95,
+      "latency_ms": 78,
       "retrieved": [
         "136775",
         "232817",
@@ -10269,7 +10269,7 @@
     {
       "query_id": "131408",
       "ndcg@10": 0.0,
-      "latency_ms": 25,
+      "latency_ms": 26,
       "retrieved": [
         "99168",
         "224706",
@@ -10286,7 +10286,7 @@
     {
       "query_id": "108309",
       "ndcg@10": 1.0,
-      "latency_ms": 108,
+      "latency_ms": 123,
       "retrieved": [
         "143629",
         "197718",
@@ -10303,7 +10303,7 @@
     {
       "query_id": "19750",
       "ndcg@10": 0.5,
-      "latency_ms": 119,
+      "latency_ms": 82,
       "retrieved": [
         "893",
         "244544",
@@ -10320,7 +10320,7 @@
     {
       "query_id": "94780",
       "ndcg@10": 1.0,
-      "latency_ms": 95,
+      "latency_ms": 63,
       "retrieved": [
         "126205",
         "126359",
@@ -10337,7 +10337,7 @@
     {
       "query_id": "230778",
       "ndcg@10": 0.0,
-      "latency_ms": 149,
+      "latency_ms": 83,
       "retrieved": [
         "232969",
         "202950",
@@ -10354,7 +10354,7 @@
     {
       "query_id": "12472",
       "ndcg@10": 0.0,
-      "latency_ms": 131,
+      "latency_ms": 123,
       "retrieved": [
         "127658",
         "59889",
@@ -10371,7 +10371,7 @@
     {
       "query_id": "211276",
       "ndcg@10": 0.0,
-      "latency_ms": 89,
+      "latency_ms": 94,
       "retrieved": [
         "95894",
         "97039",
@@ -10388,7 +10388,7 @@
     {
       "query_id": "215427",
       "ndcg@10": 1.0,
-      "latency_ms": 134,
+      "latency_ms": 130,
       "retrieved": [
         "218487",
         "193802",
@@ -10405,7 +10405,7 @@
     {
       "query_id": "154155",
       "ndcg@10": 0.0,
-      "latency_ms": 103,
+      "latency_ms": 99,
       "retrieved": [
         "235674",
         "214024",
@@ -10422,7 +10422,7 @@
     {
       "query_id": "90438",
       "ndcg@10": 1.0,
-      "latency_ms": 55,
+      "latency_ms": 53,
       "retrieved": [
         "105137",
         "106057",
@@ -10439,7 +10439,7 @@
     {
       "query_id": "235468",
       "ndcg@10": 0.0,
-      "latency_ms": 69,
+      "latency_ms": 66,
       "retrieved": [
         "151967",
         "180232",
@@ -10473,7 +10473,7 @@
     {
       "query_id": "251643",
       "ndcg@10": 0.0,
-      "latency_ms": 79,
+      "latency_ms": 72,
       "retrieved": [
         "187487",
         "232772",
@@ -10490,7 +10490,7 @@
     {
       "query_id": "2757",
       "ndcg@10": 0.9674679834891693,
-      "latency_ms": 93,
+      "latency_ms": 95,
       "retrieved": [
         "9403",
         "104346",
@@ -10507,7 +10507,7 @@
     {
       "query_id": "132520",
       "ndcg@10": 0.0,
-      "latency_ms": 114,
+      "latency_ms": 127,
       "retrieved": [
         "71547",
         "15873",
@@ -10524,7 +10524,7 @@
     {
       "query_id": "196546",
       "ndcg@10": 0.0,
-      "latency_ms": 120,
+      "latency_ms": 121,
       "retrieved": [
         "26906",
         "144293",
@@ -10541,7 +10541,7 @@
     {
       "query_id": "34485",
       "ndcg@10": 1.0,
-      "latency_ms": 110,
+      "latency_ms": 95,
       "retrieved": [
         "141147",
         "56674",
@@ -10558,7 +10558,7 @@
     {
       "query_id": "224036",
       "ndcg@10": 0.0,
-      "latency_ms": 75,
+      "latency_ms": 81,
       "retrieved": [
         "76212",
         "132940",
@@ -10575,7 +10575,7 @@
     {
       "query_id": "117825",
       "ndcg@10": 0.0,
-      "latency_ms": 107,
+      "latency_ms": 147,
       "retrieved": [
         "41409",
         "175437",
@@ -10592,7 +10592,7 @@
     {
       "query_id": "22146",
       "ndcg@10": 1.0,
-      "latency_ms": 81,
+      "latency_ms": 112,
       "retrieved": [
         "143390",
         "118814",
@@ -10609,7 +10609,7 @@
     {
       "query_id": "131381",
       "ndcg@10": 0.0,
-      "latency_ms": 113,
+      "latency_ms": 171,
       "retrieved": [
         "148539",
         "133404",
@@ -10626,7 +10626,7 @@
     {
       "query_id": "93462",
       "ndcg@10": 1.0,
-      "latency_ms": 59,
+      "latency_ms": 87,
       "retrieved": [
         "5780",
         "61678",
@@ -10643,7 +10643,7 @@
     {
       "query_id": "205562",
       "ndcg@10": 0.0,
-      "latency_ms": 69,
+      "latency_ms": 86,
       "retrieved": [
         "7539",
         "70835",
@@ -10660,7 +10660,7 @@
     {
       "query_id": "241389",
       "ndcg@10": 0.31546487678572877,
-      "latency_ms": 130,
+      "latency_ms": 162,
       "retrieved": [
         "200945",
         "136402",
@@ -10677,7 +10677,7 @@
     {
       "query_id": "179162",
       "ndcg@10": 0.0,
-      "latency_ms": 63,
+      "latency_ms": 85,
       "retrieved": [
         "151550",
         "47723",
@@ -10694,7 +10694,7 @@
     {
       "query_id": "78956",
       "ndcg@10": 0.3333333333333333,
-      "latency_ms": 74,
+      "latency_ms": 92,
       "retrieved": [
         "235388",
         "10230",
@@ -10711,7 +10711,7 @@
     {
       "query_id": "151103",
       "ndcg@10": 0.0,
-      "latency_ms": 88,
+      "latency_ms": 104,
       "retrieved": [
         "165552",
         "189185",
@@ -10728,7 +10728,7 @@
     {
       "query_id": "32571",
       "ndcg@10": 0.0,
-      "latency_ms": 44,
+      "latency_ms": 60,
       "retrieved": [
         "188588",
         "167523",
@@ -10745,7 +10745,7 @@
     {
       "query_id": "165725",
       "ndcg@10": 0.2890648263178879,
-      "latency_ms": 57,
+      "latency_ms": 58,
       "retrieved": [
         "165927",
         "199738",
@@ -10762,7 +10762,7 @@
     {
       "query_id": "190853",
       "ndcg@10": 1.0,
-      "latency_ms": 85,
+      "latency_ms": 90,
       "retrieved": [
         "250706",
         "58237",
@@ -10779,7 +10779,7 @@
     {
       "query_id": "141973",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 75,
+      "latency_ms": 84,
       "retrieved": [
         "112828",
         "152486",
@@ -10796,7 +10796,7 @@
     {
       "query_id": "132281",
       "ndcg@10": 0.0,
-      "latency_ms": 96,
+      "latency_ms": 104,
       "retrieved": [
         "156045",
         "91106",
@@ -10813,7 +10813,7 @@
     {
       "query_id": "115525",
       "ndcg@10": 0.0,
-      "latency_ms": 44,
+      "latency_ms": 75,
       "retrieved": [
         "250688",
         "251138",
@@ -10830,7 +10830,7 @@
     {
       "query_id": "121218",
       "ndcg@10": 0.0,
-      "latency_ms": 127,
+      "latency_ms": 145,
       "retrieved": [
         "126659",
         "147423",
@@ -10847,7 +10847,7 @@
     {
       "query_id": "40297",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 51,
+      "latency_ms": 48,
       "retrieved": [
         "234236",
         "163321",
@@ -10864,7 +10864,7 @@
     {
       "query_id": "238386",
       "ndcg@10": 0.0,
-      "latency_ms": 56,
+      "latency_ms": 94,
       "retrieved": [
         "236630",
         "190774",
@@ -10881,7 +10881,7 @@
     {
       "query_id": "8958",
       "ndcg@10": 0.43067655807339306,
-      "latency_ms": 86,
+      "latency_ms": 90,
       "retrieved": [
         "294",
         "54814",
@@ -10898,7 +10898,7 @@
     {
       "query_id": "26901",
       "ndcg@10": 0.0,
-      "latency_ms": 107,
+      "latency_ms": 99,
       "retrieved": [
         "87757",
         "123059",
@@ -10915,7 +10915,7 @@
     {
       "query_id": "111881",
       "ndcg@10": 0.0,
-      "latency_ms": 154,
+      "latency_ms": 138,
       "retrieved": [
         "154103",
         "161689",
@@ -10932,7 +10932,7 @@
     {
       "query_id": "51465",
       "ndcg@10": 1.0,
-      "latency_ms": 78,
+      "latency_ms": 83,
       "retrieved": [
         "244941",
         "77373",
@@ -10949,7 +10949,7 @@
     {
       "query_id": "198549",
       "ndcg@10": 1.0,
-      "latency_ms": 49,
+      "latency_ms": 51,
       "retrieved": [
         "198539",
         "99251",
@@ -10966,7 +10966,7 @@
     {
       "query_id": "201041",
       "ndcg@10": 0.0,
-      "latency_ms": 66,
+      "latency_ms": 56,
       "retrieved": [
         "206663",
         "152758",
@@ -10983,7 +10983,7 @@
     {
       "query_id": "184874",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 73,
+      "latency_ms": 80,
       "retrieved": [
         "177464",
         "194746",
@@ -11000,7 +11000,7 @@
     {
       "query_id": "125252",
       "ndcg@10": 0.0,
-      "latency_ms": 103,
+      "latency_ms": 71,
       "retrieved": [
         "136174",
         "77036",
@@ -11017,7 +11017,7 @@
     {
       "query_id": "89554",
       "ndcg@10": 0.0,
-      "latency_ms": 79,
+      "latency_ms": 56,
       "retrieved": [
         "67354",
         "69193",
@@ -11034,7 +11034,7 @@
     {
       "query_id": "7536",
       "ndcg@10": 0.0,
-      "latency_ms": 117,
+      "latency_ms": 81,
       "retrieved": [
         "199477",
         "100047",
@@ -11051,7 +11051,7 @@
     {
       "query_id": "200064",
       "ndcg@10": 0.0,
-      "latency_ms": 69,
+      "latency_ms": 68,
       "retrieved": [
         "133268",
         "210161",
@@ -11068,7 +11068,7 @@
     {
       "query_id": "97660",
       "ndcg@10": 0.0,
-      "latency_ms": 114,
+      "latency_ms": 102,
       "retrieved": [
         "72467",
         "128300",
@@ -11085,7 +11085,7 @@
     {
       "query_id": "250953",
       "ndcg@10": 0.0,
-      "latency_ms": 48,
+      "latency_ms": 45,
       "retrieved": [
         "23189",
         "246936",
@@ -11102,7 +11102,7 @@
     {
       "query_id": "84001",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 121,
+      "latency_ms": 102,
       "retrieved": [
         "210920",
         "18303",
@@ -11119,7 +11119,7 @@
     {
       "query_id": "85019",
       "ndcg@10": 0.0,
-      "latency_ms": 97,
+      "latency_ms": 92,
       "retrieved": [
         "121684",
         "114711",
@@ -11136,7 +11136,7 @@
     {
       "query_id": "139663",
       "ndcg@10": 0.0,
-      "latency_ms": 124,
+      "latency_ms": 99,
       "retrieved": [
         "127087",
         "245842",
@@ -11153,7 +11153,7 @@
     {
       "query_id": "166895",
       "ndcg@10": 0.0,
-      "latency_ms": 72,
+      "latency_ms": 74,
       "retrieved": [
         "136309",
         "52099",
@@ -11170,7 +11170,7 @@
     {
       "query_id": "198240",
       "ndcg@10": 0.0,
-      "latency_ms": 64,
+      "latency_ms": 65,
       "retrieved": [
         "233201",
         "174745",
@@ -11187,7 +11187,7 @@
     {
       "query_id": "156794",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 77,
+      "latency_ms": 83,
       "retrieved": [
         "162086",
         "156795",
@@ -11204,7 +11204,7 @@
     {
       "query_id": "91945",
       "ndcg@10": 0.0,
-      "latency_ms": 102,
+      "latency_ms": 97,
       "retrieved": [
         "129936",
         "178596",
@@ -11221,7 +11221,7 @@
     {
       "query_id": "187026",
       "ndcg@10": 0.0,
-      "latency_ms": 57,
+      "latency_ms": 56,
       "retrieved": [
         "192100",
         "43867",
@@ -11238,7 +11238,7 @@
     {
       "query_id": "218447",
       "ndcg@10": 0.0,
-      "latency_ms": 79,
+      "latency_ms": 77,
       "retrieved": [
         "179820",
         "129354",
@@ -11272,7 +11272,7 @@
     {
       "query_id": "136993",
       "ndcg@10": 0.3333333333333333,
-      "latency_ms": 49,
+      "latency_ms": 45,
       "retrieved": [
         "164332",
         "167773",
@@ -11289,7 +11289,7 @@
     {
       "query_id": "13786",
       "ndcg@10": 0.0,
-      "latency_ms": 55,
+      "latency_ms": 48,
       "retrieved": [
         "96934",
         "27998",
@@ -11306,7 +11306,7 @@
     {
       "query_id": "239210",
       "ndcg@10": 1.0,
-      "latency_ms": 32,
+      "latency_ms": 29,
       "retrieved": [
         "242768",
         "136667",
@@ -11323,7 +11323,7 @@
     {
       "query_id": "240454",
       "ndcg@10": 0.0,
-      "latency_ms": 66,
+      "latency_ms": 70,
       "retrieved": [
         "211271",
         "48372",
@@ -11340,7 +11340,7 @@
     {
       "query_id": "179002",
       "ndcg@10": 1.0,
-      "latency_ms": 52,
+      "latency_ms": 50,
       "retrieved": [
         "66035",
         "195020",
@@ -11357,7 +11357,7 @@
     {
       "query_id": "246634",
       "ndcg@10": 1.0,
-      "latency_ms": 42,
+      "latency_ms": 41,
       "retrieved": [
         "246627",
         "230463",
@@ -11374,7 +11374,7 @@
     {
       "query_id": "97832",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 104,
+      "latency_ms": 92,
       "retrieved": [
         "48634",
         "13006",
@@ -11391,7 +11391,7 @@
     {
       "query_id": "131451",
       "ndcg@10": 1.0,
-      "latency_ms": 75,
+      "latency_ms": 68,
       "retrieved": [
         "131324",
         "94616",
@@ -11408,7 +11408,7 @@
     {
       "query_id": "97357",
       "ndcg@10": 0.0,
-      "latency_ms": 59,
+      "latency_ms": 53,
       "retrieved": [
         "159528",
         "113161",
@@ -11425,7 +11425,7 @@
     {
       "query_id": "102008",
       "ndcg@10": 1.0,
-      "latency_ms": 86,
+      "latency_ms": 88,
       "retrieved": [
         "109436",
         "71292",
@@ -11442,7 +11442,7 @@
     {
       "query_id": "140004",
       "ndcg@10": 0.0,
-      "latency_ms": 90,
+      "latency_ms": 93,
       "retrieved": [
         "236800",
         "154364",
@@ -11459,7 +11459,7 @@
     {
       "query_id": "72768",
       "ndcg@10": 1.0,
-      "latency_ms": 70,
+      "latency_ms": 65,
       "retrieved": [
         "184202",
         "56406",
@@ -11476,7 +11476,7 @@
     {
       "query_id": "194975",
       "ndcg@10": 0.0,
-      "latency_ms": 64,
+      "latency_ms": 55,
       "retrieved": [
         "86714",
         "190557",
@@ -11493,7 +11493,7 @@
     {
       "query_id": "240734",
       "ndcg@10": 0.0,
-      "latency_ms": 119,
+      "latency_ms": 89,
       "retrieved": [
         "64056",
         "218939",
@@ -11510,7 +11510,7 @@
     {
       "query_id": "77731",
       "ndcg@10": 0.0,
-      "latency_ms": 76,
+      "latency_ms": 63,
       "retrieved": [
         "225026",
         "66563",
@@ -11544,7 +11544,7 @@
     {
       "query_id": "252532",
       "ndcg@10": 0.0,
-      "latency_ms": 116,
+      "latency_ms": 126,
       "retrieved": [
         "228523",
         "137495",
@@ -11561,7 +11561,7 @@
     {
       "query_id": "49836",
       "ndcg@10": 0.0,
-      "latency_ms": 83,
+      "latency_ms": 82,
       "retrieved": [
         "54038",
         "232599",
@@ -11578,7 +11578,7 @@
     {
       "query_id": "175594",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 63,
+      "latency_ms": 57,
       "retrieved": [
         "156336",
         "66858",
@@ -11595,7 +11595,7 @@
     {
       "query_id": "210360",
       "ndcg@10": 0.0,
-      "latency_ms": 80,
+      "latency_ms": 83,
       "retrieved": [
         "252730",
         "211608",
@@ -11612,7 +11612,7 @@
     {
       "query_id": "109818",
       "ndcg@10": 0.0,
-      "latency_ms": 112,
+      "latency_ms": 104,
       "retrieved": [
         "211292",
         "214557",
@@ -11629,7 +11629,7 @@
     {
       "query_id": "221009",
       "ndcg@10": 0.0,
-      "latency_ms": 41,
+      "latency_ms": 42,
       "retrieved": [
         "23240",
         "141245",
@@ -11646,7 +11646,7 @@
     {
       "query_id": "205359",
       "ndcg@10": 0.0,
-      "latency_ms": 59,
+      "latency_ms": 68,
       "retrieved": [
         "154108",
         "235677",
@@ -11663,7 +11663,7 @@
     {
       "query_id": "66834",
       "ndcg@10": 0.0,
-      "latency_ms": 143,
+      "latency_ms": 142,
       "retrieved": [
         "58629",
         "143629",
@@ -11680,7 +11680,7 @@
     {
       "query_id": "193586",
       "ndcg@10": 0.0,
-      "latency_ms": 74,
+      "latency_ms": 87,
       "retrieved": [
         "26529",
         "69005",
@@ -11697,7 +11697,7 @@
     {
       "query_id": "97785",
       "ndcg@10": 1.0,
-      "latency_ms": 139,
+      "latency_ms": 140,
       "retrieved": [
         "146160",
         "57653",
@@ -11714,7 +11714,7 @@
     {
       "query_id": "80694",
       "ndcg@10": 1.0,
-      "latency_ms": 93,
+      "latency_ms": 89,
       "retrieved": [
         "106705",
         "40742",
@@ -11731,7 +11731,7 @@
     {
       "query_id": "180165",
       "ndcg@10": 0.43067655807339306,
-      "latency_ms": 19,
+      "latency_ms": 22,
       "retrieved": [
         "216817",
         "168260",
@@ -11748,7 +11748,7 @@
     {
       "query_id": "15286",
       "ndcg@10": 1.0,
-      "latency_ms": 57,
+      "latency_ms": 50,
       "retrieved": [
         "160173",
         "70329",
@@ -11765,7 +11765,7 @@
     {
       "query_id": "84909",
       "ndcg@10": 1.0,
-      "latency_ms": 103,
+      "latency_ms": 94,
       "retrieved": [
         "138905",
         "131359",
@@ -11782,7 +11782,7 @@
     {
       "query_id": "224434",
       "ndcg@10": 1.0,
-      "latency_ms": 93,
+      "latency_ms": 55,
       "retrieved": [
         "87457",
         "109433",
@@ -11799,7 +11799,7 @@
     {
       "query_id": "201130",
       "ndcg@10": 0.0,
-      "latency_ms": 136,
+      "latency_ms": 141,
       "retrieved": [
         "254978",
         "47515",
@@ -11816,7 +11816,7 @@
     {
       "query_id": "242610",
       "ndcg@10": 0.0,
-      "latency_ms": 72,
+      "latency_ms": 79,
       "retrieved": [
         "150211",
         "254406",
@@ -11833,7 +11833,7 @@
     {
       "query_id": "185712",
       "ndcg@10": 1.0,
-      "latency_ms": 79,
+      "latency_ms": 91,
       "retrieved": [
         "121326",
         "41595",
@@ -11850,7 +11850,7 @@
     {
       "query_id": "237738",
       "ndcg@10": 0.3562071871080222,
-      "latency_ms": 122,
+      "latency_ms": 125,
       "retrieved": [
         "58248",
         "254163",
@@ -11867,7 +11867,7 @@
     {
       "query_id": "162931",
       "ndcg@10": 0.0,
-      "latency_ms": 71,
+      "latency_ms": 83,
       "retrieved": [
         "53468",
         "229859",
@@ -11884,7 +11884,7 @@
     {
       "query_id": "166136",
       "ndcg@10": 0.0,
-      "latency_ms": 87,
+      "latency_ms": 80,
       "retrieved": [
         "158919",
         "184190",
@@ -11901,7 +11901,7 @@
     {
       "query_id": "46513",
       "ndcg@10": 0.0,
-      "latency_ms": 68,
+      "latency_ms": 75,
       "retrieved": [
         "66679",
         "22762",
@@ -11918,7 +11918,7 @@
     {
       "query_id": "209764",
       "ndcg@10": 0.5,
-      "latency_ms": 91,
+      "latency_ms": 137,
       "retrieved": [
         "199089",
         "119668",
@@ -11935,7 +11935,7 @@
     {
       "query_id": "188381",
       "ndcg@10": 0.0,
-      "latency_ms": 60,
+      "latency_ms": 83,
       "retrieved": [
         "106576",
         "75933",
@@ -11952,7 +11952,7 @@
     {
       "query_id": "31558",
       "ndcg@10": 0.0,
-      "latency_ms": 52,
+      "latency_ms": 67,
       "retrieved": [
         "209015",
         "254683",
@@ -11969,7 +11969,7 @@
     {
       "query_id": "140266",
       "ndcg@10": 0.0,
-      "latency_ms": 194,
+      "latency_ms": 221,
       "retrieved": [
         "127359",
         "115489",
@@ -11986,7 +11986,7 @@
     {
       "query_id": "73934",
       "ndcg@10": 0.31546487678572877,
-      "latency_ms": 81,
+      "latency_ms": 100,
       "retrieved": [
         "36816",
         "117775",
@@ -12003,7 +12003,7 @@
     {
       "query_id": "129141",
       "ndcg@10": 0.0,
-      "latency_ms": 48,
+      "latency_ms": 59,
       "retrieved": [
         "212317",
         "249672",
@@ -12020,7 +12020,7 @@
     {
       "query_id": "191961",
       "ndcg@10": 0.0,
-      "latency_ms": 169,
+      "latency_ms": 179,
       "retrieved": [
         "188033",
         "177875",
@@ -12037,7 +12037,7 @@
     {
       "query_id": "126130",
       "ndcg@10": 0.0,
-      "latency_ms": 69,
+      "latency_ms": 67,
       "retrieved": [
         "206101",
         "95037",
@@ -12054,7 +12054,7 @@
     {
       "query_id": "93826",
       "ndcg@10": 0.0,
-      "latency_ms": 84,
+      "latency_ms": 93,
       "retrieved": [
         "144450",
         "109731",
@@ -12071,7 +12071,7 @@
     {
       "query_id": "95942",
       "ndcg@10": 0.0,
-      "latency_ms": 72,
+      "latency_ms": 66,
       "retrieved": [
         "96262",
         "70383",
@@ -12088,7 +12088,7 @@
     {
       "query_id": "225354",
       "ndcg@10": 0.2890648263178879,
-      "latency_ms": 62,
+      "latency_ms": 75,
       "retrieved": [
         "232801",
         "177133",
@@ -12105,7 +12105,7 @@
     {
       "query_id": "186465",
       "ndcg@10": 1.0,
-      "latency_ms": 196,
+      "latency_ms": 211,
       "retrieved": [
         "215253",
         "225145",
@@ -12122,7 +12122,7 @@
     {
       "query_id": "44959",
       "ndcg@10": 0.0,
-      "latency_ms": 59,
+      "latency_ms": 57,
       "retrieved": [
         "95796",
         "188180",
@@ -12156,7 +12156,7 @@
     {
       "query_id": "208815",
       "ndcg@10": 0.0,
-      "latency_ms": 65,
+      "latency_ms": 72,
       "retrieved": [
         "180550",
         "211933",
@@ -12173,7 +12173,7 @@
     {
       "query_id": "103263",
       "ndcg@10": 1.0,
-      "latency_ms": 94,
+      "latency_ms": 105,
       "retrieved": [
         "130073",
         "149871",
@@ -12190,7 +12190,7 @@
     {
       "query_id": "60216",
       "ndcg@10": 1.0,
-      "latency_ms": 56,
+      "latency_ms": 54,
       "retrieved": [
         "55373",
         "88158",
@@ -12207,7 +12207,7 @@
     {
       "query_id": "79765",
       "ndcg@10": 1.0,
-      "latency_ms": 127,
+      "latency_ms": 104,
       "retrieved": [
         "94651",
         "233416",
@@ -12224,7 +12224,7 @@
     {
       "query_id": "24804",
       "ndcg@10": 0.0,
-      "latency_ms": 91,
+      "latency_ms": 72,
       "retrieved": [
         "200338",
         "3033",
@@ -12241,7 +12241,7 @@
     {
       "query_id": "36731",
       "ndcg@10": 1.0,
-      "latency_ms": 74,
+      "latency_ms": 78,
       "retrieved": [
         "170731",
         "164916",
@@ -12258,7 +12258,7 @@
     {
       "query_id": "138182",
       "ndcg@10": 0.0,
-      "latency_ms": 107,
+      "latency_ms": 104,
       "retrieved": [
         "206606",
         "161373",
@@ -12275,7 +12275,7 @@
     {
       "query_id": "182229",
       "ndcg@10": 0.43067655807339306,
-      "latency_ms": 114,
+      "latency_ms": 146,
       "retrieved": [
         "221762",
         "205755",
@@ -12292,7 +12292,7 @@
     {
       "query_id": "133424",
       "ndcg@10": 0.0,
-      "latency_ms": 77,
+      "latency_ms": 79,
       "retrieved": [
         "137285",
         "230905",
@@ -12309,7 +12309,7 @@
     {
       "query_id": "122244",
       "ndcg@10": 0.0,
-      "latency_ms": 66,
+      "latency_ms": 64,
       "retrieved": [
         "180186",
         "45856",
@@ -12326,7 +12326,7 @@
     {
       "query_id": "111475",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 34,
+      "latency_ms": 36,
       "retrieved": [
         "94596",
         "104867",
@@ -12343,7 +12343,7 @@
     {
       "query_id": "118064",
       "ndcg@10": 0.0,
-      "latency_ms": 141,
+      "latency_ms": 155,
       "retrieved": [
         "250357",
         "233788",
@@ -12360,7 +12360,7 @@
     {
       "query_id": "196700",
       "ndcg@10": 0.0,
-      "latency_ms": 64,
+      "latency_ms": 71,
       "retrieved": [
         "99002",
         "145168",
@@ -12377,7 +12377,7 @@
     {
       "query_id": "95626",
       "ndcg@10": 0.3010299956639812,
-      "latency_ms": 46,
+      "latency_ms": 53,
       "retrieved": [
         "135421",
         "76488",
@@ -12394,7 +12394,7 @@
     {
       "query_id": "216195",
       "ndcg@10": 0.0,
-      "latency_ms": 63,
+      "latency_ms": 69,
       "retrieved": [
         "198535",
         "180777",
@@ -12411,7 +12411,7 @@
     {
       "query_id": "243347",
       "ndcg@10": 0.0,
-      "latency_ms": 40,
+      "latency_ms": 39,
       "retrieved": [
         "216659",
         "188310",
@@ -12428,7 +12428,7 @@
     {
       "query_id": "67707",
       "ndcg@10": 1.0,
-      "latency_ms": 100,
+      "latency_ms": 104,
       "retrieved": [
         "99051",
         "230998",
@@ -12445,7 +12445,7 @@
     {
       "query_id": "91629",
       "ndcg@10": 0.7653606369886217,
-      "latency_ms": 67,
+      "latency_ms": 73,
       "retrieved": [
         "111215",
         "73233",
@@ -12462,7 +12462,7 @@
     {
       "query_id": "77146",
       "ndcg@10": 1.0,
-      "latency_ms": 88,
+      "latency_ms": 87,
       "retrieved": [
         "103095",
         "237983",
@@ -12479,7 +12479,7 @@
     {
       "query_id": "136774",
       "ndcg@10": 0.38685280723454163,
-      "latency_ms": 91,
+      "latency_ms": 89,
       "retrieved": [
         "208398",
         "136762",
@@ -12496,7 +12496,7 @@
     {
       "query_id": "138447",
       "ndcg@10": 0.0,
-      "latency_ms": 78,
+      "latency_ms": 87,
       "retrieved": [
         "187321",
         "46064",
@@ -12513,7 +12513,7 @@
     {
       "query_id": "8588",
       "ndcg@10": 1.0,
-      "latency_ms": 96,
+      "latency_ms": 128,
       "retrieved": [
         "108518",
         "95140",
@@ -12530,7 +12530,7 @@
     {
       "query_id": "121887",
       "ndcg@10": 0.0,
-      "latency_ms": 104,
+      "latency_ms": 134,
       "retrieved": [
         "134589",
         "176728",
@@ -12547,7 +12547,7 @@
     {
       "query_id": "61980",
       "ndcg@10": 1.0,
-      "latency_ms": 106,
+      "latency_ms": 112,
       "retrieved": [
         "137896",
         "17151",
@@ -12564,7 +12564,7 @@
     {
       "query_id": "46252",
       "ndcg@10": 0.0,
-      "latency_ms": 113,
+      "latency_ms": 157,
       "retrieved": [
         "124428",
         "1257",
@@ -12581,7 +12581,7 @@
     {
       "query_id": "57047",
       "ndcg@10": 0.0,
-      "latency_ms": 46,
+      "latency_ms": 61,
       "retrieved": [
         "138822",
         "163262",
@@ -12598,7 +12598,7 @@
     {
       "query_id": "159373",
       "ndcg@10": 1.0,
-      "latency_ms": 149,
+      "latency_ms": 142,
       "retrieved": [
         "255891",
         "212986",
@@ -12615,7 +12615,7 @@
     {
       "query_id": "114819",
       "ndcg@10": 0.0,
-      "latency_ms": 74,
+      "latency_ms": 66,
       "retrieved": [
         "157287",
         "220374",
@@ -12649,7 +12649,7 @@
     {
       "query_id": "3997",
       "ndcg@10": 0.0,
-      "latency_ms": 45,
+      "latency_ms": 47,
       "retrieved": [
         "143754",
         "4001",
@@ -12666,7 +12666,7 @@
     {
       "query_id": "223148",
       "ndcg@10": 0.0,
-      "latency_ms": 156,
+      "latency_ms": 126,
       "retrieved": [
         "128648",
         "252663",
@@ -12683,7 +12683,7 @@
     {
       "query_id": "216301",
       "ndcg@10": 0.0,
-      "latency_ms": 83,
+      "latency_ms": 91,
       "retrieved": [
         "160293",
         "151637",
@@ -12700,7 +12700,7 @@
     {
       "query_id": "95373",
       "ndcg@10": 0.0,
-      "latency_ms": 99,
+      "latency_ms": 79,
       "retrieved": [
         "179219",
         "81929",
@@ -12717,7 +12717,7 @@
     {
       "query_id": "195656",
       "ndcg@10": 0.0,
-      "latency_ms": 50,
+      "latency_ms": 34,
       "retrieved": [
         "138301",
         "228903",
@@ -12734,7 +12734,7 @@
     {
       "query_id": "118140",
       "ndcg@10": 0.0,
-      "latency_ms": 134,
+      "latency_ms": 131,
       "retrieved": [
         "254643",
         "157287",
@@ -12751,7 +12751,7 @@
     {
       "query_id": "124817",
       "ndcg@10": 0.0,
-      "latency_ms": 142,
+      "latency_ms": 138,
       "retrieved": [
         "198755",
         "49488",
@@ -12768,7 +12768,7 @@
     {
       "query_id": "97269",
       "ndcg@10": 1.0,
-      "latency_ms": 106,
+      "latency_ms": 101,
       "retrieved": [
         "129069",
         "219089",
@@ -12785,7 +12785,7 @@
     {
       "query_id": "21256",
       "ndcg@10": 1.0,
-      "latency_ms": 64,
+      "latency_ms": 52,
       "retrieved": [
         "108601",
         "60957",
@@ -12802,7 +12802,7 @@
     {
       "query_id": "55267",
       "ndcg@10": 0.0,
-      "latency_ms": 79,
+      "latency_ms": 71,
       "retrieved": [
         "212479",
         "167752",
@@ -12819,7 +12819,7 @@
     {
       "query_id": "23652",
       "ndcg@10": 0.3010299956639812,
-      "latency_ms": 82,
+      "latency_ms": 76,
       "retrieved": [
         "222617",
         "131103",
@@ -12836,7 +12836,7 @@
     {
       "query_id": "52961",
       "ndcg@10": 0.0,
-      "latency_ms": 47,
+      "latency_ms": 43,
       "retrieved": [
         "235129",
         "105911",
@@ -12870,7 +12870,7 @@
     {
       "query_id": "210472",
       "ndcg@10": 0.0,
-      "latency_ms": 129,
+      "latency_ms": 103,
       "retrieved": [
         "59699",
         "232013",
@@ -12887,7 +12887,7 @@
     {
       "query_id": "144556",
       "ndcg@10": 0.38685280723454163,
-      "latency_ms": 129,
+      "latency_ms": 125,
       "retrieved": [
         "82632",
         "64592",
@@ -12904,7 +12904,7 @@
     {
       "query_id": "137973",
       "ndcg@10": 1.0,
-      "latency_ms": 78,
+      "latency_ms": 75,
       "retrieved": [
         "19244",
         "240767",
@@ -12921,7 +12921,7 @@
     {
       "query_id": "213070",
       "ndcg@10": 0.0,
-      "latency_ms": 128,
+      "latency_ms": 120,
       "retrieved": [
         "133560",
         "147480",
@@ -12938,7 +12938,7 @@
     {
       "query_id": "215042",
       "ndcg@10": 0.3562071871080222,
-      "latency_ms": 86,
+      "latency_ms": 88,
       "retrieved": [
         "120657",
         "233040",
@@ -12955,7 +12955,7 @@
     {
       "query_id": "216639",
       "ndcg@10": 0.0,
-      "latency_ms": 88,
+      "latency_ms": 83,
       "retrieved": [
         "232830",
         "196495",
@@ -12972,7 +12972,7 @@
     {
       "query_id": "144717",
       "ndcg@10": 0.0,
-      "latency_ms": 93,
+      "latency_ms": 75,
       "retrieved": [
         "201838",
         "235042",
@@ -12989,7 +12989,7 @@
     {
       "query_id": "107774",
       "ndcg@10": 1.0,
-      "latency_ms": 129,
+      "latency_ms": 134,
       "retrieved": [
         "54536",
         "124879",
@@ -13006,7 +13006,7 @@
     {
       "query_id": "233592",
       "ndcg@10": 0.0,
-      "latency_ms": 51,
+      "latency_ms": 59,
       "retrieved": [
         "224829",
         "198453",
@@ -13023,7 +13023,7 @@
     {
       "query_id": "135047",
       "ndcg@10": 0.38685280723454163,
-      "latency_ms": 72,
+      "latency_ms": 65,
       "retrieved": [
         "250078",
         "240635",
@@ -13040,7 +13040,7 @@
     {
       "query_id": "193269",
       "ndcg@10": 0.0,
-      "latency_ms": 62,
+      "latency_ms": 72,
       "retrieved": [
         "34463",
         "254693",
@@ -13057,7 +13057,7 @@
     {
       "query_id": "117030",
       "ndcg@10": 0.6131471927654584,
-      "latency_ms": 122,
+      "latency_ms": 89,
       "retrieved": [
         "178154",
         "179561",
@@ -13074,7 +13074,7 @@
     {
       "query_id": "10857",
       "ndcg@10": 0.0,
-      "latency_ms": 64,
+      "latency_ms": 59,
       "retrieved": [
         "210320",
         "210826",
@@ -13091,7 +13091,7 @@
     {
       "query_id": "81062",
       "ndcg@10": 0.8772153153380493,
-      "latency_ms": 51,
+      "latency_ms": 55,
       "retrieved": [
         "121864",
         "210799",
@@ -13108,7 +13108,7 @@
     {
       "query_id": "131701",
       "ndcg@10": 0.0,
-      "latency_ms": 67,
+      "latency_ms": 70,
       "retrieved": [
         "147375",
         "247105",
@@ -13125,7 +13125,7 @@
     {
       "query_id": "228973",
       "ndcg@10": 0.38685280723454163,
-      "latency_ms": 55,
+      "latency_ms": 56,
       "retrieved": [
         "215301",
         "191166",
@@ -13142,7 +13142,7 @@
     {
       "query_id": "107986",
       "ndcg@10": 0.0,
-      "latency_ms": 148,
+      "latency_ms": 150,
       "retrieved": [
         "93872",
         "237561",
@@ -13159,7 +13159,7 @@
     {
       "query_id": "234066",
       "ndcg@10": 0.2890648263178879,
-      "latency_ms": 76,
+      "latency_ms": 67,
       "retrieved": [
         "247093",
         "256092",
@@ -13176,7 +13176,7 @@
     {
       "query_id": "227993",
       "ndcg@10": 0.38685280723454163,
-      "latency_ms": 43,
+      "latency_ms": 47,
       "retrieved": [
         "134364",
         "7629",
@@ -13193,7 +13193,7 @@
     {
       "query_id": "199162",
       "ndcg@10": 0.0,
-      "latency_ms": 123,
+      "latency_ms": 83,
       "retrieved": [
         "225054",
         "213423",
@@ -13210,7 +13210,7 @@
     {
       "query_id": "7242",
       "ndcg@10": 1.0,
-      "latency_ms": 90,
+      "latency_ms": 97,
       "retrieved": [
         "119652",
         "139090",
@@ -13227,7 +13227,7 @@
     {
       "query_id": "213452",
       "ndcg@10": 0.5,
-      "latency_ms": 113,
+      "latency_ms": 106,
       "retrieved": [
         "74846",
         "227756",
@@ -13244,7 +13244,7 @@
     {
       "query_id": "58887",
       "ndcg@10": 0.0,
-      "latency_ms": 136,
+      "latency_ms": 129,
       "retrieved": [
         "89654",
         "132378",
@@ -13261,7 +13261,7 @@
     {
       "query_id": "74493",
       "ndcg@10": 0.5109559939712153,
-      "latency_ms": 50,
+      "latency_ms": 45,
       "retrieved": [
         "222208",
         "185231",
@@ -13278,7 +13278,7 @@
     {
       "query_id": "159626",
       "ndcg@10": 1.0,
-      "latency_ms": 96,
+      "latency_ms": 69,
       "retrieved": [
         "164991",
         "47425",
@@ -13295,7 +13295,7 @@
     {
       "query_id": "95786",
       "ndcg@10": 0.0,
-      "latency_ms": 104,
+      "latency_ms": 86,
       "retrieved": [
         "48895",
         "196074",
@@ -13312,7 +13312,7 @@
     {
       "query_id": "93124",
       "ndcg@10": 0.0,
-      "latency_ms": 88,
+      "latency_ms": 71,
       "retrieved": [
         "252499",
         "120040",
@@ -13329,7 +13329,7 @@
     {
       "query_id": "24170",
       "ndcg@10": 0.0,
-      "latency_ms": 112,
+      "latency_ms": 110,
       "retrieved": [
         "189392",
         "175885",
@@ -13346,7 +13346,7 @@
     {
       "query_id": "203483",
       "ndcg@10": 0.0,
-      "latency_ms": 52,
+      "latency_ms": 58,
       "retrieved": [
         "215367",
         "71621",
@@ -13363,7 +13363,7 @@
     {
       "query_id": "237065",
       "ndcg@10": 0.0,
-      "latency_ms": 77,
+      "latency_ms": 78,
       "retrieved": [
         "166409",
         "205835",
@@ -13380,7 +13380,7 @@
     {
       "query_id": "66735",
       "ndcg@10": 0.0,
-      "latency_ms": 70,
+      "latency_ms": 64,
       "retrieved": [
         "47130",
         "197407",
@@ -13397,7 +13397,7 @@
     {
       "query_id": "17341",
       "ndcg@10": 0.38685280723454163,
-      "latency_ms": 18,
+      "latency_ms": 20,
       "retrieved": [
         "196845",
         "86734",
@@ -13414,7 +13414,7 @@
     {
       "query_id": "226357",
       "ndcg@10": 0.0,
-      "latency_ms": 59,
+      "latency_ms": 56,
       "retrieved": [
         "196362",
         "766",
@@ -13431,7 +13431,7 @@
     {
       "query_id": "230534",
       "ndcg@10": 0.0,
-      "latency_ms": 87,
+      "latency_ms": 80,
       "retrieved": [
         "218779",
         "119168",
@@ -13448,7 +13448,7 @@
     {
       "query_id": "7747",
       "ndcg@10": 1.0,
-      "latency_ms": 95,
+      "latency_ms": 83,
       "retrieved": [
         "127932",
         "51763",
@@ -13465,7 +13465,7 @@
     {
       "query_id": "215826",
       "ndcg@10": 0.0,
-      "latency_ms": 86,
+      "latency_ms": 78,
       "retrieved": [
         "95499",
         "56674",
@@ -13482,7 +13482,7 @@
     {
       "query_id": "23021",
       "ndcg@10": 0.0,
-      "latency_ms": 61,
+      "latency_ms": 50,
       "retrieved": [
         "232210",
         "147851",
@@ -13499,7 +13499,7 @@
     {
       "query_id": "219028",
       "ndcg@10": 0.0,
-      "latency_ms": 102,
+      "latency_ms": 117,
       "retrieved": [
         "216997",
         "153301",
@@ -13516,7 +13516,7 @@
     {
       "query_id": "218869",
       "ndcg@10": 0.0,
-      "latency_ms": 58,
+      "latency_ms": 63,
       "retrieved": [
         "108428",
         "249767",
@@ -13533,7 +13533,7 @@
     {
       "query_id": "237593",
       "ndcg@10": 1.0,
-      "latency_ms": 95,
+      "latency_ms": 78,
       "retrieved": [
         "237543",
         "249829",
@@ -13550,7 +13550,7 @@
     {
       "query_id": "156848",
       "ndcg@10": 0.0,
-      "latency_ms": 95,
+      "latency_ms": 96,
       "retrieved": [
         "210461",
         "177268",
@@ -13567,7 +13567,7 @@
     {
       "query_id": "71917",
       "ndcg@10": 0.2640681225725909,
-      "latency_ms": 61,
+      "latency_ms": 60,
       "retrieved": [
         "128897",
         "88415",
@@ -13584,7 +13584,7 @@
     {
       "query_id": "199873",
       "ndcg@10": 0.0,
-      "latency_ms": 109,
+      "latency_ms": 119,
       "retrieved": [
         "238942",
         "235337",
@@ -13601,7 +13601,7 @@
     {
       "query_id": "130948",
       "ndcg@10": 0.0,
-      "latency_ms": 26,
+      "latency_ms": 22,
       "retrieved": [
         "244354",
         "154837",
@@ -13618,7 +13618,7 @@
     {
       "query_id": "47370",
       "ndcg@10": 1.0,
-      "latency_ms": 97,
+      "latency_ms": 105,
       "retrieved": [
         "142186",
         "100457",
@@ -13635,7 +13635,7 @@
     {
       "query_id": "64722",
       "ndcg@10": 0.0,
-      "latency_ms": 44,
+      "latency_ms": 49,
       "retrieved": [
         "176349",
         "131523",
@@ -13652,7 +13652,7 @@
     {
       "query_id": "212300",
       "ndcg@10": 0.0,
-      "latency_ms": 68,
+      "latency_ms": 88,
       "retrieved": [
         "126860",
         "162698",
@@ -13703,7 +13703,7 @@
     {
       "query_id": "98905",
       "ndcg@10": 0.0,
-      "latency_ms": 83,
+      "latency_ms": 72,
       "retrieved": [
         "196865",
         "47778",
@@ -13720,7 +13720,7 @@
     {
       "query_id": "141232",
       "ndcg@10": 0.0,
-      "latency_ms": 76,
+      "latency_ms": 78,
       "retrieved": [
         "139090",
         "24558",
@@ -13737,7 +13737,7 @@
     {
       "query_id": "146272",
       "ndcg@10": 0.0,
-      "latency_ms": 91,
+      "latency_ms": 95,
       "retrieved": [
         "240379",
         "142175",
@@ -13754,7 +13754,7 @@
     {
       "query_id": "158397",
       "ndcg@10": 0.0,
-      "latency_ms": 65,
+      "latency_ms": 68,
       "retrieved": [
         "211105",
         "153350",
@@ -13771,7 +13771,7 @@
     {
       "query_id": "53612",
       "ndcg@10": 1.0,
-      "latency_ms": 95,
+      "latency_ms": 100,
       "retrieved": [
         "110242",
         "152240",
@@ -13788,7 +13788,7 @@
     {
       "query_id": "49959",
       "ndcg@10": 1.0,
-      "latency_ms": 37,
+      "latency_ms": 40,
       "retrieved": [
         "126950",
         "143390",
@@ -13805,7 +13805,7 @@
     {
       "query_id": "163408",
       "ndcg@10": 0.0,
-      "latency_ms": 98,
+      "latency_ms": 106,
       "retrieved": [
         "237851",
         "94379",
@@ -13822,7 +13822,7 @@
     {
       "query_id": "67750",
       "ndcg@10": 0.0,
-      "latency_ms": 110,
+      "latency_ms": 113,
       "retrieved": [
         "55284",
         "223999",
@@ -13839,7 +13839,7 @@
     {
       "query_id": "227818",
       "ndcg@10": 0.0,
-      "latency_ms": 102,
+      "latency_ms": 103,
       "retrieved": [
         "144594",
         "228168",
@@ -13856,7 +13856,7 @@
     {
       "query_id": "25600",
       "ndcg@10": 1.0,
-      "latency_ms": 105,
+      "latency_ms": 119,
       "retrieved": [
         "103102",
         "123082",
@@ -13873,7 +13873,7 @@
     {
       "query_id": "17568",
       "ndcg@10": 0.0,
-      "latency_ms": 79,
+      "latency_ms": 86,
       "retrieved": [
         "225569",
         "194609",
@@ -13890,7 +13890,7 @@
     {
       "query_id": "150479",
       "ndcg@10": 0.0,
-      "latency_ms": 131,
+      "latency_ms": 120,
       "retrieved": [
         "224356",
         "245959",
@@ -13907,7 +13907,7 @@
     {
       "query_id": "36925",
       "ndcg@10": 1.0,
-      "latency_ms": 85,
+      "latency_ms": 86,
       "retrieved": [
         "105283",
         "38280",
@@ -13924,7 +13924,7 @@
     {
       "query_id": "62765",
       "ndcg@10": 0.0,
-      "latency_ms": 109,
+      "latency_ms": 104,
       "retrieved": [
         "69336",
         "78962",
@@ -13941,7 +13941,7 @@
     {
       "query_id": "253267",
       "ndcg@10": 0.0,
-      "latency_ms": 89,
+      "latency_ms": 72,
       "retrieved": [
         "74846",
         "9447",
@@ -13958,7 +13958,7 @@
     {
       "query_id": "200497",
       "ndcg@10": 0.0,
-      "latency_ms": 57,
+      "latency_ms": 46,
       "retrieved": [
         "173235",
         "219386",
@@ -13975,7 +13975,7 @@
     {
       "query_id": "200861",
       "ndcg@10": 1.0,
-      "latency_ms": 83,
+      "latency_ms": 75,
       "retrieved": [
         "82432",
         "190963",
@@ -13992,7 +13992,7 @@
     {
       "query_id": "84966",
       "ndcg@10": 0.0,
-      "latency_ms": 150,
+      "latency_ms": 147,
       "retrieved": [
         "138058",
         "117375",
@@ -14009,7 +14009,7 @@
     {
       "query_id": "120477",
       "ndcg@10": 0.0,
-      "latency_ms": 105,
+      "latency_ms": 109,
       "retrieved": [
         "210161",
         "114496",
@@ -14026,7 +14026,7 @@
     {
       "query_id": "112974",
       "ndcg@10": 0.0,
-      "latency_ms": 102,
+      "latency_ms": 86,
       "retrieved": [
         "82792",
         "50049",
@@ -14043,7 +14043,7 @@
     {
       "query_id": "62060",
       "ndcg@10": 0.0,
-      "latency_ms": 58,
+      "latency_ms": 50,
       "retrieved": [
         "236100",
         "115359",
@@ -14060,7 +14060,7 @@
     {
       "query_id": "3766",
       "ndcg@10": 1.0,
-      "latency_ms": 121,
+      "latency_ms": 113,
       "retrieved": [
         "71619",
         "50299",
@@ -14077,7 +14077,7 @@
     {
       "query_id": "200709",
       "ndcg@10": 0.5,
-      "latency_ms": 96,
+      "latency_ms": 101,
       "retrieved": [
         "147336",
         "82047",
@@ -14094,7 +14094,7 @@
     {
       "query_id": "197746",
       "ndcg@10": 0.0,
-      "latency_ms": 76,
+      "latency_ms": 71,
       "retrieved": [
         "176049",
         "194820",
@@ -14111,7 +14111,7 @@
     {
       "query_id": "17826",
       "ndcg@10": 1.0,
-      "latency_ms": 66,
+      "latency_ms": 82,
       "retrieved": [
         "116369",
         "12540",
@@ -14128,7 +14128,7 @@
     {
       "query_id": "116330",
       "ndcg@10": 0.0,
-      "latency_ms": 68,
+      "latency_ms": 128,
       "retrieved": [
         "177515",
         "90456",
@@ -14145,7 +14145,7 @@
     {
       "query_id": "14645",
       "ndcg@10": 0.38685280723454163,
-      "latency_ms": 47,
+      "latency_ms": 59,
       "retrieved": [
         "52725",
         "10208",
@@ -14162,7 +14162,7 @@
     {
       "query_id": "205279",
       "ndcg@10": 0.0,
-      "latency_ms": 57,
+      "latency_ms": 69,
       "retrieved": [
         "93005",
         "191005",
@@ -14179,7 +14179,7 @@
     {
       "query_id": "68867",
       "ndcg@10": 0.0,
-      "latency_ms": 138,
+      "latency_ms": 155,
       "retrieved": [
         "224779",
         "206414",
@@ -14196,7 +14196,7 @@
     {
       "query_id": "231491",
       "ndcg@10": 0.0,
-      "latency_ms": 47,
+      "latency_ms": 56,
       "retrieved": [
         "103745",
         "200620",
@@ -14213,7 +14213,7 @@
     {
       "query_id": "237935",
       "ndcg@10": 0.0,
-      "latency_ms": 56,
+      "latency_ms": 68,
       "retrieved": [
         "235025",
         "237526",
@@ -14230,7 +14230,7 @@
     {
       "query_id": "93848",
       "ndcg@10": 0.0,
-      "latency_ms": 90,
+      "latency_ms": 61,
       "retrieved": [
         "40100",
         "129673",
@@ -14247,7 +14247,7 @@
     {
       "query_id": "492",
       "ndcg@10": 1.0,
-      "latency_ms": 111,
+      "latency_ms": 78,
       "retrieved": [
         "95355",
         "201529",
@@ -14264,7 +14264,7 @@
     {
       "query_id": "122071",
       "ndcg@10": 0.0,
-      "latency_ms": 81,
+      "latency_ms": 53,
       "retrieved": [
         "212861",
         "6005",
@@ -14281,7 +14281,7 @@
     {
       "query_id": "85691",
       "ndcg@10": 1.0,
-      "latency_ms": 100,
+      "latency_ms": 130,
       "retrieved": [
         "168315",
         "188427",
@@ -14298,7 +14298,7 @@
     {
       "query_id": "29513",
       "ndcg@10": 0.23719771276929622,
-      "latency_ms": 80,
+      "latency_ms": 104,
       "retrieved": [
         "189150",
         "143874",
@@ -14315,7 +14315,7 @@
     {
       "query_id": "145518",
       "ndcg@10": 0.0,
-      "latency_ms": 44,
+      "latency_ms": 36,
       "retrieved": [
         "114978",
         "47070",
@@ -14332,7 +14332,7 @@
     {
       "query_id": "165735",
       "ndcg@10": 0.43067655807339306,
-      "latency_ms": 28,
+      "latency_ms": 24,
       "retrieved": [
         "110796",
         "47732",
@@ -14349,7 +14349,7 @@
     {
       "query_id": "116988",
       "ndcg@10": 0.0,
-      "latency_ms": 73,
+      "latency_ms": 62,
       "retrieved": [
         "102580",
         "150574",
@@ -14366,7 +14366,7 @@
     {
       "query_id": "196260",
       "ndcg@10": 0.0,
-      "latency_ms": 107,
+      "latency_ms": 182,
       "retrieved": [
         "231783",
         "101649",
@@ -14383,7 +14383,7 @@
     {
       "query_id": "57068",
       "ndcg@10": 1.0,
-      "latency_ms": 61,
+      "latency_ms": 81,
       "retrieved": [
         "155210",
         "153474",
@@ -14400,7 +14400,7 @@
     {
       "query_id": "107265",
       "ndcg@10": 0.5714285040141098,
-      "latency_ms": 62,
+      "latency_ms": 72,
       "retrieved": [
         "148459",
         "130186",
@@ -14417,7 +14417,7 @@
     {
       "query_id": "199827",
       "ndcg@10": 0.0,
-      "latency_ms": 159,
+      "latency_ms": 157,
       "retrieved": [
         "41941",
         "70410",
@@ -14434,7 +14434,7 @@
     {
       "query_id": "186932",
       "ndcg@10": 0.0,
-      "latency_ms": 119,
+      "latency_ms": 127,
       "retrieved": [
         "58248",
         "205137",
@@ -14451,7 +14451,7 @@
     {
       "query_id": "132074",
       "ndcg@10": 0.0,
-      "latency_ms": 77,
+      "latency_ms": 68,
       "retrieved": [
         "253888",
         "77161",
@@ -14468,7 +14468,7 @@
     {
       "query_id": "177907",
       "ndcg@10": 0.0,
-      "latency_ms": 76,
+      "latency_ms": 102,
       "retrieved": [
         "246549",
         "180235",
@@ -14485,7 +14485,7 @@
     {
       "query_id": "204580",
       "ndcg@10": 0.0,
-      "latency_ms": 58,
+      "latency_ms": 69,
       "retrieved": [
         "141391",
         "207464",
@@ -14502,7 +14502,7 @@
     {
       "query_id": "236473",
       "ndcg@10": 0.0,
-      "latency_ms": 75,
+      "latency_ms": 72,
       "retrieved": [
         "178603",
         "35276",
@@ -14519,7 +14519,7 @@
     {
       "query_id": "1200",
       "ndcg@10": 0.0,
-      "latency_ms": 97,
+      "latency_ms": 103,
       "retrieved": [
         "220937",
         "69203",
@@ -14536,7 +14536,7 @@
     {
       "query_id": "210496",
       "ndcg@10": 0.0,
-      "latency_ms": 125,
+      "latency_ms": 140,
       "retrieved": [
         "230905",
         "136436",
@@ -14553,7 +14553,7 @@
     {
       "query_id": "180904",
       "ndcg@10": 0.43067655807339306,
-      "latency_ms": 91,
+      "latency_ms": 38,
       "retrieved": [
         "215271",
         "146213",
@@ -14570,7 +14570,7 @@
     {
       "query_id": "195094",
       "ndcg@10": 0.0,
-      "latency_ms": 100,
+      "latency_ms": 84,
       "retrieved": [
         "161670",
         "25637",
@@ -14587,7 +14587,7 @@
     {
       "query_id": "98758",
       "ndcg@10": 0.0,
-      "latency_ms": 64,
+      "latency_ms": 61,
       "retrieved": [
         "52729",
         "116806",
@@ -14604,7 +14604,7 @@
     {
       "query_id": "202770",
       "ndcg@10": 0.5,
-      "latency_ms": 38,
+      "latency_ms": 61,
       "retrieved": [
         "135232",
         "221088",
@@ -14621,7 +14621,7 @@
     {
       "query_id": "95933",
       "ndcg@10": 0.0,
-      "latency_ms": 86,
+      "latency_ms": 113,
       "retrieved": [
         "183685",
         "203550",
@@ -14638,7 +14638,7 @@
     {
       "query_id": "196615",
       "ndcg@10": 0.0,
-      "latency_ms": 81,
+      "latency_ms": 73,
       "retrieved": [
         "120832",
         "126343",
@@ -14655,7 +14655,7 @@
     {
       "query_id": "96638",
       "ndcg@10": 1.0,
-      "latency_ms": 91,
+      "latency_ms": 95,
       "retrieved": [
         "105196",
         "150403",
@@ -14672,7 +14672,7 @@
     {
       "query_id": "250164",
       "ndcg@10": 0.0,
-      "latency_ms": 50,
+      "latency_ms": 52,
       "retrieved": [
         "100442",
         "82133",
@@ -14689,7 +14689,7 @@
     {
       "query_id": "200545",
       "ndcg@10": 0.0,
-      "latency_ms": 28,
+      "latency_ms": 34,
       "retrieved": [
         "187618",
         "126112",
@@ -14706,7 +14706,7 @@
     {
       "query_id": "16732",
       "ndcg@10": 0.0,
-      "latency_ms": 29,
+      "latency_ms": 35,
       "retrieved": [
         "177825",
         "81801",
@@ -14740,7 +14740,7 @@
     {
       "query_id": "112485",
       "ndcg@10": 0.19342640361727081,
-      "latency_ms": 71,
+      "latency_ms": 81,
       "retrieved": [
         "194412",
         "246397",
@@ -14757,7 +14757,7 @@
     {
       "query_id": "106693",
       "ndcg@10": 0.0,
-      "latency_ms": 181,
+      "latency_ms": 168,
       "retrieved": [
         "25963",
         "186426",
@@ -14774,7 +14774,7 @@
     {
       "query_id": "36297",
       "ndcg@10": 0.0,
-      "latency_ms": 31,
+      "latency_ms": 30,
       "retrieved": [
         "65512",
         "116786",
@@ -14791,7 +14791,7 @@
     {
       "query_id": "230145",
       "ndcg@10": 1.0,
-      "latency_ms": 88,
+      "latency_ms": 96,
       "retrieved": [
         "111920",
         "243220",
@@ -14808,7 +14808,7 @@
     {
       "query_id": "41981",
       "ndcg@10": 0.6309297535714575,
-      "latency_ms": 59,
+      "latency_ms": 55,
       "retrieved": [
         "756",
         "113079",
@@ -14825,7 +14825,7 @@
     {
       "query_id": "211640",
       "ndcg@10": 1.0,
-      "latency_ms": 50,
+      "latency_ms": 43,
       "retrieved": [
         "211647",
         "242780",
@@ -14842,7 +14842,7 @@
     {
       "query_id": "35610",
       "ndcg@10": 0.0,
-      "latency_ms": 65,
+      "latency_ms": 66,
       "retrieved": [
         "250449",
         "140156",
@@ -14859,7 +14859,7 @@
     {
       "query_id": "74580",
       "ndcg@10": 0.0,
-      "latency_ms": 121,
+      "latency_ms": 119,
       "retrieved": [
         "149016",
         "86636",
@@ -14876,7 +14876,7 @@
     {
       "query_id": "138908",
       "ndcg@10": 0.3562071871080222,
-      "latency_ms": 75,
+      "latency_ms": 60,
       "retrieved": [
         "238895",
         "100958",
@@ -14893,7 +14893,7 @@
     {
       "query_id": "133937",
       "ndcg@10": 0.0,
-      "latency_ms": 42,
+      "latency_ms": 41,
       "retrieved": [
         "50283",
         "205254",
