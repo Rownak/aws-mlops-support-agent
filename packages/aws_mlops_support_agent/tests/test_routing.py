@@ -6,7 +6,7 @@ from aws_mlops_support_agent.agent.graph import (
     route_after_retrieve,
 )
 from langgraph.graph import END
-from rag_core.retrieval.confidence import RetrievalConfidence
+from rag_core.retriever.confidence import RetrievalConfidence
 
 
 def _conf(is_confident):

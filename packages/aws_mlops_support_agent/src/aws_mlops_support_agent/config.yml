@@ -20,9 +20,7 @@ llm:
 
 vectorstore:
   provider: pinecone
-  # The live Pinecone index. Committed here so a fresh clone with no .env
-  # still points at the right corpus; PINECONE_INDEX_NAME can override it
-  # (e.g. to build a staging index) without editing this file.
+  # The live Pinecone index. 
   collection_name: aws-support-agent-idx
   cloud: aws
   region: us-east-1
@@ -35,9 +33,12 @@ splitter:
 retriever:
   search_type: similarity
   top_k: 4
-  # Eyeballed on this corpus with text-embedding-3-small: on-corpus questions
-  # score ~0.4-0.6 top-1. See evals/results.md for the known weakness — some
-  # off-corpus questions also clear this bar.
+  # Stale: eyeballed against an older embedding model, whose on-corpus top-1
+  # scores ran ~0.4-0.6. The current model's scores run much higher and
+  # overlap heavily between on- and off-corpus questions (on-corpus
+  # 0.709-0.869, off-corpus 0.689-0.781 in evals/results.md) — this threshold
+  # is not well-calibrated for today's model and needs its own investigation,
+  # not a quick number swap. Left as-is for now; see evals/results.md.
   min_top_score: 0.35
 
 sources:

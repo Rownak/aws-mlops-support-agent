@@ -7,19 +7,19 @@ a retrieval miss forever.
 
 from aws_mlops_support_agent.evals.dataset import EVAL_CASES
 
-KNOWN_SOURCES = ("codebuild", "codepipeline")
-
 
 def test_dataset_is_not_empty():
     assert len(EVAL_CASES) >= 15
 
 
-def test_labels_point_at_real_corpus_sources():
+def test_labels_are_plain_markdown_filenames():
+    """Expected files are plain filenames, not source_id-prefixed (dataset.py:
+    rag_core's sources are type: local folders now, with no source_id concept
+    to prefix a label with)."""
     for case in EVAL_CASES:
         for f in case.expected_files:
-            source_id, _, filename = f.partition("/")
-            assert source_id in KNOWN_SOURCES, f
-            assert filename.endswith(".md"), f
+            assert "/" not in f, f
+            assert f.endswith(".md"), f
 
 
 def test_escalation_expectation_matches_whether_labels_exist():

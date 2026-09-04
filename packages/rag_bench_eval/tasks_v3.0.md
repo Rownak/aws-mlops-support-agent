@@ -299,17 +299,35 @@ replace `retrieve.py`.
   *Done when:* `uv run pytest` is green (229 passed). AWS agent eval
   reproduction deferred to 7.4, which verifies against the live agent corpus.
 
-- [ ] **7.3 Config for composed retrieval.** Let the agent's `config.yml`
-  express the winning pipeline (hybrid and/or reranking) through the existing
-  `retriever:` block. Keep today's flat shape valid — an unset key means
-  today's behaviour, so no existing config changes meaning.
+- [x] **7.3 Confirm `config.yml` for the decided pipeline: bare Pinecone
+  cosine, no composition.** Per
+  `claude/docs/phase7_pinecone_scope_decision.md`, the decision is to keep
+  Pinecone's plain cosine similarity as the retriever — not RRF, not
+  reranking. The agent's `retriever:` block (`search_type: similarity`,
+  `top_k: 4`, `min_top_score: 0.35`, no `rerank:` key) already expresses
+  exactly that shape, and `RetrieverConfig.from_raw` already parses it with no
+  changes needed. This task is to verify that, not to add anything: confirm
+  `_retriever()` built from this config actually resolves to a bare
+  `PineconeRetriever` (`get_reranker(None) is None`, so no
+  `RerankingRetriever` wrap), and that nothing in `config.yml` needs editing.
+  Result: confirmed live against `CONFIG_PATH` — `rag.config.retriever.rerank
+  is None`, `type(rag._retriever()) is PineconeRetriever`. `config.yml`
+  unchanged.
 
-- [ ] **7.4 Verify against the agent's corpus.** Run the AWS agent's eval with
-  the winner enabled vs. disabled and record both. The benchmark says a
-  technique wins on NFCorpus; this checks it also wins on AWS docs, where the
-  corpus is smaller and the queries are longer.
-  *Done when:* both numbers are in `progress.md` — including if the winner
-  does *not* transfer, which is a finding, not a failure.
+- [x] **7.4 Run the agent's own eval to confirm the `_retriever()` pipeline
+  works end to end.** This is not a benchmark comparison (no technique switch
+  to A/B — 7.3 confirmed only one path exists) — it's confirming the new
+  seam is wired correctly against the live AWS docs corpus: `RagCore._retriever()`
+  → `PineconeRetriever` → real Pinecone index → results that make sense.
+  Run the agent's existing eval (`evals/run.py`, hit@k + escalation over the
+  on-corpus/off-corpus dataset in `evals/dataset.py`) once through today's path
+  (`retrieve()`/`retrieve_scored()`, unchanged) and once through `_retriever()`,
+  and confirm the two agree — `_retriever()` is a new seam over the same
+  underlying Pinecone index, so its retrieved chunks should match, not just
+  its aggregate scores.
+  *Done when:* both runs are recorded in `progress.md`, and any mismatch
+  between the two paths is understood (a genuine bug) rather than shrugged off
+  as noise.
 
 **Scope guard:** `min_score` stays on the outermost node only, and a reranker's
 logits are not normalized similarities — an existing `min_top_score` tuned for

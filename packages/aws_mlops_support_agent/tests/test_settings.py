@@ -6,7 +6,7 @@ a config typo and a real Jira ticket, so it must fail SAFE.
 
 import pytest
 from aws_mlops_support_agent import settings
-from rag_core import config as rag_config
+from rag_core.config import loader as rag_config_loader
 
 ENV_VARS = (
     "OPENAI_API_KEY",
@@ -29,7 +29,7 @@ ENV_VARS = (
 @pytest.fixture(autouse=True)
 def isolate_env(monkeypatch):
     """Keep tests independent of the developer's real .env / environment."""
-    monkeypatch.setattr(rag_config, "load_dotenv", lambda: None)
+    monkeypatch.setattr(rag_config_loader, "load_dotenv", lambda: None)
     for name in ENV_VARS:
         monkeypatch.delenv(name, raising=False)
     monkeypatch.setenv("OPENAI_API_KEY", "test-openai-key")
@@ -103,12 +103,24 @@ def test_empty_jira_var_becomes_none(monkeypatch):
 
 def test_rag_config_loaded_from_project_config_yml():
     rag = settings.load_settings().rag
-    assert rag.project == "aws-mlops-support-agent"
-    assert rag.pinecone_index_name == "aws-support-agent-idx"
-    assert rag.retrieval.min_top_score == 0.35
-    assert {s.id for s in rag.sources} == {"codebuild", "codepipeline"}
+    assert rag.vectorstore.collection_name == "aws-support-agent-idx"
+    assert rag.retriever.min_top_score == 0.35
+    # codepipeline is commented out in config.yml today; codebuild is the
+    # only source actually ingested.
+    assert {s.options["id"] for s in rag.sources} == {"codebuild"}
 
 
-def test_env_still_overrides_the_project_config_yml(monkeypatch):
+def test_config_yml_collection_name_wins_over_env(monkeypatch):
+    """collection_name is a deliberate choice in the committed config.yml, so
+    it wins over PINECONE_INDEX_NAME — the reverse of api_key/region's
+    env-overrides-yaml precedence (providers.py: VectorStoreConfig.from_raw)."""
     monkeypatch.setenv("PINECONE_INDEX_NAME", "override-index")
-    assert settings.load_settings().rag.pinecone_index_name == "override-index"
+    assert settings.load_settings().rag.vectorstore.collection_name == "aws-support-agent-idx"
+
+
+def test_pinecone_index_name_env_is_the_fallback_when_yaml_has_none(monkeypatch):
+    from rag_core.config.providers import VectorStoreConfig
+
+    monkeypatch.setenv("PINECONE_INDEX_NAME", "from-env")
+    cfg = VectorStoreConfig.from_raw({})  # no collection_name key at all
+    assert cfg.collection_name == "from-env"

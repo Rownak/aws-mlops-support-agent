@@ -39,6 +39,12 @@ testpaths = [
     "packages/aws_mlops_support_agent/tests",
     "packages/rag_bench_eval/tests",
 ]
+# Three packages' test dirs have no __init__.py, and two happen to share a
+# basename (test_settings.py) — the default "prepend" import mode requires
+# unique basenames across all of testpaths and errors on the collision.
+# importlib mode imports each file by its own path instead, so duplicate
+# basenames across packages are never ambiguous.
+addopts = "--import-mode=importlib"
 
 [tool.ruff]
 line-length = 100

@@ -1,14 +1,17 @@
 """Tests for task 3.5 — pure ticket-draft builder."""
 
 from aws_mlops_support_agent.agent.ticket import build_ticket_draft
-from rag_core.retrieval.confidence import RetrievalConfidence
-from rag_core.retrieval.retriever import RetrievedChunk
+from langchain_core.documents import Document
+from rag_core.retriever.confidence import RetrievalConfidence
 
 
 def _chunk(heading, url):
-    return RetrievedChunk(
-        text="t", score=0.3, source_id="codebuild", source_file="f.md", heading=heading, url=url
+    """A (Document, score) pair — RagCore.retrieve_scored()'s return shape."""
+    document = Document(
+        page_content="t",
+        metadata={"source": "codebuild", "file_name": heading, "url": url},
     )
+    return (document, 0.3)
 
 
 def _state(**overrides):

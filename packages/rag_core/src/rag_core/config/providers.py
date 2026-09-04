@@ -6,6 +6,7 @@ plain dict for its factory. Adding a provider should mean editing this file
 and nothing else.
 """
 
+import os
 from dataclasses import dataclass
 
 from .base import DictLike
@@ -111,7 +112,16 @@ class VectorStoreConfig(DictLike):
         """
         return cls(
             provider=raw.get("provider") or cls.provider,
-            collection_name=raw.get("collection_name") or cls.collection_name,
+            # Reversed from the usual env > yaml > default precedence: an
+            # explicit collection_name in config.yaml is a deliberate choice
+            # and wins; PINECONE_INDEX_NAME is only the fallback when the
+            # committed config has none, so a fresh clone with no .env still
+            # points at the right corpus (see config.yml's own comment).
+            collection_name=(
+                raw.get("collection_name")
+                or os.environ.get("PINECONE_INDEX_NAME")
+                or cls.collection_name
+            ),
             # Not via _env_or: `False` is falsy, so `or` would flip it to the
             # default. Read straight from the raw block instead.
             use_sparse=bool(raw.get("use_sparse", False)),

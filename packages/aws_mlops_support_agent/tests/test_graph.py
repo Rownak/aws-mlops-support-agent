@@ -8,8 +8,8 @@ import pytest
 from aws_mlops_support_agent.agent.graph import MAX_ATTEMPTS, build_graph
 from aws_mlops_support_agent.agent.state import initial_state
 from conftest import make_config
+from langchain_core.documents import Document
 from langgraph.types import Command
-from rag_core.retrieval.retriever import RetrievedChunk
 
 
 def _cfg(dry_run=True):
@@ -18,14 +18,16 @@ def _cfg(dry_run=True):
 
 
 def _chunk(score):
-    return RetrievedChunk(
-        text="Docs about env vars.",
-        score=score,
-        source_id="codebuild",
-        source_file="f.md",
-        heading="Env vars",
-        url="https://docs.aws/a.html",
+    """A (Document, score) pair — RagCore.retrieve_scored()'s return shape."""
+    document = Document(
+        page_content="Docs about env vars.",
+        metadata={
+            "source": "codebuild",
+            "file_name": "Env vars",
+            "url": "https://docs.aws/a.html",
+        },
     )
+    return (document, score)
 
 
 class FakeRetriever:
@@ -118,8 +120,11 @@ def test_retry_loop_widens_k_and_escalates_at_cap():
 
     assert result["ticket_draft"] is not None  # exhausted -> escalated
     assert result["attempts"] == MAX_ATTEMPTS
-    # Each retry widened the search instead of repeating it: k = 4 + 2*attempts.
-    assert retriever.k_values == [4 + 2 * i for i in range(MAX_ATTEMPTS)]
+    # Each retry widened the search instead of repeating it: k = top_k + 2*attempts,
+    # where top_k is RetrieverConfig's default (5), from the stub config's
+    # unmodified retriever block.
+    top_k = 5
+    assert retriever.k_values == [top_k + 2 * i for i in range(MAX_ATTEMPTS)]
 
 
 def test_bad_resume_value_is_rejected():

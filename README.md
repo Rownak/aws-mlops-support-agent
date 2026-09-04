@@ -385,19 +385,16 @@ the corpus already lives in Pinecone.
 |---|---|
 | `rag_core` | 🟢 **Stable.** Standalone, provider-switchable engine; its own suite passes. |
 | `rag_bench_eval` | 🟢 **Active.** Five retrieval pipelines swept across two BEIR datasets. |
-| `aws_mlops_support_agent` | 🟡 **Catching up.** May be broken by in-flight `rag_core` changes — see below. |
+| `aws_mlops_support_agent` | 🟢 **Verified against current `rag_core`.** Test fixtures ported; ingest, query and escalate all re-run end to end. |
 
-> **⚠️ The AWS agent is mid-migration.** `rag_core` is being extended to support the benchmark — a
-> `Retriever` protocol, new BM25/dense/fusion/rerank implementations, IR metrics, and a rename inside
-> `rerank.py` (`BaseReranker` → `RelevanceScorer`, and so on). The engine's contract is meant to stay
-> additive, but the agent has not yet been re-verified against it end to end, so **treat the agent as
-> untested on this branch** until it is. It will be brought current and this row turns green.
 
 Backlog / next steps:
 
-- **Re-verify the agent against current `rag_core`** — port the test fixtures to the nested
-  `embeddings` / `llm` / `vectorstore` / `splitter` / `retriever` schema, then run ingest → query →
-  escalate end to end. This is what flips the status to green.
+- **Fix 4 files failing ingest with `UnicodeDecodeError`.** `markitdown`'s `PlainTextConverter`
+  (via `charset_normalizer`/Magika charset detection) misidentifies the encoding of 4 of 182
+  CodeBuild doc files on this Windows environment — the files are valid UTF-8, but conversion
+  decodes with the wrong charset and fails. Pre-existing, unrelated to the `rag_core` migration;
+  found while re-verifying ingest end to end.
 - Carry the benchmark's winning retrieval shape into the agent's config and verify it on the AWS corpus —
   where the two datasets already disagree, the AWS numbers decide.
 - HyDE and multi-query pipelines (query expansion via LLM), with per-run LLM-call accounting.
