@@ -13,6 +13,11 @@ dependencies = [
     "grandalf>=0.8",
 ]
 
+[project.optional-dependencies]
+# Needed only for `aws-agent-ingest` (building the corpus). The hosted demo
+# queries an already-populated Pinecone index and doesn't need this.
+ingest = ["rag-core[ingest]"]
+
 [project.scripts]
 aws-agent = "aws_mlops_support_agent.app:main"
 aws-agent-ingest = "aws_mlops_support_agent.ingest:main"
