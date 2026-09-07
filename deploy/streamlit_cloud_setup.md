@@ -48,30 +48,47 @@ known dollar amount on a key that can't touch anything else.
 
 ## 2. What makes this repo deployable
 
-Two files at the repo root exist specifically for this host:
+Two files in **`app/`** exist specifically for this host. They must stay
+together in that directory — the reason is subtle and is the single most
+common way this deploy breaks:
 
-- **`streamlit_app.py`** — the entrypoint. Community Cloud does not
+- **`app/streamlit_app.py`** — the entrypoint. Community Cloud does not
   `pip install` this repo's workspace packages (they live under
   `packages/*/src`), so this shim prepends both `src` directories to
   `sys.path` and calls the real app. Local `uv run aws-agent-demo` is
   unaffected.
-- **`requirements.txt`** — 93 exact pins exported from `uv.lock` with the two
-  local packages excluded (`--no-emit-workspace`), since the shim handles those.
+- **`app/requirements.txt`** — 93 exact pins exported from `uv.lock` with the
+  two local packages excluded (`--no-emit-workspace`), since the shim handles
+  those.
 
-Regenerate `requirements.txt` after any dependency change:
+> **Why `app/` and not the repo root.** Community Cloud uses the *first*
+> dependency file it finds, searching the **entrypoint's own directory first**,
+> then the repo root, in this order: `uv.lock`, `Pipfile`, `environment.yml`,
+> `requirements.txt`, `pyproject.toml`.
+>
+> This repo has a root `uv.lock`. If the entrypoint lives anywhere that
+> doesn't contain its own dependency file, the search falls through to the
+> root, finds `uv.lock` first, and tries to build the whole workspace from
+> source — including `rag_core`, whose `[tool.uv.sources]` block uses an
+> `extra` key that Community Cloud's older `uv` rejects:
+>
+> ```
+> unknown field `extra`, expected one of `git`, `subdirectory`, ...
+> help: `rag-core` was included because `aws-mlops-workspace` depends on it
+> ```
+>
+> Keeping the entrypoint and `requirements.txt` together in `app/` means
+> `requirements.txt` is found first and the root `uv.lock` is never read.
+> Do not move either file out on its own, and do not point **Main file path**
+> at `packages/.../demo/streamlit_app.py` — that reintroduces the same failure.
+
+Regenerate `app/requirements.txt` after any dependency change, or the deployed
+app silently drifts from `uv.lock`:
 
 ```bash
 uv export --frozen --no-dev --no-emit-workspace --no-annotate --no-header \
-  --package aws-mlops-support-agent --no-hashes -o requirements.txt
+  --package aws-mlops-support-agent --no-hashes -o app/requirements.txt
 ```
-
-> **Dependency-file priority.** Community Cloud uses the *first* file it finds,
-> searching the entrypoint's directory then the repo root, in this order:
-> `uv.lock`, `Pipfile`, `environment.yml`, `requirements.txt`, `pyproject.toml`.
-> This repo has a root `uv.lock`, which is found first — and it references the
-> workspace members, which Community Cloud cannot resolve from a bare checkout.
-> If the build fails on dependency resolution, that is the cause. See
-> **Troubleshooting** below.
 
 ## 3. Deploy
 
@@ -81,7 +98,8 @@ uv export --frozen --no-dev --no-emit-workspace --no-annotate --no-header \
 4. Set:
    - **Repository:** your repo
    - **Branch:** the branch you pushed
-   - **Main file path:** `streamlit_app.py`
+   - **Main file path:** `app/streamlit_app.py`  ← not the one under
+     `packages/`; see the note in step 2
 5. Before clicking Deploy, open **Advanced settings** and set Python version
    to **3.13** (this repo requires `>=3.13`).
 
@@ -151,25 +169,24 @@ something the visitor can't reset.
 
 ## Troubleshooting
 
-**Build fails resolving dependencies / cannot find `rag-core`.**
-Community Cloud picked up the root `uv.lock` ahead of `requirements.txt` and
-tried to resolve the workspace members. Fix by making `requirements.txt` the
-first file found — move the entrypoint and its requirements into a dedicated
-directory, so the entrypoint's own directory is searched first:
+**`Failed to build rag-core` / `unknown field 'extra'` / `TOML parse error`.**
+Community Cloud read the root `uv.lock` instead of `app/requirements.txt` and
+tried to build the workspace from source; `rag_core`'s `[tool.uv.sources]`
+uses an `extra` key that its older `uv` doesn't support. Almost always this
+means **Main file path** is wrong — it must be `app/streamlit_app.py`. If it
+points at `packages/aws_mlops_support_agent/src/.../demo/streamlit_app.py`,
+that directory has no dependency file, so the search falls through to the
+root `uv.lock`. Fix the path in the app's settings and reboot it.
 
-```bash
-mkdir -p app
-git mv streamlit_app.py app/streamlit_app.py
-git mv requirements.txt app/requirements.txt
-```
-
-Then set **Main file path** to `app/streamlit_app.py` and adjust `_ROOT` in
-the shim to `Path(__file__).parent.parent`. (Keep the fallback in mind rather
-than doing it preemptively — if the `uv.lock` build succeeds, leave it alone.)
+(Editing `rag_core/pyproject.toml` to drop the `extra` key would also silence
+this, but don't — that block is what keeps `rerank-cpu` and `rerank-cuda` from
+resolving together, and the deployed image doesn't install either extra
+anyway. Fixing the entrypoint path is the correct fix.)
 
 **`ModuleNotFoundError: rag_core`.** The shim didn't run or the paths are
-wrong. Confirm **Main file path** is the root `streamlit_app.py`, not
-`packages/.../demo/streamlit_app.py`.
+wrong. Confirm **Main file path** is `app/streamlit_app.py`, and that
+`app/streamlit_app.py` still computes `_ROOT` as `Path(__file__).parent.parent`
+(it must point at the repo root, one level above `app/`).
 
 **App boots but every question errors.** A missing or misnamed secret. Check
 the app's logs (bottom-right **Manage app** → logs).
