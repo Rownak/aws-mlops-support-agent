@@ -1,4 +1,4 @@
-# RAG Pipeline Monorepo
+# DOCUMENTATION-RAG-AGENT
 
 **A reusable RAG engine, a benchmark that measures its retrieval quality, and a production agent built
 on top of it.**
@@ -20,7 +20,7 @@ Three packages, one dependency direction:
 |---|---|
 | **[`rag_core`](packages/rag_core/README.md)** | A corpus-agnostic RAG engine. Hand it a `config.yaml` and it loads, chunks, embeds, indexes, retrieves, reranks, scores confidence, and generates cited answers. Knows nothing about AWS, Jira, LangGraph, or BEIR. |
 | **[`rag_bench_eval`](packages/rag_bench_eval/README.md)** | A retrieval benchmark over labelled IR datasets (BEIR/NFCorpus, CQADupStack). Scores each technique — BM25, dense, RRF hybrid, reranking — with nDCG@10 against human relevance judgements. |
-| **[`aws_mlops_support_agent`](packages/aws_mlops_support_agent/README.md)** | The production consumer: an agentic assistant that answers AWS CI/CD questions from the official docs with citations, and files a Jira ticket for a human when it can't. |
+| **[`aws_mlops_support_agent`](packages/aws_mlops_support_agent/README.md)** | The production application: an agentic AWS DevOps assistant that answers questions using official AWS documentation with source citations, and escalates low-confidence queries to a human by automatically creating a Jira ticket. |
 
 The point of the split is that **retrieval decisions get measured before they ship.** A change to
 `rag_core`'s retrieval is scored on labelled data by `rag_bench_eval` and only then carried into the
