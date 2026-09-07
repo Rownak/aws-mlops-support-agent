@@ -24,10 +24,30 @@ from aws_mlops_support_agent.agent.graph import build_graph
 from aws_mlops_support_agent.agent.state import initial_state
 from aws_mlops_support_agent.settings import AgentConfig, force_dry_run, load_settings
 
+# Every LLM-spending action a visitor can take is metered against this.
+# Deliberately small: this is a shared demo key, not a product.
+#
+# NB this is a courtesy limit, not a security control — st.session_state is
+# tied to the WebSocket connection, so refreshing the page starts a new
+# session with a fresh count. The real protection against key exhaustion is
+# the hard monthly spend cap on the OpenAI project key (see
+# deploy/streamlit_cloud_setup.md), which is what actually cannot be bypassed.
+MAX_RUNS_PER_SESSION = 5
+
 
 def demo_config() -> AgentConfig:
     """Public demo: Jira is ALWAYS dry-run, regardless of what .env says."""
     return force_dry_run(load_settings())
+
+
+def runs_left() -> int:
+    """How many LLM-backed runs this session may still make."""
+    return MAX_RUNS_PER_SESSION - st.session_state.get("runs_used", 0)
+
+
+def record_run() -> None:
+    """Count one LLM-backed graph run against this session's quota."""
+    st.session_state.runs_used = st.session_state.get("runs_used", 0) + 1
 
 
 @st.cache_resource
@@ -53,9 +73,16 @@ def render_ingest_summary(stats) -> None:
 
 
 def render_ingest_control() -> None:
-    """Sidebar button that runs RagCore.sync() against this project's config.yml."""
+    """Sidebar button that runs RagCore.sync() against this project's config.yml.
+
+    Disabled in the hosted demo: that image is built without rag_core's
+    `ingest` extra (no markitdown/onnxruntime/etc — see rag_core pyproject),
+    so RagCore.sync() would fail with an ImportError if this ever ran there.
+    The demo queries the pre-built Pinecone index and never needs to ingest.
+    """
     st.sidebar.subheader("Corpus")
-    if st.sidebar.button("Ingest / refresh docs"):
+    st.sidebar.caption("Disabled in this demo — querying a pre-built index.")
+    if st.sidebar.button("Ingest / refresh docs", disabled=True):
         # Imported lazily, same reasoning as nodes.py: building RagCore opens
         # a Pinecone connection, which should not happen on every page render.
         from rag_core import RagCore
@@ -110,7 +137,11 @@ def main() -> None:
     graph = get_graph()
     st.session_state.setdefault("history", [])
     st.session_state.setdefault("pending", None)
+    st.session_state.setdefault("runs_used", 0)
     render_ingest_control()
+
+    st.sidebar.subheader("Demo quota")
+    st.sidebar.caption(f"{runs_left()} of {MAX_RUNS_PER_SESSION} questions left this session.")
 
     for msg in st.session_state.history:
         with st.chat_message(msg["role"]):
@@ -123,15 +154,32 @@ def main() -> None:
         cols = st.columns(3)
         actions = [("Resolved", "resolved"), ("Ask again", "retry"), ("Open a ticket", "ticket")]
         for col, (label, action) in zip(cols, actions, strict=True):
-            if col.button(label):
+            # "Ask again" re-runs the graph and costs another LLM call, so it
+            # spends quota too — otherwise retry would be an unmetered loop.
+            # "Resolved"/"Open a ticket" just finish the run (ticket drafting
+            # is local, and Jira is dry-run), so they stay free.
+            costs_quota = action == "retry"
+            if col.button(label, disabled=costs_quota and runs_left() <= 0):
+                if costs_quota:
+                    record_run()
                 thread = {"configurable": {"thread_id": pending["thread_id"]}}
                 with st.spinner("Working..."):
                     result = graph.invoke(Command(resume=action), thread)
                 handle_result(result, pending["thread_id"])
                 st.rerun()
 
-    question = st.chat_input("Ask about CodeBuild / CodePipeline", disabled=pending is not None)
+    if runs_left() <= 0 and not pending:
+        st.info(
+            f"Demo limit reached ({MAX_RUNS_PER_SESSION} questions per session). "
+            "Refresh the page to start a new session."
+        )
+
+    question = st.chat_input(
+        "Ask about CodeBuild / CodePipeline",
+        disabled=pending is not None or runs_left() <= 0,
+    )
     if question:
+        record_run()
         # Fresh thread per question, same as the CLI: the graph is
         # single-turn, so each question is its own checkpointed run.
         thread_id = str(uuid.uuid4())

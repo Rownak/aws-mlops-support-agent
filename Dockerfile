@@ -59,8 +59,9 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 FROM python:3.13-slim-bookworm
 
 # Never run as root in a deployed container: a compromised app process
-# shouldn't own the filesystem.
-RUN useradd --create-home --shell /usr/sbin/nologin appuser
+# shouldn't own the filesystem. UID is pinned to 1000 because Hugging Face
+# Spaces runs containers as that specific uid; ECS doesn't care either way.
+RUN useradd --create-home --uid 1000 --shell /usr/sbin/nologin appuser
 
 WORKDIR /app
 
@@ -70,9 +71,17 @@ COPY --from=builder /app/.venv ./.venv
 
 # Put the venv first on PATH (so the console scripts resolve) and make logs
 # flush immediately — CloudWatch reads stdout line by line.
+# STREAMLIT_SERVER_* are Streamlit's own env-var config, so the CMD below
+# needs no flags and the port stays overridable per platform (ECS uses the
+# 8501 default; Hugging Face Spaces sets STREAMLIT_SERVER_PORT=7860).
+# 0.0.0.0: inside a container, localhost is unreachable from the host's
+# port mapping. headless: don't try to open a browser server-side.
 ENV PATH="/app/.venv/bin:$PATH" \
     PYTHONUNBUFFERED=1 \
-    STREAMLIT_BROWSER_GATHER_USAGE_STATS=false
+    STREAMLIT_BROWSER_GATHER_USAGE_STATS=false \
+    STREAMLIT_SERVER_PORT=8501 \
+    STREAMLIT_SERVER_ADDRESS=0.0.0.0 \
+    STREAMLIT_SERVER_HEADLESS=true
 
 USER appuser
 
@@ -82,13 +91,10 @@ EXPOSE 8501
 # (Docker-only convenience — ECS task definitions declare their own health
 # check and ignore this one.)
 HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
-    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8501/_stcore/health', timeout=4)" || exit 1
+    CMD python -c "import os, urllib.request; urllib.request.urlopen(f\"http://localhost:{os.environ['STREAMLIT_SERVER_PORT']}/_stcore/health\", timeout=4)" || exit 1
 
 # The console script from aws_mlops_support_agent's [project.scripts]; it
 # shims `streamlit run` onto the installed app module, so the container no
-# longer needs to know the .py file's path. Flags after it are passed straight
-# through to Streamlit.
-# 0.0.0.0: inside a container, localhost is unreachable from the host's port
-# mapping. headless: don't try to open a browser server-side.
-CMD ["aws-agent-demo", \
-     "--server.port=8501", "--server.address=0.0.0.0", "--server.headless=true"]
+# longer needs to know the .py file's path. Server host/port/headless come
+# from the STREAMLIT_SERVER_* env vars set above.
+CMD ["aws-agent-demo"]
