@@ -11,6 +11,12 @@ from typing import Union, Optional, List
 
 logger = logging.getLogger(__name__)
 
+#: Extensions MarkItDown's PlainTextConverter handles as text. For these we
+#: force UTF-8 (see the note in load()) instead of trusting MarkItDown's own
+#: charset sniffing, which only samples the first 4KB and then decodes the
+#: whole file with that guess -- wrong for any non-ASCII byte past 4KB.
+_TEXT_EXTENSIONS = {".txt", ".text", ".md", ".markdown", ".json", ".jsonl"}
+
 
 class MarkItDownLoader:
     """
@@ -77,7 +83,21 @@ class MarkItDownLoader:
             raise FileNotFoundError(f"File not found: {file_path}")
 
         try:
-            result = self.md.convert(str(file_path))
+            from markitdown import StreamInfo
+
+            suffix = file_path.suffix.lower()
+            # For text files, force UTF-8 instead of letting MarkItDown guess
+            # the charset itself: its guess only samples the first 4KB of the
+            # stream, then decodes the *entire* file with that guess -- wrong
+            # as soon as a non-ASCII byte appears past that window (as in
+            # AWS's markdown docs). Our corpus is UTF-8, so pin it directly.
+            if suffix in _TEXT_EXTENSIONS:
+                stream_info = StreamInfo(charset="utf-8", extension=suffix)
+                with open(file_path, "rb") as f:
+                    result = self.md.convert_stream(f, stream_info=stream_info)
+            else:
+                with open(file_path, "rb") as f:
+                    result = self.md.convert_stream(f, file_extension=suffix)
 
             return {
                 "text_content": result.text_content,
