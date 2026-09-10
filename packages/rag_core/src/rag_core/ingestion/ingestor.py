@@ -21,6 +21,7 @@ ingest.
 
 import logging
 from pathlib import Path
+from typing import Callable
 
 from langchain_core.documents import Document
 
@@ -48,13 +49,27 @@ class Ingestor:
             collection creation and the delete-by-hash/source verbs
         loader: The document loader used to extract text
         batch_size: Chunks per `add_documents` call
+        on_chunks_prepared: Optional callback invoked with `(file_path,
+            chunks)` after a document's chunks are built, before they're
+            written to the store. `None` by default — pure observation, no
+            effect on ingestion itself; the AWS agent's default sync is
+            unaffected unless a caller opts in (e.g. to dump chunks to disk
+            for local inspection).
     """
 
-    def __init__(self, config, store, loader, batch_size: int = DEFAULT_BATCH_SIZE):
+    def __init__(
+        self,
+        config,
+        store,
+        loader,
+        batch_size: int = DEFAULT_BATCH_SIZE,
+        on_chunks_prepared: Callable[[str, list[Document]], None] | None = None,
+    ):
         self.config = config
         self.store = store
         self.loader = loader
         self.batch_size = batch_size
+        self.on_chunks_prepared = on_chunks_prepared
 
     def _prepare_document(
         self, file_path: str, splitter, *, extra_metadata: dict | None = None
@@ -161,6 +176,9 @@ class Ingestor:
             return
 
         chunks = record["chunks"]
+        if self.on_chunks_prepared is not None:
+            self.on_chunks_prepared(file_path, chunks)
+
         try:
             if record["was_partial"]:
                 logger.warning(

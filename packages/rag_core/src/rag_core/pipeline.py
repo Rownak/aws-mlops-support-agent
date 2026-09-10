@@ -52,9 +52,15 @@ class RagCore:
         >>> rag.sync()                      # doctest: +SKIP
         >>> answer = rag.query("How do I cache dependencies?")  # doctest: +SKIP
         >>> print(answer.formatted())       # doctest: +SKIP
+
+    Args:
+        config_path: Path to the YAML config
+        on_chunks_prepared: Optional `(file_path, chunks) -> None` callback,
+            forwarded to `Ingestor` (see there) — `None` by default, so
+            ingestion behavior is unchanged unless a caller opts in.
     """
 
-    def __init__(self, config_path: str):
+    def __init__(self, config_path: str, on_chunks_prepared=None):
         self.config: RagConfig = load_config(config_path)
         check_readiness(self.config)
 
@@ -72,7 +78,11 @@ class RagCore:
             system_prompt=self.config.generation.system_prompt,
         )
         self.ingestor = Ingestor(
-            self.config, self.store, self.loader, batch_size=DEFAULT_BATCH_SIZE
+            self.config,
+            self.store,
+            self.loader,
+            batch_size=DEFAULT_BATCH_SIZE,
+            on_chunks_prepared=on_chunks_prepared,
         )
 
     # ---------------------------------------------------------------- ingest

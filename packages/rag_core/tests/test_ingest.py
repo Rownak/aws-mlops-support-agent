@@ -82,7 +82,7 @@ class _FakeStore:
         return self._stale
 
 
-def _rag_core(store, loader, batch_size=100, sources=()):
+def _rag_core(store, loader, batch_size=100, sources=(), on_chunks_prepared=None):
     rag = RagCore.__new__(RagCore)
     rag.config = type(
         "Cfg",
@@ -98,7 +98,9 @@ def _rag_core(store, loader, batch_size=100, sources=()):
     rag.loader = loader
     # The ingest verbs delegate here, so the fakes have to reach the
     # Ingestor rather than only the facade.
-    rag.ingestor = Ingestor(rag.config, store, loader, batch_size=batch_size)
+    rag.ingestor = Ingestor(
+        rag.config, store, loader, batch_size=batch_size, on_chunks_prepared=on_chunks_prepared
+    )
     return rag
 
 
@@ -185,6 +187,47 @@ def test_ingest_documents_reserved_key_collision_fails_only_that_file(docs):
     assert "reserved key" in stats["errors"][0]["error"]
     # b still landed, and with its own chunk_index intact.
     assert vs.added and all(d.metadata["source"] == b for d in vs.added)
+
+
+def test_on_chunks_prepared_is_not_called_by_default(docs):
+    """No callback given -> rag_core's default ingestion path is untouched."""
+    a, _ = docs
+    vs = _FakeVectorStore()
+    rag = _rag_core(_FakeStore(vs), _FakeLoader())
+
+    rag.ingest_documents([a])  # must not raise for lack of a callback
+
+    assert vs.added  # ingestion still happened normally
+
+
+def test_on_chunks_prepared_receives_file_path_and_chunks(docs):
+    a, b = docs
+    vs = _FakeVectorStore()
+    calls = []
+    rag = _rag_core(
+        _FakeStore(vs), _FakeLoader(), on_chunks_prepared=lambda path, chunks: calls.append((path, chunks))
+    )
+
+    rag.ingest_documents([a, b])
+
+    assert {path for path, _ in calls} == {a, b}
+    for _, chunks in calls:
+        assert chunks and all(c.page_content for c in chunks)
+
+
+def test_on_chunks_prepared_is_not_called_for_skipped_or_failed_files(docs):
+    a, b = docs
+    vs = _FakeVectorStore()
+    calls = []
+    # a is already fully ingested (skip); b fails to load.
+    store = _FakeStore(vs, status=("complete", 2, 2))
+    rag = _rag_core(
+        store, _FakeLoader(fail_for={b}), on_chunks_prepared=lambda path, chunks: calls.append(path)
+    )
+
+    rag.ingest_documents([a, b])
+
+    assert calls == []
 
 
 def test_empty_file_list_returns_zeroed_stats():
