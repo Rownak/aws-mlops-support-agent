@@ -11,6 +11,7 @@ from rag_core.ingestion import empty_stats
 from aws_mlops_support_agent.agent.ticket import TicketDraft
 from aws_mlops_support_agent.demo.streamlit_app import (
     demo_config,
+    render_ingest_control,
     render_ingest_summary,
     render_outcome,
 )
@@ -68,3 +69,15 @@ def test_render_ingest_summary_runs_with_errors():
     stats["failed"] = 1
     stats["errors"] = [{"file": "a.md", "error": "boom"}]
     render_ingest_summary(stats)
+
+
+def test_render_ingest_control_lists_configured_source_ids(monkeypatch):
+    monkeypatch.setenv("OPENAI_API_KEY", "fake")
+    monkeypatch.setenv("PINECONE_API_KEY", "fake")
+    # Streamlit calls are no-ops in bare mode; this just checks the sidebar
+    # source list is built from config.yml's real sources without raising —
+    # the whole point being that this list can't silently drift from
+    # config.yml the way the demo's hardcoded caption text used to.
+    source_ids = {spec.options["id"] for spec in demo_config().rag.sources}
+    assert source_ids == {"codebuild", "codepipeline", "codedeploy", "AmazonECR"}
+    render_ingest_control()

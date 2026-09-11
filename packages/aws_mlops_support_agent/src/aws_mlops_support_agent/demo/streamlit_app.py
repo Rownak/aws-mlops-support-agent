@@ -81,7 +81,9 @@ def render_ingest_control() -> None:
     The demo queries the pre-built Pinecone index and never needs to ingest.
     """
     st.sidebar.subheader("Corpus")
-    st.sidebar.caption("Disabled in this demo — querying a pre-built index.")
+    source_ids = [spec.options["id"] for spec in demo_config().rag.sources]
+    st.sidebar.caption("Docs covered: " + ", ".join(source_ids))
+    st.sidebar.caption("Ingestion disabled in this demo — querying a pre-built index.")
     if st.sidebar.button("Ingest / refresh docs", disabled=True):
         # Imported lazily, same reasoning as nodes.py: building RagCore opens
         # a Pinecone connection, which should not happen on every page render.
@@ -131,7 +133,7 @@ def handle_result(result, thread_id: str) -> None:
 def main() -> None:
     st.title("AWS CI/CD support agent")
     st.caption(
-        "Answers from the CodeBuild & CodePipeline docs. "
+        "Answers from the CodeBuild, CodePipeline, CodeDeploy & AmazonECR docs. "
         "Demo mode: Jira escalation is dry-run only — no real tickets."
     )
     graph = get_graph()

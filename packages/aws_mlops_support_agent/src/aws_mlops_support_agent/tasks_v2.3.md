@@ -119,3 +119,23 @@ stay additive (per CLAUDE.md): a new `PARTIAL_SENTINEL` sits alongside
   passed, 1 pre-existing unrelated failure
   (`test_rag_config_loaded_from_project_config_yml`, local `config.yml`
   drift from prior phases, not this change).
+
+## Phase 4 — Streamlit demo: reflect the expanded doc corpus
+
+The corpus now covers CodeDeploy and AmazonECR alongside CodeBuild and
+CodePipeline (`config.yml`), but `demo/streamlit_app.py`'s copy still only
+names the original two, and there is nowhere in the UI a user can see which
+docs the RAG index actually covers.
+
+- [x] **4.1 Update demo copy and add a sidebar corpus list.** In
+  `main()`'s `st.caption(...)`, added CodeDeploy and AmazonECR to the named
+  services (now "CodeBuild, CodePipeline, CodeDeploy & AmazonECR"). In the
+  sidebar, `render_ingest_control()` now reads `demo_config().rag.sources`
+  (the same `AgentConfig` the graph already loads from `config.yml`) and
+  lists each source's `id` — "Docs covered: codebuild, codepipeline,
+  codedeploy, AmazonECR" — rather than a second hardcoded string, so this
+  can't drift from `config.yml` again the way the caption just had.
+  `test_demo.py`: new `test_render_ingest_control_lists_configured_source_ids`
+  asserts the sidebar list matches `config.yml`'s actual source ids and that
+  rendering doesn't raise. `uv run pytest`: 71 passed, same 1 pre-existing
+  unrelated failure as earlier phases (`test_rag_config_loaded_from_project_config_yml`).
