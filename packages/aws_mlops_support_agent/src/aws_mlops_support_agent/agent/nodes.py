@@ -44,6 +44,21 @@ USER_ACTIONS = ("resolved", "retry", "ticket")
 TICKET_ACTIONS = ("create", "cancel")
 
 
+def _format_citations(citations) -> list[str]:
+    """Render rag_core Citations as "[n] source — url" lines, in answer order.
+
+    The url comes from the same `metadata["url"]` the awsdocs_git source
+    attaches at ingest time that `ticket.py:_docs_checked` already reads;
+    falls back to just the source name when a citation has none.
+    """
+    lines = []
+    for citation in citations:
+        url = citation.metadata.get("url")
+        target = f"{citation.source} — {url}" if url else citation.source
+        lines.append(f"[{citation.index}] {target}")
+    return lines
+
+
 def build_nodes(
     cfg: AgentConfig,
     retriever: Callable | None = None,
@@ -110,7 +125,12 @@ def build_nodes(
         # answerer returns rag_core's Answer object; state carries plain text
         # (it's printed/interrupted-on as a string everywhere downstream).
         text = result.text if hasattr(result, "text") else result
-        return {"answer": text}
+        # Citations are flattened to plain "[n] source — url" strings here,
+        # not stored as rag_core Citation objects: the checkpointer msgpack-
+        # serializes state via an explicit class allowlist (graph.py), and a
+        # list[str] needs no entry there.
+        citations = _format_citations(result.citations) if hasattr(result, "citations") else []
+        return {"answer": text, "citations": citations}
 
     def confirm_resolution(state) -> dict:
         """Task 3.3 — pause and ask the human whether we're done."""
@@ -121,6 +141,7 @@ def build_nodes(
                 # the same __interrupt__ channel.
                 "type": "confirm_resolution",
                 "answer": state["answer"],
+                "citations": state["citations"],
                 "question": "Did this answer resolve your issue?",
                 "options": list(USER_ACTIONS),
             }

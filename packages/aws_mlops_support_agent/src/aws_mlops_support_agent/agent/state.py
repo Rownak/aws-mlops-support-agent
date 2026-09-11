@@ -27,6 +27,10 @@ class AgentState(TypedDict):
     chunks: list[tuple[Document, float]]
     # Latest generated answer; None until the answer node has run.
     answer: str | None
+    # "[n] source — url" lines for the citations the answer actually used,
+    # in citation order. Empty until the answer node has run, or if the
+    # answerer returned a bare string rather than a rag_core Answer.
+    citations: list[str]
     # Completed retrieve→answer cycles. The graph has a loop (retry goes
     # back to retrieve), and graphs are stateless between steps — so the
     # loop counter must live IN the state, not in a Python variable.
@@ -53,6 +57,7 @@ def initial_state(question: str) -> AgentState:
         question=question,
         chunks=[],
         answer=None,
+        citations=[],
         attempts=0,
         confidence=None,
         resolved=False,

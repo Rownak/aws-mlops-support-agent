@@ -59,6 +59,10 @@ def _handle_interrupt(result) -> str:
     # would also work, but the payload is the interrupt's contract).
     print(f"\n=== Answer (attempt {result['attempts']}) ===")
     print(payload["answer"])
+    if payload["citations"]:
+        print("\nSources:")
+        for line in payload["citations"]:
+            print(f"  {line}")
     return _ask_resolution_choice()
 
 
