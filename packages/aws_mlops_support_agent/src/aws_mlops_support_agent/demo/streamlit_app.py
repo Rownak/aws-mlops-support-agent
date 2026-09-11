@@ -100,6 +100,14 @@ def render_ingest_control() -> None:
             render_ingest_summary(stats)
 
 
+def render_answer(answer: str, citations: list[str]) -> str:
+    """Chat message for a paused (confirm_resolution) run: answer + sources."""
+    if not citations:
+        return answer
+    sources = "\n".join(f"- {line}" for line in citations)
+    return f"{answer}\n\n**Sources:**\n{sources}"
+
+
 def render_outcome(result) -> str:
     """Message for a finished run (graph reached END) — reads state only."""
     if result["resolved"]:
@@ -123,7 +131,8 @@ def handle_result(result, thread_id: str) -> None:
             # demo_config forces dry_run=True, so escalate's confirm_ticket
             # interrupt is unreachable here. Fail loudly if that changes.
             raise RuntimeError(f"Unexpected interrupt type: {payload['type']!r}")
-        st.session_state.history.append({"role": "assistant", "content": payload["answer"]})
+        message = render_answer(payload["answer"], payload["citations"])
+        st.session_state.history.append({"role": "assistant", "content": message})
         st.session_state.pending = {"thread_id": thread_id, "question": payload["question"]}
     else:
         st.session_state.pending = None

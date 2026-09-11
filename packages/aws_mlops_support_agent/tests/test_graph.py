@@ -10,6 +10,7 @@ from aws_mlops_support_agent.agent.state import initial_state
 from conftest import make_config
 from langchain_core.documents import Document
 from langgraph.types import Command
+from rag_core.generation.answer import Answer, Citation
 
 
 def _cfg(dry_run=True):
@@ -44,6 +45,17 @@ def fake_answerer(question, chunks):
     return f"Fake answer to: {question}"
 
 
+def fake_cited_answerer(question, chunks):
+    """A fake answerer returning a real rag_core Answer, citations included."""
+    citation = Citation(
+        index=1,
+        source="codebuild",
+        text="Docs about env vars.",
+        metadata={"url": "https://docs.aws/a.html"},
+    )
+    return Answer(text=f"Cited answer to: {question} [1]", citations=[citation])
+
+
 class FakeJiraCreator:
     """Records calls; returns what the dry-run wrapper would."""
 
@@ -58,12 +70,12 @@ class FakeJiraCreator:
         return {"dry_run": True, "payload": {"fields": {"summary": draft.summary}}}
 
 
-def _build(score=0.6, dry_run=True, jira_creator=None):
+def _build(score=0.6, dry_run=True, jira_creator=None, answerer=fake_answerer):
     retriever = FakeRetriever(score)
     graph = build_graph(
         _cfg(dry_run=dry_run),
         retriever=retriever,
-        answerer=fake_answerer,
+        answerer=answerer,
         jira_creator=jira_creator,
     )
     thread = {"configurable": {"thread_id": "test-thread"}}
@@ -83,6 +95,28 @@ def test_happy_path_resolved():
     assert final["resolved"] is True
     assert final["user_action"] == "resolved"
     assert final["ticket_draft"] is None
+
+
+def test_answer_citations_reach_state_and_interrupt_payload():
+    # Task 3.2: a rag_core Answer's citations must survive into state and
+    # the confirm_resolution payload, not just its .text — otherwise the
+    # model's [1][2] markers point at nothing the user can see.
+    graph, _, thread = _build(score=0.6, answerer=fake_cited_answerer)
+
+    paused = graph.invoke(initial_state("How do I set env vars?"), thread)
+    assert paused["citations"] == ["[1] codebuild — https://docs.aws/a.html"]
+
+    payload = paused["__interrupt__"][0].value
+    assert payload["citations"] == ["[1] codebuild — https://docs.aws/a.html"]
+
+
+def test_answer_citations_empty_for_a_plain_string_answerer():
+    # fake_answerer returns a bare string, not a rag_core Answer — the
+    # answer node must degrade to an empty citations list, not raise.
+    graph, _, thread = _build(score=0.6)
+
+    paused = graph.invoke(initial_state("How do I set env vars?"), thread)
+    assert paused["citations"] == []
 
 
 def test_user_requests_ticket():
