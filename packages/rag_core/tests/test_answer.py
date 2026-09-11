@@ -1,6 +1,6 @@
 """Tests for the Answer/Citation value objects and generation helpers."""
 
-from rag_core.generation.answer import REFUSAL_SENTINEL, Answer, Citation
+from rag_core.generation.answer import PARTIAL_SENTINEL, REFUSAL_SENTINEL, Answer, Citation
 from rag_core.generation.generator import (
     build_context,
     citation_coverage,
@@ -82,3 +82,18 @@ def test_citation_coverage_fraction():
 
 def test_refusal_sentinel_is_a_plain_string():
     assert REFUSAL_SENTINEL == "INSUFFICIENT_CONTEXT"
+
+
+def test_partial_sentinel_is_distinct_from_refusal_sentinel():
+    assert PARTIAL_SENTINEL != REFUSAL_SENTINEL
+
+
+def test_answer_partial_defaults_to_false():
+    assert Answer(text="x").partial is False
+
+
+def test_answer_partial_independent_of_refused():
+    answer = Answer(text="x", refused=False, partial=True)
+    assert bool(answer)
+    assert answer.partial
+    assert answer.to_dict()["partial"] is True

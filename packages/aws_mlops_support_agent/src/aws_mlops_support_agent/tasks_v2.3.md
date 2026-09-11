@@ -68,3 +68,54 @@ metadata field for this.
 - [x] `uv run pytest` — 303 passed, 1 pre-existing unrelated failure
       (same `test_rag_config_loaded_from_project_config_yml`, local
       `config.yml` edit, not this change).
+
+## Phase 3 — Partial-answer mode instead of hard refusal
+
+Today, when retrieved excerpts don't fully answer the question, the system
+prompt (`ANSWER_SYSTEM_PROMPT`) instructs the model to reply with exactly
+`REFUSAL_SENTINEL` and nothing else. `generator._is_refusal()` catches this,
+and the caller sees a generic `REFUSAL_MESSAGE`, discarding whatever the
+excerpts *did* say — even when they're on-topic background a user would
+still find useful. Observed via a LangSmith trace: query "explain aws ci/cd
+pipeline" retrieved two on-topic (score 0.825) but purely definitional
+excerpts (what CodePipeline/CI/CD *are*, not pipeline stages/mechanics); the
+model correctly followed instructions and refused, but a partial, cited
+summary with a caveat would have served the user better. rag_core changes
+stay additive (per CLAUDE.md): a new `PARTIAL_SENTINEL` sits alongside
+`REFUSAL_SENTINEL`, `_is_refusal()`'s total-refusal path is untouched, and
+`rag_bench_eval`/other `rag_core` consumers are unaffected.
+
+- [x] **3.1 rag_core: add the partial-answer sentinel and field.** Added
+  `PARTIAL_SENTINEL = "PARTIAL_ANSWER_CAVEAT"` next to `REFUSAL_SENTINEL` in
+  `answer.py`, plus `Answer.partial: bool` (default `False`, independent of
+  `refused`, threaded through `to_dict()`/`__repr__()`). In `generator.py`,
+  `_finalize()` now runs `_extract_partial_caveat()` (a regex matching a
+  trailing `PARTIAL_ANSWER_CAVEAT: <note>` line) after the existing
+  `_is_refusal()` check: if found, the line is stripped, citations/confidence
+  are computed from the remaining text, `partial=True`/`refused=False` are
+  set, and the model's own note is appended back via a `PARTIAL_ANSWER_PREFIX`
+  sentence so the user sees a clear caveat. A degenerate case — the model
+  emits only the sentinel line with no real answer text — falls back to the
+  normal refusal path rather than returning an empty "partial" answer.
+  `AnswerGenerator.__init__` also substitutes a `{partial_sentinel}`
+  placeholder (alongside the existing `{sentinel}`) so a project's prompt can
+  reference it without hardcoding the string. `_is_refusal()` itself is
+  unchanged.
+
+- [x] **3.2 aws_mlops_support_agent: update the system prompt.** In
+  `prompts.py`, `ANSWER_SYSTEM_PROMPT` keeps `{sentinel}` for excerpts wholly
+  unrelated to the question, and now has a middle rule: if the excerpts only
+  partially answer or give related background, summarize what they say with
+  normal `[1][2]` citations, then end with a line of exactly
+  `{partial_sentinel}: <short note on what's missing>`.
+
+- [x] **3.3 Tests.** Added to `rag_core/tests/test_answer.py` (sentinel
+  distinctness, `Answer.partial` default/independence from `refused`) and
+  `rag_core/tests/test_generator.py` (placeholder substitution, a partial
+  answer detected/stripped/re-noted correctly, a bare-sentinel reply treated
+  as refusal, and a normal answer confirmed *not* partial) — 6 new tests, all
+  existing refusal/normal-answer cases untouched and still passing.
+  `uv run pytest`: `rag_core` 225 passed; `aws_mlops_support_agent` 70
+  passed, 1 pre-existing unrelated failure
+  (`test_rag_config_loaded_from_project_config_yml`, local `config.yml`
+  drift from prior phases, not this change).

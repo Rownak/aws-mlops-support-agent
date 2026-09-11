@@ -14,6 +14,12 @@ from typing import Any, Dict, List, Optional
 # refusal never depends on matching prose.
 REFUSAL_SENTINEL = "INSUFFICIENT_CONTEXT"
 
+# The sentinel a prompt can ask the model to append when its sources only
+# partially answer the question. Unlike REFUSAL_SENTINEL, this does not
+# discard the model's text: the caveat line is stripped and Answer.partial
+# is set instead, so the caller still gets the (partial, cited) answer.
+PARTIAL_SENTINEL = "PARTIAL_ANSWER_CAVEAT"
+
 
 class Citation:
     """
@@ -74,6 +80,9 @@ class Answer:
         filters_used: Metadata filters applied during retrieval, if any
         refused: True when the model reported that the sources do not answer
             the question, or when nothing was retrieved at all
+        partial: True when the model answered from sources that only
+            partially covered the question. Independent of ``refused`` —
+            a partial answer still carries real text and citations.
         confidence: The fraction of the answer's sentences that carry a
             citation. See the note below.
 
@@ -92,6 +101,7 @@ class Answer:
         documents: Optional[List[Any]] = None,
         filters_used: Optional[Dict[str, Any]] = None,
         refused: bool = False,
+        partial: bool = False,
         confidence: float = 0.0,
         query: str = "",
     ):
@@ -100,6 +110,7 @@ class Answer:
         self.documents = documents or []
         self.filters_used = filters_used
         self.refused = refused
+        self.partial = partial
         self.confidence = confidence
         self.query = query
 
@@ -118,6 +129,7 @@ class Answer:
             "query": self.query,
             "text": self.text,
             "refused": self.refused,
+            "partial": self.partial,
             "confidence": self.confidence,
             "filters_used": self.filters_used,
             "citations": [c.to_dict() for c in self.citations],
@@ -149,7 +161,12 @@ class Answer:
         return self.text
 
     def __repr__(self) -> str:
-        state = "refused" if self.refused else f"{len(self.citations)} citations"
+        if self.refused:
+            state = "refused"
+        elif self.partial:
+            state = f"partial, {len(self.citations)} citations"
+        else:
+            state = f"{len(self.citations)} citations"
         return f"<Answer {state}, confidence={self.confidence:.2f}>"
 
     def __bool__(self) -> bool:

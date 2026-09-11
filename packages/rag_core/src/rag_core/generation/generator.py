@@ -11,7 +11,7 @@ import logging
 import re
 from typing import Any, Dict, List, Optional, Tuple
 
-from .answer import REFUSAL_SENTINEL, Answer, Citation
+from .answer import PARTIAL_SENTINEL, REFUSAL_SENTINEL, Answer, Citation
 
 logger = logging.getLogger(__name__)
 
@@ -34,8 +34,19 @@ REFUSAL_MESSAGE = (
     "question."
 )
 
+# Prefixes the model's own caveat note when an answer is partial, so the
+# user sees clearly that this text does not fully cover their question.
+PARTIAL_ANSWER_PREFIX = "Note: this answer is not fully based on the retrieved sources —"
+
 _CITATION_PATTERN = re.compile(r"\[(\d+)\]")
 _SENTENCE_SPLIT = re.compile(r"(?<=[.!?])\s+")
+
+# Matches the model's final caveat line, e.g.
+# "PARTIAL_ANSWER_CAVEAT: doesn't cover pipeline stages." — captures the
+# note so it can be dropped from the answer text shown to the user.
+_PARTIAL_LINE_PATTERN = re.compile(
+    rf"^[ \t]*{re.escape(PARTIAL_SENTINEL)}\s*:?\s*(.*)$", re.MULTILINE
+)
 
 BLOCK_SEPARATOR = "\n\n"
 TRUNCATION_MARKER = "\n[truncated]"
@@ -182,6 +193,27 @@ def citation_coverage(text: str) -> float:
     return cited / len(sentences)
 
 
+def _extract_partial_caveat(text: str) -> Tuple[str, Optional[str]]:
+    """
+    Split off a trailing partial-answer caveat line, if present.
+
+    Args:
+        text: The generated answer, possibly ending in a
+            ``PARTIAL_SENTINEL: ...`` line
+
+    Returns:
+        The answer text with that line removed, and the caveat note (or
+        None if the sentinel was not present).
+    """
+    match = _PARTIAL_LINE_PATTERN.search(text)
+    if not match:
+        return text, None
+
+    note = match.group(1).strip()
+    remaining = (text[: match.start()] + text[match.end() :]).strip()
+    return remaining, note or None
+
+
 def _is_refusal(text: str) -> bool:
     """
     Decide whether the model declined to answer.
@@ -223,7 +255,8 @@ class AnswerGenerator:
         # A plain replace rather than str.format, so a custom prompt containing
         # braces (a JSON example, say) does not raise.
         prompt = system_prompt or DEFAULT_SYSTEM_PROMPT
-        self.system_prompt = prompt.replace("{sentinel}", REFUSAL_SENTINEL)
+        prompt = prompt.replace("{sentinel}", REFUSAL_SENTINEL)
+        self.system_prompt = prompt.replace("{partial_sentinel}", PARTIAL_SENTINEL)
 
     def build_messages(self, query: str, context: str) -> List[Tuple[str, str]]:
         """
@@ -328,7 +361,28 @@ class AnswerGenerator:
                 query=query,
             )
 
+        text, caveat_note = _extract_partial_caveat(text)
+
+        if caveat_note is not None and not text:
+            # The model gave nothing but the caveat line itself — no
+            # summary to show, so this is really a refusal.
+            logger.info(f"Model refused to answer from the retrieved context: {query[:60]}")
+            return Answer(
+                text=REFUSAL_MESSAGE,
+                documents=documents,
+                filters_used=filters_used,
+                refused=True,
+                confidence=0.0,
+                query=query,
+            )
+
         text, citations = parse_citations(text, used)
+        confidence = citation_coverage(text)
+
+        is_partial = caveat_note is not None
+        if is_partial:
+            logger.info(f"Model gave a partial answer from the retrieved context: {query[:60]}")
+            text = f"{text}\n\n{PARTIAL_ANSWER_PREFIX} {caveat_note}"
 
         return Answer(
             text=text,
@@ -336,6 +390,7 @@ class AnswerGenerator:
             documents=documents,
             filters_used=filters_used,
             refused=False,
-            confidence=citation_coverage(text),
+            partial=is_partial,
+            confidence=confidence,
             query=query,
         )
