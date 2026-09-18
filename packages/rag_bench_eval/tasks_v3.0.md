@@ -464,3 +464,49 @@ anything. This phase makes the metric choice deliberate rather than inherited.
 columns, which score *answers* — a different question from which retriever
 wins, and `design.md` §1's non-goal ("not answer-quality evaluation"). If
 `document_chat_demo` needs it later, it is its own phase.
+
+---
+
+## Phase 10 — Full technique sweep on RAGBench/emanual
+
+`benchmark.emanual.yaml`'s sweep is still `[bm25, dense]` (8.5 deliberately
+started there and deferred the rest to "once 8.7 decides"). Every other
+technique already proven on BEIR — `rrf` (hybrid), `rerank` with a bi-encoder,
+`rerank` with a cross-encoder — is implemented in `rag_core` and needs no new
+code, only pipeline entries on emanual's own corpus and resources. HyDE and
+MultiQuery stay out of scope: they're still backlog (phases 5–6, needs the
+`llms:` map, never built) on BEIR too, so there's nothing working to point at
+emanual.
+
+- [x] **10.1 Extend `benchmark.emanual.yaml`.** Add `hybrid` (RRF over bm25 +
+  dense), `bi_encoder_rerank` (rerank → dense) and `hybrid_cross_encoder`
+  (rerank → rrf → [bm25, dense]) pipelines, mirroring `benchmark.yaml`'s
+  shapes and `candidate_k`/`rrf_k` values exactly — emanual's `rerankers:`
+  block (`bi_encoder`, `cross_encoder`) is already defined but unused since
+  8.5. Extend `sweep` to `[bm25, dense, hybrid, bi_encoder_rerank,
+  hybrid_cross_encoder]`.
+  *Done when:* `list --dataset emanual` shows all five pipelines.
+
+- [x] **10.2 Depth-rule sanity check.** Emanual's corpus (~102 docs) is far
+  smaller than NFCorpus's 3,633 — confirm `candidate_k: 50` in
+  `hybrid_cross_encoder`/`bi_encoder_rerank` still makes sense at this scale
+  (it's larger than the whole corpus for some queries) rather than assuming
+  the BEIR values port over unchanged. Adjust if a candidate set that size is
+  degenerate here (e.g. reranking is scoring ~the entire corpus, not a
+  meaningfully narrowed candidate set).
+
+- [x] **10.3 Run the full sweep.** `run --dataset emanual --all`, then
+  `report --dataset emanual`.
+  *Done when:* `results_ragbench_emanual.md` shows all five experiments,
+  sorted by nDCG@10, with the 9.3 caveat still present.
+
+- [x] **10.4 Record findings.** Compare against the BEIR sweep's pattern
+  (`results.md`: hybrid_cross_encoder > hybrid > {bi_encoder_rerank, dense} >
+  bm25). Note where emanual agrees or disagrees, and a one-line hypothesis why
+  if it disagrees — the pooled corpus is two orders of magnitude smaller than
+  NFCorpus's, so a technique's relative gain need not transfer.
+  *Done when:* 2–3 lines in `progress.md` (CLAUDE.md §Progress) covering the
+  sweep result and whether `document_chat_demo` has a clear winner to adopt.
+
+**Dependency:** none new — `rag-core[rerank]` is already declared in
+`rag_bench_eval` (phase 4.9).

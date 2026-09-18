@@ -1,7 +1,8 @@
 # rag_bench_eval config for RAGBench/emanual (design.md §4.1). Separate file
 # from benchmark.yaml, per dataset: no merge, no inheritance — read top to
-# bottom as the thing that ran. Starts with the two baselines; phase 8.7
-# decides what else is worth running before extending pipelines/sweep.
+# bottom as the thing that ran. Started with two baselines (phase 8); phase 10
+# adds every other technique already proven on BEIR (rrf, rerank) — HyDE and
+# MultiQuery stay out since they're still backlog on BEIR itself (phases 5-6).
 
 embeddings:
   default:
@@ -31,8 +32,36 @@ retrieval:
       embeddings: default
       metric: cosine
       top_k: 10
+    hybrid:
+      type: rrf
+      rrf_k: 60
+      top_k: 10
+      retrievers:
+        - {type: bm25, k1: 0.9, b: 0.4, top_k: 10}
+        - {type: dense, embeddings: default, metric: cosine, top_k: 10}
+    bi_encoder_rerank:
+      type: rerank
+      reranker: bi_encoder
+      # candidate_k: 50 is ~half the pooled corpus (102 docs), much less
+      # aggressive a narrowing than on BEIR's 3,633-doc corpus (phase 10.2) —
+      # still a real candidate set, not degenerate, so kept unchanged.
+      candidate_k: 50
+      top_k: 10
+      inner: {type: dense, embeddings: default, metric: cosine, top_k: 10}
+    hybrid_cross_encoder:
+      type: rerank
+      reranker: cross_encoder
+      candidate_k: 50
+      top_k: 10
+      inner:
+        type: rrf
+        rrf_k: 60
+        top_k: 50
+        retrievers:
+          - {type: bm25, k1: 0.9, b: 0.4, top_k: 50}
+          - {type: dense, embeddings: default, metric: cosine, top_k: 50}
 
-sweep: [bm25, dense]
+sweep: [bm25, dense, hybrid, bi_encoder_rerank, hybrid_cross_encoder]
 
 # recall@100 and precision@10 (the BEIR defaults) don't discriminate here: the
 # pooled corpus is only ~102 docs and each row's relevant set has median size

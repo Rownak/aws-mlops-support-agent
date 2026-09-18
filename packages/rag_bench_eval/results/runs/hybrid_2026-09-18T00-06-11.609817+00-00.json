@@ -1,0 +1,1154 @@
+{
+  "experiment": "hybrid",
+  "dataset": "ragbench_emanual",
+  "timestamp": "2026-09-18T00:06:11.609817+00:00",
+  "config": {
+    "type": "rrf",
+    "rrf_k": 60,
+    "top_k": 10,
+    "retrievers": [
+      {
+        "type": "bm25",
+        "k1": 0.9,
+        "b": 0.4,
+        "top_k": 10
+      },
+      {
+        "type": "dense",
+        "embeddings": "default",
+        "metric": "cosine",
+        "top_k": 10
+      }
+    ]
+  },
+  "metrics": {
+    "ndcg@10": 0.868270774037571,
+    "recall@10": 0.9747474747474747,
+    "mrr@10": 0.872979797979798
+  },
+  "per_query": [
+    {
+      "query_id": "emanual_467",
+      "ndcg@10": 0.5,
+      "latency_ms": 32,
+      "retrieved": [
+        "48fb0957df60de0f",
+        "f6856d69a964cafd",
+        "fd7a69baa708ce55",
+        "4d88a3c606962911",
+        "da1300ebb4dd314e",
+        "d2eed91f926a63e8",
+        "2419a9f39918c271",
+        "d0c4a5adf3ffc776",
+        "816be5b1a16686ba",
+        "99b36d27411cc595"
+      ]
+    },
+    {
+      "query_id": "emanual_413",
+      "ndcg@10": 1.0,
+      "latency_ms": 37,
+      "retrieved": [
+        "ba016287f45015a8",
+        "db1a96f5b1f00b6e",
+        "d2eed91f926a63e8",
+        "3a3e2297d8738f02",
+        "6d5820ee6e37bce8",
+        "50539acd1746c4e2",
+        "3116d72414e56f1e",
+        "816be5b1a16686ba",
+        "5727e1afc29df334",
+        "77298c31ec8420b7"
+      ]
+    },
+    {
+      "query_id": "emanual_32",
+      "ndcg@10": 0.5642221110316635,
+      "latency_ms": 62,
+      "retrieved": [
+        "7e576fc3891ad268",
+        "95fa017d8afc2bc7",
+        "6eb9346943f94518",
+        "e416201e037ba959",
+        "3af6b352347331b3",
+        "d2eed91f926a63e8",
+        "828d7e900da629af",
+        "5727e1afc29df334",
+        "50539acd1746c4e2",
+        "3a3e2297d8738f02"
+      ]
+    },
+    {
+      "query_id": "emanual_490",
+      "ndcg@10": 1.0,
+      "latency_ms": 26,
+      "retrieved": [
+        "4816abe891c0abc1",
+        "48fb0957df60de0f",
+        "d2eed91f926a63e8",
+        "0f4a2c01c63c7750",
+        "77298c31ec8420b7",
+        "d0c4a5adf3ffc776",
+        "36402cfd4946c339",
+        "599100686061968d",
+        "c248d2714ee3b191",
+        "e12736352b7e2a01"
+      ]
+    },
+    {
+      "query_id": "emanual_426",
+      "ndcg@10": 1.0,
+      "latency_ms": 15,
+      "retrieved": [
+        "50539acd1746c4e2",
+        "599100686061968d",
+        "64626f5b3d334fe7",
+        "4816abe891c0abc1",
+        "d2eed91f926a63e8",
+        "0f4a2c01c63c7750",
+        "77298c31ec8420b7",
+        "c76d00f88bf6de78",
+        "730ddadabb0430b3",
+        "e12736352b7e2a01"
+      ]
+    },
+    {
+      "query_id": "emanual_420",
+      "ndcg@10": 1.0,
+      "latency_ms": 16,
+      "retrieved": [
+        "50539acd1746c4e2",
+        "18e2ebd2fe5209f6",
+        "fce8424fccb22773",
+        "d2eed91f926a63e8",
+        "0f4a2c01c63c7750",
+        "c76d00f88bf6de78",
+        "6eb9346943f94518",
+        "77298c31ec8420b7",
+        "8592d368be2803be",
+        "cf8a05c96c063543"
+      ]
+    },
+    {
+      "query_id": "emanual_89",
+      "ndcg@10": 1.0,
+      "latency_ms": 19,
+      "retrieved": [
+        "2f8d731a1598ecff",
+        "b4607c325846119f",
+        "67861e984244ab89",
+        "36402cfd4946c339",
+        "2419a9f39918c271",
+        "562d294fe96ed140",
+        "da1300ebb4dd314e",
+        "a08c72f1d825bda7",
+        "3116d72414e56f1e",
+        "03191f6f6ea2bb91"
+      ]
+    },
+    {
+      "query_id": "emanual_341",
+      "ndcg@10": 1.0,
+      "latency_ms": 14,
+      "retrieved": [
+        "76acc129876645ce",
+        "1d3c8fe06fb9e802",
+        "a08c72f1d825bda7",
+        "2f8d731a1598ecff",
+        "67861e984244ab89",
+        "da1300ebb4dd314e",
+        "562d294fe96ed140",
+        "2419a9f39918c271",
+        "538ad93282459e14",
+        "c3adb567b151b0fb"
+      ]
+    },
+    {
+      "query_id": "emanual_64",
+      "ndcg@10": 1.0,
+      "latency_ms": 13,
+      "retrieved": [
+        "0dce0dc0c1d6a424",
+        "d068f3df9b42fcfb",
+        "d3059dc8d99d5916",
+        "d2eed91f926a63e8",
+        "2419a9f39918c271",
+        "da1300ebb4dd314e",
+        "48fb0957df60de0f",
+        "03191f6f6ea2bb91",
+        "828d7e900da629af",
+        "df381fbc92351cc0"
+      ]
+    },
+    {
+      "query_id": "emanual_145",
+      "ndcg@10": 0.9197207891481876,
+      "latency_ms": 25,
+      "retrieved": [
+        "95fa017d8afc2bc7",
+        "6eb9346943f94518",
+        "3af6b352347331b3",
+        "7e576fc3891ad268",
+        "5727e1afc29df334",
+        "242dd5273a96502e",
+        "ffe8bf4b5c0e3c80",
+        "d2eed91f926a63e8",
+        "50539acd1746c4e2",
+        "3a3e2297d8738f02"
+      ]
+    },
+    {
+      "query_id": "emanual_473",
+      "ndcg@10": 0.6309297535714575,
+      "latency_ms": 19,
+      "retrieved": [
+        "48fb0957df60de0f",
+        "2419a9f39918c271",
+        "d2eed91f926a63e8",
+        "4816abe891c0abc1",
+        "0f4a2c01c63c7750",
+        "816be5b1a16686ba",
+        "fd7a69baa708ce55",
+        "c248d2714ee3b191",
+        "77298c31ec8420b7",
+        "2bbca0997af7e74a"
+      ]
+    },
+    {
+      "query_id": "emanual_305",
+      "ndcg@10": 0.6240505200038379,
+      "latency_ms": 30,
+      "retrieved": [
+        "828d7e900da629af",
+        "5d7d7b3b2abc89df",
+        "1c2902da5d91b0b5",
+        "8acd02405d33c2ee",
+        "740618e7a565f652",
+        "3fde8730c2a59833",
+        "03191f6f6ea2bb91",
+        "d2eed91f926a63e8",
+        "d6df6d1b0efa4fcf",
+        "6eb9346943f94518"
+      ]
+    },
+    {
+      "query_id": "emanual_365",
+      "ndcg@10": 1.0,
+      "latency_ms": 31,
+      "retrieved": [
+        "4b93ffcb4655e992",
+        "c3adb567b151b0fb",
+        "5e9017dc3d86c049",
+        "1dd3a6f1cd0a8ac3",
+        "68fc1680b364e8a9",
+        "25dffc7c886f9021",
+        "48fb0957df60de0f",
+        "d2eed91f926a63e8",
+        "4816abe891c0abc1",
+        "5727e1afc29df334"
+      ]
+    },
+    {
+      "query_id": "emanual_371",
+      "ndcg@10": 0.6713860725233041,
+      "latency_ms": 46,
+      "retrieved": [
+        "7d9084e249b806f6",
+        "804541978d7fce82",
+        "3116d72414e56f1e",
+        "c11a5a7f05723988",
+        "e5596e1b3e874338",
+        "d2eed91f926a63e8",
+        "c3adb567b151b0fb",
+        "39d0ee956dd210f7",
+        "bf9b3794e116ec87",
+        "a52168bd36387494"
+      ]
+    },
+    {
+      "query_id": "emanual_19",
+      "ndcg@10": 1.0,
+      "latency_ms": 44,
+      "retrieved": [
+        "4816abe891c0abc1",
+        "2bbca0997af7e74a",
+        "50539acd1746c4e2",
+        "0f4a2c01c63c7750",
+        "1d3c8fe06fb9e802",
+        "e12736352b7e2a01",
+        "c248d2714ee3b191",
+        "d0c4a5adf3ffc776",
+        "36402cfd4946c339",
+        "af9e1db1daf8b03b"
+      ]
+    },
+    {
+      "query_id": "emanual_577",
+      "ndcg@10": 0.38685280723454163,
+      "latency_ms": 29,
+      "retrieved": [
+        "2140f439e5c9ce7a",
+        "816be5b1a16686ba",
+        "4b93ffcb4655e992",
+        "39d0ee956dd210f7",
+        "25dffc7c886f9021",
+        "8592d368be2803be",
+        "4d4382badd15edbd",
+        "cf8a05c96c063543",
+        "804541978d7fce82",
+        "18e2ebd2fe5209f6"
+      ]
+    },
+    {
+      "query_id": "emanual_594",
+      "ndcg@10": 1.0,
+      "latency_ms": 38,
+      "retrieved": [
+        "804541978d7fce82",
+        "7d9084e249b806f6",
+        "7e576fc3891ad268",
+        "c248d2714ee3b191",
+        "c11a5a7f05723988",
+        "6eb9346943f94518",
+        "7695c633b9f05d92",
+        "3116d72414e56f1e",
+        "bf9b3794e116ec87",
+        "3af6b352347331b3"
+      ]
+    },
+    {
+      "query_id": "emanual_454",
+      "ndcg@10": 0.7737459235132745,
+      "latency_ms": 28,
+      "retrieved": [
+        "cef1248669442981",
+        "730ddadabb0430b3",
+        "d2eed91f926a63e8",
+        "e55ae96035dd76d6",
+        "18e2ebd2fe5209f6",
+        "816be5b1a16686ba",
+        "81063f3c891a1b05",
+        "bf9b3794e116ec87",
+        "f6856d69a964cafd",
+        "4d88a3c606962911"
+      ]
+    },
+    {
+      "query_id": "emanual_300",
+      "ndcg@10": 1.0,
+      "latency_ms": 31,
+      "retrieved": [
+        "f2a6f947643fc60e",
+        "519965e6dc2fb90f",
+        "e416201e037ba959",
+        "df381fbc92351cc0",
+        "3fde8730c2a59833",
+        "5d7d7b3b2abc89df",
+        "8acd02405d33c2ee",
+        "d2eed91f926a63e8",
+        "d6df6d1b0efa4fcf",
+        "03191f6f6ea2bb91"
+      ]
+    },
+    {
+      "query_id": "emanual_548",
+      "ndcg@10": 1.0,
+      "latency_ms": 44,
+      "retrieved": [
+        "d76032ab42816573",
+        "89daeaea4bb0cb13",
+        "e55ae96035dd76d6",
+        "6d5820ee6e37bce8",
+        "5727e1afc29df334",
+        "d2eed91f926a63e8",
+        "ba016287f45015a8",
+        "77298c31ec8420b7",
+        "816be5b1a16686ba",
+        "18e2ebd2fe5209f6"
+      ]
+    },
+    {
+      "query_id": "emanual_4",
+      "ndcg@10": 1.0,
+      "latency_ms": 39,
+      "retrieved": [
+        "48fb0957df60de0f",
+        "fd7a69baa708ce55",
+        "f6856d69a964cafd",
+        "4d88a3c606962911",
+        "2419a9f39918c271",
+        "af9e1db1daf8b03b",
+        "828d7e900da629af",
+        "4816abe891c0abc1",
+        "48b36498a0e58b44",
+        "50539acd1746c4e2"
+      ]
+    },
+    {
+      "query_id": "emanual_353",
+      "ndcg@10": 0.9217868789962071,
+      "latency_ms": 81,
+      "retrieved": [
+        "5bbb960d5414c450",
+        "48ab71c7d4b97cf1",
+        "8592d368be2803be",
+        "6d5820ee6e37bce8",
+        "cf8a05c96c063543",
+        "d2eed91f926a63e8",
+        "25e78fd790c751f7",
+        "816be5b1a16686ba",
+        "fce8424fccb22773",
+        "77298c31ec8420b7"
+      ]
+    },
+    {
+      "query_id": "emanual_282",
+      "ndcg@10": 0.3706656904013186,
+      "latency_ms": 48,
+      "retrieved": [
+        "3a3e2297d8738f02",
+        "5d7d7b3b2abc89df",
+        "e55ae96035dd76d6",
+        "d2eed91f926a63e8",
+        "a08c72f1d825bda7",
+        "3116d72414e56f1e",
+        "7e576fc3891ad268",
+        "519965e6dc2fb90f",
+        "50539acd1746c4e2",
+        "e416201e037ba959"
+      ]
+    },
+    {
+      "query_id": "emanual_1",
+      "ndcg@10": 0.38685280723454163,
+      "latency_ms": 53,
+      "retrieved": [
+        "7e576fc3891ad268",
+        "6eb9346943f94518",
+        "68fc1680b364e8a9",
+        "3a3e2297d8738f02",
+        "8592d368be2803be",
+        "5727e1afc29df334",
+        "cf8a05c96c063543",
+        "ba016287f45015a8",
+        "828d7e900da629af",
+        "e55ae96035dd76d6"
+      ]
+    },
+    {
+      "query_id": "emanual_284",
+      "ndcg@10": 0.31546487678572877,
+      "latency_ms": 23,
+      "retrieved": [
+        "ba016287f45015a8",
+        "816be5b1a16686ba",
+        "a52168bd36387494",
+        "7e576fc3891ad268",
+        "d2eed91f926a63e8",
+        "cc61a9d1f53a43ca",
+        "730ddadabb0430b3",
+        "db1a96f5b1f00b6e",
+        "99b36d27411cc595",
+        "4d4382badd15edbd"
+      ]
+    },
+    {
+      "query_id": "emanual_359",
+      "ndcg@10": 0.9197207891481876,
+      "latency_ms": 20,
+      "retrieved": [
+        "e5596e1b3e874338",
+        "c11a5a7f05723988",
+        "7d9084e249b806f6",
+        "36402cfd4946c339",
+        "c3adb567b151b0fb",
+        "7695c633b9f05d92",
+        "c248d2714ee3b191",
+        "48fb0957df60de0f",
+        "804541978d7fce82",
+        "bf9b3794e116ec87"
+      ]
+    },
+    {
+      "query_id": "emanual_395",
+      "ndcg@10": 0.6309297535714575,
+      "latency_ms": 34,
+      "retrieved": [
+        "67861e984244ab89",
+        "127da193e23e370f",
+        "a08c72f1d825bda7",
+        "36402cfd4946c339",
+        "fd7a69baa708ce55",
+        "8592d368be2803be",
+        "cf8a05c96c063543",
+        "c3adb567b151b0fb",
+        "4fa7990263faeb2a",
+        "e55ae96035dd76d6"
+      ]
+    },
+    {
+      "query_id": "emanual_539",
+      "ndcg@10": 0.6309297535714575,
+      "latency_ms": 49,
+      "retrieved": [
+        "48fb0957df60de0f",
+        "48b36498a0e58b44",
+        "f6856d69a964cafd",
+        "4d88a3c606962911",
+        "fd7a69baa708ce55",
+        "2419a9f39918c271",
+        "50539acd1746c4e2",
+        "d2eed91f926a63e8",
+        "af9e1db1daf8b03b",
+        "77298c31ec8420b7"
+      ]
+    },
+    {
+      "query_id": "emanual_433",
+      "ndcg@10": 0.8772153153380493,
+      "latency_ms": 33,
+      "retrieved": [
+        "0da2b99f110527a5",
+        "77298c31ec8420b7",
+        "63e0a17dd8308aae",
+        "0deff4ca724658f6",
+        "d0c4a5adf3ffc776",
+        "99b36d27411cc595",
+        "d2eed91f926a63e8",
+        "2419a9f39918c271",
+        "816be5b1a16686ba",
+        "23430cd6cb95ef8f"
+      ]
+    },
+    {
+      "query_id": "emanual_176",
+      "ndcg@10": 0.7653606369886217,
+      "latency_ms": 34,
+      "retrieved": [
+        "6eb9346943f94518",
+        "7e576fc3891ad268",
+        "d2eed91f926a63e8",
+        "68fc1680b364e8a9",
+        "3a3e2297d8738f02",
+        "3af6b352347331b3",
+        "2f8d731a1598ecff",
+        "5727e1afc29df334",
+        "2419a9f39918c271",
+        "db1a96f5b1f00b6e"
+      ]
+    },
+    {
+      "query_id": "emanual_289",
+      "ndcg@10": 1.0,
+      "latency_ms": 34,
+      "retrieved": [
+        "3fde8730c2a59833",
+        "5d7d7b3b2abc89df",
+        "e416201e037ba959",
+        "03191f6f6ea2bb91",
+        "828d7e900da629af",
+        "8acd02405d33c2ee",
+        "519965e6dc2fb90f",
+        "f2a6f947643fc60e",
+        "6eb9346943f94518",
+        "7e576fc3891ad268"
+      ]
+    },
+    {
+      "query_id": "emanual_229",
+      "ndcg@10": 1.0,
+      "latency_ms": 36,
+      "retrieved": [
+        "64626f5b3d334fe7",
+        "4f82ee87336df9b4",
+        "c57a1e7096c3fe9e",
+        "a08c72f1d825bda7",
+        "4816abe891c0abc1",
+        "50539acd1746c4e2",
+        "d2eed91f926a63e8",
+        "0f4a2c01c63c7750",
+        "77298c31ec8420b7",
+        "599100686061968d"
+      ]
+    },
+    {
+      "query_id": "emanual_558",
+      "ndcg@10": 0.6934264036172708,
+      "latency_ms": 35,
+      "retrieved": [
+        "f6856d69a964cafd",
+        "4d88a3c606962911",
+        "fd7a69baa708ce55",
+        "48fb0957df60de0f",
+        "48b36498a0e58b44",
+        "706dedfd66e0c194",
+        "2419a9f39918c271",
+        "d2eed91f926a63e8",
+        "599100686061968d",
+        "50539acd1746c4e2"
+      ]
+    },
+    {
+      "query_id": "emanual_310",
+      "ndcg@10": 0.6309297535714575,
+      "latency_ms": 18,
+      "retrieved": [
+        "828d7e900da629af",
+        "730ddadabb0430b3",
+        "740618e7a565f652",
+        "d2eed91f926a63e8",
+        "77298c31ec8420b7",
+        "127da193e23e370f",
+        "816be5b1a16686ba",
+        "7e576fc3891ad268",
+        "da1300ebb4dd314e",
+        "1c2902da5d91b0b5"
+      ]
+    },
+    {
+      "query_id": "emanual_188",
+      "ndcg@10": 1.0,
+      "latency_ms": 25,
+      "retrieved": [
+        "f6856d69a964cafd",
+        "fd7a69baa708ce55",
+        "4d88a3c606962911",
+        "2419a9f39918c271",
+        "48fb0957df60de0f",
+        "48b36498a0e58b44",
+        "706dedfd66e0c194",
+        "8592d368be2803be",
+        "cf8a05c96c063543",
+        "599100686061968d"
+      ]
+    },
+    {
+      "query_id": "emanual_14",
+      "ndcg@10": 1.0,
+      "latency_ms": 20,
+      "retrieved": [
+        "af9e1db1daf8b03b",
+        "706dedfd66e0c194",
+        "e55ae96035dd76d6",
+        "fd7a69baa708ce55",
+        "67861e984244ab89",
+        "4d88a3c606962911",
+        "828d7e900da629af",
+        "f6856d69a964cafd",
+        "50539acd1746c4e2",
+        "730ddadabb0430b3"
+      ]
+    },
+    {
+      "query_id": "emanual_191",
+      "ndcg@10": 0.9674679834891693,
+      "latency_ms": 17,
+      "retrieved": [
+        "f6856d69a964cafd",
+        "48fb0957df60de0f",
+        "fd7a69baa708ce55",
+        "4d88a3c606962911",
+        "48b36498a0e58b44",
+        "da1300ebb4dd314e",
+        "706dedfd66e0c194",
+        "2419a9f39918c271",
+        "af9e1db1daf8b03b",
+        "99b36d27411cc595"
+      ]
+    },
+    {
+      "query_id": "emanual_486",
+      "ndcg@10": 1.0,
+      "latency_ms": 21,
+      "retrieved": [
+        "48b36498a0e58b44",
+        "4816abe891c0abc1",
+        "4d88a3c606962911",
+        "f6856d69a964cafd",
+        "48fb0957df60de0f",
+        "d2eed91f926a63e8",
+        "77298c31ec8420b7",
+        "e12736352b7e2a01",
+        "d0c4a5adf3ffc776",
+        "af9e1db1daf8b03b"
+      ]
+    },
+    {
+      "query_id": "emanual_97",
+      "ndcg@10": 1.0,
+      "latency_ms": 27,
+      "retrieved": [
+        "1725377e288e3615",
+        "67861e984244ab89",
+        "4fa7990263faeb2a",
+        "538ad93282459e14",
+        "730ddadabb0430b3",
+        "828d7e900da629af",
+        "a08c72f1d825bda7",
+        "d6df6d1b0efa4fcf",
+        "562d294fe96ed140",
+        "127da193e23e370f"
+      ]
+    },
+    {
+      "query_id": "emanual_637",
+      "ndcg@10": 1.0,
+      "latency_ms": 29,
+      "retrieved": [
+        "50539acd1746c4e2",
+        "25e78fd790c751f7",
+        "d2eed91f926a63e8",
+        "e5596e1b3e874338",
+        "816be5b1a16686ba",
+        "fce8424fccb22773",
+        "77298c31ec8420b7",
+        "5bbb960d5414c450",
+        "4b93ffcb4655e992",
+        "48ab71c7d4b97cf1"
+      ]
+    },
+    {
+      "query_id": "emanual_430",
+      "ndcg@10": 0.9066276098484507,
+      "latency_ms": 36,
+      "retrieved": [
+        "0da2b99f110527a5",
+        "77298c31ec8420b7",
+        "63e0a17dd8308aae",
+        "d0c4a5adf3ffc776",
+        "d2eed91f926a63e8",
+        "a08c72f1d825bda7",
+        "99b36d27411cc595",
+        "816be5b1a16686ba",
+        "0deff4ca724658f6",
+        "4b93ffcb4655e992"
+      ]
+    },
+    {
+      "query_id": "emanual_116",
+      "ndcg@10": 1.0,
+      "latency_ms": 41,
+      "retrieved": [
+        "e66d2e96bcd55a11",
+        "5e9017dc3d86c049",
+        "39d0ee956dd210f7",
+        "8592d368be2803be",
+        "cf8a05c96c063543",
+        "d068f3df9b42fcfb",
+        "18e2ebd2fe5209f6",
+        "d2eed91f926a63e8",
+        "4b93ffcb4655e992",
+        "fce8424fccb22773"
+      ]
+    },
+    {
+      "query_id": "emanual_59",
+      "ndcg@10": 0.6934264036172708,
+      "latency_ms": 33,
+      "retrieved": [
+        "f6856d69a964cafd",
+        "fd7a69baa708ce55",
+        "4d88a3c606962911",
+        "48fb0957df60de0f",
+        "48b36498a0e58b44",
+        "2419a9f39918c271",
+        "599100686061968d",
+        "da1300ebb4dd314e",
+        "706dedfd66e0c194",
+        "50539acd1746c4e2"
+      ]
+    },
+    {
+      "query_id": "emanual_451",
+      "ndcg@10": 0.6509209298071326,
+      "latency_ms": 31,
+      "retrieved": [
+        "0deff4ca724658f6",
+        "0da2b99f110527a5",
+        "828d7e900da629af",
+        "68fc1680b364e8a9",
+        "e66d2e96bcd55a11",
+        "77298c31ec8420b7",
+        "d6df6d1b0efa4fcf",
+        "39d0ee956dd210f7",
+        "63e0a17dd8308aae",
+        "18e2ebd2fe5209f6"
+      ]
+    },
+    {
+      "query_id": "emanual_257",
+      "ndcg@10": 1.0,
+      "latency_ms": 46,
+      "retrieved": [
+        "d6df6d1b0efa4fcf",
+        "6eb9346943f94518",
+        "519965e6dc2fb90f",
+        "8acd02405d33c2ee",
+        "816be5b1a16686ba",
+        "828d7e900da629af",
+        "740618e7a565f652",
+        "d2eed91f926a63e8",
+        "f2a6f947643fc60e",
+        "e416201e037ba959"
+      ]
+    },
+    {
+      "query_id": "emanual_237",
+      "ndcg@10": 1.0,
+      "latency_ms": 33,
+      "retrieved": [
+        "99b36d27411cc595",
+        "706dedfd66e0c194",
+        "d0c4a5adf3ffc776",
+        "d2eed91f926a63e8",
+        "63e0a17dd8308aae",
+        "77298c31ec8420b7",
+        "816be5b1a16686ba",
+        "23430cd6cb95ef8f",
+        "0deff4ca724658f6",
+        "af9e1db1daf8b03b"
+      ]
+    },
+    {
+      "query_id": "emanual_568",
+      "ndcg@10": 1.0,
+      "latency_ms": 34,
+      "retrieved": [
+        "8592d368be2803be",
+        "cf8a05c96c063543",
+        "db1a96f5b1f00b6e",
+        "36402cfd4946c339",
+        "1d3c8fe06fb9e802",
+        "c3adb567b151b0fb",
+        "d2eed91f926a63e8",
+        "cb3aecd5294e2555",
+        "e66d2e96bcd55a11",
+        "127da193e23e370f"
+      ]
+    },
+    {
+      "query_id": "emanual_132",
+      "ndcg@10": 0.8772153153380493,
+      "latency_ms": 32,
+      "retrieved": [
+        "1d3c8fe06fb9e802",
+        "2bbca0997af7e74a",
+        "4816abe891c0abc1",
+        "76acc129876645ce",
+        "50539acd1746c4e2",
+        "d2eed91f926a63e8",
+        "e12736352b7e2a01",
+        "816be5b1a16686ba",
+        "da1300ebb4dd314e",
+        "4d88a3c606962911"
+      ]
+    },
+    {
+      "query_id": "emanual_302",
+      "ndcg@10": 0.9134015924715543,
+      "latency_ms": 31,
+      "retrieved": [
+        "519965e6dc2fb90f",
+        "df381fbc92351cc0",
+        "3fde8730c2a59833",
+        "f2a6f947643fc60e",
+        "6eb9346943f94518",
+        "d2eed91f926a63e8",
+        "816be5b1a16686ba",
+        "e416201e037ba959",
+        "5d7d7b3b2abc89df",
+        "3a3e2297d8738f02"
+      ]
+    },
+    {
+      "query_id": "emanual_442",
+      "ndcg@10": 1.0,
+      "latency_ms": 50,
+      "retrieved": [
+        "4b93ffcb4655e992",
+        "39d0ee956dd210f7",
+        "0deff4ca724658f6",
+        "25dffc7c886f9021",
+        "5727e1afc29df334",
+        "fce8424fccb22773",
+        "e66d2e96bcd55a11",
+        "7695c633b9f05d92",
+        "db1a96f5b1f00b6e",
+        "1dd3a6f1cd0a8ac3"
+      ]
+    },
+    {
+      "query_id": "emanual_543",
+      "ndcg@10": 1.0,
+      "latency_ms": 38,
+      "retrieved": [
+        "48b36498a0e58b44",
+        "4d88a3c606962911",
+        "f6856d69a964cafd",
+        "5e9017dc3d86c049",
+        "cb3aecd5294e2555",
+        "50539acd1746c4e2",
+        "0dce0dc0c1d6a424",
+        "e5596e1b3e874338",
+        "d2eed91f926a63e8",
+        "5727e1afc29df334"
+      ]
+    },
+    {
+      "query_id": "emanual_645",
+      "ndcg@10": 0.9197207891481876,
+      "latency_ms": 44,
+      "retrieved": [
+        "0da2b99f110527a5",
+        "77298c31ec8420b7",
+        "63e0a17dd8308aae",
+        "d2eed91f926a63e8",
+        "d0c4a5adf3ffc776",
+        "816be5b1a16686ba",
+        "99b36d27411cc595",
+        "a08c72f1d825bda7",
+        "0deff4ca724658f6",
+        "4b93ffcb4655e992"
+      ]
+    },
+    {
+      "query_id": "emanual_363",
+      "ndcg@10": 1.0,
+      "latency_ms": 18,
+      "retrieved": [
+        "4d4382badd15edbd",
+        "cc61a9d1f53a43ca",
+        "7e576fc3891ad268",
+        "816be5b1a16686ba",
+        "48fb0957df60de0f",
+        "d6df6d1b0efa4fcf",
+        "db1a96f5b1f00b6e",
+        "36402cfd4946c339",
+        "6eb9346943f94518",
+        "2419a9f39918c271"
+      ]
+    },
+    {
+      "query_id": "emanual_466",
+      "ndcg@10": 1.0,
+      "latency_ms": 35,
+      "retrieved": [
+        "2f8d731a1598ecff",
+        "b4607c325846119f",
+        "3116d72414e56f1e",
+        "67861e984244ab89",
+        "36402cfd4946c339",
+        "2419a9f39918c271",
+        "d2eed91f926a63e8",
+        "562d294fe96ed140",
+        "e55ae96035dd76d6",
+        "a08c72f1d825bda7"
+      ]
+    },
+    {
+      "query_id": "emanual_648",
+      "ndcg@10": 0.9197207891481876,
+      "latency_ms": 28,
+      "retrieved": [
+        "0da2b99f110527a5",
+        "77298c31ec8420b7",
+        "63e0a17dd8308aae",
+        "99b36d27411cc595",
+        "d0c4a5adf3ffc776",
+        "0deff4ca724658f6",
+        "2419a9f39918c271",
+        "816be5b1a16686ba",
+        "d2eed91f926a63e8",
+        "23430cd6cb95ef8f"
+      ]
+    },
+    {
+      "query_id": "emanual_535",
+      "ndcg@10": 1.0,
+      "latency_ms": 28,
+      "retrieved": [
+        "d6df6d1b0efa4fcf",
+        "cb3aecd5294e2555",
+        "e416201e037ba959",
+        "f2a6f947643fc60e",
+        "3fde8730c2a59833",
+        "d2eed91f926a63e8",
+        "48b36498a0e58b44",
+        "8acd02405d33c2ee",
+        "77298c31ec8420b7",
+        "519965e6dc2fb90f"
+      ]
+    },
+    {
+      "query_id": "emanual_465",
+      "ndcg@10": 0.8854598815714874,
+      "latency_ms": 73,
+      "retrieved": [
+        "f6856d69a964cafd",
+        "48fb0957df60de0f",
+        "fd7a69baa708ce55",
+        "2419a9f39918c271",
+        "4d88a3c606962911",
+        "48b36498a0e58b44",
+        "3116d72414e56f1e",
+        "706dedfd66e0c194",
+        "c248d2714ee3b191",
+        "599100686061968d"
+      ]
+    },
+    {
+      "query_id": "emanual_283",
+      "ndcg@10": 1.0,
+      "latency_ms": 38,
+      "retrieved": [
+        "7e576fc3891ad268",
+        "6eb9346943f94518",
+        "d2eed91f926a63e8",
+        "23430cd6cb95ef8f",
+        "828d7e900da629af",
+        "5727e1afc29df334",
+        "730ddadabb0430b3",
+        "77298c31ec8420b7",
+        "cc61a9d1f53a43ca",
+        "03191f6f6ea2bb91"
+      ]
+    },
+    {
+      "query_id": "emanual_631",
+      "ndcg@10": 0.8385465274895063,
+      "latency_ms": 14,
+      "retrieved": [
+        "816be5b1a16686ba",
+        "03191f6f6ea2bb91",
+        "e66d2e96bcd55a11",
+        "25dffc7c886f9021",
+        "d2eed91f926a63e8",
+        "2140f439e5c9ce7a",
+        "730ddadabb0430b3",
+        "d068f3df9b42fcfb",
+        "63e0a17dd8308aae",
+        "d0c4a5adf3ffc776"
+      ]
+    },
+    {
+      "query_id": "emanual_333",
+      "ndcg@10": 1.0,
+      "latency_ms": 25,
+      "retrieved": [
+        "23430cd6cb95ef8f",
+        "63e0a17dd8308aae",
+        "4816abe891c0abc1",
+        "0deff4ca724658f6",
+        "5727e1afc29df334",
+        "68fc1680b364e8a9",
+        "d0c4a5adf3ffc776",
+        "816be5b1a16686ba",
+        "99b36d27411cc595",
+        "0da2b99f110527a5"
+      ]
+    },
+    {
+      "query_id": "emanual_114",
+      "ndcg@10": 1.0,
+      "latency_ms": 32,
+      "retrieved": [
+        "18e2ebd2fe5209f6",
+        "0da2b99f110527a5",
+        "50539acd1746c4e2",
+        "68fc1680b364e8a9",
+        "77298c31ec8420b7",
+        "c76d00f88bf6de78",
+        "76acc129876645ce",
+        "25e78fd790c751f7",
+        "0deff4ca724658f6",
+        "a08c72f1d825bda7"
+      ]
+    },
+    {
+      "query_id": "emanual_82",
+      "ndcg@10": 1.0,
+      "latency_ms": 32,
+      "retrieved": [
+        "d068f3df9b42fcfb",
+        "e55ae96035dd76d6",
+        "d2eed91f926a63e8",
+        "2f8d731a1598ecff",
+        "c248d2714ee3b191",
+        "d3059dc8d99d5916",
+        "db1a96f5b1f00b6e",
+        "0dce0dc0c1d6a424",
+        "816be5b1a16686ba",
+        "c11a5a7f05723988"
+      ]
+    },
+    {
+      "query_id": "emanual_347",
+      "ndcg@10": 1.0,
+      "latency_ms": 60,
+      "retrieved": [
+        "e66d2e96bcd55a11",
+        "5e9017dc3d86c049",
+        "d3059dc8d99d5916",
+        "36402cfd4946c339",
+        "8592d368be2803be",
+        "cf8a05c96c063543",
+        "18e2ebd2fe5209f6",
+        "d068f3df9b42fcfb",
+        "816be5b1a16686ba",
+        "804541978d7fce82"
+      ]
+    },
+    {
+      "query_id": "emanual_276",
+      "ndcg@10": 0.9060254355346823,
+      "latency_ms": 23,
+      "retrieved": [
+        "03191f6f6ea2bb91",
+        "8acd02405d33c2ee",
+        "5d7d7b3b2abc89df",
+        "3fde8730c2a59833",
+        "828d7e900da629af",
+        "e55ae96035dd76d6",
+        "1c2902da5d91b0b5",
+        "730ddadabb0430b3",
+        "6eb9346943f94518",
+        "e416201e037ba959"
+      ]
+    },
+    {
+      "query_id": "emanual_403",
+      "ndcg@10": 0.6131471927654584,
+      "latency_ms": 32,
+      "retrieved": [
+        "48b36498a0e58b44",
+        "4816abe891c0abc1",
+        "50539acd1746c4e2",
+        "d2eed91f926a63e8",
+        "f6856d69a964cafd",
+        "4d88a3c606962911",
+        "706dedfd66e0c194",
+        "77298c31ec8420b7",
+        "599100686061968d",
+        "730ddadabb0430b3"
+      ]
+    },
+    {
+      "query_id": "emanual_92",
+      "ndcg@10": 1.0,
+      "latency_ms": 33,
+      "retrieved": [
+        "c248d2714ee3b191",
+        "1baabca032f877a9",
+        "7d9084e249b806f6",
+        "c11a5a7f05723988",
+        "2f8d731a1598ecff",
+        "48fb0957df60de0f",
+        "da1300ebb4dd314e",
+        "95fa017d8afc2bc7",
+        "b4607c325846119f",
+        "828d7e900da629af"
+      ]
+    }
+  ],
+  "llm_calls": 0
+}
