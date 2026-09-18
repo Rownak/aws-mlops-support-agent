@@ -24,6 +24,7 @@ from rag_core.retriever.fusion import RRFRetriever
 from rag_core.retriever.rerank import RerankingRetriever
 
 from rag_bench_eval import embedding_cache
+from rag_bench_eval.embedding_cache import corpus_hash
 from rag_bench_eval.index_cache import get_or_build
 from rag_bench_eval.resources import get_embeddings, get_embeddings_model_name
 from rag_bench_eval.resources import get_reranker as get_reranker_resource
@@ -67,6 +68,11 @@ def build_pipeline_retriever(
 ) -> Retriever:
     ptype = pipeline_cfg["type"]
 
+    # Include the corpus in every index-cache key: two datasets built in the
+    # same process (e.g. a `--dataset nfcorpus` run followed by `--dataset
+    # emanual`) must not hand back an index built over the wrong corpus.
+    corpus_key = corpus_hash(corpus)
+
     if ptype == "dense":
         embeddings_name = pipeline_cfg["embeddings"]
         metric = pipeline_cfg["metric"]
@@ -81,12 +87,12 @@ def build_pipeline_retriever(
                 )
             return retriever
 
-        return get_or_build(("dense", embeddings_name, metric), build)
+        return get_or_build(("dense", embeddings_name, metric, corpus_key), build)
 
     if ptype == "bm25":
         k1, b = pipeline_cfg["k1"], pipeline_cfg["b"]
         return get_or_build(
-            ("bm25", k1, b),
+            ("bm25", k1, b, corpus_key),
             lambda: build_retriever(pipeline_cfg, _Resources(corpus, config)),
         )
 

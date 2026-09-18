@@ -80,6 +80,33 @@ def test_sweep_of_dense_and_hybrid_embeds_corpus_once(tmp_path, monkeypatch):
     assert fake_embeddings.embed_documents_calls == 1
 
 
+def test_index_cache_does_not_collide_across_datasets(tmp_path, monkeypatch):
+    """Two datasets sharing one process must not reuse each other's index (8.6).
+
+    Same embeddings/metric settings, different corpora — the dense retriever
+    built for corpus B must actually embed corpus B, not hand back corpus A's
+    cached retriever object.
+    """
+    _reset_caches(tmp_path, monkeypatch)
+    fake_embeddings = _FakeEmbeddings()
+    monkeypatch.setattr(
+        "rag_bench_eval.resources.get_embedding", lambda cfg: fake_embeddings
+    )
+
+    config = _config()
+    other_corpus = {"e1": "cats are great", "e2": "cats and dogs"}
+
+    retriever_a = build_pipeline_retriever(
+        "dense", config["retrieval"]["pipelines"]["dense"], config, _CORPUS
+    )
+    retriever_b = build_pipeline_retriever(
+        "dense", config["retrieval"]["pipelines"]["dense"], config, other_corpus
+    )
+
+    assert retriever_a is not retriever_b
+    assert set(retriever_b._doc_ids) == set(other_corpus.keys())
+
+
 def test_hybrid_rrf_retriever_composes_bm25_and_dense_leaves(tmp_path, monkeypatch):
     _reset_caches(tmp_path, monkeypatch)
     fake_embeddings = _FakeEmbeddings()

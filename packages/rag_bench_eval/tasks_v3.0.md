@@ -1,9 +1,8 @@
-# tasks v3.0 — rag_bench_eval, phases 0–3
+# tasks v3.0 — rag_bench_eval
 
-Retrieval-optimization benchmark on BEIR/NFCorpus. Design: `design.md`.
+Retrieval-optimization benchmark on BEIR/NFCorpus, plus RAGBench/emanual for
+`document_chat_demo` (phases 8–9). Design: `design.md`.
 One task at a time; each phase ends runnable.
-
-Phases 4–8 are in `design.md` §6 and get written up once phase 3 lands.
 
 ---
 
@@ -334,3 +333,134 @@ logits are not normalized similarities — an existing `min_top_score` tuned for
 cosine will not mean the same thing under reranking (`design.md` §3.2, and
 `retrieve.py`'s own warning). If 7.3 enables reranking by default, re-tune the
 threshold or leave it off.
+
+---
+
+## Phase 8 — RAGBench/emanual: dataset + per-dataset config
+
+The benchmark for `document_chat_demo` (`design.md` §4.1). Two things are new
+and everything else is unchanged: emanual ships one row per question with its
+documents *inline* and no qrels table, so the loader derives all three
+artifacts; and its results must not mix with the BEIR ones, so config becomes
+per-dataset.
+
+Phase 8 is the dataset and the plumbing. Phase 9 is the retrieval metric work
+that only makes sense once real numbers exist.
+
+- [x] **8.1 Per-dataset config selection.** `cli.py` currently calls
+  `load_config()` with no argument and picks the loader with an `if
+  args.dataset == ...` chain. Replace both with one registry mapping a dataset
+  name to `(loader_fn, config_path)`; `--dataset` looks up there, and an
+  unknown name raises naming the valid set. `load_config(path)` already takes a
+  path — no change needed there.
+  *Done when:* `run --dataset nfcorpus` and `--dataset cqadupstack_programmers`
+  reproduce their existing numbers exactly, from the same `benchmark.yaml`.
+
+- [x] **8.2 Settings + gitignore.** Add `RAGBENCH_EMANUAL_DIR` to
+  `settings.py`. RAGBench is CC BY-4.0 and fetched at run time — confirm it
+  lands under an already-gitignored path, or add one (CLAUDE.md: benchmark data
+  is never committed).
+
+- [x] **8.3 Loader — corpus pooling.** `datasets/ragbench_emanual.py` →
+  `load_ragbench_emanual()` returning the same
+  `(dict[str, Doc], dict[str, Query], Qrels)` triple as every other loader.
+  Source: `load_dataset("galileo-ai/ragbench", "emanual", split="test")`, 132
+  rows. Each row has `id`, `question`, and `documents` (a list of strings).
+  **Pool documents across all rows into one corpus** — a document relevant to
+  one query is a distractor for the others, which is what makes retrieval a
+  real task here (`design.md` §4.1). Deduplicate by exact text so the same
+  manual passage appearing in two rows is one corpus entry, and give each a
+  stable synthetic `doc_id` derived from its text (a content hash), not its
+  row position — the id must not shift when rows are filtered or reordered.
+  `Doc.title` is empty; these are passages, not titled documents.
+  *Done when:* a test asserts 132 queries, a corpus larger than any single
+  row's document list, and that a text appearing in two rows yields one entry.
+
+- [x] **8.4 Loader — deriving qrels.** Same file. Emanual has no qrels table;
+  relevance comes from `all_relevant_sentence_keys`, whose entries key into
+  `documents_sentences` (a per-document list of `[key, sentence]` pairs).
+  Map each relevant sentence key back to the document that contains it, and
+  mark that document relevant for the row's query. Grade is **binary (1)** —
+  these are derived labels, not NFCorpus-style 0/1/2 human judgments.
+  Some rows may have no relevant keys at all (unanswerable questions); drop
+  those queries rather than scoring them against an empty qrels entry, and
+  report how many were dropped.
+  *Done when:* a unit test over a hand-built two-row fixture (constructed
+  inline, no network — `types.py`'s no-network rule) produces the expected
+  `{query_id: {doc_id: 1}}`, including the sentence-key → document mapping.
+
+- [x] **8.5 `benchmark.emanual.yaml`.** Its own file: the `embeddings:` and
+  `rerankers:` resources, and pipelines/sweep starting with `bm25` and `dense`.
+  Do not copy the BEIR sweep wholesale — start with the two baselines and let
+  8.7 decide what else is worth running. Register it in the 8.1 registry.
+
+- [x] **8.6 Embedding + index cache keying.** Phase 2.5–2.6 cache the built
+  index and the embedding matrix on their settings. Confirm the key includes
+  the corpus, not only the model — otherwise an emanual run reuses NFCorpus
+  vectors. If it does not, add it.
+  *Done when:* a test (or a deliberate two-dataset run) shows the second
+  dataset embeds its own corpus rather than hitting the first one's cache.
+  **This is the silent-wrong-numbers risk in the phase** — a cache collision
+  produces plausible scores computed against the wrong vectors.
+
+- [x] **8.7 Baseline run.** `run --dataset emanual --all`, then
+  `report --dataset emanual`.
+  *Done when:* `results.md` shows emanual's own table, separate from the BEIR
+  runs, with the run JSONs carrying `"dataset": "ragbench_emanual"`.
+  Unlike phase 1 there is **no published baseline to gate against** (§4.1):
+  emanual's own metric columns score generation, not retrieval. A very low BM25
+  score means a bug in 8.3–8.4, most likely the sentence-key mapping — check it
+  before recording the number as a finding.
+
+**Dependency:** none new. `datasets` (HF) is already used by `nfcorpus.py`.
+
+---
+
+## Phase 9 — Retrieval metrics for a derived-label dataset
+
+Phase 8's numbers are computed with the phase 3 metrics, which assume
+NFCorpus-shaped qrels: graded, human-judged, and reasonably complete. Emanual's
+are binary and derived, and that difference changes which metrics mean
+anything. This phase makes the metric choice deliberate rather than inherited.
+
+- [x] **9.1 Pick the metric set, and record why.** With binary relevance,
+  nDCG's graded discount does less work and recall matters more — a row cites
+  only a handful of documents out of the pooled corpus. Phase 8.7's baseline
+  already shows `recall@100` pinned at 1.0000 for both bm25 and dense — dead
+  weight as a column — so a smaller `recall@k` (10, informed by 9.2's
+  distribution) replaces it. Decide the final metric list and `primary` for
+  `benchmark.emanual.yaml` (candidates: `recall@k`, `mrr@10`, `ndcg@10` kept for
+  continuity) and write one short paragraph in `design.md` §4.1 saying why. No
+  new code if the phase 3 metrics cover it — the deliverable is the decision and
+  the config, not an implementation.
+
+- [x] **9.2 Relevant-set size sanity check.** Emit the distribution of
+  `len(qrels[qid])` over the 66 queries (132 test rows collapse to 66 unique
+  question ids — phase 8.4 found each question appears twice, under two
+  annotation passes, and its relevant docs are unioned per id). This calibrates
+  `recall@k` — phase 8.7's baseline already shows `recall@100` pinned at 1.0000
+  for both bm25 and dense, so the distribution should confirm why (a small
+  median relevant-set size) and justify bringing `k` down rather than treating
+  1.0 as a surprise.
+  *Done when:* the distribution is recorded in `progress.md` and 9.1's `k`
+  values are justified by it rather than copied from the BEIR config.
+
+- [x] **9.3 Incomplete-labels guard.** Derived qrels mark only what the
+  annotated answer cited — an unlabeled document may still be relevant, so
+  every metric here is a *lower bound*, unlike NFCorpus where unjudged-is-0 is
+  the accepted convention. Spot-check the top-5 retrieved-but-unjudged
+  documents for a handful of queries by hand.
+  *Done when:* `results.md`'s emanual section carries a one-line caveat stating
+  this, so the numbers are not later read as directly comparable to published
+  BEIR scores.
+
+- [x] **9.4 Finalize and re-run.** Apply the 9.1 metric set, re-run the sweep,
+  regenerate the report.
+  *Done when:* `results.md` shows the emanual table under its final metrics,
+  and `progress.md` has the 2–3 line phase summary (CLAUDE.md §Progress).
+
+**Deliberately not here:** generation-quality evaluation. Emanual ships
+`adherence_score`, `relevance_score`, `utilization_score` and the RAGAS/TruLens
+columns, which score *answers* — a different question from which retriever
+wins, and `design.md` §1's non-goal ("not answer-quality evaluation"). If
+`document_chat_demo` needs it later, it is its own phase.

@@ -16,6 +16,7 @@ from rag_core.retriever.base import Retriever
 
 _METRIC_FNS = {
     "ndcg@10": (ndcg_at_k, 10),
+    "recall@10": (recall_at_k, 10),
     "recall@100": (recall_at_k, 100),
     "mrr@10": (mrr_at_k, 10),
     "precision@10": (precision_at_k, 10),

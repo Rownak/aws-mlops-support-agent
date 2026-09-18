@@ -1,6 +1,7 @@
 # Design — `rag-bench-eval`
 
-Evaluate RAG retrieval optimization techniques on BEIR/NFCorpus, built on `rag_core`.
+Evaluate RAG retrieval optimization techniques on BEIR/NFCorpus — and, for
+`document_chat_demo`, on RAGBench/emanual (§4.1) — built on `rag_core`.
 
 Import name `rag_bench_eval`, distribution name `rag-bench-eval`
 (matching the `rag-core` / `rag_core` convention).
@@ -19,8 +20,9 @@ NFCorpus fits: 3,633 medical documents, 323 layperson test queries, graded
 gap is wide enough that query expansion and reranking have something to do.
 Published BM25 nDCG@10 ≈ 0.32 gives us a number to validate our harness against.
 
-**Non-goals:** not a general BEIR harness (one dataset), not answer-quality
-evaluation (retrieval only), not every possible combination.
+**Non-goals:** not a general BEIR harness (datasets are added one at a time, for
+an application that needs one — §4.1), not answer-quality evaluation (retrieval
+only), not every possible combination.
 
 ---
 
@@ -441,12 +443,14 @@ behind the `production` retriever.
 ### `rag_bench_eval`
 
 ```
-benchmark.yaml            resources + pipelines + sweep + evaluation — one file
+benchmark.yaml            BEIR datasets: resources + pipelines + sweep + evaluation
+benchmark.emanual.yaml    RAGBench/emanual: its own pipelines + sweep (§4.1)
 src/rag_bench_eval/
   settings.py             paths, cache dirs
   datasets/
     types.py              Doc, Query, Qrels — the contract, no network code
     nfcorpus.py           download_nfcorpus() + load_nfcorpus()
+    ragbench_emanual.py   load_ragbench_emanual() — §4.1
   evaluator.py            Retriever × queries × qrels → RunResult
   llm_cache.py            _key / load_cache / save_cache — phase 5, ~20 lines
   report.py               RunResult[] → comparison table
@@ -551,14 +555,13 @@ should keep the first 199, which is the entire point. Without this cache, every
 re-run of experiments 3, 4 and any HyDE-containing combo in 7 pays 323 LLM calls
 again, and those get re-run more than once while tuning.
 
-**Only NFCorpus, and loading stays in one file.** `nfcorpus.py` holds the
-download and the BEIR-format parse (`corpus.jsonl`, `queries.jsonl`,
-`qrels/*.tsv`) together. Splitting a generic `loader.py` from a dataset-specific
-`nfcorpus.py` now would mean *guessing* which parts are format-generic; a second
-dataset shows you where the seam actually is. Extract `common.py` when SciFact
-arrives — BEIR sets vary enough (MS MARCO's size, TREC-COVID's qrels shape) that
-the abstraction guessed today would likely be the wrong one, which is the scope
-creep §7 names as a risk.
+**Loading stays one file per dataset.** `nfcorpus.py` holds the download and the
+BEIR-format parse (`corpus.jsonl`, `queries.jsonl`, `qrels/*.tsv`) together.
+Splitting a generic `loader.py` from a dataset-specific `nfcorpus.py` would mean
+*guessing* which parts are format-generic. Three datasets in (§4.1), the answer
+is that almost nothing is: each arrives in a different shape and the only shared
+surface is what they produce — `types.py`'s `Doc`/`Query`/`Qrels`. So there is no
+`common.py`; the contract is the abstraction.
 
 **`types.py` stays separate,** because `Doc`/`Query`/`Qrels` are not loading code
 — they are the vocabulary `evaluator.py`, `report.py` and the `rag_core` metrics
@@ -566,6 +569,63 @@ all speak, and they are the contract that makes a second dataset cheap later. Th
 separation also keeps the metric tests honest: nDCG is checked against
 hand-computed rankings, and those tests should construct a `Qrels` directly
 without importing a module that can hit the network.
+
+### 4.1 A dataset is a run axis, not a fork of the harness
+
+`document_chat_demo` is evaluated on RAGBench/emanual (consumer-electronics
+manuals, 132 test examples). Its numbers must not mix with the BEIR results: the
+corpora, the pipelines worth trying and the published baselines are all
+different, and a combined table would invite comparisons that mean nothing.
+
+**Isolation comes from two keys, not two packages.**
+
+- **Results** already separate themselves. Every run JSON carries `dataset`
+  (§4), and `report.py` filters on it — so `--dataset emanual` produces its own
+  table with no change to the format.
+- **Config separates by file.** One `benchmark.yaml` per dataset family:
+  `benchmark.yaml` keeps the BEIR pipelines and sweep, `benchmark.emanual.yaml`
+  gets its own. `load_config(path)` already takes a path; the CLI picks the file
+  from `--dataset`. This is not the composed-config pattern §4 rejects — there is
+  no merge, no resolution, no inheritance. Each file is still read top-to-bottom
+  as the thing that ran.
+
+**The loader absorbs the shape difference.** BEIR ships three artifacts (corpus,
+queries, qrels) that map onto `Doc`/`Query`/`Qrels` almost directly. RAGBench
+ships one row per question, with its documents inline and relevance expressed as
+sentence-key annotations rather than a qrels table — so `ragbench_emanual.py`
+derives all three: documents are pooled across rows into a corpus with synthetic
+stable ids, each row's `question` is a `Query`, and qrels come from which pooled
+documents that row cited. Two consequences worth stating, because they change
+what the numbers mean:
+
+- **The corpus is the union of every row's documents**, so a document relevant to
+  one query is a distractor for the rest. That is what makes retrieval a real
+  task here; per-row retrieval over only that row's own documents would be
+  scoring against a list that is ~100% relevant.
+- **Relevance is binary and derived**, not graded human judgment like NFCorpus's
+  0/1/2. nDCG still applies, but the published-baseline validation gate that
+  phase 1 used for BM25 (§6) has no equivalent — emanual's own metric columns
+  score *generation*, not retrieval, so they are not a harness check.
+
+**Everything else is unchanged.** Same `Retriever` protocol, same builder, same
+metrics, same run-JSON shape. A dataset is a `--dataset` flag, one loader file
+and one config file — which is the test of whether §3's design actually held.
+
+**Metric set (phase 9.1).** The phase 3 metrics were chosen for NFCorpus's
+shape — a large judged set per query, `recall@100` meaningful because 100 is a
+small fraction of what could be relevant. Emanual inverts that: the pooled
+corpus is only ~102 documents, and each row's derived relevant set has median
+size 2, max 3 (measured over all 66 unique queries, phase 9.2). `recall@100`
+is pinned at 1.0000 for every pipeline tried — it can't discriminate anything,
+since a top-100 list over a 102-document corpus is close to the whole corpus.
+`precision@10` has the opposite problem: capped at 0.3 by construction (at most
+3 relevant docs), so a perfect retriever and a mediocre one both look "low."
+Final set: `ndcg@10` (primary — the graded discount still rewards ranking the
+one or two relevant docs first, even though the underlying labels are binary),
+`recall@10` (replaces `recall@100`; still generous relative to a relevant-set
+size of 1–3, but no longer saturated at 1.0 for a reasonable retriever), and
+`mrr@10` (a natural fit when a row usually has exactly one relevant doc).
+`precision@10` dropped — not wrong, just uninformative at this corpus's scale.
 
 ---
 
@@ -644,7 +704,8 @@ only the build order differs.
 | Config grows into a DSL | Children nest inline — no cross-references, no expressions, no conditionals; recursion on `type` is the only mechanism |
 | A wrong `top_k`/`candidate_k` interaction silently degrades results | Parent-requests-depth rule (§3.2), asserted in a unit test over a nested config |
 | HyDE LLM cost across re-runs | Disk-cached by (query, model, prompt); `--limit N` smoke mode |
-| Scope creep to a general BEIR harness | One dataset; the protocol generalizes, the package does not |
+| Scope creep to a general BEIR harness | A dataset adds one loader + one config file (§4.1) — no shared loader layer, no per-dataset branching in the harness |
+| emanual and BEIR numbers get compared to each other | Separate config files and `--dataset`-filtered reports; §4.1 states why the relevance labels are not commensurable |
 
 ---
 

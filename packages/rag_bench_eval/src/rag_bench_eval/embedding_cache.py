@@ -6,8 +6,10 @@ doc_ids go in a `.json` sidecar, since `.npy` alone can't carry them and a
 cache hit must still know which row belongs to which doc.
 
 Lives in rag_bench_eval, not rag_core: the path convention
-(`data/beir/nfcorpus/.embeddings/`) is this benchmark harness's, not a
-generic retriever concern (DenseRetriever itself has no disk I/O).
+(`data/.embeddings/`) is this benchmark harness's, not a generic retriever
+concern (DenseRetriever itself has no disk I/O). Shared across datasets —
+filenames are keyed by model + corpus hash, so a dataset's own cache file
+never collides with another's.
 """
 
 import hashlib

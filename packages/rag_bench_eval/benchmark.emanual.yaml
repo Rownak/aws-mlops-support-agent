@@ -1,0 +1,43 @@
+# rag_bench_eval config for RAGBench/emanual (design.md §4.1). Separate file
+# from benchmark.yaml, per dataset: no merge, no inheritance — read top to
+# bottom as the thing that ran. Starts with the two baselines; phase 8.7
+# decides what else is worth running before extending pipelines/sweep.
+
+embeddings:
+  default:
+    provider: ollama
+    model: nomic-embed-text
+    base_url: "http://localhost:11434"
+
+rerankers:
+  bi_encoder:
+    provider: bi_encoder
+    embeddings: default
+  cross_encoder:
+    provider: cross_encoder
+    model: cross-encoder/ms-marco-MiniLM-L-6-v2
+    device: cuda  # falls back to cpu automatically if CUDA isn't available
+
+retrieval:
+  active: production
+  pipelines:
+    bm25:
+      type: bm25
+      k1: 0.9
+      b: 0.4
+      top_k: 10
+    dense:
+      type: dense
+      embeddings: default
+      metric: cosine
+      top_k: 10
+
+sweep: [bm25, dense]
+
+# recall@100 and precision@10 (the BEIR defaults) don't discriminate here: the
+# pooled corpus is only ~102 docs and each row's relevant set has median size
+# 2, max 3 (design.md §4.1, phase 9.1/9.2) — recall@100 is pinned at 1.0000
+# for every pipeline, and precision@10 is capped at 0.3 by construction.
+evaluation:
+  metrics: [ndcg@10, recall@10, mrr@10]
+  primary: ndcg@10
